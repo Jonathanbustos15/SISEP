@@ -1,0 +1,22 @@
+{
+  "name": "jsFrameworkV2",
+  "authors": [
+    "johanmorales <jhellmetal2000@gmail.com>"
+  ],
+  "description": "framework de aplicaciones js--php",
+  "main": "index.php",
+  "keywords": [
+    "framework",
+    "jsFramework"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

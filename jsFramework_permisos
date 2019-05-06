@@ -1,0 +1,144 @@
+#!/bin/bash
+
+#variables de configuracion---------------------------------
+USER="root"
+PASS="s0p0rt3"
+DB="sisep"
+#-----------------------------------------------------------
+
+
+function listar_permisos {
+
+	mysql -u$USER -p$PASS -e"use $DB; select tipo_usuario.nombre as nom_tUsuario, modulos.Nombre as nom_modulo, permisos.crear,permisos.editar,permisos.eliminar,permisos.consultar
+
+										FROM permisos
+
+										INNER JOIN tipo_usuario ON tipo_usuario.pkID = permisos.fkID_tipo_usuario
+
+										INNER JOIN modulos ON modulos.pkID = permisos.fkID_modulo
+
+										ORDER BY tipo_usuario.nombre;"
+}
+
+#WHERE tipo_usuario.nombre = "Administrador"
+
+function listar_permisos_tipo {
+
+	NOMBRE=$1
+
+	mysql -u$USER -p$PASS -e"use $DB; select tipo_usuario.nombre as nom_tUsuario, modulos.Nombre as nom_modulo, permisos.crear,permisos.editar,permisos.eliminar,permisos.consultar
+
+										FROM permisos
+
+										INNER JOIN tipo_usuario ON tipo_usuario.pkID = permisos.fkID_tipo_usuario
+
+										INNER JOIN modulos ON modulos.pkID = permisos.fkID_modulo
+
+										WHERE tipo_usuario.nombre = '$NOMBRE'
+
+										ORDER BY tipo_usuario.nombre;"
+
+}
+
+#WHERE modulos.Nombre = "usuarios"
+
+function listar_modulos_tipo {
+
+	NOMBRE=$1
+
+	mysql -u$USER -p$PASS -e"use $DB; select tipo_usuario.nombre as nom_tUsuario, modulos.Nombre as nom_modulo, permisos.crear,permisos.editar,permisos.eliminar,permisos.consultar
+
+										FROM permisos
+
+										INNER JOIN tipo_usuario ON tipo_usuario.pkID = permisos.fkID_tipo_usuario
+
+										INNER JOIN modulos ON modulos.pkID = permisos.fkID_modulo
+
+										WHERE modulos.Nombre = '$NOMBRE'
+
+										ORDER BY tipo_usuario.nombre;"
+
+}
+
+function listar_tipos {
+
+	mysql -u$USER -p$PASS -e"use $DB; SELECT * FROM tipo_usuario;"
+}
+
+function listar_modulos {
+
+	mysql -u$USER -p$PASS -e"use $DB; SELECT * FROM modulos;"
+}
+
+#INSERT INTO permisos (pkID, fkID_tipo_usuario, fkID_modulo, crear, editar, eliminar, consultar) VALUES (NULL, '1', '40', '1', '1', '1', '1');
+
+function crear_permisos {
+
+	#IDTIPOUSUARIO="0"
+	listar_tipos
+	echo -e "\e[34mPor favor ingrese el Id de Tipo de Usuario:\e[0m"
+	read IDTIPOUSUARIO
+
+	#echo $IDTIPOUSUARIO
+	listar_modulos
+	echo -e "\e[34mPor favor ingrese el Id Modulo:\e[0m"
+	read IDMODULO
+	#IDMODULO=$2
+
+	echo -e "\e[34mEste usuario puede crear? 1->sí 0->no:\e[0m"
+	read CREAR
+	#CREAR=$3
+
+	echo -e "\e[34mEste usuario puede editar? 1->sí 0->no:\e[0m"
+	read EDITAR
+	#EDITAR=$4
+
+	echo -e "\e[34mEste usuario puede eliminar? 1->sí 0->no:\e[0m"
+	read ELIMINAR
+	#ELIMINAR=$5
+
+	echo -e "\e[34mEste usuario puede consultar? 1->sí 0->no:\e[0m"
+	read CONSULTAR
+	#CONSULTAR=$6
+
+	#echo "INSERT INTO permisos (pkID, fkID_tipo_usuario, fkID_modulo, crear, editar, eliminar, consultar) VALUES (NULL, '$IDTIPOUSUARIO', '$IDMODULO', '$CREAR', '$EDITAR', '$ELIMINAR', '$CONSULTAR')"
+
+	mysql -u$USER -p$PASS -e"use $DB; INSERT INTO permisos (pkID, fkID_tipo_usuario, fkID_modulo, crear, editar, eliminar, consultar) VALUES (NULL, '$IDTIPOUSUARIO', '$IDMODULO', '$CREAR', '$EDITAR', '$ELIMINAR', '$CONSULTAR');" 
+
+	listar_permisos
+}
+
+
+if [ $1 == "-l" ] ; then
+
+	echo -e "\e[32mOK [Listar Permisos.]\e[0m"
+
+	listar_permisos
+
+elif [ $1 == "-ltu" ]; then
+
+	echo -e "\e[32mOK [Listar Tipos de Usuario.]\e[0m"
+
+	listar_tipos
+
+elif [ $1 == "-lt" ] && [ $2 ] ; then
+
+	echo -e "\e[32mOK [Listar Permisos Tipo.]\e[0m"
+
+	listar_permisos_tipo $2
+
+elif [ $1 == "-lm" ] && [ $2 ] ; then
+
+	echo -e "\e[32mOK [Listar Permisos Modulo.]\e[0m"
+
+	listar_modulos_tipo $2
+
+elif [ $1 == "-c" ] ; then
+
+	echo -e "\e[32mOK [Crear Permiso.]\e[0m"
+
+	crear_permisos
+
+else
+	echo -e "\e[31mERROR [Opción inválida.]\e[0m"	
+fi

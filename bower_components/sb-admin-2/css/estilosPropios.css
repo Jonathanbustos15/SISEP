@@ -1,0 +1,38 @@
+estilosPropios.css
+
+/*<nav class="navbar navbar-default navbar-static-top stylenav" role="navigation" style="margin-bottom: 0">*/
+.stylenav {
+    background-image: linear-gradient(to bottom,#1ccad0 0,#139498 100%);
+}
+
+
+/*<a class="titulo" href="index.php">SISEP</a>*/
+.titulo {
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(255,255,255,.25);
+    float: left;
+    height: 50px;
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 20px;
+    text-decoration: none;
+}
+
+/*<a class="dropdown-toggle tituloUser" data-toggle="dropdown" href="#" aria-expanded="false">*/
+.tituloUser {
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(255,255,255,.25);
+}
+
+.tituloUser:hover {
+    background-color: white!important;
+}
+
+.fondo{
+	background: url(img/fondo.jpg);
+}
+
+.logo{
+    margin: 150px 150px;
+}
+

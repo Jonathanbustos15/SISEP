@@ -1,0 +1,381 @@
+
+/*--------------------------------------------------------*/
+/*Estilos de select con boton de añadir*/
+.add-selectElement {
+    width: 92%;
+    display: inline;
+}
+
+.tabla-form-ancho-big {
+    min-width: 430px!important;
+}
+
+.tabla-form-ancho-std {
+    min-width: 130px!important;
+}
+
+.tabla-form-ancho-sm {
+    max-width: 70px!important;
+}
+/*--------------------------------------------------------*/
+
+/*<nav class="navbar navbar-default navbar-static-top stylenav" role="navigation" style="margin-bottom: 0">*/
+.estilonav2 {
+    background-image: linear-gradient(to bottom,#1ccad0 0,#139498 100%) !important;
+}
+
+.titulohead{
+    background-image: linear-gradient(to bottom,#FFBF00 0,#FFBF00 100%); padding: 5px 15px !important;
+}
+/*<a class="titulo" href="index.php">SISEP</a>*/
+.titulo {
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(255,255,255,.25);
+    float: left;
+    height: 50px;
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 20px;
+    text-decoration: none;
+}
+
+/*<a class="dropdown-toggle tituloUser" data-toggle="dropdown" href="#" aria-expanded="false">*/
+.tituloUser {
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(255,255,255,.25);
+}
+
+.tituloUser:hover {
+    background-color: #ffbf00 !important;
+}
+
+.panel-default>.panel-heading {
+    color: #333 !important;
+    background-color: #ffbf00 !important;
+    border-color: #ffbf00 !important;
+}
+
+.menu1{
+    color: #ff9d00;
+}
+
+.bordes{
+    border: 1px solid black;
+}
+
+.altoimgindex{
+    height: 306.97px;
+}
+
+body {
+    background-image: url(../../../../img/fondo.jpg); background-repeat: repeat;
+}
+
+thead {
+    background-color: #139498;
+}
+
+th {
+   color: #fff; 
+}
+
+.botonnewgrupo{
+    background-image: linear-gradient(to bottom,#139873 0,#139873 100%) !important;
+    border-color: #139873 !important;
+    background-color: #139873 !important;
+    color: #fff;
+}
+
+.botonnewgrupo:hover{
+    background-image: linear-gradient(to bottom,#139873 0,#139873 100%) !important;
+    border-color: #139873 !important;
+    background-color: #139873 !important;
+    color: #fff;
+}
+
+.botonnewgrupo:active{
+    background-image: linear-gradient(to bottom,#139873 0,#139873 100%) !important;
+    border-color: #139873 !important;
+    background-color: #139873 !important;
+    color: #fff;
+}
+
+.pestanas{
+    background-image: linear-gradient(to bottom,#FFBF00 0,#FFBF00 100%);
+}
+
+.formlogin{
+    width: 40% !important;
+}
+
+.imgbutton{
+    background-image: url(../../../../img/paisaje-bottom.png);
+}
+
+@font-face {
+
+    font-family: 'Architects Daughter';
+    src: url("../fonts/ArchitectsDaughter.ttf") format("truetype");
+}
+
+@font-face {
+
+    font-family: 'Corbel';
+    src: url("../fonts/corbelb.ttf") format("truetype");
+}
+
+@font-face {
+
+    font-family: 'Exo';
+    src: url("../fonts/Exo-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+
+    font-family: 'Exo-Regular';
+    src: url("../fonts/Exo-Regular.ttf") format("truetype");
+}
+
+.titulo-menu{
+    font-family: 'Architects Daughter';
+}
+
+.zoom{
+    /* Aumentamos la anchura y altura durante 2 segundos */
+    transition: width 1s, height 1s, transform 1s !important;
+    -moz-transition: width 2s, height 2s, -moz-transform 2s !important;
+    -webkit-transition: width 1s, height 1s, -webkit-transform 1s !important;
+    -o-transition: width 2s, height 2s,-o-transform 2s !important;
+}
+.zoom:hover{
+    /* tranformamos el elemento al pasar el mouse por encima al doble de
+       su tamaño con scale(2). */
+    transform : scale(0.9) !important;
+    -moz-transform : scale(0.9) !important;     /* Firefox */
+    -webkit-transform : scale(0.9) !important;  /* Chrome - Safari */
+    -o-transform : scale(0.9) !important;      /* Opera */
+}
+.migadepan{
+    background-image: linear-gradient(to bottom,#FFF 0,#FFF 100%) !important;
+    color: #adadad !important;
+}
+
+.titulomodal{
+    color: #5D5D5D;
+    font-family: 'Exo-Regular';
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    color: #fff !important;
+    cursor: default !important;
+    background-color: #179199 !important;
+    border: 1px solid #ddd !important;
+    border-bottom-color: transparent !important;
+}
+
+.nav>li>a:focus, .nav>li>a:hover {
+    text-decoration: none;
+    background-color: #A5DF00;
+}
+
+.nav-tabs>li>a {
+    text-decoration: none;
+    background-color: #f7f7f7;
+}
+
+.fondomodalheader{
+    background-color: #FFB500;
+}
+
+.imgedicion{
+    background-image: url(../../../../img/edicion.png);
+    width: 46px;
+    height: 40px;
+    float: left;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.botonlogin{
+    background-image: linear-gradient(to bottom,#139498 0,#139498 100%) !important;
+    background-color: #139498 !important;
+    border-color: #139498 !important;
+    font-family: 'Corbel' !important;
+    border-radius: 0 0 0 0;
+}
+
+.botonlogin:hover{
+    background-image: linear-gradient(to bottom,#139498 0,#139498 100%) !important;
+    background-color: #139498 !important;
+    border-color: #139498 !important;
+    font-family: 'Corbel' !important;
+    border-radius: 0 0 0 0;
+}
+
+.titleprincipal{
+    font-family: 'Exo';
+}
+
+tbody{
+    font-size: 12px;
+}
+
+thead{
+    font-size: 14px;
+}
+
+.btn{
+    padding: 3px 6px;
+    color: #fff;
+}
+
+.btn.focus, .btn:focus, .btn:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn-warning{
+    background-image: linear-gradient(to bottom,#fbb03b 0,#fbb03b 100%);
+    background-color: #fbb03b !important;
+    border-color: #fbb03b !important;
+}
+
+.btn-danger{
+    background-image: linear-gradient(to bottom,#f3565d 0,#f3565d 100%);
+    background-color: #f3565d !important;
+    border-color: #f3565d !important;
+}
+
+.btn-success{
+    background-image: linear-gradient(to bottom,#5cb85c 0,#5cb85c 100%);
+    background-color: #5cb85c ;
+    border-color: #5cb85c ;
+}
+
+.btn-success:hover{
+    background-image: linear-gradient(to bottom,#5cb85c 0,#5cb85c 100%);
+    background-color: #5cb85c ;
+    border-color: #5cb85c ;
+}
+
+.table>tbody>tr>td{
+    padding: 5px;
+}
+
+.dataTables_info{
+    font-size: 10px;
+}
+
+.close{
+    color: #fff !important;
+    opacity: 5;
+}
+
+.form-control{
+    font-size: 12px;
+}
+
+.control-label{
+    font-weight: 400 !important;
+}
+
+.alert-info {
+    background-image: -webkit-linear-gradient(top,#eaffe9 0,#eaffe9 100%) !important;
+    background-image: -o-linear-gradient(top,#eaffe9 0,#eaffe9 100%) !important;
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#eaffe9),to(#eaffe9)) !important;
+    background-image: linear-gradient(to bottom,#eaffe9 0,#eaffe9 100%) !important;
+    background-repeat: repeat-x;
+    border-color: #b5ffb4  !important;
+    color: #63b162 !important;
+}
+
+.panel-body{
+    border-left: 8px solid #ffbf00;
+}
+
+.img-thumbnail{
+    border-radius: 14px;
+    border-color: #35b733;
+}
+
+.page-footer {
+    /*position: fixed;*/
+    width: 100%;
+    padding: 5px 20px 10px 20px;
+    font-size: 13px;
+    height: 35px;
+    background-color: #FFF;
+    border-top-width: thin;
+    border-top-style: solid;
+    border-top-color: #B9B9B9;
+    bottom: 0;
+}
+
+.page-footer .page-footer-inner {
+    color: #33404c;
+    font-size: 10px;
+    float: right;
+    display: inline-block;
+}
+.page-footer .page-footer-rojo {
+    color: #ed546e;
+    font-size: 10px;
+}
+
+/*td.tooltips {
+  position: relative;
+  display: inline;
+}
+td.tooltips span {
+  position: absolute;
+  width:140px;
+  color: #FFFFFF;
+  background: #642EFE !important;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  visibility: hidden;
+  border-radius: 6px;
+}
+td.tooltips span:after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -8px;
+  width: 0; height: 0;
+  border-top: 8px solid #686BCC;
+  border-right: 8px solid transparent;
+  border-left: 8px solid transparent;
+}
+td:hover.tooltips span {
+  visibility: visible;
+  opacity: 0.8;
+  bottom: 30px;
+  left: 50%;
+  margin-left: -76px;
+  z-index: 999;
+}*/
+/*----------------------------------------*/
+/*Estilos del portlet*/
+.blanco{
+    color: #fff;
+}
+
+.scll_body_2{
+    height: 375px; 
+    overflow: hidden; 
+    width: auto; 
+    background-image: url(../../../../img/fondo_marcos.jpg);
+}
+/*----------------------------------------*/
+/*Estilos acceso usuarios-----------------*/
+.toogle-display-usuarios{
+    display: none!important;
+}
+/*----------------------------------------*/
+.table_auditoria {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+}

@@ -1,0 +1,1 @@
+ALTER TABLE `asesoria` ADD `fkID_fase` INT(11) NOT NULL AFTER `fkID_proyecto`;

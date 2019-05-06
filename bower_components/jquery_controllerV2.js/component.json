@@ -1,0 +1,9 @@
+{
+	"name" : "jquery_controllerV2.js",
+	"version" : "2.1.1",
+	"main" : "./jquery_controllerV2.js",
+	"dependencies" : {
+		"jquery" : "2.2.3",
+		"valida_p.js" : "1.0.1"
+	}
+}
