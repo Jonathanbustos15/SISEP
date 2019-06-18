@@ -126,7 +126,7 @@
                 .done(function(data) {            
                   //---------------------
                   console.log(data);
-                  alert(data[0].mensaje);                 
+                  //alert(data[0].mensaje);                 
                                                      
                   //Ejecuta callback-----------------------------------------------------------                  
                   ajustes.functionAfter(data,ajustes);

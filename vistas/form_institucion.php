@@ -1,3 +1,5 @@
+
+
 <!-- Form institucion -->
 <div class="modal fade bs-example-modal-lg" id="frm_modal_institucion" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
@@ -19,12 +21,34 @@
                     
                     <div class="form-group">
                         <label for="nombre" class="control-label">Nombre Institución</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre de la institución" required = "true">
+                            <input type="text" class="form-control" id="nombre_institucion" name="nombre_institucion" placeholder="Nombre de la institución" required = "true">
                     </div>
 
                     <div class="form-group">
                         <label for="nombre" class="control-label">Código DANE</label>
                         <input type="text" class="form-control" id="codigo_dane" name="codigo_dane" placeholder="Codigo DANE de la institución" required = "true">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nombre" class="control-label">Dirección</label>
+                        <input type="text" class="form-control" id="direccion_institucion" name="direccion_institucion" placeholder="Dirección de la institución" required = "true">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nombre" class="control-label">Email</label>
+                        <input type="text" class="form-control" id="email_institucion" name="email_institucion" placeholder="Email de la institución" required = "true">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nombre" class="control-label">Telefono</label>
+                        <input type="text" class="form-control" id="telefono_institucion" name="telefono_institucion" placeholder="Telefono de la institución" required = "true">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="selectEstudioTecnico" class="control-label">Municipio</label>
+                            <?php
+                                  $institucionInst->getSeleccion_Municipio();
+                            ?>
                     </div>
 
                 </form>
