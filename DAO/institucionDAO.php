@@ -15,7 +15,7 @@
 
 		public function getInstituciones(){
 
-            $this->q_general = "select institucion.pkID, institucion.nombre_institucion,institucion.codigo_dane,institucion.email_institucion, municipio.nombre_municipio as fkID_municipio FROM `institucion` 
+            $this->q_general = "select institucion.pkID, institucion.persona_contacto, institucion.nombre_institucion,institucion.codigo_dane,institucion.email_institucion, municipio.nombre_municipio as fkID_municipio FROM `institucion` 
                 INNER JOIN municipio on municipio.pkID = institucion.fkID_municipio where estadoV=1";                                                
 
          return $this->EjecutarConsulta($this->q_general);

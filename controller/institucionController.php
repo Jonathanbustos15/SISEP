@@ -87,6 +87,7 @@
                     ["nombre"=>"codigo_dane"], 
                     ["nombre"=>"fkID_municipio"],
                     ["nombre"=>"email_institucion"], 
+                    ["nombre"=>"persona_contacto"],
                                      
                 ];
                 //la configuracion de los botones de opciones

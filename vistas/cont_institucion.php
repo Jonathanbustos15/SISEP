@@ -22,18 +22,15 @@
       <div class="col-lg-12">
           <h1 class="page-header titleprincipal"><img src="../img/botones/institucionesonly.png">Instituciones</h1> 
       </div>        
-      <!-- /.col-lg-12 -->
 
       <div class="col-lg-12">
           <ol class="breadcrumb migadepan">
-            <li><a class="migadepan" <?php echo 'href="detalles_proyectoM.php?id_proyectoM='.$institucionInst->getcpm().'&nom_proyectoM='.$institucionInst->getCookieNombreProyectoM().'"';?>>Proyecto Marco <?php echo $institucionInst->getCookieNombreProyectoM(); ?></a></li>            
+            <li><a class="migadepan" <?php echo 'href="proyecto_marco.php?id_proyectoM='.$institucionInst->getcpm().'&nom_proyectoM='.$institucionInst->getCookieNombreProyectoM().'"';?>>Inicio <?php echo $institucionInst->getCookieNombreProyectoM(); ?></a></li>            
             <li class="active migadepan">Instituciones</li>
           </ol>
       </div>
       
   </div>
-  <!-- /.row -->
-
   <div class="row">    
       
       <div class="col-lg-12">
@@ -65,6 +62,7 @@
                           <th>Código DANE</th>
                           <th>Municipio</th>
                           <th>Email</th>
+                          <th>Persona de Contacto</th>
                           <th data-orderable="false">Opciones</th>                                               
                       </tr>
                   </thead>

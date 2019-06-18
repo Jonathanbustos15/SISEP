@@ -40,6 +40,11 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="nombre" class="control-label">Persona de Contacto</label>
+                        <input type="text" class="form-control" id="persona_contacto" name="persona_contacto" placeholder="Persona de contacto" required = "true">
+                    </div>
+
+                    <div class="form-group">
                         <label for="nombre" class="control-label">Telefono</label>
                         <input type="text" class="form-control" id="telefono_institucion" name="telefono_institucion" placeholder="Telefono de la institución" required = "true">
                     </div>

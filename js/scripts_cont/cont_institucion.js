@@ -38,8 +38,8 @@ $(function(){
       expr = /([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})/;
       if ( !expr.test(email) ){
         alert("Error: La dirección de correo " + email + " es incorrecta.");
-        $("#email").val('');
-        $("#email").focus();
+        $("#email_institucion").val('');
+        $("#email_institucion").focus();
       }else{
         return true;
       }     
@@ -156,12 +156,13 @@ $(function(){
         }
     });
 
-
-
-
-
-
-
-
+    $("#persona_contacto").keyup(function(event) {
+        /* Act on the event */
+        if (((event.keyCode > 32) && (event.keyCode < 65)) || (event.keyCode > 200)) {
+            console.log(String.fromCharCode(event.which));
+            alert("El Nombre NO puede llevar valores numericos.");
+            $(this).val("");
+        }
+    });
 
 });
