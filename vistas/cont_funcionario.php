@@ -1,17 +1,17 @@
 <?php
 	
 	
-	include('../controller/estudiantesController.php');
+	include('../controller/funcionarioController.php');
 	
 	include('../conexion/datos.php');
 	
-	$estudiantesInst = new estudiantesController();
+	$estudiantesInst = new funcionarioController();
 	
 	$arrPermisos = $estudiantesInst->getPermisosModulo_Tipo($id_modulo,$_COOKIE[$NomCookiesApp.'_IDtipo']);
 	
 	$crea = $arrPermisos[0]['crear'];  
 	
-	include('form_estudiantes.php');
+	include('form_funcionario.php');
 ?>
 
 <div id="page-wrapper" style="margin: 0px;">
@@ -19,13 +19,13 @@
   <div class="row">
 
       <div class="col-lg-12">
-          <h1 class="page-header titleprincipal"><img src="../img/botones/estudiantesonly.png">Estudiantes</h1> 
+          <h1 class="page-header titleprincipal"><img src="../img/botones/useronly.png">Funcionarios</h1> 
       </div>        
       <!-- /.col-lg-12 -->
       <div class="col-lg-12">
           <ol class="breadcrumb migadepan">
             <li><a class="migadepan" <?php echo 'href="proyecto_marco.php?id_proyectoM='.$estudiantesInst->getcpm().'"' ?>>Inicio</a></li>
-            <li class="active migadepan">Estudiantes</li>
+            <li class="active migadepan">Funcionarios</li>
           </ol>
       </div>
       
@@ -42,10 +42,10 @@
 
             <div class="row">
               <div class="col-md-6">
-                  <div class="titleprincipal"><h4>Registro de Estudiantes</h4></div>
+                  <div class="titleprincipal"><h4>Registro de Funcionarios</h4></div>
               </div>
               <div class="col-md-6 text-right">
-                 <button id="btn_nuevoestudiante" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-target="#frm_modal_estudiante" <?php if ($crea != 1){echo 'disabled="disabled"';} ?> ><span class="glyphicon glyphicon-plus"></span> Nuevo Estudiante</button>  
+                 <button id="btn_nuevofuncionario" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-target="#frm_modal_funcionario" <?php if ($crea != 1){echo 'disabled="disabled"';} ?> ><span class="glyphicon glyphicon-plus"></span> Nuevo Funcionario</button>  
               </div>
             </div>
 
@@ -61,7 +61,8 @@
                           <!--<th>ID usuario</th>-->
                           <th>Nombres</th>
                           <th>Documento</th>
-                          <th>Grado</th>                                                            
+                          <th>Teléfono</th>
+                          <th>Email</th>                                                            
                           
                           <th data-orderable="false">Opciones</th>                                               
                       </tr>
@@ -69,7 +70,7 @@
 
                   <tbody>
                       <?php                          
-                          $estudiantesInst->getTablaEstudiantes();                           
+                          $estudiantesInst->getTablaFuncionario();                           
                        ?>
                   </tbody>
               </table>
@@ -90,4 +91,3 @@
                 
 </div>
 <!-- /#page-wrapper -->
-

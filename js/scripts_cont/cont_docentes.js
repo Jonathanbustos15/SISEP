@@ -145,6 +145,28 @@ $(function(){
             //no hace nada
         }
     };
+    //valida si el documento existe
+    function validaEqualIdentifica(num_id) {
+        console.log("busca valor " + encodeURI(num_id));
+        var consEqual = "SELECT COUNT(*) as res_equal FROM `docente` WHERE `documento_docente` = '" + num_id + "'";
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "query=" + consEqual + "&tipo=consulta_gen",
+        }).done(function(data) {
+            /**/
+            //console.log(data.mensaje[0].res_equal);
+            if (data.mensaje[0].res_equal > 0) {
+                alert("El Número de indetificación ya existe, por favor ingrese un número diferente.");
+                $("#documento_docente").val("");
+            } else {
+                //return false;
+            }
+        }).fail(function() {
+            console.log("error");
+        }).always(function() {
+            console.log("complete");
+        });
+    }
 
     $("#telefono_docente").keyup(function(event) {
         /* Act on the event */
@@ -175,7 +197,6 @@ $(function(){
             $(this).val("");
             $(this).focus();
         }
-        validaEqualIdentifica($(this).val());
     });
 
     $("#nombre_docente").keyup(function(event) {

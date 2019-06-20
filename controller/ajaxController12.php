@@ -48,6 +48,29 @@
 
 	 	break;
 		//----------------------------------------------------------------------------------------------------
+		//----------------------------------------------------------------------------------------------------
+	 	case 'inserta_funcionario':
+
+	 		
+	 		
+	 		$crea_sql = new crea_sql();
+
+	 		$q_inserta = $crea_sql->crea_insert($_GET);
+	 		$r["query"] = $q_inserta;	 		
+
+	 		$resultado = $generico->EjecutaInsertar($q_inserta);
+	 		/**/
+	 		if($resultado){
+	 			
+	 			$r[] = $resultado; 			
+
+	 		}else{
+
+	 			$r["estado"] = "Error";
+	 			$r["mensaje"] = "No se inserto.";
+	 		}
+
+	 	break;
 
 	 	//----------------------------------------------------------------------------------------------------
 	 	//caso especial gestión de usuarios, para poder codificar la contraseña de un usuario en la BD.

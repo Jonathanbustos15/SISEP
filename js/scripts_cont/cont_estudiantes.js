@@ -1,346 +1,177 @@
 $(function(){
-	 
-	 //https://github.com/jsmorales/jquery_controllerV2
-	 
+   //INGRESA A LOS ATRIBUTOS AL FORMULARIO PARA INSERTAR INSTITUCIÓN 
+   $("#btn_nuevoestudiante").click(function(){
+      $("#lbl_form_estudiante").html("Nuevo Estudiante");
+      $("#lbl_btn_actionestudiante").html("Guardar <span class='glyphicon glyphicon-save'></span>");
+      $("#btn_actionestudiante").attr("data-action","crear");
+      $("#form_estudiante")[0].reset();
+   });     
+   //Definir la acción del boton del formulario 
+   $("#btn_actionestudiante").click(function() {
+        console.log("al principio");
+        action = $(this).attr("data-action");
+        //define la acción que va a realizar el formulario
+        valida_actio(action);
+        console.log("accion a ejecutar: " + action);  
+    });
 
-     //no se le pueden asignar cursos al estudiante 
-     //solo el curso del grupo
-     $("#select_grado").attr('disabled', 'value');
-
-	 $("#btn_nuevoestudiante").jquery_controllerV2({
-	 	nom_modulo:'estudiante',
-  		titulo_label:'Nuevo Estudiante',
-  		functionBefore:function(){
-  			//$("#pass").removeAttr('readonly');
-  		},
-  		functionAfter:function() {
-  			//limpia el form
-  			$("#"+rel_grados.formulario_add).html("");
-
-  			rel_grados.arrElementos.length = 0;
-			rel_grados.arrElementosRelation.length=0;
-
-            //---------------------------------------
-            //selecciona el grado del grupo por defecto
-            //grado_grupo
-            $("#select_grado").val($("#grado_grupo").val());
-            
-            //setea los parametros iniciales
-            rel_grados.id = $("#grado_grupo").val()
-            rel_grados.nombre = $("#select_grado").find("option:selected").data('nombre')
-            rel_grados.select_elemento('select','crear');
-  		}
-	 });
-	 
-	 $("#btn_actionestudiante").jquery_controllerV2({
-	 	tipo:'inserta/edita',	    
-	    nom_modulo:'estudiante',
-	    nom_tabla:'usuarios',
-	    recarga: false,
-	    tipo_ajax : {
-	        crear : "inserta_registro",
-	        editar : "actualizar"
-	    },
-        auditar:true,
-	    functionAfter:function(data){
-
-	    	var proyectoM = leerCookie("id_proyectoM")
-
-	    	var accion = $("#btn_actionestudiante").attr("data-action")
-
-	    	if (accion == "crear") {
-
-	    		var id_last_usuario = data[0].last_id;
-
-	    		if (data[0].estado == "ok") {
-            		insertUsuarioG(id_last_usuario, $('#grupo').val(), $('#fkID_rol').val())
-            		insertUsuarioProyectoM(id_last_usuario, proyectoM)
-         	}   
-
-	    		rel_grados.serializa_array(rel_grados.crea_array(rel_grados.arrElementos,id_last_usuario));
-
-	    	}else{
-              location.reload()
-            }
-	    }
-	 });
-
-
-	 //Función para insertar en la tabla auxiliar usuario_grupo, despues de insertar en la tabla usuarios
-   function insertUsuarioG(estudiante, grupo, rol){
-
-      var query = " INSERT INTO `usuario_grupo` VALUES (NULL, "+estudiante+", "+grupo+", "+rol+")";
-
-      console.log(query);
-
-      $.ajax({
-          async: false,
-          url: '../controller/ajaxController12.php',
-          data: "query="+query+"&tipo=consulta_gen",
-      })
-      .done(function(data) {      
-        console.log(data)
-        
-        setTimeout(function(){
-          //location.reload()
-        },1000)
-      })
-      .fail(function() {
-          console.log("error");
-      })
-      .always(function() {
-          console.log("complete");
-      });
-
-   };
-
-    //Función para insertar en la tabla auxiliar usuario_proyectoM, despues de insertar en la tabla usuarios
-   function insertUsuarioProyectoM(usuario, proyectoM){
-
-      var query = " INSERT INTO `usuario_proyectoM` VALUES (NULL, "+usuario+", "+proyectoM+")";
-
-      console.log(query);
-
-      $.ajax({
-          async: false,
-          url: '../controller/ajaxController12.php',
-          data: "query="+query+"&tipo=consulta_gen",
-      })
-      .done(function(data) {      
-        console.log(data)
-        
-        setTimeout(function(){
-          location.reload()
-        },1000)
-      })
-      .fail(function() {
-          console.log("error");
-      })
-      .always(function() {
-          console.log("complete");
-      });
-
-   };
-	 
-	 $("[name*='edita_estudiante']").jquery_controllerV2({
-	 	tipo:'carga_editar',
-  		nom_modulo:'estudiante',
-  		nom_tabla:'usuarios',
-  		titulo_label:'Edita Estudiante',
-      tipo_load:1,
-      functionBefore:function(ajustes){
-          console.log('Ejecutando antes de todo...');
-          console.log(ajustes);
-       
-      },
-  		functionAfter:function(data){
-        console.log('Ejecutando despues de todo...');
-        console.log(data);
-  			$("#pass").attr('readonly', 'true');
-
-  			var id_usuario = data.mensaje[0].pkID;
-
-  			//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        	/**/
-        	var query_grados = "select grado.*, usuarios.alias, usuario_grado.pkID as numReg"+ 
-
-                " FROM grado"+
-
-                " INNER JOIN usuario_grado ON usuario_grado.fkID_grado = grado.pkID"+
-
-                " INNER JOIN usuarios ON usuario_grado.fkID_usuario = usuarios.pkID"+
-
-                " WHERE usuarios.pkID = "+id_usuario;
-
-        	rel_grados.carga_elementos(query_grados);
-        	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  		}
-	 });
-	 
-	 $("[name*='elimina_estudiante']").jquery_controllerV2({
-	 	tipo:'eliminar',
-  		nom_modulo:'estudiante',
-  		nom_tabla:'usuarios',
-      recarga:false,
-      auditar:true,
-      functionBefore:function(ajustes){
-        //-----------------------------------------------------
-        console.log(ajustes.id)
-
-        id_usuario = ajustes.id;
-      },
-      functionAfter:function(data){
-        console.log(data)
-
-        if (data.estado == "ok") {
-          eliminaUsuarioGrupo(id_usuario)
-          eliminaUsuarioProyectoM(id_usuario)
-        }           
-      }
-	 });
-
-//----Función que elimina los registros de la tabla auxiliar usuario_grupo
-  function eliminaUsuarioGrupo(fkID_usuario){
-
-    var query = " DELETE FROM `usuario_grupo` WHERE fkID_usuario = "+fkID_usuario;
-
-    $.ajax({
-      async: false,
-          url: '../controller/ajaxController12.php',
-          data: "query="+query+"&tipo=consulta_gen",
-      })
-      .done(function(data) {      
-        console.log(data)
-        
-        setTimeout(function(){
-          location.reload()
-        },1000)
-      })
-      .fail(function() {
-          console.log("error");
-      })
-      .always(function() {
-          console.log("complete");
-      });
-  }
-
-
-
-   //----Función que elimina los registros de la tabla auxiliar usuario_proyectoM
-  function eliminaUsuarioProyectoM(fkID_usuario){
-
-    var query = " DELETE FROM `usuario_proyectoM` WHERE fkID_usuario = "+fkID_usuario;
-
-    $.ajax({
-      async: false,
-          url: '../controller/ajaxController12.php',
-          data: "query="+query+"&tipo=consulta_gen",
-      })
-      .done(function(data) {      
-        console.log(data)
-        
-        setTimeout(function(){
-          location.reload()
-        },1000)
-      })
-      .fail(function() {
-          console.log("error");
-      })
-      .always(function() {
-          console.log("complete");
-      });
-  }
    
    
-	 
-	 //---------------------------------------------------------
-
-   function getAnioActual() {
-
-    var anio = new Date();
-
-    return anio.getFullYear();
-
-   }
-
-   function getMesActual() {
-
-    var mes = new Date();
-
-    return mes.getMonth() + 1;
-
-   }
-
-   console.log(getAnioActual() - 5)
-
-   var anio_actual = getAnioActual();
-   var anio_min = getAnioActual() - 5;
-
-	 $( "#fecha_nacimiento" ).datepicker({
-		dateFormat: "yy-mm-dd",
-		yearRange: "1930:"+anio_min,
-		changeYear: true,
-		showButtonPanel: true,			
-	});
-
-   $( "#fecha_nacimiento" ).change(function(e) {
-     console.log("Cambio la fecha nacimiento")
-     
-     var anio_select = new Date($(this).val());
-           
-     anio_select.setDate(anio_select.getDate() + 1);
-     //console.log(date_actual.getFullYear())
-     //console.log(date_actual.getMonth() + 1)
-
-     console.log(anio_select)
-
-     var edad = anio_actual - anio_select.getFullYear();
-
-     //console.log(getMesActual())
-
-     edad = getMesActual() >= anio_select.getMonth() + 1 ? edad : edad - 1;
-
-     console.log(edad)
-
-     $("#edad").val(edad)
+   $("[name*='edita_estudiante']").click(function(){
+       $("#lbl_form_estudiante").html("Edita Estudiante");
+      $("#lbl_btn_actionestudiante").html("Guardar Cambios <span class='glyphicon glyphicon-save'></span>");
+      $("#btn_actionestudiante").attr("data-action","editar");
+      $("#form_estudiante")[0].reset();
+      id = $(this).attr('data-id-estudiante');
+      console.log(id);
+      carga_institucion(id);
    });
-//------------------------------------------------------------------------------------------------------------------
-//validaciones con plugin overlooker
-/**/
-$("#form_estudiante").overlooker({
-    validations:[
-        {
-            id : "email",
-            expresion : "email",
-            evento : "change"
-        },        
-        {
-            id : "numero_documento",
-            expresion : "doc_identidad",
-            evento : "change"
-        },        
-        {
-            id : "numero_telefono",
-            expresion : "telefono",
-            evento : "change"
-        }
-    ],
-})
-//------------------------------------------------------------------------------------------------------------------
 
-	//click al detalle en cada fila----------------------------
-	$('.table').on( 'click', '.detail', function () {
-	  window.location.href = $(this).attr('href');
-	});
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	
-	var obtHE_grados = {
-    	"fkID_grado" : 0,
-    	"fkID_usuario" : 0
+   $("[name*='elimina_estudiante']").click(function(event) {
+        id_estudian = $(this).attr('data-id-estudiante');
+        console.log(id_estudian)
+        elimina_institucion(id_estudian);
+    });
+   
+  //---------------------------------------------------------
+
+  //
+  sessionStorage.setItem("id_tab_estudiante",null);
+  //---------------------------------------------------------
+
+
+    //click al detalle en cada fila----------------------------
+    $('.table').on( 'click', '.detail', function () {
+        window.location.href = $(this).attr('href');
+    });
+    //valida accion a realizar
+    function valida_actio(action){
+      console.log("en la mitad");
+        if(action==="crear"){  
+            crea_estudiante();
+        }else if(action==="editar"){
+            edita_estudiante();
+        };
+    };
+
+    function crea_estudiante(){
+        objt_f_estudi = $("#form_estudiante").valida();
+         $.ajax({  
+              type: "GET",
+              url: "../controller/ajaxController12.php",
+              data: objt_f_estudi.srlz+"&tipo=inserta&nom_tabla=estudiante",
+              success:function(r){
+                    console.log(r);
+                    location.reload();
+              }
+            })
     }
 
-	self.rel_grados = new matrixRelation("select_grado", "btn_actionestudiante", "grado", "usuario", "frm_usuarios_grados", "usuario_grado", obtHE_grados);
+     function edita_estudiante(){
+        //crea el objeto formulario serializado
+        objt_f_estudi = $("#form_estudiante").valida();
+            console.log(objt_f_estudi.srlz);
+            $.ajax({
+                url: '../controller/ajaxController12.php',
+                data: objt_f_estudi.srlz+"&tipo=actualizar&nom_tabla=estudiante",
+                success:function(r){
+                    console.log(r);
+                    location.reload();
+              }
+            })
+    }
 
-	rel_grados.setup();
-	 
-	 //console.log(navigator)
-	 //alert(navigator.platform)
-	//---------------------------------------------------------
+    function carga_institucion(id_estudian) {
+        console.log("Carga el institucion " + id_estudian);
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "pkID=" + id_estudian + "&tipo=consultar&nom_tabla=estudiante",
+        }).done(function(data) {
+            $.each(data.mensaje[0], function(key, value) {  
+                console.log(key + "--" + value);
+                $("#" + key).val(value);
+            });
+        }).fail(function() {
+            console.log("error");
+        }).always(function() {
+            console.log("complete");
+        });
+    };
 
-  //-------------------------------------------------------------------------
-  //complemento usuarios
-  var estudiantes_f = new usersGen("form_estudiante");
-  estudiantes_f.init()
-  
-  //-------------------------------------------------------------------------
+    function elimina_institucion(id_estudian) {
+        console.log('Eliminar el hvida: ' + id_estudian);
+        var confirma = confirm("En realidad quiere eliminar esta Institución?");
+        console.log(confirma);
+        /**/
+        if (confirma == true) {
+            //si confirma es true ejecuta ajax
+            $.ajax({
+                url: '../controller/ajaxController12.php',
+                data: "pkID=" + id_estudian + "&tipo=eliminarlogico&nom_tabla=estudiante",
+            }).done(function(data) {
+                //---------------------
+                console.log(data);
+                location.reload();
+            }).fail(function() {
+                console.log("errorfatal");
+            }).always(function() {
+                console.log("complete");
+            });
+        } else {
+            //no hace nada
+        }
+    };
+    //valida si existe el documento
+    function validaEqualIdentifica(num_id) {
+        console.log("busca valor " + encodeURI(num_id));
+        var consEqual = "SELECT COUNT(*) as res_equal FROM `estudiante` WHERE `documento_estudiante` = '" + num_id + "'";
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "query=" + consEqual + "&tipo=consulta_gen",
+        }).done(function(data) {
+            /**/
+            //console.log(data.mensaje[0].res_equal);
+            if (data.mensaje[0].res_equal > 0) {
+                alert("El Número de indetificación ya existe, por favor ingrese un número diferente.");
+                $("#documento_estudiante").val("");
+            } else {
+                //return false;
+            }
+        }).fail(function() {
+            console.log("error");
+        }).always(function() {
+            console.log("complete");
+        });
+    }
 
-    //-------------------------------------------------------------------------
-    //complemento validacion numero de documento
-    var validacion_estudiante = new validaCampoLike('numero_documento','usuarios','numero_documento','form_estudiante','btn_actionestudiante');
-
-    $("#numero_documento").keyup(function(e) {
-      validacion_estudiante.validar()
+    $("#nombre_estuadiante").keyup(function(event) {
+        /* Act on the event */
+        if (((event.keyCode > 32) && (event.keyCode < 65)) || (event.keyCode > 200)) {
+            console.log(String.fromCharCode(event.which));
+            alert("El Nombre NO puede llevar valores numericos.");
+            $(this).val("");
+        }
     });
-    
-    //-------------------------------------------------------------------------
+
+    $("#apellido_estudiante").keyup(function(event) {
+        /* Act on the event */
+        if (((event.keyCode > 32) && (event.keyCode < 65)) || (event.keyCode > 200)) {
+            console.log(String.fromCharCode(event.which));
+            alert("El Apellido NO puede llevar valores numericos.");
+            $(this).val("");
+        }
+    });
+
+    $("#documento_estudiante").change(function(event) {
+        /* valida que no tenga menos de 8 caracteres*/
+        var valores_idCli = $(this).val().length;
+        console.log(valores_idCli);
+        if ((valores_idCli < 5) || (valores_idCli > 12)) {
+            alert("El número de identificación no puede ser menor a 5 valores.");
+            $(this).val("");
+            $(this).focus();
+        }
+        validaEqualIdentifica($(this).val());
+    });
+
 });

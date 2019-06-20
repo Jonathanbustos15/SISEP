@@ -1,9 +1,9 @@
 <?php
 /**/
-	include_once '../DAO/estudiantesDAO.php';
+	include_once '../DAO/funcionarioDAO.php';
 	include_once 'helper_controller/render_table.php';
 		
-	class estudiantesController extends estudiantesDAO{
+	class funcionarioController extends funcionarioDAO{
 		
 		public $NameCookieApp;
 		public $id_modulo;
@@ -23,7 +23,7 @@
 		//Espacio para las funciones de esta clase.
 		
 		//---------------------------------------------------------------------------------
-	    public function getTablaEstudiantes(){    	
+	    public function getTablaFuncionario(){    	
 
 	    	//permisos-------------------------------------------------------------------------
 			$arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo,$_COOKIE[$this->NameCookieApp."_IDtipo"]);
@@ -39,46 +39,47 @@
 	    		$array_campos = [
 	    			//["nombre"=>"pkID"],
 	    			["nombre"=>"nombres"],
-	    			["nombre"=>"documento_estudiante"],
-	    			["nombre"=>"grado_estudiante"]
+	    			["nombre"=>"documento_funcionario"],
+	    			["nombre"=>"telefono_funcionario"],
+	    			["nombre"=>"email_funcionario"],
 	    		];
 	    		//la configuracion de los botones de opciones
 	    		$array_btn =[
 
 		    		 [
 		    			"tipo"=>"editar",
-		    			"nombre"=>"estudiante",
+		    			"nombre"=>"funcionario",
 		    			"permiso"=>$edita,
 		    		 ],
 		    		 [
 		    			"tipo"=>"eliminar",
-		    			"nombre"=>"estudiante",
+		    			"nombre"=>"funcionario",
 		    			"permiso"=>$elimina,
 		    		 ]
 
 		    	];
 
 		    	$array_opciones = [
-		          "modulo"=>"estudiante",//nombre del modulo definido para jquerycontrollerV2
+		          "modulo"=>"funcionario",//nombre del modulo definido para jquerycontrollerV2
 		          "title"=>"Click Ver Detalles",//etiqueta html title
-		          "href"=>"detalles_estudiantes.php?id_estudiante=",
+		          "href"=>"detalles_estudiante.php?id_funcionario=",
 		          "class"=>"detail"//clase que permite que añadir el evento jquery click
 		        ];	    	
 		    //---------------------------------------------------------------------------------
 		    //get de los datos	    	
-	    	$estudiantes = $this->getEstudiantes();
+	    	$funcionario = $this->getFuncionario();
 	    	
 	    	//Instancia el render
-	    	$this->table_inst = new RenderTable($estudiantes,$array_campos,$array_btn,[]);	    	
+	    	$this->table_inst = new RenderTable($funcionario,$array_campos,$array_btn,[]);	    	
 			//---------------------------------------------------------------------------------     
 	    	/**/
 	    	//valida si hay resultados
-	    	if( ($estudiantes) && ($consulta==1) ){
+	    	if( ($funcionario) && ($consulta==1) ){
 	    		
 	    		//ejecuta el render de la tabla
 	    		$this->table_inst->render();	    		
 
-	    	}elseif( ($estudiantes) && ($consulta==0) ){	
+	    	}elseif( ($funcionario) && ($consulta==0) ){	
 
 	    	 $this->table_inst->render_blank();
 
