@@ -1,6 +1,7 @@
 <?php
 /**/
 	include_once 'docentesDAO.php';
+	include_once 'usuariosDAO.php';
 		
 	class estudiantesDAO extends docentesDAO {
 		
@@ -18,7 +19,7 @@
 
 		public function getEstudiantes(){        
        
-	      $query = "select estudiante.pkID, concat_ws(' ',nombre_estudiante,apellido_estudiante) as nombres, documento_estudiante, grado.nombre as grado_estudiante FROM `estudiante`
+	      $query = "select estudiante.pkID, concat_ws(' ',nombre_estudiante1,nombre_estudiante2) as nombres,concat_ws(' ',apellido_estudiante1,apellido_estudiante2) as apellidos, documento_estudiante, grado.nombre as grado_estudiante FROM `estudiante`
 INNER JOIN grado on grado.pkID= estudiante.fkID_grado
 WHERE estudiante.estadoV=1";
 

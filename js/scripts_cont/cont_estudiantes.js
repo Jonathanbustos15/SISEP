@@ -153,7 +153,7 @@ $(function(){
         }
     });
 
-    $("#apellido_estudiante").keyup(function(event) {
+    $("#apellido_estudiante1").keyup(function(event) {
         /* Act on the event */
         if (((event.keyCode > 32) && (event.keyCode < 65)) || (event.keyCode > 200)) {
             console.log(String.fromCharCode(event.which));

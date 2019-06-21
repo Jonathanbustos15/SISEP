@@ -39,6 +39,7 @@
 	    		$array_campos = [
 	    			//["nombre"=>"pkID"],
 	    			["nombre"=>"nombres"],
+	    			["nombre"=>"apellidos"],
 	    			["nombre"=>"documento_estudiante"],
 	    			["nombre"=>"grado_estudiante"]
 	    		];
@@ -116,6 +117,18 @@
 	        		echo "<option></option>";
 		        for($a=0;$a<sizeof($tipo);$a++){
 		        	echo "<option value='".$tipo[$a]["pkID"]."'>".$tipo[$a]["nombre"]."</option>";
+		        }
+		    echo "</select>";
+	    }
+
+	    public function getSelectInstitu() {
+        
+	        $tipo = $this->getInstitu();
+	        
+	      echo '<select name="fkID_institucion" id="fkID_institucion" class="form-control" required = "true">
+                        <option value="" selected>Elija la institucion</option>';
+		        for($a=0;$a<sizeof($tipo);$a++){
+		        	echo "<option value='".$tipo[$a]["pkID"]."'>".$tipo[$a]["nombre_institucion"]."</option>";
 		        }
 		    echo "</select>";
 	    }

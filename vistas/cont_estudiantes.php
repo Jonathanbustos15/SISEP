@@ -60,6 +60,7 @@
                       <tr>
                           <!--<th>ID usuario</th>-->
                           <th>Nombres</th>
+                          <th>Apellidos</th>
                           <th>Documento</th>
                           <th>Grado</th>                                                            
                           
