@@ -5,9 +5,9 @@
 	
 	include('../conexion/datos.php');
 	
-	$estudiantesInst = new funcionarioController();
+	$funcionarioInst = new funcionarioController();
 	
-	$arrPermisos = $estudiantesInst->getPermisosModulo_Tipo($id_modulo,$_COOKIE[$NomCookiesApp.'_IDtipo']);
+	$arrPermisos = $funcionarioInst->getPermisosModulo_Tipo($id_modulo,$_COOKIE[$NomCookiesApp.'_IDtipo']);
 	
 	$crea = $arrPermisos[0]['crear'];  
 	
@@ -24,7 +24,7 @@
       <!-- /.col-lg-12 -->
       <div class="col-lg-12">
           <ol class="breadcrumb migadepan">
-            <li><a class="migadepan" <?php echo 'href="proyecto_marco.php?id_proyectoM='.$estudiantesInst->getcpm().'"' ?>>Inicio</a></li>
+            <li><a class="migadepan" <?php echo 'href="proyecto_marco.php?id_proyectoM='.$funcionarioInst->getcpm().'"' ?>>Inicio</a></li>
             <li class="active migadepan">Funcionarios</li>
           </ol>
       </div>
@@ -70,7 +70,7 @@
 
                   <tbody>
                       <?php                          
-                          $estudiantesInst->getTablaFuncionario();                           
+                          $funcionarioInst->getTablaFuncionario();                           
                        ?>
                   </tbody>
               </table>

@@ -32,7 +32,7 @@
                     <div class="form-group">
                         <label for="" class=" control-label">Tipo De Documento</label>
                         <?php 
-                            $estudiantesInst->getSelectTipoDocumento();
+                            $funcionarioInst->getSelectTipoDocumento();
                          ?>
                     </div> 
 

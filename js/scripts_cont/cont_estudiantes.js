@@ -174,4 +174,13 @@ $(function(){
         validaEqualIdentifica($(this).val());
     });
 
+    $("#documento_estudiante").keyup(function(event) {
+        /* Act on the event */
+        if (((event.keyCode > 32) && (event.keyCode < 48)) || (event.keyCode > 57)) {
+            console.log(String.fromCharCode(event.which));
+            alert("El número de DOCUMENTO NO puede llevar valores alfanuméricos.");
+            $(this).val("");
+        }
+    });
+
 });

@@ -188,6 +188,16 @@ $(function(){
         }
         validaEqualIdentifica($(this).val());
     });
+
+    $("#documento_docente").keyup(function(event) {
+        /* Act on the event */
+        if (((event.keyCode > 32) && (event.keyCode < 48)) || (event.keyCode > 57)) {
+            console.log(String.fromCharCode(event.which));
+            alert("El número de DOCUMENTO NO puede llevar valores alfanuméricos.");
+            $(this).val("");
+        }
+    });
+
     $("#telefono_docente").change(function(event) {
         /* valida que no tenga menos de 8 caracteres*/
         var valores_idCli = $(this).val().length;

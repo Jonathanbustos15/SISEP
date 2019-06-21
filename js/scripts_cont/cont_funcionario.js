@@ -11,10 +11,14 @@ $(function(){
    });     
    //Definir la acción del boton del formulario 
    $("#btn_actionfuncionario").click(function() {
+        var validacioncon = validarcontrato();
+        if (validacioncon === "no") {
+            window.alert("Faltan Campos por diligenciar.");
+        } else {
         action = $(this).attr("data-action");
-        //define la acción que va a realizar el formulario
         valida_actio(action);
-        console.log("accion a ejecutar: " + action);  
+        console.log("accion a ejecutar: " + action); 
+        }
     });
 
    $("[name*='edita_funcionario']").click(function(){
@@ -44,7 +48,25 @@ $(function(){
     //click al detalle en cada fila----------------------------
     $('.table').on( 'click', '.detail', function () {
         window.location.href = $(this).attr('href');
-    });
+    });  
+
+    function validarcontrato(){
+      var nombre = $("#nombre_funcionario").val();
+      var apellido = $("#apellido_funcionario").val();
+      var tipo = $("#fkID_tipo_documento option:selected").val();
+      var documento = $("#documento_funcionario").val();
+      var telefono = $("#telefono_funcionario").val();
+      var direccion = $("#direccion_funcionario").val();
+      var email = $("#email_funcionario").val();
+        var respuesta;
+        if (nombre === "" || apellido === "" || tipo === "" || documento === "" || telefono === "" || direccion === "" || email === "" ) {
+            respuesta = "no"
+            return respuesta
+        }else{
+            respuesta = "ok"
+            return respuesta
+        }
+    }
     //valida accion a realizar
     function valida_actio(action){
       console.log("en la mitad");
@@ -55,7 +77,23 @@ $(function(){
         };
     };
 
+    function validarEmail( email ) {
+      expr = /([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})/;
+      if ( !expr.test(email) ){
+        alert("Error: La dirección de correo " + email + " es incorrecta.");
+        $("#email_funcionario").val('');
+        $("#email_funcionario").focus();
+      }else{
+        return true;
+      }     
+    }
+
+    $("#email_funcionario").change(function(event) {
+      validarEmail( $(this).val() )
+    });
+
     function crea_funcionario(){
+      if( document.getElementById("url_funcionario").files.length){
       var data = new FormData();
       data.append('file', $("#url_funcionario").get(0).files[0]);
       data.append('nombre', $("#nombre_funcionario").val());
@@ -77,6 +115,28 @@ $(function(){
                       location.reload();  
               }
             })
+     }else{
+      var data = new FormData();
+      data.append('nombre', $("#nombre_funcionario").val());
+      data.append('apellido',  $("#apellido_funcionario").val());
+      data.append('fk_tipo',  $("#fkID_tipo_documento option:selected").val());
+      data.append('documento', $("#documento_funcionario").val());
+      data.append('telefono', $("#telefono_funcionario").val());
+      data.append('direccion', $("#direccion_funcionario").val());
+      data.append('email', $("#email_funcionario").val());
+      data.append('tipo', "crearsin");
+       $.ajax({  
+              type: "POST",
+              url: "../controller/ajaxfuncionario.php",
+              data: data,
+              contentType: false,
+              processData: false,  
+              success:function(a){
+                      console.log(a);
+                      location.reload();  
+              }
+            })
+     }
     }
 
     function cargar_input(){
@@ -243,7 +303,7 @@ $(function(){
 
     
 
-    $("#nombre_estuadiante").keyup(function(event) {
+    $("#nombre_funcionario").keyup(function(event) {
         /* Act on the event */
         if (((event.keyCode > 32) && (event.keyCode < 65)) || (event.keyCode > 200)) {
             console.log(String.fromCharCode(event.which));
@@ -252,7 +312,7 @@ $(function(){
         }
     });
 
-    $("#apellido_estudiante").keyup(function(event) {
+    $("#apellido_funcionario").keyup(function(event) {
         /* Act on the event */
         if (((event.keyCode > 32) && (event.keyCode < 65)) || (event.keyCode > 200)) {
             console.log(String.fromCharCode(event.which));
@@ -261,7 +321,16 @@ $(function(){
         }
     });
 
-    $("#documento_estudiante").change(function(event) {
+    $("#telefono_funcionario").keyup(function(event) {
+        /* Act on the event */
+        if (((event.keyCode > 32) && (event.keyCode < 48)) || (event.keyCode > 57)) {
+            console.log(String.fromCharCode(event.which));
+            alert("El número de Telefono NO puede llevar valores alfanuméricos.");
+            $(this).val("");
+        }
+    });
+
+    $("#documento_funcinario").change(function(event) {
         /* valida que no tenga menos de 8 caracteres*/
         var valores_idCli = $(this).val().length;
         console.log(valores_idCli);
@@ -271,6 +340,15 @@ $(function(){
             $(this).focus();
         }
         validaEqualIdentifica($(this).val());
+    });
+
+    $("#documento_funcionario").keyup(function(event) {
+        /* Act on the event */
+        if (((event.keyCode > 32) && (event.keyCode < 48)) || (event.keyCode > 57)) {
+            console.log(String.fromCharCode(event.which));
+            alert("El número de DOCUMENTO NO puede llevar valores alfanuméricos.");
+            $(this).val("");
+        }
     });
 
 });
