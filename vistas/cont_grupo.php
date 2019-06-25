@@ -88,7 +88,6 @@ include "form_novedades.php";
                       <tr>
                          <!-- <th>ID Grupo</th>-->
                           <th>Nombre</th>
-                          <th>Pregunta de Investigación</th>
                           <th >Tipo de Proyecto</th>
                           <th>Cantidad de Estudiantes</th>
                           <th>Año</th>

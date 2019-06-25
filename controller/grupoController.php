@@ -52,7 +52,6 @@ class grupoController extends grupoDAO
         $grupo_campos = [
             // ["nombre"=>"pkID"],
             ["nombre" => "nombre"],
-            ["nombre" => "pregunta_investigacion"],
             ["nombre" => "nom_tipo"],
             ["nombre" => "canti"],
             ["nombre" => "anio"],
@@ -128,7 +127,6 @@ class grupoController extends grupoDAO
         $grupo_campos = [
             // ["nombre"=>"pkID"],
             ["nombre" => "nombre"],
-            ["nombre" => "pregunta_investigacion"],
             ["nombre" => "nom_tipo"],
             ["nombre" => "lema"],
             ["nombre" => "fecha_creacion"],
@@ -194,7 +192,8 @@ class grupoController extends grupoDAO
         $m_u_Select = $this->getGrados();
 
         echo '<select id="fkID_grado" name="fkID_grado" class="form-control" required="true">
-                  <option></option>';
+                  <option value="" selected>Elija el Grado</option>'
+                  ;
         for ($i = 0; $i < sizeof($m_u_Select); $i++) {
             echo '<option value="' . $m_u_Select[$i]["pkID"] . '">' . $m_u_Select[$i]["nombre"] . '</option>';
         };
@@ -204,16 +203,53 @@ class grupoController extends grupoDAO
     public function getSelectInstituciones()
     {
 
-        $tipo = $this->getInstitucion();
+        $tipo = $this->getInstitu();
+            
+          echo '<select name="fkID_institucion" id="fkID_institucion" class="form-control" required = "true">
+                        <option value="" selected>Elija la institucion</option>';
+                for($a=0;$a<sizeof($tipo);$a++){
+                    echo "<option value='".$tipo[$a]["pkID"]."'>".$tipo[$a]["nombre_institucion"]."</option>";
+                }
+            echo "</select>";
+    }
 
-        //print_r($tipo);
+    public function getSelectTipoGrupos()
+    {
 
-        echo "<select name='fkID_institucion' id='fkID_institucion' class='form-control' required = 'true'>";
-        echo "<option></option>";
-        for ($a = 0; $a < sizeof($tipo); $a++) {
-            echo "<option value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombre"] . "</option>";
-        }
-        echo "</select>";
+        $tipo = $this->getTipoGrupo();
+            
+          echo '<select name="fkID_tipo_grupo" id="fkID_tipo_grupo" class="form-control" required = "true">
+                        <option value="" selected>Elija el Tipo de Grupo</option>';
+                for($a=0;$a<sizeof($tipo);$a++){
+                    echo "<option value='".$tipo[$a]["pkID"]."'>".$tipo[$a]["nombre"]."</option>";
+                }
+            echo "</select>";
+    }
+
+    public function getSelectTutor()
+    {
+
+        $tipo = $this->getTutor();
+            
+          echo '<select name="fkID_tutor" id="fkID_tutor" class="form-control" required = "true">
+                        <option value="" selected>Elija el Tutor del Grupo</option>';
+                for($a=0;$a<sizeof($tipo);$a++){
+                    echo "<option id='fkID_tutor_form_' data-nombre='".$tipo[$a]["nombres"]."' value='".$tipo[$a]["pkID"]."'>".$tipo[$a]["nombres"]."</option>";
+                }
+            echo "</select>";
+    }
+
+    public function getSelectDocente()
+    {
+
+        $tipo = $this->getDocente();
+            
+          echo '<select name="fkID_docente" id="fkID_docente" class="form-control" required = "true">
+                        <option value="" selected>Elija el Docente del Grupo</option>';
+                for($a=0;$a<sizeof($tipo);$a++){
+                    echo "<option id='fkID_docente_form_' data-nombre='".$tipo[$a]["nombres"]."' value='".$tipo[$a]["pkID"]."'>".$tipo[$a]["nombres"]."</option>";
+                }
+            echo "</select>";
     }
 
     public function getSelectRoles($pkID_tipo)

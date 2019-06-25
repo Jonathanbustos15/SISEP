@@ -11,7 +11,7 @@ $(function(){
    });     
    //Definir la acción del boton del formulario 
    $("#btn_actionfuncionario").click(function() {
-        var validacioncon = validarcontrato();
+        var validacioncon = validarfuncionario();
         if (validacioncon === "no") {
             window.alert("Faltan Campos por diligenciar.");
         } else {
@@ -50,7 +50,7 @@ $(function(){
         window.location.href = $(this).attr('href');
     });  
 
-    function validarcontrato(){
+    function validarfuncionario(){
       var nombre = $("#nombre_funcionario").val();
       var apellido = $("#apellido_funcionario").val();
       var tipo = $("#fkID_tipo_documento option:selected").val();

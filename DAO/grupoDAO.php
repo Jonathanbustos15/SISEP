@@ -1,8 +1,9 @@
 <?php
 /**/
 include_once 'genericoDAO.php';
+include_once 'usuariosDAO.php';
 
-class grupoDAO
+class grupoDAO extends UsuariosDAO
 {
 
     use GenericoDAO;
@@ -51,9 +52,7 @@ class grupoDAO
 
                             WHEN grupo.fkID_grado != 0 THEN grupo.fkID_grado
 
-                        END)
-
-                        WHERE grupos_proyectoM.fkID_proyectoM = " . $this->getcpm();
+                        END)";
 
         return $this->EjecutarConsulta($query);
     }
@@ -97,6 +96,30 @@ class grupoDAO
 
 
                         WHERE fkID_estado = 2";
+
+        return $this->EjecutarConsulta($query);
+    }
+
+    public function getTipoGrupo()
+    {
+
+        $query = "select pkID, nombre FROM `tipo_proyecto`";
+
+        return $this->EjecutarConsulta($query);
+    }
+
+    public function getTutor()
+    {
+
+        $query = "select  pkID, concat_ws(' ',nombre_funcionario,apellido_funcionario) as nombres FROM `funcionario` ORDER BY nombre_funcionario";
+
+        return $this->EjecutarConsulta($query);
+    }
+
+    public function getDocente()
+    {
+
+        $query = "select  pkID, concat_ws(' ',nombre_docente,apellido_docente) as nombres FROM `docente` ORDER BY nombre_docente";
 
         return $this->EjecutarConsulta($query);
     }

@@ -108,7 +108,7 @@ class UsuariosDAO {
       return $this->EjecutarConsulta($query);
     }
 
-    public function getInstitu(){        
+    public function getInstitu(){          
        
       $query = "select pkID,nombre_institucion FROM `institucion` WHERE estadoV=1";
 
