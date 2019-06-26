@@ -1,6 +1,12 @@
 $(function(){
    //https://github.com/jsmorales/jquery_controllerV2
    //INGRESA A LOS ATRIBUTOS AL FORMULARIO PARA INSERTAR INSTITUCIÓN 
+
+  var arrTutor = [];
+  var arrTutoresgrupos = [];
+  var arrDocente = [];
+  var arrDocentesgrupos = [];
+
    $("#btn_nuevogrupo").click(function(){
       $("#lbl_form_grupo").html("Nuevo Grupo");
       $("#lbl_btn_actiongrupo").html("Guardar <span class='glyphicon glyphicon-save'></span>");
@@ -34,7 +40,7 @@ $(function(){
     });
 
    $("#fkID_tutor").change(function(event) {
-    console.log("chavito");
+    fecha = $("#fecha_creacion").val();
     idUsuario = $(this).val();
     nomUsuario = $(this).find("option:selected").data('nombre')   
     console.log(nomUsuario); 
@@ -43,9 +49,10 @@ $(function(){
         console.log(document.getElementById("fkID_tutor_form_"+idUsuario));
         console.log("Este usuario ya fue seleccionado.");
       }else{
-        arrUsuarios.length=0;
+        arrTutor.length=0;
+        console.log("este usuario es chavito")
         selectTutor(idUsuario,nomUsuario,'select',$(this).data('accion'));
-        serializa_array(crea_array(arrUsuarios,$("#pkID").val()));
+        serializa_array(crea_array(arrTutor,$("#pkID").val(),fecha));
       }  
     }else{
       selectTutor(idUsuario,nomUsuario,'select',$(this).data('accion'));};
@@ -53,20 +60,20 @@ $(function(){
 
    $("#fkID_docente").change(function(event) {
     console.log("chavito");
-    idUsuario = $(this).val();
+    idDocente = $(this).val();
     nomUsuario = $(this).find("option:selected").data('nombre')   
     console.log(nomUsuario);
     if(verPkIdTutor()){
-      if(document.getElementById("fkID_tutor_form_"+idUsuario)){
-        console.log(document.getElementById("fkID_tutor_form_"+idUsuario))
+      if(document.getElementById("fkID_tutor_form_"+idDocente)){
+        console.log(document.getElementById("fkID_tutor_form_"+idDocente))
         alert("Este usuario ya fue seleccionado.")
       }else{
-        arrUsuarios.length=0;
-        selectTutor(idUsuario,nomUsuario,'select',$(this).data('accion'));
-        serializa_array(crea_array(arrUsuarios,$("#pkID").val()));
+        arrDocente.length=0;
+        selectDocente(idDocente,nomUsuario,'select',$(this).data('accion'));
+        serializa_array(crea_array(arrDocente,$("#pkID").val()));
       }  
     }else{
-      selectDocente(idUsuario,nomUsuario,'select',$(this).data('accion'));}
+      selectDocente(idDocente,nomUsuario,'select',$(this).data('accion'));}
   });
 
    function verPkIdTutor(){
@@ -92,7 +99,6 @@ $(function(){
       }else{
 
         if (type=='select') {
-          console.log("1");
           $("#frm_docente_grupo").append(
             '<div class="form-group" id="frm_group'+id+'">'+                    
                       '<input type="text" style="width: 93%;display: inline;" class="form-control" id="fkID_usuario_form_'+id+'" name="fkID_usuario" value="'+nombre+'" readonly="true"> <button name="btn_actionRmDocente_'+id+'" data-id-docente="'+id+'" data-id-frm-grop="frm_group'+id+'" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>'+                     
@@ -100,7 +106,6 @@ $(function(){
               );
 
         } else {
-          console.log("2");
           $("#frm_docente_grupo").append(
             '<div class="form-group" id="frm_group'+id+'">'+                    
                       '<input type="text" style="width: 90%;display: inline;" class="form-control" id="fkID_usuario_form_'+id+'" name="fkID_usuario" value="'+nombre+'" readonly="true"> <button name="btn_actionRmDocente_'+id+'" data-id-docente="'+id+'" data-id-frm-grop="frm_group'+id+'" data-numReg = "'+numReg+'" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>'+                   
@@ -108,22 +113,21 @@ $(function(){
               );
         }
         $("[name*='btn_actionRmDocente_"+id+"']").click(function(event) {
-          
           console.log('click remover usuario '+$(this).data('id-frm-grop'));
           removeUsuario($(this).data('id-frm-grop'));
           
           //buscar el indice
-          var idUsuario = $(this).attr("data-id-docente");
-          console.log('el elemento es:'+idUsuario);
-          var indexArr = arrUsuarios.indexOf(idUsuario);
+          var idDocente = $(this).attr("data-id-docente");
+          console.log('el elemento es:'+idDocente);
+          var indexArr = arrDocente.indexOf(idDocente);
           console.log("El indice encontrado es:"+indexArr);
           //quitar del array
           if(indexArr >= 0){
-            arrUsuarios.splice(indexArr,1);
-            console.log(arrUsuarios);
+            arrDocente.splice(indexArr,1);
+            console.log(arrDocente);
           }else{
             console.log('salio menor a 0');
-            console.log(arrUsuarios);
+            console.log(arrDocente);
           }
 
           if (type=='load') {
@@ -132,6 +136,8 @@ $(function(){
           }
           
         });
+        arrDocente.push(id);
+        console.log(arrDocente);
       }     
 
     }else{
@@ -169,26 +175,151 @@ $(function(){
           //buscar el indice
           var idUsuario = $(this).attr("data-id-tutor");
           console.log('el elemento es:'+idUsuario);
-          var indexArr = arrUsuarios.indexOf(idUsuario);
+          var indexArr = arrTutor.indexOf(idUsuario);
           console.log("El indice encontrado es:"+indexArr);
           //quitar del array
           if(indexArr >= 0){
-            arrUsuarios.splice(indexArr,1);
-            console.log(arrUsuarios);
+            arrTutor.splice(indexArr,1);
+            console.log(arrTutor);
           }else{
             console.log('salio menor a 0');
-            console.log(arrUsuarios);
+            console.log(arrTutor);
           }
           if (type=='load') {
             deleteUsuarioNumReg(numReg);
           }
         });
+        arrTutor.push(id);
+        console.log(arrTutor);
       }     
 
     }else{
       alert("No se seleccionó ningún usuario.")
     }
   };
+
+  function crea_array(array,id_grupo,fecha){
+      console.log("no te vallas chavito")
+      console.log(array)
+      array.forEach(function(element, index){
+        //statements
+        var obtHE = {"fkID_grupo":id_grupo,"fkID_tutor":element,"fecha_asignacion_tutor":fecha};
+        arrTutoresgrupos.push(obtHE);
+        console.log(obtHE);
+      });
+      return arrTutoresgrupos;
+    }
+
+    function crea_array2(array,id_grupo,fecha){
+      console.log("no te vallas chavito")
+      console.log(array)
+      array.forEach(function(element, index){
+        var obtHE = {"fkID_grupo":id_grupo,"fkID_docente":element,"fecha_asignacion_docente":fecha};
+        arrDocentesgrupos.push(obtHE);
+        console.log(obtHE);
+      });
+      return arrDocentesgrupos;
+    }
+
+    function serializa_array(array){
+      console.log("no te vallas chavito")
+      console.log(array);
+      var cadenaSerializa = "";
+
+      $.each(array, function(index, val) {
+
+        var dataCadena = "";
+
+        $.each(val, function(llave, valor) {
+                   
+        console.log("llave="+llave+" valor="+valor);
+
+        dataCadena = dataCadena+llave+"="+valor+"&";                                
+        //insertaEstudio(cadenaSerializa);
+      });
+
+      dataCadena = dataCadena.substring(0,dataCadena.length - 1);
+
+      console.log(dataCadena);
+      
+      insertatutgrupo(dataCadena)  
+
+      });
+      console.log('Se terminó de insertar los usuarios!')
+      if ($("#fkID_tutor").attr('data-accion')=='load') {
+        alert("Se ha agregado el usuario correctamente.")
+        //location.reload();
+      } else {
+        //location.reload();  
+      }     
+    }
+
+    function serializa_array2(array){
+      console.log("no te vallas chavito")
+      console.log(array);
+      var cadenaSerializa = "";
+
+      $.each(array, function(index, val) {
+
+        var dataCadena = "";
+
+        $.each(val, function(llave, valor) {
+                   
+        console.log("llave="+llave+" valor="+valor);
+
+        dataCadena = dataCadena+llave+"="+valor+"&";                                
+        //insertaEstudio(cadenaSerializa);
+      });
+
+      dataCadena = dataCadena.substring(0,dataCadena.length - 1);
+
+      console.log(dataCadena);
+      
+      insertadocegrupo(dataCadena)  
+
+      });
+      console.log('Se terminó de insertar los usuarios!')
+      if ($("#fkID_docente").attr('data-accion')=='load') {
+        alert("Se ha agregado el usuario correctamente.")
+        //location.reload();
+      } else {
+        //location.reload();  
+      }     
+    }
+
+    function insertatutgrupo(data){    
+    $.ajax({
+            url: "../controller/ajaxController12.php",
+            data: data+"&tipo=inserta&nom_tabla=funcionario_grupo",
+          })
+          .done(function(data) {            
+            //---------------------
+            console.log(data);         
+          })
+          .fail(function(data) {
+            console.log(data);         
+          })
+          .always(function() {
+            console.log("complete");
+          });
+  }
+
+  function insertadocegrupo(data){    
+    $.ajax({
+            url: "../controller/ajaxController12.php",
+            data: data+"&tipo=inserta&nom_tabla=docente_grupo",
+          })
+          .done(function(data) {            
+            //---------------------
+            console.log(data);         
+          })
+          .fail(function(data) {
+            console.log(data);         
+          })
+          .always(function() {
+            console.log("complete");
+          });
+  }
 
   function crear_grupo(){
       if( document.getElementById("fileupload").files.length){
@@ -207,8 +338,12 @@ $(function(){
               contentType: false,
               processData: false,  
               success:function(a){
-                      console.log(a);
-                      location.reload();  
+                      var tipo = JSON.parse(a);
+                      fkID_grupo = tipo[0].last_id;
+                      fecha = $("#fecha_creacion").val();
+                      serializa_array2(crea_array2(arrDocente,fkID_grupo,fecha));
+                      serializa_array(crea_array(arrTutor,fkID_grupo,fecha));
+                      location.reload();   
               }
             })
      }else{
@@ -226,7 +361,11 @@ $(function(){
               contentType: false,
               processData: false,  
               success:function(a){
-                      console.log(a);
+                      var tipo = JSON.parse(a);
+                      fkID_grupo = tipo[0].last_id;
+                      fecha = $("#fecha_creacion").val();
+                      serializa_array(crea_array(arrTutor,fkID_grupo,fecha));
+                      serializa_array2(crea_array2(arrDocente,fkID_grupo,fecha));
                       location.reload();  
               }
             })

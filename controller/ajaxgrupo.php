@@ -48,7 +48,6 @@
             } else {    
                  $mensaje = "El archivo $nombre no se ha almacenado en forma exitosa";
             }
-            echo json_encode($nombre);
             break;
         case 'editar':
             $generico = new Generico_DAO();
