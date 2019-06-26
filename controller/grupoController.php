@@ -53,7 +53,6 @@ class grupoController extends grupoDAO
             // ["nombre"=>"pkID"],
             ["nombre" => "nombre"],
             ["nombre" => "nom_tipo"],
-            ["nombre" => "canti"],
             ["nombre" => "anio"],
             ["nombre" => "nom_institucion"],
             ["nombre" => "nom_grado"],
@@ -75,11 +74,11 @@ class grupoController extends grupoDAO
         ];
 
         $array_opciones = [
-            "modulo" => "grupo", //nombre del modulo definido para jquerycontrollerV2
-            "title"  => "Click Ver Detalles", //etiqueta html title
-            "href"   => "detalles_grupo.php?id_grupo=",
-            "class"  => "detail", //clase que permite que añadir el evento jquery click
-        ];
+                  "modulo"=>"institucion",//nombre del modulo definido para jquerycontrollerV2
+                  "title"=>"Click Ver Detalles",//etiqueta html title
+                  "href"   => "detalles_grupo.php?id_grupo=",
+                  "class"=>"detail"//clase que permite que añadir el evento jquery click
+                ];
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
         $grupo = $this->getGrupos();

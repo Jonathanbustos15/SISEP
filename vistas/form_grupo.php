@@ -52,25 +52,16 @@
                         <?php $grupoInst->getSelectDocente(); ?>   
                     </div>
 
-                    <div class="form-group" hidden="true">
-                        <label for="url_logo" class="control-label">Logo</label>
-                        <input type="text" class="form-control" id="url_logo" name="url_logo" required = "true">
-                    </div>
-
-                    <div class="form-group " hidden>                     
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="fkID_estado" name="fkID_estado" required="true" value="2">
-                        </div>
-                    </div>
-
-                </form>
-
                     <div class="form-group">
                         <label for="url_imagen" class="control-label">Adjuntar Logo</label>  
                         <input id="fileupload" type="file" name="files[]" data-url="../server/php/" multiple>
                     </div>
 
-                    <div id="not_logo" class="alert alert-info"></div>
+                    <div class="form-group">
+                            <input type="text" class="form-control" id="url_logo" name="url_logo" disabled="disabled" >
+                    </div>
+
+                </form>
 
                     <div id='select_tutor'>
                       <label class="control-label">Tutores Asignados</label> 

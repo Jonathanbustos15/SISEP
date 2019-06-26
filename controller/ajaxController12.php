@@ -192,6 +192,26 @@
 
 	 	break;
 		//----------------------------------------------------------------------------------------------------
+		case 'consultargrupo':
+
+            $generico = new GenericoDAO();
+                  
+            $q_carga = "select pkID, fkID_estado as fkID_estadoc, concat_ws(' ', nidentificacion,nombre,apellido) as fkID_cedula,nombre as nombrec,apellido as apellidoc,telefono as telefonoc,email as emailc FROM `hoja_vida` WHERE pkID =" . $_GET["pkID"]; 
+
+            $resultado = $generico->EjecutarConsulta($q_carga);
+            /**/
+            if($resultado){
+
+                $r["estado"] = "ok";
+                $r["mensaje"] = $resultado;
+
+            }else{
+
+                $r["estado"] = "Error";
+                $r["mensaje"] = "No hay registros.";
+            }
+
+        break;
 
 		//----------------------------------------------------------------------------------------------------
 	 	case 'actualizar':

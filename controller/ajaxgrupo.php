@@ -62,7 +62,7 @@
             //carga el archivo en el servidor
             $destino = "../vistas/subidas/" . $nombre;  
             if(move_uploaded_file($_FILES['file']["tmp_name"], $destino)) {        
-                        $q_inserta = "update funcionario SET nombre_funcionario='$nombref',apellido_funcionario='$apellido',fkID_tipo_documento='$fk_tipo',documento_funcionario='$documento',telefono_funcionario='$telefono',direccion_funcionario='$direccion',email_funcionario='$email',url_funcionario='$nombre' where pkID='$id'";
+                        $q_inserta = "update grupo SET nombre='$nombref',fkID_tipo_grupo='$fk_tipo_grupo',fkID_grado='$fk_grado',fkID_institucion='$fk_institucion',fecha_creacion='$fecha',url_logo='$nombre' where pkID='$id'";
                         $r["query"] = $q_inserta;           
                         $resultado = $generico->EjecutaInsertar($q_inserta);
                         /**/
@@ -83,7 +83,7 @@
             break;
             case 'editarsin':
                     $generico = new Generico_DAO();
-                    $q_inserta = "update funcionario SET nombre_funcionario='$nombref',apellido_funcionario='$apellido',fkID_tipo_documento='$fk_tipo',documento_funcionario='$documento',telefono_funcionario='$telefono',direccion_funcionario='$direccion',email_funcionario='$email' where pkID='$id' ";
+                    $q_inserta = "update grupo SET nombre='$nombref',fkID_tipo_grupo='$fk_tipo_grupo',fkID_grado='$fk_grado',fkID_institucion='$fk_institucion',fecha_creacion='$fecha' where pkID='$id' ";
                     $r["query"] = $q_inserta;           
                     $resultado = $generico->EjecutaActualizar($q_inserta);
                     /**/

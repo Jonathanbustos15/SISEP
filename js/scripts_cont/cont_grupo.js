@@ -13,6 +13,7 @@ $(function(){
       $("#btn_actiongrupo").attr("data-action","crear");
       $("#fkID_tutor").val("");
       $("#fkID_docente").val("");
+      $("#fileupload").val("");
       $("#form_grupo")[0].reset();
       $("#frm_tutor_grupo").html("");
       $("#frm_docente_grupo").html("");
@@ -27,6 +28,10 @@ $(function(){
       $("#form_grupo")[0].reset();
       $("#frm_tutor_grupo").html("");
       $("#frm_docente_grupo").html("");
+      id_grupo = $(this).attr('data-id-grupo');
+      carga_grupo(id_grupo);
+      carga_grupo_tutor(id_grupo);
+      carga_grupo_docente(id_grupo);
    });
 
    $("#btn_actiongrupo").click(function() {
@@ -37,6 +42,12 @@ $(function(){
         action = $(this).attr("data-action");
         valida_actio(action);
         console.log("accion a ejecutar: " + action); 
+    });
+
+   $("[name*='elimina_grupo']").click(function(event) {
+        id_funciona = $(this).attr('data-id-grupo');
+        console.log(id_funciona)
+        elimina_grupo(id_funciona);
     });
 
    $("#fkID_tutor").change(function(event) {
@@ -84,7 +95,6 @@ $(function(){
     }else{
       return false;
     }
-
   };
 
   function selectDocente(id,nombre,type,numReg){
@@ -93,11 +103,8 @@ $(function(){
     if(id!=""){
 
       if(document.getElementById("fkID_docente_form_"+id)){
-
         console.log("Este usuario ya fue seleccionado.")
-
       }else{
-
         if (type=='select') {
           $("#frm_docente_grupo").append(
             '<div class="form-group" id="frm_group'+id+'">'+                    
@@ -132,7 +139,7 @@ $(function(){
 
           if (type=='load') {
             // statement
-            deleteUsuarioNumReg(numReg);
+            deleteDocenteNumReg(numReg);
           }
           
         });
@@ -186,7 +193,7 @@ $(function(){
             console.log(arrTutor);
           }
           if (type=='load') {
-            deleteUsuarioNumReg(numReg);
+            deleteTutorNumReg(numReg);
           }
         });
         arrTutor.push(id);
@@ -235,7 +242,6 @@ $(function(){
         console.log("llave="+llave+" valor="+valor);
 
         dataCadena = dataCadena+llave+"="+valor+"&";                                
-        //insertaEstudio(cadenaSerializa);
       });
 
       dataCadena = dataCadena.substring(0,dataCadena.length - 1);
@@ -247,10 +253,7 @@ $(function(){
       });
       console.log('Se terminó de insertar los usuarios!')
       if ($("#fkID_tutor").attr('data-accion')=='load') {
-        alert("Se ha agregado el usuario correctamente.")
-        //location.reload();
-      } else {
-        //location.reload();  
+        console.log("Se ha agregado el usuario correctamente.")
       }     
     }
 
@@ -268,7 +271,6 @@ $(function(){
         console.log("llave="+llave+" valor="+valor);
 
         dataCadena = dataCadena+llave+"="+valor+"&";                                
-        //insertaEstudio(cadenaSerializa);
       });
 
       dataCadena = dataCadena.substring(0,dataCadena.length - 1);
@@ -281,9 +283,6 @@ $(function(){
       console.log('Se terminó de insertar los usuarios!')
       if ($("#fkID_docente").attr('data-accion')=='load') {
         alert("Se ha agregado el usuario correctamente.")
-        //location.reload();
-      } else {
-        //location.reload();  
       }     
     }
 
@@ -293,7 +292,6 @@ $(function(){
             data: data+"&tipo=inserta&nom_tabla=funcionario_grupo",
           })
           .done(function(data) {            
-            //---------------------
             console.log(data);         
           })
           .fail(function(data) {
@@ -304,13 +302,69 @@ $(function(){
           });
   }
 
+  function carga_grupo(id_grupo) {
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "pkID=" + id_grupo + "&tipo=consultar&nom_tabla=grupo", 
+        }).done(function(data) {
+            /**/
+            $.each(data.mensaje[0], function(key, valu) {
+                $("#" + key).val(valu);  
+            });
+
+        }).fail(function() {
+            console.log("error");
+        }).always(function() {
+            console.log("complete");
+        });
+    };
+
+    function carga_grupo_tutor(id_grupo) {
+        var query_proyecto = "select funcionario.pkID, CONCAT_WS(' ',funcionario.nombre_funcionario,funcionario.apellido_funcionario) as nombres,funcionario_grupo.pkID as numReg FROM `funcionario_grupo`"+
+                              "INNER JOIN funcionario on funcionario.pkID = funcionario_grupo.fkID_tutor"+
+                              " WHERE funcionario_grupo.fkID_grupo= "+id_grupo;
+        console.log(query_proyecto);
+    $.ajax({
+          url: '../controller/ajaxController12.php',
+          data: "query="+query_proyecto+"&tipo=consulta_gen", 
+        success: function(data) {
+          console.log(data);
+          var type = 'select';
+            for(var x=0; x < data.mensaje.length; x++) {
+              selectTutor(data.mensaje[x].pkID,data.mensaje[x].nombres,type,data.mensaje[x].numReg);
+              console.log(data.mensaje[x].pkID);
+            }
+          }
+      })
+    };
+
+    function carga_grupo_docente(id_grupo) {
+        console.log(id_grupo);
+        var query_docente = "select docente.pkID, CONCAT_WS(' ',docente.nombre_docente,docente.apellido_docente) as nombres,docente_grupo.pkID as numReg FROM `docente_grupo`"+
+                              "INNER JOIN docente on docente.pkID = docente_grupo.fkID_docente"+
+                              " WHERE docente_grupo.fkID_grupo= "+id_grupo;
+        console.log(query_docente);
+    $.ajax({
+          url: '../controller/ajaxController12.php',
+          data: "query="+query_docente+"&tipo=consulta_gen", 
+        success: function(data) {
+          console.log(data);
+          var type = 'select';
+            for(var x=0; x < data.mensaje.length; x++) {
+              selectDocente(data.mensaje[x].pkID,data.mensaje[x].nombres,type,data.mensaje[x].numReg);
+              console.log(data.mensaje[x].pkID);
+            }
+          }
+        })
+    };
+
+
   function insertadocegrupo(data){    
     $.ajax({
             url: "../controller/ajaxController12.php",
             data: data+"&tipo=inserta&nom_tabla=docente_grupo",
           })
-          .done(function(data) {            
-            //---------------------
+          .done(function(data) {              
             console.log(data);         
           })
           .fail(function(data) {
@@ -372,9 +426,119 @@ $(function(){
      }
     }
 
+    function edita_grupo(){
+        if ($("#url_funcionario").length) {
+          data.append('file', $("#fileupload").get(0).files[0]);
+          data.append('nombre', $("#nombre").val());
+          data.append('fkID_tipo_grupo',  $("#fkID_tipo_grupo option:selected").val());
+          data.append('fkID_grado',  $("#fkID_grado option:selected").val());
+          data.append('fkID_institucion',  $("#fkID_institucion option:selected").val());
+          data.append('fecha_creacion', $("#fecha_creacion").val());
+          data.append('tipo', "editar"); 
+          data.append('pkID', $("#pkID").val());
+           $.ajax({  
+                  type: "POST",
+                  url: "../controller/ajaxgrupo.php",
+                  data: data,
+                  contentType: false,
+                  processData: false,  
+                  success:function(a){
+                          console.log(a);
+                          location.reload();   
+                  }
+                })
+        } else {
+          var data = new FormData();
+          data.append('file', $("#fileupload").get(0).files[0]);
+          data.append('nombre', $("#nombre").val());
+          data.append('fkID_tipo_grupo',  $("#fkID_tipo_grupo option:selected").val());
+          data.append('fkID_grado',  $("#fkID_grado option:selected").val());
+          data.append('fkID_institucion',  $("#fkID_institucion option:selected").val());
+          data.append('fecha_creacion', $("#fecha_creacion").val());
+          data.append('tipo', "editarsin"); 
+          data.append('pkID', $("#pkID").val());
+           $.ajax({  
+                  type: "POST",
+                  url: "../controller/ajaxgrupo.php",
+                  data: data,
+                  contentType: false,
+                  processData: false,  
+                  success:function(a){
+                          console.log(a);
+                          location.reload();
+                  }
+                })
+        }
+    }
+
+    function elimina_grupo(id_grupo) {
+        var confirma = confirm("En realidad quiere eliminar esta Grupo?");
+        console.log(confirma);
+        /**/
+        if (confirma == true) {
+            //si confirma es true ejecuta ajax
+            $.ajax({
+                url: '../controller/ajaxController12.php',
+                data: "pkID=" + id_grupo + "&tipo=eliminarlogico&nom_tabla=grupo",
+            }).done(function(data) {
+                //---------------------
+                console.log(data);
+                location.reload();
+            }).fail(function() {
+                console.log("errorfatal");
+            }).always(function() {
+                console.log("complete");
+            });
+        }
+    };
+
+    function deleteDocenteNumReg(numReg){
+    
+      $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "pkID="+numReg+"&tipo=eliminar&nom_tabla=docente_grupo",
+        })
+        .done(function(data) {            
+            console.log(data);
+            alert(data.mensaje.mensaje);
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+            console.log("complete");
+        });     
+  }
+
+  function deleteTutorNumReg(numReg){
+      $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "pkID="+numReg+"&tipo=eliminar&nom_tabla=funcionario_grupo",
+        })
+        .done(function(data) {            
+            console.log(data);
+            alert(data.mensaje.mensaje);
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+            console.log("complete");
+        });     
+  }
+
   function removeUsuario(id){
     $("#"+id).remove();
   }
+
+  sessionStorage.setItem("id_tab_grupo",null);
+  //---------------------------------------------------------
+
+
+    //click al detalle en cada fila----------------------------
+    $('.table').on( 'click', '.detail', function () {
+        window.location.href = $(this).attr('href');
+    });
 
   function valida_actio(action){
       console.log("en la mitad");
@@ -384,7 +548,4 @@ $(function(){
             edita_grupo();
         };
     };
-
-  
-   
   });

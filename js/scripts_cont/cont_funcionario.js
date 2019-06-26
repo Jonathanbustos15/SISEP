@@ -146,7 +146,8 @@ $(function(){
                     '</div>')
     }
 
-     function edita_funcionario(){
+     function 
+     edita_funcionario(){
         if ($("#url_funcionario").length) {
           //existe
           console.log("exitesss");

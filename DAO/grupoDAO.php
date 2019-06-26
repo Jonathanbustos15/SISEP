@@ -21,38 +21,7 @@ class grupoDAO extends UsuariosDAO
     public function getGrupos()
     {
 
-        $query = "select distinct grupo.*,YEAR(grupo.fecha_creacion) as anio, grado.nombre as nom_grado, sede.nombre as nom_institucion, grupo.pkID as numero, proyecto.pregunta_investigacion, tipo_proyecto.nombre as nom_tipo,(select count(*)
-
-                    FROM usuario_grupo
-
-                    INNER JOIN usuarios ON usuarios.pkID = usuario_grupo.fkID_usuario
-
-                    INNER JOIN rol ON rol.pkID = usuario_grupo.fkID_rol
-
-                    LEFT JOIN grupo ON grupo.pkID = usuario_grupo.fkID_grupo
-
-                    WHERE usuarios.fkID_tipo = 9 AND usuario_grupo.fkID_grupo = numero) as canti
-
-                        FROM grupo
-                        INNER JOIN proyecto ON proyecto.fkID_grupo = grupo.pkID
-
-                        INNER JOIN tipo_proyecto ON tipo_proyecto.pkID =  proyecto.fkID_tipo_proyecto
-
-                        INNER JOIN usuario_grupo ON usuario_grupo.fkID_grupo =  grupo.pkID
-
-                        INNER JOIN grupos_proyectoM ON grupos_proyectoM.fkID_grupo = grupo.pkID
-
-                        INNER JOIN sede ON sede.pkID = grupo.fkID_institucion
-
-                        INNER JOIN grado ON grado.pkID = (CASE
-
-                            WHEN grupo.fkID_grado = 0 THEN 6
-
-
-
-                            WHEN grupo.fkID_grado != 0 THEN grupo.fkID_grado
-
-                        END)";
+        $query = "select distinct grupo.*,YEAR(grupo.fecha_creacion) as anio, grado.nombre as nom_grado, institucion.nombre_institucion as nom_institucion, grupo.pkID as numero, tipo_proyecto.nombre as nom_tipo FROM grupo INNER JOIN tipo_proyecto ON tipo_proyecto.pkID = grupo.fkID_tipo_grupo INNER JOIN institucion ON institucion.pkID = grupo.fkID_institucion INNER JOIN grado ON grado.pkID = (CASE WHEN grupo.fkID_grado = 0 THEN 6 WHEN grupo.fkID_grado != 0 THEN grupo.fkID_grado END) where grupo.estadoV = 1";
 
         return $this->EjecutarConsulta($query);
     }
