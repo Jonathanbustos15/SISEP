@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-06-2019 a las 18:42:18
+-- Tiempo de generación: 27-06-2019 a las 16:20:55
 -- Versión del servidor: 10.1.38-MariaDB
 -- Versión de PHP: 5.6.40
 
@@ -29,18 +29,23 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `docente_grupo` (
-  `pkID` int(11) NOT NULL,
-  `fkID_grupo` int(11) NOT NULL,
-  `fkID_docente` int(11) NOT NULL,
-  `fecha_asignación_docente` date NOT NULL
+  `pkID` int(11) NOT NULL COMMENT 'llave primaria de la tabla',
+  `fkID_grupo` int(11) NOT NULL COMMENT 'llave foránea del grupo ',
+  `fkID_docente` int(11) NOT NULL COMMENT 'llave foránea del docente',
+  `fecha_asignacion_docente` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'fecha de asignación del docente al grupo',
+  `estadoV` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `docente_grupo`
 --
 
-INSERT INTO `docente_grupo` (`pkID`, `fkID_grupo`, `fkID_docente`, `fecha_asignación_docente`) VALUES
-(1, 1, 5, '2019-06-25');
+INSERT INTO `docente_grupo` (`pkID`, `fkID_grupo`, `fkID_docente`, `fecha_asignacion_docente`, `estadoV`) VALUES
+(1, 1, 5, '2019-06-25 05:00:00', 1),
+(2, 131, 2, '2017-04-25 05:00:00', 1),
+(3, 132, 3, '2019-06-18 05:00:00', 1),
+(5, 133, 3, '2017-04-25 05:00:00', 1),
+(6, 133, 2, '2017-04-25 05:00:00', 2);
 
 --
 -- Índices para tablas volcadas
@@ -60,7 +65,7 @@ ALTER TABLE `docente_grupo`
 -- AUTO_INCREMENT de la tabla `docente_grupo`
 --
 ALTER TABLE `docente_grupo`
-  MODIFY `pkID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `pkID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'llave primaria de la tabla', AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

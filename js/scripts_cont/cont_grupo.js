@@ -136,11 +136,9 @@ $(function(){
             console.log('salio menor a 0');
             console.log(arrDocente);
           }
-
-          if (type=='load') {
             // statement
             deleteDocenteNumReg(numReg);
-          }
+  
           
         });
         arrDocente.push(id);
@@ -192,9 +190,8 @@ $(function(){
             console.log('salio menor a 0');
             console.log(arrTutor);
           }
-          if (type=='load') {
             deleteTutorNumReg(numReg);
-          }
+          
         });
         arrTutor.push(id);
         console.log(arrTutor);
@@ -210,7 +207,7 @@ $(function(){
       console.log(array)
       array.forEach(function(element, index){
         //statements
-        var obtHE = {"fkID_grupo":id_grupo,"fkID_tutor":element,"fecha_asignacion_tutor":fecha};
+        var obtHE = {"fkID_grupo":id_grupo,"fkID_tutor":element};
         arrTutoresgrupos.push(obtHE);
         console.log(obtHE);
       });
@@ -221,7 +218,7 @@ $(function(){
       console.log("no te vallas chavito")
       console.log(array)
       array.forEach(function(element, index){
-        var obtHE = {"fkID_grupo":id_grupo,"fkID_docente":element,"fecha_asignacion_docente":fecha};
+        var obtHE = {"fkID_grupo":id_grupo,"fkID_docente":element};
         arrDocentesgrupos.push(obtHE);
         console.log(obtHE);
       });
@@ -322,7 +319,7 @@ $(function(){
     function carga_grupo_tutor(id_grupo) {
         var query_proyecto = "select funcionario.pkID, CONCAT_WS(' ',funcionario.nombre_funcionario,funcionario.apellido_funcionario) as nombres,funcionario_grupo.pkID as numReg FROM `funcionario_grupo`"+
                               "INNER JOIN funcionario on funcionario.pkID = funcionario_grupo.fkID_tutor"+
-                              " WHERE funcionario_grupo.fkID_grupo= "+id_grupo;
+                              " WHERE funcionario_grupo.estadoV=1 and funcionario_grupo.fkID_grupo= "+id_grupo;
         console.log(query_proyecto);
     $.ajax({
           url: '../controller/ajaxController12.php',
@@ -342,7 +339,7 @@ $(function(){
         console.log(id_grupo);
         var query_docente = "select docente.pkID, CONCAT_WS(' ',docente.nombre_docente,docente.apellido_docente) as nombres,docente_grupo.pkID as numReg FROM `docente_grupo`"+
                               "INNER JOIN docente on docente.pkID = docente_grupo.fkID_docente"+
-                              " WHERE docente_grupo.fkID_grupo= "+id_grupo;
+                              " WHERE docente_grupo.estadoV=1 AND docente_grupo.fkID_grupo= "+id_grupo;
         console.log(query_docente);
     $.ajax({
           url: '../controller/ajaxController12.php',
@@ -496,7 +493,7 @@ $(function(){
     
       $.ajax({
             url: '../controller/ajaxController12.php',
-            data: "pkID="+numReg+"&tipo=eliminar&nom_tabla=docente_grupo",
+            data: "pkID="+numReg+"&tipo=eliminarlogico&nom_tabla=docente_grupo",
         })
         .done(function(data) {            
             console.log(data);
@@ -513,7 +510,7 @@ $(function(){
   function deleteTutorNumReg(numReg){
       $.ajax({
             url: '../controller/ajaxController12.php',
-            data: "pkID="+numReg+"&tipo=eliminar&nom_tabla=funcionario_grupo",
+            data: "pkID="+numReg+"&tipo=eliminarlogico&nom_tabla=funcionario_grupo",
         })
         .done(function(data) {            
             console.log(data);
