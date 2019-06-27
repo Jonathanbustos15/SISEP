@@ -81,7 +81,7 @@ $(function(){
       }else{
         arrDocente.length=0;
         selectDocente(idDocente,nomUsuario,'select',$(this).data('accion'));
-        serializa_array(crea_array(arrDocente,$("#pkID").val()));
+        serializa_array2(crea_array2(arrDocente,$("#pkID").val()));
       }  
     }else{
       selectDocente(idDocente,nomUsuario,'select',$(this).data('accion'));}
@@ -328,9 +328,14 @@ $(function(){
           console.log(data);
           var type = 'select';
             for(var x=0; x < data.mensaje.length; x++) {
+              console.log("mireme aqui")
+              if (data.mensaje[x].pkID === undefined) {
+              }else{
               selectTutor(data.mensaje[x].pkID,data.mensaje[x].nombres,type,data.mensaje[x].numReg);
               console.log(data.mensaje[x].pkID);
             }
+            }
+          
           }
       })
     };
@@ -339,7 +344,7 @@ $(function(){
         console.log(id_grupo);
         var query_docente = "select docente.pkID, CONCAT_WS(' ',docente.nombre_docente,docente.apellido_docente) as nombres,docente_grupo.pkID as numReg FROM `docente_grupo`"+
                               "INNER JOIN docente on docente.pkID = docente_grupo.fkID_docente"+
-                              " WHERE docente_grupo.estadoV=1 AND docente_grupo.fkID_grupo= "+id_grupo;
+                              " WHERE docente_grupo.estadoV=1 and docente_grupo.fkID_grupo= "+id_grupo;
         console.log(query_docente);
     $.ajax({
           url: '../controller/ajaxController12.php',
@@ -348,8 +353,11 @@ $(function(){
           console.log(data);
           var type = 'select';
             for(var x=0; x < data.mensaje.length; x++) {
+              if (data.mensaje[x].pkID === undefined){
+            }else{
               selectDocente(data.mensaje[x].pkID,data.mensaje[x].nombres,type,data.mensaje[x].numReg);
               console.log(data.mensaje[x].pkID);
+            }
             }
           }
         })

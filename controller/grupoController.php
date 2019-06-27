@@ -212,6 +212,19 @@ class grupoController extends grupoDAO
             echo "</select>";
     }
 
+    public function getSelectAnioFiltro()
+    {
+
+        $tipo = $this->getAnio();
+            
+          echo '<select name="anio_filtrog" id="anio_filtrog" class="form-control" required = "true">
+                        <option value="" selected>Elija Un año</option>';
+                for($a=0;$a<sizeof($tipo);$a++){
+                    echo "<option value='".$tipo[$a]["pkID"]."'>".$tipo[$a]["nombre"]."</option>";
+                }
+            echo "</select>";
+    }
+
     public function getSelectTipoGrupos()
     {
 

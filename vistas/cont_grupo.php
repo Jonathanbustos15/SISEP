@@ -47,13 +47,24 @@ include "form_novedades.php";
           <h1 class="page-header titleprincipal"><img src="../img/botones/grupoonly.png">Grupos</h1>
       </div>
       <!-- /.col-lg-12 -->
-      <div class="col-lg-12">
+      <div class="row justify-content-end ">
+      <div class="col-lg-7">
           <ol class="breadcrumb migadepan">
             <li><a class="migadepan" <?php echo 'href="detalles_proyectoM.php?id_proyectoM=' . $grupoInst->getcpm() . '&nom_proyectoM=' . $grupoInst->getCookieNombreProyectoM() . '"'; ?>>Proyecto Marco <?php echo $grupoInst->getCookieNombreProyectoM(); ?></a></li>
             <li class="active migadepan">Grupos</li>
           </ol>
       </div>
-
+        <div class="col-lg-3 ">  
+                      <label for="empresa_filtrop" class="control-label "><h4>Año de Ejecución</h4></label>      
+                      <?php
+                             $grupoInst->getSelectAnioFiltro();
+                          ?> <br>  
+            </div>
+        <div class="col-lg-2 "> 
+                     <br><br>           
+                     <button class="btn btn-success " id="btn_filtrar"><span class="glyphicon glyphicon-filter"></span> Filtrar</button>
+            </div>
+      </div>
   </div>
   <!-- /.row -->
 
@@ -68,9 +79,11 @@ include "form_novedades.php";
           <div class="titulohead">
 
             <div class="row">
+
               <div class="col-md-6">
                   <div class="titleprincipal"><h4>Registro de Grupos</h4></div>
               </div>
+
               <div class="col-md-6 text-right">
                  <button id="btn_nuevogrupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-target="#frm_modal_grupo" <?php if ($crea != 1) {echo 'disabled="disabled"';}?> >
                  <span class="glyphicon glyphicon-plus"></span>Nuevo Grupo</button>
