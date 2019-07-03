@@ -74,11 +74,11 @@ class grupoController extends grupoDAO
         ];
 
         $array_opciones = [
-                  "modulo"=>"institucion",//nombre del modulo definido para jquerycontrollerV2
-                  "title"=>"Click Ver Detalles",//etiqueta html title
-                  "href"   => "detalles_grupo.php?id_grupo=",
-                  "class"=>"detail"//clase que permite que añadir el evento jquery click
-                ];
+            "modulo" => "grupo", //nombre del modulo definido para jquerycontrollerV2
+            "title"  => "Click Ver Detalles", //etiqueta html title
+            "href"   => "detalles_grupo.php?id_grupo=",
+            "class"  => "detail", //clase que permite que añadir el evento jquery click
+        ];
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
         $grupo = $this->getGrupos();
@@ -127,7 +127,6 @@ class grupoController extends grupoDAO
             // ["nombre"=>"pkID"],
             ["nombre" => "nombre"],
             ["nombre" => "nom_tipo"],
-            ["nombre" => "lema"],
             ["nombre" => "fecha_creacion"],
             ["nombre" => "nom_institucion"],
             ["nombre" => "nom_grado"],
@@ -192,7 +191,7 @@ class grupoController extends grupoDAO
 
         echo '<select id="fkID_grado" name="fkID_grado" class="form-control" required="true">
                   <option value="" selected>Elija el Grado</option>'
-                  ;
+        ;
         for ($i = 0; $i < sizeof($m_u_Select); $i++) {
             echo '<option value="' . $m_u_Select[$i]["pkID"] . '">' . $m_u_Select[$i]["nombre"] . '</option>';
         };
@@ -203,65 +202,65 @@ class grupoController extends grupoDAO
     {
 
         $tipo = $this->getInstitu();
-            
-          echo '<select name="fkID_institucion" id="fkID_institucion" class="form-control" required = "true">
+
+        echo '<select name="fkID_institucion" id="fkID_institucion" class="form-control" required = "true">
                         <option value="" selected>Elija la institucion</option>';
-                for($a=0;$a<sizeof($tipo);$a++){
-                    echo "<option value='".$tipo[$a]["pkID"]."'>".$tipo[$a]["nombre_institucion"]."</option>";
-                }
-            echo "</select>";
+        for ($a = 0; $a < sizeof($tipo); $a++) {
+            echo "<option value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombre_institucion"] . "</option>";
+        }
+        echo "</select>";
     }
 
     public function getSelectAnioFiltro()
     {
 
         $tipo = $this->getAnio();
-            
-          echo '<select name="anio_filtrog" id="anio_filtrog" class="form-control" required = "true">
+
+        echo '<select name="anio_filtrog" id="anio_filtrog" class="form-control" required = "true">
                         <option value="" selected>Elija Un año</option>';
-                for($a=0;$a<sizeof($tipo);$a++){
-                    echo "<option value='".$tipo[$a]["pkID"]."'>".$tipo[$a]["nombre"]."</option>";
-                }
-            echo "</select>";
+        for ($a = 0; $a < sizeof($tipo); $a++) {
+            echo "<option value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombre"] . "</option>";
+        }
+        echo "</select>";
     }
 
     public function getSelectTipoGrupos()
     {
 
         $tipo = $this->getTipoGrupo();
-            
-          echo '<select name="fkID_tipo_grupo" id="fkID_tipo_grupo" class="form-control" required = "true">
+
+        echo '<select name="fkID_tipo_grupo" id="fkID_tipo_grupo" class="form-control" required = "true">
                         <option value="" selected>Elija el Tipo de Grupo</option>';
-                for($a=0;$a<sizeof($tipo);$a++){
-                    echo "<option value='".$tipo[$a]["pkID"]."'>".$tipo[$a]["nombre"]."</option>";
-                }
-            echo "</select>";
+        for ($a = 0; $a < sizeof($tipo); $a++) {
+            echo "<option value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombre"] . "</option>";
+        }
+        echo "</select>";
     }
 
     public function getSelectTutor()
     {
 
         $tipo = $this->getTutor();
-            
-          echo '<select name="fkID_tutor" id="fkID_tutor" class="form-control" required = "true">
+
+        echo '<select name="fkID_tutor" id="fkID_tutor" class="form-control" required = "true">
                         <option value="" selected>Elija el Tutor del Grupo</option>';
-                for($a=0;$a<sizeof($tipo);$a++){
-                    echo "<option id='fkID_tutor_form_' data-nombre='".$tipo[$a]["nombres"]."' value='".$tipo[$a]["pkID"]."'>".$tipo[$a]["nombres"]."</option>";
-                }
-            echo "</select>";
+        for ($a = 0; $a < sizeof($tipo); $a++) {
+            echo "<option id='fkID_tutor_form_' data-nombre='" . $tipo[$a]["nombres"] . "' value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombres"] . "</option>";
+        }
+        echo "</select>";
     }
 
     public function getSelectDocente()
     {
 
         $tipo = $this->getDocente();
-            
-          echo '<select name="fkID_docente" id="fkID_docente" class="form-control" required = "true">
+
+        echo '<select name="fkID_docente" id="fkID_docente" class="form-control" required = "true">
                         <option value="" selected>Elija el Docente del Grupo</option>';
-                for($a=0;$a<sizeof($tipo);$a++){
-                    echo "<option id='fkID_docente_form_' data-nombre='".$tipo[$a]["nombres"]."' value='".$tipo[$a]["pkID"]."'>".$tipo[$a]["nombres"]."</option>";
-                }
-            echo "</select>";
+        for ($a = 0; $a < sizeof($tipo); $a++) {
+            echo "<option id='fkID_docente_form_' data-nombre='" . $tipo[$a]["nombres"] . "' value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombres"] . "</option>";
+        }
+        echo "</select>";
     }
 
     public function getSelectRoles($pkID_tipo)
@@ -313,7 +312,7 @@ class grupoController extends grupoDAO
         echo '<div class="col-sm-6">
 
                 <div class="text-center">
-                  <img src="../server/php/files/' . $this->gruposId[0]["url_logo"] . '" alt="..." height="250" width="250" class="img-thumbnail">
+                  <img src="../vistas/logos/' . $this->gruposId[0]["url_logo"] . '" alt="..." height="250" width="250" class="img-thumbnail">
                 </div>
 
               </div>
@@ -321,14 +320,86 @@ class grupoController extends grupoDAO
             <div class="col-sm-6">
 
               <strong>Nombre: </strong> ' . $this->gruposId[0]["nombre"] . ' <br> <br>
-              <strong>Descripción: </strong> ' . $this->gruposId[0]["descripcion"] . ' <br> <br>
-              <strong>Institución: </strong> ' . $this->gruposId[0]["nom_institucion"] . ' <br> <br>
-              <strong>Grado: </strong> ' . $this->gruposId[0]["nom_grado"] . ' <br> <br>
-              <strong>Lema: </strong> ' . $this->gruposId[0]["lema"] . ' <br> <br>
+              <strong>Institución: </strong> ' . $this->gruposId[0]["nombre_institucion"] . ' <br> <br>
+              <strong>Grado: </strong> ' . $this->gruposId[0]["nombre_grado"] . ' <br> <br>
               <strong>Fecha de creación: </strong> ' . $this->gruposId[0]["fecha_creacion"] . ' <br> <br>
+              <strong>Docente Asignado: </strong> ' . $this->gruposId[0]["nombres_docente"] . ' <br> <br>
+              <strong>Tutor Asignado: </strong> ' . $this->gruposId[0]["nombres_funcionario"] . ' <br> <br>
               ';
 
         echo '</div>';
+
+    }
+
+    public function getDataProyectoGen($pkID)
+    {
+
+        $this->grupoId = $this->getAlbumId($pkID);
+
+        //print_r($this->gruposId);
+        if ($this->grupoId[0]["linea_investigacion"]=="") {
+            echo'<div class="col-md-12 text-right">
+                             <button id="btn_crearproyectogrupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="" data-target="#frm_modal_proyecto_grupo" ><span class="glyphicon glyphicon-plus"></span> Crear Proyecto</button>
+                          </div>';
+            
+        } else {
+        echo '<div class="panel panel-default proc-pan-def3">
+
+                    <div class="titulohead">
+
+                        <div class="row">
+                          <div class="col-md-6">
+                              <div class="titleprincipal"><h4>Proyecto de Grupo </h4></div>
+                          </div>
+                          <div class="col-md-6 text-right">
+                             <button id="btn_asignarestudiante" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="" data-target="#frm_modal_asignacion_estudiante" ><span class="glyphicon glyphicon-pencil"></span> Editar Proyecto</button>
+                             <button id="btn_asignarestudiante" type="button" class="btn btn-danger" data-toggle="modal"  data-grupo="" data-target="#frm_modal_asignacion_estudiante" ><span class="glyphicon glyphicon-remove"></span> Eliminar proyecto</button>
+                          </div>
+                        </div>
+
+                    </div>
+                 </div>   
+
+
+        <div class="col-sm-12 panel panel-primary">
+                <label class="align-center">Datos Generales</label><br> <br>
+
+        <div class="col-sm-12 panel panel-info">
+                <label class="align-center">Linea de Investigación: </label><br> <br>
+              <strong></strong>' .$this->grupoId[0]["linea_investigacion"].' <br> <br>
+              </div>
+        <div class="col-sm-12 panel panel-info">
+                <label class="align-center">Pregunta de Investigación:</label><br> <br>
+              <strong> </strong>' .$this->grupoId[0]["pregunta_investigacion"].'<br> <br>
+              </div>
+        <div class="col-sm-12 panel panel-info">
+              <label class="align-center">Objetivo General:</label><br> <br>
+              <strong></strong>'.$this->grupoId[0]["objetivo_general"].' <br> <br>
+              </div>
+              </div>
+
+              <div class="col-sm-5 panel panel-primary">
+                <label >Documento Técnico</label><br> <br>
+                <form action="" class="dropzone">
+                  <div class="fallback">
+                    <input id="file_documento" name="file_documento" class="file-loading" type="file" multiple />
+                  </div>
+                </form><br>
+              </div>
+              <div class="col-sm-2">
+                
+              </div>
+
+            <div class="col-sm-5 panel panel-primary">
+                <label class="align-center">Bitácora</label><br> <br>
+                <form action="" class="dropzone">
+                  <div class="fallback">
+                    <input name="file" type="file" multiple />
+                  </div>
+                </form><br>
+            ';
+        echo '</div>';
+    }
 
     }
 
@@ -435,4 +506,144 @@ class grupoController extends grupoDAO
 
     }
 
+    public function getTablaEstudiantesGrupo($pkID_grupo)
+    {
+
+        $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo_estudiantes, $_COOKIE[$this->NameCookieApp . "_IDtipo"]);
+
+        //$arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo,$_COOKIE[$this->NameCookieApp."_IDtipo"]);
+        $edita    = $arrPermisos[0]["editar"];
+        $elimina  = $arrPermisos[0]["eliminar"];
+        $consulta = $arrPermisos[0]["consultar"];
+
+        //la configuracion de los botones de opciones
+        $grupo_btn = [
+
+            [
+                "tipo"    => "editar",
+                "nombre"  => "estudiante",
+                "permiso" => $edita,
+            ],
+            [
+                "tipo"    => "eliminar",
+                "nombre"  => "estudiante",
+                "permiso" => $elimina,
+            ],
+
+        ];
+        //---------------------------------------------------------------------------------
+
+        //Define las variables de la tabla a renderizar
+
+        //Los campos que se van a ver
+        $grupo_campos = [
+            ["nombre" => "nombre"],
+            ["nombre" => "apellido"],
+            ["nombre" => "documento_estudiante"],
+            ["nombre" => "nombre_grado"],
+        ];
+
+        //---------------------------------------------------------------------------------
+        //carga el array desde el DAO
+        $grupo = $this->getEstudiantesGrupo($pkID_grupo);
+        //print_r($grupo);
+
+        //Instancia el render
+        $this->table_inst = new RenderTable($grupo, $grupo_campos, $grupo_btn, []);
+        //---------------------------------------------------------------------------------
+
+        //valida si hay usuarios y permiso de consulta
+        if (($grupo) && ($consulta == 1)) {
+
+            //ejecuta el render de la tabla
+            $this->table_inst->render();
+
+        } elseif (($grupo) && ($consulta == 0)) {
+
+            $this->table_inst->render_blank();
+
+            echo "<h3>En este momento no tiene permiso de consulta.</h3>";
+
+        } else {
+
+            $this->table_inst->render_blank();
+
+            echo "<h3>En este momento no hay registros.</h3>";
+        }; /**/
+        //---------------------------------------------------------------------------------
+    }
+
+    public function getTablaAlbumGrupo($pkID_grupo)
+    {
+
+        $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo_estudiantes, $_COOKIE[$this->NameCookieApp . "_IDtipo"]);
+
+        //$arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo,$_COOKIE[$this->NameCookieApp."_IDtipo"]);
+        $edita    = $arrPermisos[0]["editar"];
+        $elimina  = $arrPermisos[0]["eliminar"];
+        $consulta = $arrPermisos[0]["consultar"];
+
+        //la configuracion de los botones de opciones
+        $grupo_btn = [
+
+            [
+                "tipo"    => "editar",
+                "nombre"  => "album_grupo",
+                "permiso" => $edita,
+            ],
+            [
+                "tipo"    => "eliminar",
+                "nombre"  => "album_grupo",
+                "permiso" => $elimina,
+            ],
+
+        ];
+        //---------------------------------------------------------------------------------
+
+        //Define las variables de la tabla a renderizar
+
+        //Los campos que se van a ver
+        $grupo_campos = [
+            ["nombre" => "nombre_album"],
+            ["nombre" => "fecha_creacion_album"],
+            ["nombre" => "observacion_album"],
+        ];
+
+        $array_opciones = [
+            "modulo" => "grupo", //nombre del modulo definido para jquerycontrollerV2
+            "title"  => "Click Ver Detalles", //etiqueta html title
+            "href"   => "../gallery/admin/bannerlist.php?id_grupo=",
+            "class"  => "detail", //clase que permite que añadir el evento jquery click
+        ];
+
+        //---------------------------------------------------------------------------------
+        //carga el array desde el DAO
+        $grupo = $this->getAlbumGrupo($pkID_grupo);
+        //print_r($grupo);
+
+        //Instancia el render
+        $this->table_inst = new RenderTable($grupo, $grupo_campos, $grupo_btn,$array_opciones);
+        //---------------------------------------------------------------------------------
+
+        //valida si hay usuarios y permiso de consulta
+        if (($grupo) && ($consulta == 1)) {
+
+            //ejecuta el render de la tabla
+            $this->table_inst->render();
+
+        } elseif (($grupo) && ($consulta == 0)) {
+
+            $this->table_inst->render_blank();
+
+            echo "<h3>En este momento no tiene permiso de consulta.</h3>";
+
+        } else {
+
+            $this->table_inst->render_blank();
+
+            echo "<h3>En este momento no hay registros.</h3>";
+        }; /**/
+        //---------------------------------------------------------------------------------
+
+    }
 }

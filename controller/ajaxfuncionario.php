@@ -111,24 +111,8 @@
                       $r["estado"] = "Error";
                       $r["mensaje"] = "No se inserto.";
                         }
+                
                 break;
-                case 'crearsin':
-                    $generico = new Generico_DAO();
-                    $q_inserta = "insert into funcionario(nombre_funcionario, apellido_funcionario, fkID_tipo_documento, documento_funcionario, telefono_funcionario, direccion_funcionario, email_funcionario) VALUES ('$nombref', '$apellido', '$fk_tipo', '$documento', '$telefono', '$direccion', '$email')";
-                        $r["query"] = $q_inserta;           
-
-                        $resultado = $generico->EjecutaInsertar($q_inserta);
-                        /**/
-                        if($resultado){
-                            
-                            $r[] = $resultado;          
-
-                        }else{
-
-                            $r["estado"] = "Error";
-                            $r["mensaje"] = "No se inserto.";
-                        }
-                    break;
         default:
             # code...
             break;

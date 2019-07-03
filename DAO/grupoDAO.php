@@ -111,21 +111,22 @@ class grupoDAO extends UsuariosDAO
     public function getGruposId($pkID)
     {
 
-        $query = "select grupo.*, grado.nombre as nom_grado, sede.nombre as nom_institucion
+        $query = "select grupo.*,nombre_institucion,grado.nombre as nombre_grado,concat_ws(' ', nombre_docente, apellido_docente)as nombres_docente, concat_ws(' ', nombre_funcionario, apellido_funcionario) as nombres_funcionario from grupo
+INNER JOIN grado on grado.pkID= grupo.fkID_grado
+INNER JOIN institucion on institucion.pkID= grupo.fkID_institucion
+INNER JOIN docente_grupo on grupo.pkID = docente_grupo.fkID_grupo
+INNER JOIN docente on docente.pkID = docente_grupo.fkID_docente
+INNER JOIN funcionario_grupo on grupo.pkID = funcionario_grupo.fkID_grupo
+INNER JOIN funcionario on funcionario.pkID = funcionario_grupo.fkID_tutor
+where grupo.estadoV = 1 and grupo.pkID=" . $pkID;
 
-                        FROM `grupo`
+        return $this->EjecutarConsulta($query);
+    }
 
-                        INNER JOIN grado ON grado.pkID = CASE
+    public function getAlbumId($pkID)
+    {
 
-                            WHEN grupo.fkID_grado = 0 THEN 6
-
-                            WHEN grupo.fkID_grado != 0 THEN grupo.fkID_grado
-
-                        END
-
-                        INNER JOIN sede ON sede.pkID = grupo.fkID_institucion
-
-                        WHERE grupo.pkID = " . $pkID;
+        $query = "select * FROM `proyecto_grupo` WHERE estadoV=1 and fkID_grupo=". $pkID;
 
         return $this->EjecutarConsulta($query);
     }
@@ -241,6 +242,36 @@ class grupoDAO extends UsuariosDAO
                     INNER JOIN usuario_grado ON usuario_grado.fkID_usuario = usuarios.pkID
 
                     WHERE usuarios.fkID_tipo = " . $fkID_tipo_usuario . " AND usuario_grado.fkID_grado = " . $pkID_grado . " AND usuario_grupo.fkID_grupo = " . $pkID_grupo;
+
+        return $this->EjecutarConsulta($query);
+    }
+
+    public function getProyectosMarcoGrupo($fkID_grupo)
+    {
+
+        $query = "SELECT *,proyecto_marco.nombre AS nombre_proyecto FROM proyecto_marco
+                INNER JOIN grupo ON grupo.fkID_proyecto_marco = proyecto_marco.pkID
+                WHERE grupo.pkID = " . $fkID_grupo;
+
+        return $this->EjecutarConsulta($query);
+    }
+
+    public function getEstudiantesGrupo($pkID_grupo)
+    {
+
+        $query = "SELECT *,CONCAT(nombre_estudiante1,' ',nombre_estudiante2) AS nombre,CONCAT(apellido_estudiante1,' ',apellido_estudiante2) AS apellido,grado.nombre AS nombre_grado FROM estudiante_grupo
+                INNER JOIN estudiante ON estudiante.pkID = estudiante_grupo.fkID_estudiante
+                INNER JOIN grupo ON grupo.pkID = estudiante_grupo.fkID_grupo
+                INNER JOIN grado ON grado.pkID = estudiante_grupo.fkID_grado
+                WHERE grupo.pkID = " . $pkID_grupo;
+
+        return $this->EjecutarConsulta($query);
+    }
+
+    public function getAlbumGrupo($pkID_grupo)
+    {
+
+        $query = "select * FROM `grupo_album` WHERE estadoV=1 and fkID_grupo= ". $pkID_grupo;
 
         return $this->EjecutarConsulta($query);
     }

@@ -1,64 +1,79 @@
 <?php
 /**/
-	include_once 'docentesDAO.php';
-	include_once 'usuariosDAO.php';
-		
-	class estudiantesDAO extends docentesDAO {
-		
-		//use GenericoDAO;
-		
-		//public $q_general;
-		
-		
-		//Funciones------------------------------------------
-		//public function getcpm(){
+include_once 'docentesDAO.php';
 
-            //return $this->getCookieProyectoM();
-    	//}
+class estudiantesDAO extends docentesDAO
+{
 
+    //use GenericoDAO;
 
-		public function getEstudiantes(){        
-       
-	      $query = "select estudiante.pkID, concat_ws(' ',nombre_estudiante1,nombre_estudiante2) as nombres,concat_ws(' ',apellido_estudiante1,apellido_estudiante2) as apellidos, documento_estudiante, grado.nombre as grado_estudiante FROM `estudiante`
+    //public $q_general;
+
+    //Funciones------------------------------------------
+    //public function getcpm(){
+
+    //return $this->getCookieProyectoM();
+    //}
+
+    public function getEstudiantes()
+    {
+
+        $query = "select grado.pkID AS id_grado,estudiante.pkID, concat_ws(' ',nombre_estudiante1,apellido_estudiante1) as nombres, documento_estudiante, grado.nombre as grado_estudiante FROM `estudiante`
 INNER JOIN grado on grado.pkID= estudiante.fkID_grado
 WHERE estudiante.estadoV=1";
 
-	      return $this->EjecutarConsulta($query);
-	    }
+        return $this->EjecutarConsulta($query);
+    }
 
-	    public function getRolEstudiante(){        
-       
-	      $query = "select usuarios.pkID as pkID_estudiante, usuarios.fkID_rol as pkID_rol, rol.nombre as rol from usuarios
+    public function getRolEstudiante()
+    {
 
-					INNER JOIN rol ON rol.pkID = usuarios.fkID_rol
+        $query = "select usuarios.pkID as pkID_estudiante, usuarios.fkID_rol as pkID_rol, rol.nombre as rol from usuarios
 
-					LEFT JOIN usuario_grupo ON usuario_grupo.fkID_usuario = usuarios.pkID
+                    INNER JOIN rol ON rol.pkID = usuarios.fkID_rol
 
-					WHERE usuarios.fkID_tipo = 9 ";
+                    LEFT JOIN usuario_grupo ON usuario_grupo.fkID_usuario = usuarios.pkID
 
-	      return $this->EjecutarConsulta($query);
-	    }
-		
-	    public function getRoles($pkID_tipo){        
-       
-	      $query = "select * FROM `rol` WHERE fkID_tipo_usuario = ".$pkID_tipo." ORDER BY nombre ASC";
+                    WHERE usuarios.fkID_tipo = 9 ";
 
-	      return $this->EjecutarConsulta($query);
-	    }
+        return $this->EjecutarConsulta($query);
+    }
 
-	    public function getDepartamentos(){        
-       
-      		$query = "select * FROM `departamento`";
+    public function getRoles($pkID_tipo)
+    {
 
-      		return $this->EjecutarConsulta($query);
-    	}
+        $query = "select * FROM `rol` WHERE fkID_tipo_usuario = " . $pkID_tipo . " ORDER BY nombre ASC";
 
-    	public function getMunicipios(){        
-       
-      		$query = "select * FROM `municipio`";
+        return $this->EjecutarConsulta($query);
+    }
 
-      		return $this->EjecutarConsulta($query);
-    	}
-		
-	}
-?>
+    public function getDepartamentos()
+    {
+
+        $query = "select * FROM `departamento`";
+
+        return $this->EjecutarConsulta($query);
+    }
+
+    public function getMunicipios()
+    {
+
+        $query = "select * FROM `municipio`";
+
+        return $this->EjecutarConsulta($query);
+    }
+
+    public function getProyectosMarcoId($pkID)
+    {
+
+        $query = "select proyecto_marco.*, departamento.nombre as nom_departamento
+
+                      FROM proyecto_marco
+
+                      INNER JOIN departamento ON departamento.pkID = proyecto_marco.fkID_departamento
+
+                      WHERE proyecto_marco.pkID = " . $pkID;
+
+        return $this->EjecutarConsulta($query);
+    }
+}
