@@ -28,19 +28,29 @@ $(function() {
         crea_bitacora()
     });
 
-    $("[name*='edita_proyecto']").click(function() {
+    $("#btn_actionRmBitacora").click(function() {
+        console.log("al principio");
+        elimina_bitacora()
+    });
+
+    $("#btn_actionRmDocumento").click(function() {
+        console.log("al principio");
+        elimina_documento();
+    });
+
+    $("#btn_editar_proyecto").click(function() {
         $("#lbl_form_proyecto_grupo").html("Edita Proyecto");
         $("#lbl_btn_actionproyecto_grupo").html("Guardar Cambios <span class='glyphicon glyphicon-save'></span>");
         $("#btn_actionproyecto_grupo").attr("data-action", "editar");
         $("#form_proyecto_grupo")[0].reset();
-        id = $(this).attr('data-id-album_grupo');
-        console.log(id);
-        carga_album(id);
+        id_gru = $("#pkID_grup").val();
+        console.log(id_gru);
+        carga_proyecto(id_gru);
     });
-    $("[name*='elimina_album']").click(function(event) {
-        id_album = $(this).attr('data-id-album_grupo');
-        console.log(id_album)
-        elimina_album(id_album);
+    $("#btn_eliminar_proyecto").click(function(event) {
+        id_gru = $("#pkID_grup").val();
+        console.log(id_gru)
+        elimina_proyecto(id_gru);
     });
 
     //---------------------------------------------------------
@@ -103,10 +113,12 @@ $(function() {
 
     function crea_bitacora(){
       if( document.getElementById("file_bitacora").files.length){
+        id_gru = $("#pkID_grup").val();
+        tipo="crearbitacora";
       var data = new FormData();
       data.append('file', $("#file_bitacora").get(0).files[0]);
-      data.append('fkID_grupo', $("#nombre_funcionario").val());
-      data.append('tipo', "creardocumento");
+      data.append('fkID_grupo', id_gru);
+      data.append('tipo', tipo);
        $.ajax({  
               type: "POST",
               url: "../controller/ajaxgrupo_proyecto.php",
@@ -124,16 +136,15 @@ $(function() {
     }
 
     function edita_proyecto() {
-        console.log("aqui toy")
-        //crea el objeto formulario serializado
-        nombre = $("#nombre_album").val();
-        fecha = $("#fecha_creacion_album").val();
-        observacion = $("#observacion_album").val();
-        console.log("ya vamos tres")
+        id_gru = $("#pkID_grup").val();
+        linea = $("#linea_investigacion").val();
+        pregunta = $("#pregunta").val();
+        console.log(pregunta);
+        objetivo = $("#objetivo_general").val();
             $.ajax({
-                type: "GET",
-                url: '../controller/ajaxController12.php',
-                data: "nombre_album="+nombre+"&fecha_creacion="+fecha+"&observacion_album="+observacion+"&pkID="+id+"&tipo=actualizar2&nom_tabla=grupo_album",
+                type: "POST",
+                url: "../controller/ajaxgrupo_proyecto.php",
+                data: "linea_investigacion="+linea+"&pregunta_investigacion="+pregunta+"&objetivo_general="+objetivo+"&fkID_grupo="+id_gru+ "&tipo=actualizar",
                 success: function(r) {
                     console.log(r);
                     location.reload();
@@ -141,13 +152,18 @@ $(function() {
             })
     }
 
-    function carga_album(id_album) {
-        console.log("Carga el album " + id_album);
+    function carga_proyecto(id_grupo) {
+        console.log("Carga el proyecto " + id_grupo);
         $.ajax({
-            url: '../controller/ajaxController12.php',
-            data: "pkID=" + id_album + "&tipo=consultar&nom_tabla=grupo_album",
+            type: "POST",
+            url: '../controller/ajaxgrupo_proyecto.php',
+            data: "fkID_grupo=" + id_grupo + "&tipo=consultar",
         }).done(function(data) {
             $.each(data.mensaje[0], function(key, value) {
+                if (key==="pregunta_investigacion") {
+                    console.log("payaso")
+                  $("#pregunta").val(value);  
+                }
                 console.log(key + "--" + value);
                 $("#" + key).val(value);
             });
@@ -158,16 +174,17 @@ $(function() {
         });
     };
 
-    function elimina_album(id_album) {
-        console.log('Eliminar el hvida: ' + id_album);
-        var confirma = confirm("En realidad quiere eliminar esta Album?");
+    function elimina_proyecto(id_grupo) {
+        console.log('Eliminar el proyecto: ' + id_grupo);
+        var confirma = confirm("En realidad quiere eliminar esta Proyecto?");
         console.log(confirma);
         /**/
         if (confirma == true) {
             //si confirma es true ejecuta ajax
             $.ajax({
-                url: '../controller/ajaxController12.php',
-                data: "pkID=" + id_album + "&tipo=eliminar_logico&nom_tabla=grupo_album",
+                type: "POST",
+                url: '../controller/ajaxgrupo_proyecto.php',
+                data: "fkID_grupo=" + id_grupo + "&tipo=eliminar_logico",
             }).done(function(data) {
                 //---------------------
                 console.log(data);
@@ -181,4 +198,42 @@ $(function() {
             //no hace nada
         }
     };
+
+    function elimina_bitacora(){
+        id_gru = $("#pkID_grup").val();
+        console.log('Eliminar el grupo: ' + id_gru);
+        var confirma = confirm("En realidad quiere eliminar este Archivo?");
+        console.log(confirma);
+        if (confirma == true) {
+       $.ajax({  
+              type: "POST",
+              url: "../controller/ajaxgrupo_proyecto.php",
+              data: "fkID_grupo="+id_gru+"&tipo=eliminarbitacora",
+              success:function(a){
+                      console.log(a);
+                      location.reload();  
+              }
+            })
+        }
+    }
+
+    function elimina_documento(){
+        id_gru = $("#pkID_grup").val();
+        console.log('Eliminar el grupo: ' + id_gru);
+        var confirma = confirm("En realidad quiere eliminar este Archivo?");
+        console.log(confirma);
+        if (confirma == true) {
+       $.ajax({  
+              type: "POST",
+              url: "../controller/ajaxgrupo_proyecto.php",
+              data: "fkID_grupo="+id_gru+"&tipo=eliminardocumento",
+              success:function(a){
+                      console.log(a);
+                      location.reload();  
+              }
+            })
+        }
+    }
+
+
 });

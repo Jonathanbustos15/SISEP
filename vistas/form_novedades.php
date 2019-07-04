@@ -7,7 +7,7 @@
       </div>
       <div class="modal-body">
         
-        <form id="form_novedad" method="POST">                
+        <form id="form_novedad" name="form_novedad" method="POST">                
             <br>
                 <div class="form-group" hidden="true">                     
                     <div class="col-sm-10">

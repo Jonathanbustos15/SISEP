@@ -23,7 +23,6 @@ switch ($accion) {
         case 'insertar':
 
         $generico = new Generico_DAO();
-        $crea_sql = new crea_sql();
         $linea_investigacion=$_POST['linea_investigacion'];
         $pregunta_investigacion =$_POST['pregunta_investigacion'];
         $objetivo_general=$_POST['objetivo_general'];
@@ -47,16 +46,15 @@ switch ($accion) {
         break;
     //----------------------------------------------------------------------------------------------------
     //----------------------------------------------------------------------------------------------------
-    case 'actualizar2':
+    case 'actualizar':
 
         $generico = new Generico_DAO();
-        $crea_sql = new crea_sql();
-        $nombre_album=$_POST['nombre_album'];
-        $fecha_creacion=$_POST['fecha_creacion'];
-        $observacion_album=$_POST['observacion_album'];
-        $pkID=$_POST['pkID'];
+        $linea_investigacion=$_POST['linea_investigacion'];
+        $pregunta_investigacion =$_POST['pregunta_investigacion'];
+        $objetivo_general=$_POST['objetivo_general'];
+        $fkID_grupo=$_POST['fkID_grupo'];
 
-        $q_actualiza = "update `grupo_album` SET `nombre_album`='$nombre_album',`fecha_creacion_album`='$fecha_creacion',`observacion_album`='$observacion_album' WHERE pkID=".$pkID;
+        $q_actualiza = "update `proyecto_grupo` SET `linea_investigacion`='$linea_investigacion',`pregunta_investigacion`='$pregunta_investigacion',`objetivo_general`='$objetivo_general' WHERE fkID_grupo=".$fkID_grupo;
 
         $resultado = $generico->EjecutaActualizar($q_actualiza);
         /**/
@@ -71,6 +69,28 @@ switch ($accion) {
             $r["estado"]  = "Error";
             $r["mensaje"] = "No se actualizó.";
             $r["query"]   = $q_actualiza;
+        }
+
+        break;
+ //----------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------
+   
+        case 'consultar':
+        $generico = new Generico_DAO();
+        $fkID_grupo=$_POST['fkID_grupo'];
+        $q_carga = "select * from `proyecto_grupo` WHERE fkID_grupo=".$fkID_grupo;
+
+        $resultado = $generico->EjecutarConsulta($q_carga);
+        /**/
+        if ($resultado) {
+
+            $r["estado"]  = "ok";
+            $r["mensaje"] = $resultado;
+
+        } else {
+
+            $r["estado"]  = "Error";
+            $r["mensaje"] = "No hay registros.";
         }
 
         break;
@@ -110,8 +130,105 @@ switch ($accion) {
                  $r["mensaje"] = "El archivo no se ha almacenado en forma exitosa";
             }  
             break;  
+    //----------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------
+   
+    case 'crearbitacora':
+            $fkID_grupo=$_POST['fkID_grupo'];
+          $generico = new Generico_DAO();
+            $nombre =$_FILES['file']["name"];
+            //Reemplaza los caracteres especiales por guiones al piso
+            $nombre = str_replace(" ", "_", $nombre);
+            $nombre = str_replace("%", "_", $nombre);
+            $nombre = str_replace("-", "_", $nombre);
+            $nombre = str_replace(";", "_", $nombre);
+            $nombre = str_replace("#", "_", $nombre);
+            $nombre = str_replace("!", "_", $nombre);
+            //carga el archivo en el servidor
+            $destino = "../vistas/subidas/" . $nombre;  
+            if(move_uploaded_file($_FILES['file']["tmp_name"], $destino)) { 
+            $r["mensaje"] = "El archivo". $nombre. "se ha almacenado en forma exitosa";       
+                        $q_inserta = "update `proyecto_grupo` SET url_bitacora='$nombre' WHERE fkID_grupo=".$fkID_grupo;
+                        $r["query"] = $q_inserta;           
 
-}
+                        $resultado = $generico->EjecutaActualizar($q_inserta);
+                        /**/
+                        if($resultado){
+                            
+                            $r[] = $resultado;          
+
+                        }else{
+
+                            $r["estado"] = "Error";
+                            $r["mensaje"] = "No se inserto.";
+                        }
+            } else {    
+                 $r["mensaje"] = "El archivo no se ha almacenado en forma exitosa";
+            }  
+            break;
+        //----------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------
+    case 'eliminar_logico':
+        $fkID_grupo=$_POST['fkID_grupo'];
+          $generico = new Generico_DAO();     
+                        $q_actualiza = "update `proyecto_grupo` SET `estadoV`=2 WHERE fkID_grupo=".$fkID_grupo;
+                        $r["query"] = $q_actualiza;           
+
+                        $resultado = $generico->EjecutaActualizar($q_actualiza);
+                        /**/
+                        if($resultado){
+                            
+                            $r[] = $resultado;          
+
+                        }else{
+
+                            $r["estado"] = "Error";
+                            $r["mensaje"] = "No se inserto.";
+                        }  
+            break;    
+     //----------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------
+   
+    case 'eliminarbitacora':
+            $fkID_grupo=$_POST['fkID_grupo'];
+          $generico = new Generico_DAO();     
+                        $q_actualiza = "UPDATE `proyecto_grupo` SET `url_bitacora`= '' WHERE fkID_grupo=".$fkID_grupo;
+                        $r["query"] = $q_actualiza;           
+
+                        $resultado = $generico->EjecutaActualizar($q_actualiza);
+                        /**/
+                        if($resultado){
+                            
+                            $r[] = $resultado;          
+
+                        }else{
+
+                            $r["estado"] = "Error";
+                            $r["mensaje"] = "No se inserto.";
+                        }  
+            break;    
+     //----------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------
+   
+    case 'eliminardocumento':
+            $fkID_grupo=$_POST['fkID_grupo'];
+          $generico = new Generico_DAO();     
+                        $q_actualiza = "UPDATE `proyecto_grupo` SET `url_documento`= '' WHERE fkID_grupo=".$fkID_grupo;
+                        $r["query"] = $q_actualiza;           
+
+                        $resultado = $generico->EjecutaActualizar($q_actualiza);
+                        /**/
+                        if($resultado){
+                            
+                            $r[] = $resultado;          
+
+                        }else{
+
+                            $r["estado"] = "Error";
+                        }  
+            break; 
+
+};
 
 echo json_encode($r);  
 //--------------------------------------------------------------------------------------------------------

@@ -123,7 +123,7 @@ where grupo.estadoV = 1 and grupo.pkID=" . $pkID;
         return $this->EjecutarConsulta($query);
     }
 
-    public function getAlbumId($pkID)
+    public function getproyectoId($pkID)
     {
 
         $query = "select * FROM `proyecto_grupo` WHERE estadoV=1 and fkID_grupo=". $pkID;

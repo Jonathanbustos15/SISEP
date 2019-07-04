@@ -9,7 +9,7 @@
       <div class="modal-body">
         <!-- form modal contenido -->
 
-                <form id="form_proyecto_grupo" method="POST">
+                <form id="form_proyecto_grupo" name="form_proyecto_grupo" method="POST">
                 <br>
 
                   <div class="form-group " hidden>
@@ -30,7 +30,7 @@
 
                     <div class="form-group">
                         <label for="text" class="control-label">Pregunta de Investigación</label>
-                        <textarea class="form-control" id="pregunta" name="pregunta"placeholder="Pregunta de investigación del proyecto" required = "true"> </textarea>
+                        <textarea class="form-control" id="pregunta" name="pregunta" placeholder="Pregunta de investigación del proyecto" required = "true"> </textarea>
                     </div>
 
                     <div class="form-group">
