@@ -17,6 +17,17 @@ $(function() {
         valida_actio(action);
         console.log("accion a ejecutar: " + action);
     });
+
+    $("#btn_documentotecnico").click(function() {
+        console.log("al principio");
+        crea_documento();
+    });
+
+    $("#btn_bitacora").click(function() {
+        console.log("al principio");
+        crea_bitacora()
+    });
+
     $("[name*='edita_proyecto']").click(function() {
         $("#lbl_form_proyecto_grupo").html("Edita Album");
         $("#lbl_btn_actionproyecto_grupo").html("Guardar Cambios <span class='glyphicon glyphicon-save'></span>");
@@ -64,6 +75,49 @@ $(function() {
                     location.reload();
                 }
             })
+    }
+
+    function crea_documento(){
+      if( document.getElementById("file_documento").files.length){
+      var data = new FormData();
+      data.append('file', $("#file_documento").get(0).files[0]);
+      data.append('tipo', "creardocumento");
+       $.ajax({  
+              type: "POST",
+              url: "../controller/ajaxgrupo_proyecto.php",
+              data: data,
+              contentType: false,
+              processData: false,  
+              success:function(a){
+                      console.log(a);
+                      location.reload();  
+              }
+            })
+     }else{
+      alert("debe adjuntar un archivo");
+     }
+    }
+
+    function crea_bitacora(){
+      if( document.getElementById("file_bitacora").files.length){
+      var data = new FormData();
+      data.append('file', $("#file_bitacora").get(0).files[0]);
+      data.append('nombre', $("#nombre_funcionario").val());
+      data.append('tipo', "creardocumento");
+       $.ajax({  
+              type: "POST",
+              url: "../controller/ajaxgrupo_proyecto.php",
+              data: data,
+              contentType: false,
+              processData: false,  
+              success:function(a){
+                      console.log(a);
+                      location.reload();  
+              }
+            })
+     }else{
+      alert("debe adjuntar un archivo");
+     }
     }
 
     function edita_proyecto() {

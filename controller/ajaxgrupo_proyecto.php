@@ -74,6 +74,41 @@ switch ($accion) {
 
         break;
 
+    case 'creardocumento':
+          $generico = new Generico_DAO();
+            $nombre =$_FILES['file']["name"];
+            //Reemplaza los caracteres especiales por guiones al piso
+            $nombre = str_replace(" ", "_", $nombre);
+            $nombre = str_replace("%", "_", $nombre);
+            $nombre = str_replace("-", "_", $nombre);
+            $nombre = str_replace(";", "_", $nombre);
+            $nombre = str_replace("#", "_", $nombre);
+            $nombre = str_replace("!", "_", $nombre);
+            //carga el archivo en el servidor
+            $destino = "../vistas/subidas/" . $nombre;  
+            if(move_uploaded_file($_FILES['file']["tmp_name"], $destino)) {        
+                        $q_inserta = "UPDATE `proyecto_grupo` SET `url_documento`="documento.pdf" WHERE fkID_grupo =116";
+                        $r["query"] = $q_inserta;           
+
+                        $resultado = $generico->EjecutaInsertar($q_inserta);
+                        /**/
+                        if($resultado){
+                            
+                            $r[] = $resultado;          
+
+                        }else{
+
+                            $r["estado"] = "Error";
+                            $r["mensaje"] = "No se inserto.";
+                        }
+
+            } else {    
+                 $mensaje = "El archivo $nombre no se ha almacenado en forma exitosa";
+            }  
+
+            
+            break;    
+
 }
 //--------------------------------------------------------------------------------------------------------
 

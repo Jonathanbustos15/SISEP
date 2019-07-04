@@ -376,14 +376,15 @@ class grupoController extends grupoDAO
               <label class="align-center">Objetivo General:</label><br> <br>
               <strong></strong>'.$this->grupoId[0]["objetivo_general"].' <br> <br>
               </div>
-              </div>
+              </div> 
 
               <div class="col-sm-5 panel panel-primary">
                 <label >Documento Técnico</label><br> <br>
                 <form action="" class="dropzone">
                   <div class="fallback">
                     <input id="file_documento" name="file_documento" class="file-loading" type="file" multiple />
-                  </div>
+                  </div><br>
+                  <button id="btn_documentotecnico" type="button" class="btn btn-info align-center"  ><span class="glyphicon glyphicon-upload"></span> Cargar archivo</button>
                 </form><br>
               </div>
               <div class="col-sm-2">
@@ -394,8 +395,9 @@ class grupoController extends grupoDAO
                 <label class="align-center">Bitácora</label><br> <br>
                 <form action="" class="dropzone">
                   <div class="fallback">
-                    <input name="file" type="file" multiple />
-                  </div>
+                    <input id="file_bitacora" name="file_bitacora" type="file" multiple />
+                  </div><br>
+                <button id="btn_bitacora" type="button" class="btn btn-info"  ><span class="glyphicon glyphicon-upload"></span> Cargar archivo</button>
                 </form><br>
             ';
         echo '</div>';
