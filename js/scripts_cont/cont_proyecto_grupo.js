@@ -1,7 +1,7 @@
 $(function() {
     //INGRESA A LOS ATRIBUTOS AL FORMULARIO PARA INSERTAR INSTITUCIÓN 
     $("#btn_crearproyectogrupo").click(function() {
-        $("#lbl_form_proyecto_grupo").html("Nuevo Album");
+        $("#lbl_form_proyecto_grupo").html("Nuevo Proyecto");
         $("#lbl_btn_actionproyecto_grupo").html("Guardar <span class='glyphicon glyphicon-save'></span>");
         $("#btn_actionproyecto_grupo").attr("data-action", "crear");
         $("#form_proyecto_grupo")[0].reset();
@@ -29,7 +29,7 @@ $(function() {
     });
 
     $("[name*='edita_proyecto']").click(function() {
-        $("#lbl_form_proyecto_grupo").html("Edita Album");
+        $("#lbl_form_proyecto_grupo").html("Edita Proyecto");
         $("#lbl_btn_actionproyecto_grupo").html("Guardar Cambios <span class='glyphicon glyphicon-save'></span>");
         $("#btn_actionproyecto_grupo").attr("data-action", "editar");
         $("#form_proyecto_grupo")[0].reset();
@@ -67,7 +67,7 @@ $(function() {
         console.log(pregunta);
         objetivo = $("#objetivo_general").val();
             $.ajax({
-                type: "GET",
+                type: "POST",
                 url: "../controller/ajaxgrupo_proyecto.php",
                 data: "linea_investigacion="+linea+"&pregunta_investigacion="+pregunta+"&objetivo_general="+objetivo+"&fkID_grupo="+id_gru+ "&tipo=insertar&nom_tabla=grupo_proyecto",
                 success: function(r) {
@@ -79,9 +79,12 @@ $(function() {
 
     function crea_documento(){
       if( document.getElementById("file_documento").files.length){
+        id_gru = $("#pkID_grup").val();
+        tipo="creardocumento";
       var data = new FormData();
       data.append('file', $("#file_documento").get(0).files[0]);
-      data.append('tipo', "creardocumento");
+      data.append('fkID_grupo', id_gru);
+      data.append('tipo', tipo);
        $.ajax({  
               type: "POST",
               url: "../controller/ajaxgrupo_proyecto.php",
@@ -102,7 +105,7 @@ $(function() {
       if( document.getElementById("file_bitacora").files.length){
       var data = new FormData();
       data.append('file', $("#file_bitacora").get(0).files[0]);
-      data.append('nombre', $("#nombre_funcionario").val());
+      data.append('fkID_grupo', $("#nombre_funcionario").val());
       data.append('tipo', "creardocumento");
        $.ajax({  
               type: "POST",

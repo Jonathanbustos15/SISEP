@@ -338,12 +338,12 @@ class grupoController extends grupoDAO
 
         //print_r($this->gruposId);
         if ($this->grupoId[0]["linea_investigacion"]=="") {
-            echo'<div class="col-md-12 text-right">
+            echo'<div class="col-md-12 text-center">
                              <button id="btn_crearproyectogrupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="" data-target="#frm_modal_proyecto_grupo" ><span class="glyphicon glyphicon-plus"></span> Crear Proyecto</button>
                           </div>';
             
-        } else {
-        echo '<div class="panel panel-default proc-pan-def3">
+        } else if ($this->grupoId[0]["url_documento"]=="") {
+            echo '<div class="panel panel-default proc-pan-def3">
 
                     <div class="titulohead">
 
@@ -377,7 +377,6 @@ class grupoController extends grupoDAO
               <strong></strong>'.$this->grupoId[0]["objetivo_general"].' <br> <br>
               </div>
               </div> 
-
               <div class="col-sm-5 panel panel-primary">
                 <label >Documento Técnico</label><br> <br>
                 <form action="" class="dropzone">
@@ -387,6 +386,7 @@ class grupoController extends grupoDAO
                   <button id="btn_documentotecnico" type="button" class="btn btn-info align-center"  ><span class="glyphicon glyphicon-upload"></span> Cargar archivo</button>
                 </form><br>
               </div>
+
               <div class="col-sm-2">
                 
               </div>
@@ -401,7 +401,62 @@ class grupoController extends grupoDAO
                 </form><br>
             ';
         echo '</div>';
-    }
+        } else {
+            echo '<div class="panel panel-default proc-pan-def3">
+
+                    <div class="titulohead">
+
+                        <div class="row">
+                          <div class="col-md-6">
+                              <div class="titleprincipal"><h4>Proyecto de Grupo </h4></div>
+                          </div>
+                          <div class="col-md-6 text-right">
+                             <button id="btn_asignarestudiante" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="" data-target="#frm_modal_asignacion_estudiante" ><span class="glyphicon glyphicon-pencil"></span> Editar Proyecto</button>
+                             <button id="btn_asignarestudiante" type="button" class="btn btn-danger" data-toggle="modal"  data-grupo="" data-target="#frm_modal_asignacion_estudiante" ><span class="glyphicon glyphicon-remove"></span> Eliminar proyecto</button>
+                          </div>
+                        </div>
+
+                    </div>
+                 </div>   
+
+
+        <div class="col-sm-12 panel panel-primary">
+                <label class="align-center">Datos Generales</label><br> <br>
+
+        <div class="col-sm-12 panel panel-info">
+                <label class="align-center">Linea de Investigación: </label><br> <br>
+              <strong></strong>' .$this->grupoId[0]["linea_investigacion"].' <br> <br>
+              </div>
+        <div class="col-sm-12 panel panel-info">
+                <label class="align-center">Pregunta de Investigación:</label><br> <br>
+              <strong> </strong>' .$this->grupoId[0]["pregunta_investigacion"].'<br> <br>
+              </div>
+        <div class="col-sm-12 panel panel-info">
+              <label class="align-center">Objetivo General:</label><br> <br>
+              <strong></strong>'.$this->grupoId[0]["objetivo_general"].' <br> <br>
+              </div>
+              </div> 
+              <div  class="col-sm-5 panel panel-primary">
+              <label for="adjunto" id="lbl_pkID_archivo_" name="lbl_pkID_archivo_" class="custom-control-label">Hoja de vida</label><br><br><br>
+              <input type="text" style="width: 79%;display: inline;" class="form-control" id="pkID_archivo" name="btn_RmFuncionario" value='.$this->grupoId[0]["url_documento"].' readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../vistas/subidas/'.$this->grupoId[0]["url_documento"].' target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmFuncionario" id="btn_actionRmFuncionario" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button><br><br><br>
+
+              </div>
+
+              <div class="col-sm-2">
+                
+              </div>
+
+            <div class="col-sm-5 panel panel-primary">
+                <label class="align-center">Bitácora</label><br> <br>
+                <form action="" class="dropzone">
+                  <div class="fallback">
+                    <input id="file_bitacora" name="file_bitacora" type="file" multiple />
+                  </div><br>
+                <button id="btn_bitacora" type="button" class="btn btn-info"  ><span class="glyphicon glyphicon-upload"></span> Cargar archivo</button>
+                </form><br>
+            ';
+        echo '</div>';
+        }
 
     }
 

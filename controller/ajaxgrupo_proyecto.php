@@ -13,9 +13,10 @@ class Generico_DAO
 
 }
 
-$accion = isset($_GET['tipo']) ? $_GET['tipo'] : "x";
+$accion = $_POST['tipo'];
 
 $r = array();
+$r["mensaje"] = "No se ingreso.";
 
 switch ($accion) {
 
@@ -23,10 +24,10 @@ switch ($accion) {
 
         $generico = new Generico_DAO();
         $crea_sql = new crea_sql();
-        $linea_investigacion=$_GET['linea_investigacion'];
-        $pregunta_investigacion =$_GET['pregunta_investigacion'];
-        $objetivo_general=$_GET['objetivo_general'];
-        $fkID_grupo=$_GET['fkID_grupo'];
+        $linea_investigacion=$_POST['linea_investigacion'];
+        $pregunta_investigacion =$_POST['pregunta_investigacion'];
+        $objetivo_general=$_POST['objetivo_general'];
+        $fkID_grupo=$_POST['fkID_grupo'];
 
         $q_inserta  = "insert into `proyecto_grupo`(`linea_investigacion`, `pregunta_investigacion`, `objetivo_general`, `fkID_grupo`) VALUES ('$linea_investigacion','$pregunta_investigacion','$objetivo_general','$fkID_grupo')";
         $r["query"] = $q_inserta;
@@ -50,10 +51,10 @@ switch ($accion) {
 
         $generico = new Generico_DAO();
         $crea_sql = new crea_sql();
-        $nombre_album=$_GET['nombre_album'];
-        $fecha_creacion=$_GET['fecha_creacion'];
-        $observacion_album=$_GET['observacion_album'];
-        $pkID=$_GET['pkID'];
+        $nombre_album=$_POST['nombre_album'];
+        $fecha_creacion=$_POST['fecha_creacion'];
+        $observacion_album=$_POST['observacion_album'];
+        $pkID=$_POST['pkID'];
 
         $q_actualiza = "update `grupo_album` SET `nombre_album`='$nombre_album',`fecha_creacion_album`='$fecha_creacion',`observacion_album`='$observacion_album' WHERE pkID=".$pkID;
 
@@ -73,8 +74,11 @@ switch ($accion) {
         }
 
         break;
-
+    //----------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------
+   
     case 'creardocumento':
+            $fkID_grupo=$_POST['fkID_grupo'];
           $generico = new Generico_DAO();
             $nombre =$_FILES['file']["name"];
             //Reemplaza los caracteres especiales por guiones al piso
@@ -86,11 +90,12 @@ switch ($accion) {
             $nombre = str_replace("!", "_", $nombre);
             //carga el archivo en el servidor
             $destino = "../vistas/subidas/" . $nombre;  
-            if(move_uploaded_file($_FILES['file']["tmp_name"], $destino)) {        
-                        $q_inserta = "UPDATE `proyecto_grupo` SET `url_documento`="documento.pdf" WHERE fkID_grupo =116";
+            if(move_uploaded_file($_FILES['file']["tmp_name"], $destino)) { 
+            $r["mensaje"] = "El archivo". $nombre. "se ha almacenado en forma exitosa";       
+                        $q_inserta = "update `proyecto_grupo` SET url_documento='$nombre' WHERE fkID_grupo=".$fkID_grupo;
                         $r["query"] = $q_inserta;           
 
-                        $resultado = $generico->EjecutaInsertar($q_inserta);
+                        $resultado = $generico->EjecutaActualizar($q_inserta);
                         /**/
                         if($resultado){
                             
@@ -101,15 +106,14 @@ switch ($accion) {
                             $r["estado"] = "Error";
                             $r["mensaje"] = "No se inserto.";
                         }
-
             } else {    
-                 $mensaje = "El archivo $nombre no se ha almacenado en forma exitosa";
+                 $r["mensaje"] = "El archivo no se ha almacenado en forma exitosa";
             }  
-
-            
-            break;    
+            break;  
 
 }
+
+echo json_encode($r);  
 //--------------------------------------------------------------------------------------------------------
 
-echo json_encode($r); //imprime el json
+ //imprime el json

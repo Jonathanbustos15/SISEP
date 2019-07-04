@@ -114,10 +114,10 @@ class grupoDAO extends UsuariosDAO
         $query = "select grupo.*,nombre_institucion,grado.nombre as nombre_grado,concat_ws(' ', nombre_docente, apellido_docente)as nombres_docente, concat_ws(' ', nombre_funcionario, apellido_funcionario) as nombres_funcionario from grupo
 INNER JOIN grado on grado.pkID= grupo.fkID_grado
 INNER JOIN institucion on institucion.pkID= grupo.fkID_institucion
-INNER JOIN docente_grupo on grupo.pkID = docente_grupo.fkID_grupo
-INNER JOIN docente on docente.pkID = docente_grupo.fkID_docente
-INNER JOIN funcionario_grupo on grupo.pkID = funcionario_grupo.fkID_grupo
-INNER JOIN funcionario on funcionario.pkID = funcionario_grupo.fkID_tutor
+LEFT JOIN docente_grupo on grupo.pkID = docente_grupo.fkID_grupo
+LEFT JOIN docente on docente.pkID = docente_grupo.fkID_docente
+LEFT JOIN funcionario_grupo on grupo.pkID = funcionario_grupo.fkID_grupo
+LEFT JOIN funcionario on funcionario.pkID = funcionario_grupo.fkID_tutor
 where grupo.estadoV = 1 and grupo.pkID=" . $pkID;
 
         return $this->EjecutarConsulta($query);
