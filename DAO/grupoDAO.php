@@ -26,6 +26,40 @@ class grupoDAO extends UsuariosDAO
         return $this->EjecutarConsulta($query);
     }
 
+    public function getGrupo($filtro)
+    {
+        $porciones = explode(" ", $filtro);
+        $filtro = $porciones[0];
+        $tipos = $porciones[1]; 
+        if ($porciones[1]=="*") {
+            $t="!=0";
+        } else {
+            $t="=".$tipos;
+        }
+        
+        if ($filtro=="grupo.YEAR=1") {
+            $anio='2017';
+        } else if ($filtro=="grupo.YEAR=2") {
+            $anio="2018";
+        } else if ($filtro=="grupo.YEAR=3") {
+            $anio="2019";
+        } else {
+            $anio="2020";
+        }
+        
+        if ($porciones[0]=="*") {
+            $f="!=0";
+        } else {
+            $f="=".$anio;
+        }
+
+        $query = "select distinct grupo.*,YEAR(grupo.fecha_creacion) as anio, grado.nombre as nom_grado, institucion.nombre_institucion as nom_institucion, grupo.pkID as numero, tipo_proyecto.nombre as nom_tipo FROM grupo INNER JOIN tipo_proyecto ON tipo_proyecto.pkID = grupo.fkID_tipo_grupo INNER JOIN institucion ON institucion.pkID = grupo.fkID_institucion INNER JOIN grado ON grado.pkID = (CASE WHEN grupo.fkID_grado = 0 THEN 6 WHEN grupo.fkID_grado != 0 THEN grupo.fkID_grado END) where grupo.estadoV = 1 and YEAR(grupo.fecha_creacion)".$f. " And fkID_tipo_grupo". $t ;
+
+        return $this->EjecutarConsulta($query);
+    }
+
+
+
     public function getGruposUsuario($pkID)
     {
 

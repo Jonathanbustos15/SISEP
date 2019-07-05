@@ -462,7 +462,7 @@ $(function() {
         }).fail(function() {
             console.log("error");
         }).always(function() {
-            console.log("complete");
+            console.log("complete"); 
         });
     }
 
@@ -484,4 +484,5 @@ $(function() {
             edita_grupo();
         };
     };
+
 });

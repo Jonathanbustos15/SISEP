@@ -1,11 +1,12 @@
 $(function(){
 
 	var objt_cond = {
-		'fkID_grupo':''
+		'YEAR':''
 	};
 
-
+	var variable='YEAR(grupo.fecha_creacion)';
 	var id = ''; 
+	var idt='';
 
 
 	function crea_consultae(){
@@ -19,7 +20,7 @@ $(function(){
 			 console.log('index:'+index+' val:'+val);
 
 			 if (val != '') {
-			 	arr_cond.push('proyectos.'+index+'='+val);
+			 	arr_cond.push('grupo.'+index+'='+val);
 			 };
 		});
 
@@ -34,32 +35,42 @@ $(function(){
 		} else{
 			cons_final = arr_cond.join();
 		};
-
+		if (idt=="") {idt = "*";}
 		console.log(cons_final)
 		/**/
-		location.href="proyectos.php?filter="+cons_final;
+		location.href="grupo.php?filter="+cons_final+" "+idt;
 		//----------------------------------------------------------
 	}
 
 	//empresa_filtro
-	$("#anio_filtrog").change(function(event) {		
-		
-		id = $(this).val();
-		if (id == "") {
-			objt_cond.fkID_grupo = '';
+	$("#tipo_filtrog").change(function(event) {		
+		idt = $(this).val();
+		console.log(idt);
+		if (idt == "") {
+			idt = "*";
 		} else{
-			objt_cond.fkID_grupo = id;
+			idt = idt;
+		};
+				
+	});
+	//Año_filtro
+	$("#anio_filtrog").change(function(event) {		
+		id = $(this).val();
+		console.log(id);
+		if (id == "") {
+			objt_cond.YEAR = '';
+		} else{
+			objt_cond.YEAR = id;
 		};
 		
 		id_grupo = id;
-
-		fill_empresa();
 
 		console.log(objt_cond)		
 	});
 
 
-	$("#btn_filtrar").click(function(event) {		
+	$("#btn_filtrarg").click(function(event) {	
+		console.log("hola")	
 		crea_consultae();
 	});
 	

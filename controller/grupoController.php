@@ -36,7 +36,7 @@ class grupoController extends grupoDAO
     //$consulta = $arrPermisos[0]["consultar"];
     //-----------------------------------------------------------------------------
 
-    public function getTablaGrupo()
+    public function getTablaGrupo($filtro)
     {
 
         //permisos-------------------------------------------------------------------------
@@ -81,7 +81,12 @@ class grupoController extends grupoDAO
         ];
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
-        $grupo = $this->getGrupos();
+        if ($filtro=="* *") {
+            $grupo = $this->getGrupos();
+        } else {
+            $grupo = $this->getGrupo($filtro);
+        }
+        
         //print_r($grupo);
 
         //Instancia el render
@@ -217,7 +222,20 @@ class grupoController extends grupoDAO
         $tipo = $this->getAnio();
 
         echo '<select name="anio_filtrog" id="anio_filtrog" class="form-control" required = "true">
-                        <option value="" selected>Elija Un año</option>';
+                        <option value="" selected>Todos</option>';
+        for ($a = 0; $a < sizeof($tipo); $a++) {
+            echo "<option value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombre"] . "</option>";
+        }
+        echo "</select>";
+    }
+
+    public function getSelectTipogrupoFiltro()
+    {
+
+        $tipo = $this->getTipogrupo();
+
+        echo '<select name="tipo_filtrog" id="tipo_filtrog" class="form-control" required = "true">
+                        <option value="" selected>Todos</option>';
         for ($a = 0; $a < sizeof($tipo); $a++) {
             echo "<option value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombre"] . "</option>";
         }
@@ -312,7 +330,7 @@ class grupoController extends grupoDAO
         echo '<div class="col-sm-6">
 
                 <div class="text-center">
-                  <img src="../vistas/logos/' . $this->gruposId[0]["url_logo"] . '" alt="..." height="250" width="250" class="img-thumbnail">
+                  <img src="../server/php/file/' . $this->gruposId[0]["url_logo"] . '" alt="..." height="250" width="250" class="img-thumbnail">
                 </div>
 
               </div>
@@ -320,11 +338,11 @@ class grupoController extends grupoDAO
             <div class="col-sm-6">
 
               <strong>Nombre: </strong> ' . $this->gruposId[0]["nombre"] . ' <br> <br>
-              <strong>Institución: </strong> ' . $this->gruposId[0]["nombre_institucion"] . ' <br> <br>
+              <strong>Institución Educativa: </strong> ' . $this->gruposId[0]["nombre_institucion"] . ' <br> <br>
               <strong>Grado: </strong> ' . $this->gruposId[0]["nombre_grado"] . ' <br> <br>
               <strong>Fecha de creación: </strong> ' . $this->gruposId[0]["fecha_creacion"] . ' <br> <br>
               <strong>Docente Asignado: </strong> ' . $this->gruposId[0]["nombres_docente"] . ' <br> <br>
-              <strong>Tutor Asignado: </strong> ' . $this->gruposId[0]["nombres_funcionario"] . ' <br> <br>
+              <strong>Asesor Asignado: </strong> ' . $this->gruposId[0]["nombres_funcionario"] . ' <br> <br>
               ';
 
         echo '</div>';
@@ -386,7 +404,7 @@ class grupoController extends grupoDAO
                   <div class="fallback">
                     <input id="file_documento" name="file_documento" class="file-loading" type="file" multiple />
                   </div><br>
-                  <button id="btn_documentotecnico" type="button" class="btn btn-info align-center"  ><span class="glyphicon glyphicon-upload"></span> Cargar archivo</button>
+                  <button id="btn_documentotecnico" type="button" class="btn btn-success align-center"  ><span class="glyphicon glyphicon-upload"></span> Guardar archivo</button>
                 </form><br>
               </div>
 
@@ -403,7 +421,7 @@ class grupoController extends grupoDAO
                   <div class="fallback">
                     <input id="file_bitacora" name="file_bitacora" type="file" multiple />
                   </div><br>
-                <button id="btn_bitacora" type="button" class="btn btn-info"  ><span class="glyphicon glyphicon-upload"></span> Cargar archivo</button>
+                <button id="btn_bitacora" type="button" class="btn btn-success"  ><span class="glyphicon glyphicon-upload"></span> Guardar archivo</button>
                 </form><br>
             ';
         echo '</div>';
@@ -452,7 +470,7 @@ class grupoController extends grupoDAO
                   <div class="fallback">
                     <input id="file_documento" name="file_documento" type="file" multiple />
                   </div><br>
-                <button id="btn_documento" type="button" class="btn btn-info"  ><span class="glyphicon glyphicon-upload"></span> Cargar archivo</button>
+                <button id="btn_documento" type="button" class="btn btn-success"  ><span class="glyphicon glyphicon-upload"></span> Guardar archivo</button>
                 </form><br>
               </div>
 
@@ -518,7 +536,7 @@ class grupoController extends grupoDAO
                   <div class="fallback">
                     <input id="file_bitacora" name="file_bitacora" type="file" multiple />
                   </div><br>
-                <button id="btn_bitacora" type="button" class="btn btn-info"  ><span class="glyphicon glyphicon-upload"></span> Cargar archivo</button>
+                <button id="btn_bitacora" type="button" class="btn btn-success"  ><span class="glyphicon glyphicon-upload"></span> Guardar archivo</button>
                 </form><br>
             ';
         echo '</div>';

@@ -115,6 +115,13 @@ class UsuariosDAO {
       return $this->EjecutarConsulta($query);
     }
 
+    public function getTipogrupo(){        
+       
+      $query = "select * FROM tipo_proyecto";
+
+      return $this->EjecutarConsulta($query);
+    }
+
     public function getInstitu(){          
        
       $query = "select pkID,nombre_institucion FROM `institucion` WHERE estadoV=1";

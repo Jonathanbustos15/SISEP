@@ -161,7 +161,7 @@ include "frm_modal_proyectog.php";
         <ul class="nav nav-tabs tabs-proc3" role="tablist">
 	        <li id="li_general" role="presentation"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
           	<li id="li_estudiantes" role="presentation"><a href="#estudiantes" aria-controls="general" role="tab" data-toggle="tab">Estudiantes</a></li>
-	        <li id="li_proyectos" role="presentation"><a href="#proyectos" aria-controls="general" role="tab" data-toggle="tab">Proyectos</a></li>
+	        <li id="li_proyectos" role="presentation"><a href="#proyectos" aria-controls="general" role="tab" data-toggle="tab">Proyecto</a></li>
 	        <li id="li_album" role="presentation"><a href="#album" aria-controls="general" role="tab" data-toggle="tab">Galeria</a></li>
 	    </ul>
 

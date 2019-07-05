@@ -30,7 +30,7 @@
 
                     <div class="form-group">
                         <label for="fecha_creacion" class="control-label">Fecha de Creación</label>
-                        <input type="date" class="form-control" id="fecha_creacion_album" name="fecha_creacion" placeholder="Fecha de creación del grupo" required = "true">
+                        <input type="date" class="form-control" id="fecha_creacion_album" name="fecha_creacion" placeholder="Fecha de creación del grupo" required = "true" value="<?php echo date("Y-m-d");?>">
                     </div>
 
                     <div class="form-group">
