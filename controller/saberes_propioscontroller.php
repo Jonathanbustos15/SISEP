@@ -1,10 +1,10 @@
 <?php
 /**/
 
-include_once '../DAO/grupoDAO.php';
+include_once '../DAO/saberes_propiosDAO.php';
 include_once 'helper_controller/render_table.php';
 
-class grupoController extends grupoDAO
+class saberes_propioscontroller extends saberesDAO
 {
 
     public $NameCookieApp;
@@ -12,7 +12,7 @@ class grupoController extends grupoDAO
     public $id_modulo_estudiantes;
     public $id_modulo_docentes;
     public $table_inst;
-    public $gruposId;
+    public $saberessId;
 
     public function __construct()
     {
@@ -36,7 +36,7 @@ class grupoController extends grupoDAO
     //$consulta = $arrPermisos[0]["consultar"];
     //-----------------------------------------------------------------------------
 
-    public function getTablaGrupo($filtro)
+    public function getTablasaberes($filtro)
     {
 
         //permisos-------------------------------------------------------------------------
@@ -49,59 +49,59 @@ class grupoController extends grupoDAO
         //Define las variables de la tabla a renderizar
 
         //Los campos que se van a ver
-        $grupo_campos = [
+        $saberes_campos = [
             // ["nombre"=>"pkID"],
+            ["nombre" => "fecha_salida"],
             ["nombre" => "nombre"],
-            ["nombre" => "nom_tipo"],
-            ["nombre" => "anio"],
-            ["nombre" => "nom_institucion"],
-            ["nombre" => "nom_grado"],
+            ["nombre" => "comunidad_visitada"],
+            ["nombre" => "canti"],
+            ["nombre" => "nombres_funcionario"],
         ];
         //la configuracion de los botones de opciones
-        $grupo_btn = [
+        $saberes_btn = [
 
             [
                 "tipo"    => "editar",
-                "nombre"  => "grupo",
+                "nombre"  => "saber_propio",
                 "permiso" => $edita,
             ],
             [
                 "tipo"    => "eliminar",
-                "nombre"  => "grupo",
+                "nombre"  => "saber_propio",
                 "permiso" => $elimina,
             ],
 
         ];
 
-        $array_opciones = [
-            "modulo" => "grupo", //nombre del modulo definido para jquerycontrollerV2
+        $array_opciones = [ 
+            "modulo" => "saber_propio", //nombre del modulo definido para jquerycontrollerV2
             "title"  => "Click Ver Detalles", //etiqueta html title
-            "href"   => "detalles_grupo.php?id_grupo=",
+            "href"   => "detalle_saber_propio.php?id_saber_propio=",
             "class"  => "detail", //clase que permite que añadir el evento jquery click
         ];
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
-        if ($filtro=="* *") {
-            $grupo = $this->getGrupos();
+        if ($filtro=="*") {
+            $saberes = $this->getSaberes();
         } else if ($filtro=="") {
-            $grupo = $this->getGrupos();
+            $saberes = $this->getSaberes();
         } else {
-            $grupo = $this->getGrupo($filtro);
+            $saberes = $this->getGrupo($filtro);
         }
         
-        //print_r($grupo);
+        //print_r($saberes);
 
         //Instancia el render
-        $this->table_inst = new RenderTable($grupo, $grupo_campos, $grupo_btn, $array_opciones);
+        $this->table_inst = new RenderTable($saberes, $saberes_campos, $saberes_btn, $array_opciones);
         //---------------------------------------------------------------------------------
 
         //valida si hay usuarios y permiso de consulta
-        if (($grupo) && ($consulta == 1)) {
+        if (($saberes) && ($consulta == 1)) {
 
             //ejecuta el render de la tabla
             $this->table_inst->render();
 
-        } elseif (($grupo) && ($consulta == 0)) {
+        } elseif (($saberes) && ($consulta == 0)) {
 
             $this->table_inst->render_blank();
 
@@ -117,7 +117,7 @@ class grupoController extends grupoDAO
 
     }
 
-    public function getTablaGruposUsuario($pkID_user)
+    public function getTablaSaberesUsuario($pkID_user)
     {
 
         //permisos-------------------------------------------------------------------------
@@ -130,7 +130,7 @@ class grupoController extends grupoDAO
         //Define las variables de la tabla a renderizar
 
         //Los campos que se van a ver
-        $grupo_campos = [
+        $saberes_campos = [
             // ["nombre"=>"pkID"],
             ["nombre" => "nombre"],
             ["nombre" => "nom_tipo"],
@@ -139,43 +139,43 @@ class grupoController extends grupoDAO
             ["nombre" => "nom_grado"],
         ];
         //la configuracion de los botones de opciones
-        $grupo_btn = [
+        $saberes_btn = [
 
             [
                 "tipo"    => "editar",
-                "nombre"  => "grupo",
+                "nombre"  => "saber_propio",
                 "permiso" => $edita,
             ],
             [
                 "tipo"    => "eliminar",
-                "nombre"  => "grupo",
+                "nombre"  => "saber_propio",
                 "permiso" => $elimina,
             ],
 
         ];
 
         $array_opciones = [
-            "modulo" => "grupo", //nombre del modulo definido para jquerycontrollerV2
+            "modulo" => "saber_propio", //nombre del modulo definido para jquerycontrollerV2
             "title"  => "Click Ver Detalles", //etiqueta html title
-            "href"   => "detalles_grupo.php?id_grupo=",
+            "href"   => "detalle_saber_propio.php?id_saber=",
             "class"  => "detail", //clase que permite que añadir el evento jquery click
         ];
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
-        $grupo = $this->getGruposUsuario($pkID_user);
-        //print_r($grupo);
+        $saberes = $this->getGruposUsuario($pkID_user);
+        //print_r($saberes);
 
         //Instancia el render
-        $this->table_inst = new RenderTable($grupo, $grupo_campos, $grupo_btn, $array_opciones);
+        $this->table_inst = new RenderTable($saberes, $saberes_campos, $saberes_btn, $array_opciones);
         //---------------------------------------------------------------------------------
 
         //valida si hay usuarios y permiso de consulta
-        if (($grupo) && ($consulta == 1)) {
+        if (($saberes) && ($consulta == 1)) {
 
             //ejecuta el render de la tabla
             $this->table_inst->render();
 
-        } elseif (($grupo) && ($consulta == 0)) {
+        } elseif (($saberes) && ($consulta == 0)) {
 
             $this->table_inst->render_blank();
 
@@ -244,26 +244,27 @@ class grupoController extends grupoDAO
         echo "</select>";
     }
 
-    public function getSelectTipoGrupos()
+    public function getSelectGrupos()
     {
 
-        $tipo = $this->getTipoGrupo();
+        $tipo = $this->getGruposParticipante();
 
-        echo '<select name="fkID_tipo_grupo" id="fkID_tipo_grupo" class="form-control" required = "true">
-                        <option value="" selected>Elija el Tipo de Grupo</option>';
+        echo '<select name="fkID_grupo" id="fkID_grupo" class="form-control" required = "true">
+                        <option value="" selected>Elija el Grupo Paticipante</option>';
         for ($a = 0; $a < sizeof($tipo); $a++) {
             echo "<option value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombre"] . "</option>";
         }
         echo "</select>";
     }
 
-    public function getSelectTutor()
+
+    public function getSelectAsesor()
     {
 
         $tipo = $this->getTutor();
 
-        echo '<select name="fkID_tutor" id="fkID_tutor" class="form-control" required = "true">
-                        <option value="" selected>Elija el Tutor del Grupo</option>';
+        echo '<select name="fkID_asesor" id="fkID_asesor" class="form-control" required = "true">
+                        <option value="" selected>Elija el Asesor Acompañante</option>';
         for ($a = 0; $a < sizeof($tipo); $a++) {
             echo "<option id='fkID_tutor_form_' data-nombre='" . $tipo[$a]["nombres"] . "' value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombres"] . "</option>";
         }
@@ -322,29 +323,38 @@ class grupoController extends grupoDAO
         echo '</select>';
     }
 
-    public function getDataGrupoGen($pkID)
+    public function getDataSaberesGen($pkID)
     {
 
-        $this->gruposId = $this->getGruposId($pkID);
+        $this->saberesId = $this->getSaberesId($pkID);
 
         //print_r($this->gruposId);
 
         echo '<div class="col-sm-6">
 
                 <div class="text-center">
-                  <img src="../server/php/file/' . $this->gruposId[0]["url_logo"] . '" alt="..." height="250" width="250" class="img-thumbnail">
+                  <img src="../server/php/file/' . $this->saberesID[0]["url_logo"] . '" alt="..." height="250" width="250" class="img-thumbnail">
                 </div>
+                <div class="form-group " hidden>                     
+                        <div class="">
+                            <input type="text" class="form-control" id="fkID_grupo" name="fkID_grupo" value='.$this->saberesID[0]["fkID_grupo"].'>
+                        </div>
+                    </div>
 
               </div>
 
-            <div class="col-sm-6">
+            <div class="col-sm-6"> 
 
-              <strong>Nombre: </strong> ' . $this->gruposId[0]["nombre"] . ' <br> <br>
-              <strong>Institución Educativa: </strong> ' . $this->gruposId[0]["nombre_institucion"] . ' <br> <br>
-              <strong>Grado: </strong> ' . $this->gruposId[0]["nombre_grado"] . ' <br> <br>
-              <strong>Fecha de creación: </strong> ' . $this->gruposId[0]["fecha_creacion"] . ' <br> <br>
-              <strong>Docente Asignado: </strong> ' . $this->gruposId[0]["nombres_docente"] . ' <br> <br>
-              <strong>Asesor Asignado: </strong> ' . $this->gruposId[0]["nombres_funcionario"] . ' <br> <br>
+              <strong>Fecha de Salida: </strong> ' . $this->saberesId[0]["fecha_salida"] . ' <br> <br>
+              <strong>Grupo: </strong> ' . $this->saberesId[0]["nombre"] . ' <br> <br>
+              <strong>Comunidad Visitada: </strong> ' . $this->saberesId[0]["comunidad_visitada"] . ' <br> <br>
+              <strong>Numero de participantes: </strong> ' . $this->saberesId[0]["canti"] . ' <br> <br>
+              <strong>Asesor Asignado: </strong> ' . $this->saberesId[0]["nombres_funcionario"] . ' <br> <br>
+            <div  class="">
+            <label class="align-center">Lista de Asistencia:</label><br><br>
+              <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../vistas/subidas/'.$this->saberesId[0]["url_lista"].'" target="_blank" ><span> <img  src="../img/pdfdescargable.png"></span></a>
+              <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../vistas/subidas/'.$this->saberesId[0]["url_lista"].'" target="_blank" >'.$this->saberesId[0]["url_lista"].'</a><br><br><br>
+              </div>
               ';
 
         echo '</div>';
@@ -597,7 +607,7 @@ class grupoController extends grupoDAO
 
     }
 
-    public function getTablaGrupoUsuarios($fkID_tipo_usuario, $pkID_grupo)
+    public function getTablaGrupoUsuarios($fkID_tipo_usuario, $pkID_saber)
     {
 
         //permisos-------------------------------------------------------------------------
@@ -611,7 +621,7 @@ class grupoController extends grupoDAO
             $consulta = $arrPermisos[0]["consultar"];
 
             //la configuracion de los botones de opciones
-            $grupo_btn = [
+            $saberes_btn = [
 
                 [
                     "tipo"    => "editar",
@@ -636,7 +646,7 @@ class grupoController extends grupoDAO
             $consulta = $arrPermisos[0]["consultar"];
 
             //la configuracion de los botones de opciones
-            $grupo_btn = [
+            $saberes_btn = [
 
                 [
                     "tipo"    => "editar",
@@ -661,7 +671,7 @@ class grupoController extends grupoDAO
         //Define las variables de la tabla a renderizar
 
         //Los campos que se van a ver
-        $grupo_campos = [
+        $saberes_campos = [
             // ["nombre"=>"pkID"],
             ["nombre" => "nombre"],
             ["nombre" => "apellido"],
@@ -671,20 +681,20 @@ class grupoController extends grupoDAO
 
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
-        $grupo = $this->getGrupoUsuarios($fkID_tipo_usuario, $pkID_grupo);
-        //print_r($grupo);
+        $saberes = $this->getGrupoUsuarios($fkID_tipo_usuario, $pkID_saber);
+        //print_r($saberes);
 
         //Instancia el render
-        $this->table_inst = new RenderTable($grupo, $grupo_campos, $grupo_btn, []);
+        $this->table_inst = new RenderTable($saberes, $saberes_campos, $saberes_btn, []);
         //---------------------------------------------------------------------------------
 
         //valida si hay usuarios y permiso de consulta
-        if (($grupo) && ($consulta == 1)) {
+        if (($saberes) && ($consulta == 1)) {
 
             //ejecuta el render de la tabla
             $this->table_inst->render();
 
-        } elseif (($grupo) && ($consulta == 0)) {
+        } elseif (($saberes) && ($consulta == 0)) {
 
             $this->table_inst->render_blank();
 
@@ -700,7 +710,7 @@ class grupoController extends grupoDAO
 
     }
 
-    public function getTablaEstudiantesGrupo($pkID_grupo)
+    public function getTablaEstudiantesSaberes($pkID_saber)
     {
 
         $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo_estudiantes, $_COOKIE[$this->NameCookieApp . "_IDtipo"]);
@@ -711,13 +721,8 @@ class grupoController extends grupoDAO
         $consulta = $arrPermisos[0]["consultar"];
 
         //la configuracion de los botones de opciones
-        $grupo_btn = [
+        $saberes_btn = [
 
-            [
-                "tipo"    => "editar",
-                "nombre"  => "estudiante",
-                "permiso" => $edita,
-            ],
             [
                 "tipo"    => "eliminar",
                 "nombre"  => "estudiante",
@@ -730,7 +735,7 @@ class grupoController extends grupoDAO
         //Define las variables de la tabla a renderizar
 
         //Los campos que se van a ver
-        $grupo_campos = [
+        $saberes_campos = [
             ["nombre" => "nombre"],
             ["nombre" => "apellido"],
             ["nombre" => "documento_estudiante"],
@@ -739,20 +744,20 @@ class grupoController extends grupoDAO
 
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
-        $grupo = $this->getEstudiantesGrupo($pkID_grupo);
-        //print_r($grupo);
+        $saberes = $this->getEstudiantesSaberes($pkID_saber);    
+        //print_r($saberes);
 
         //Instancia el render
-        $this->table_inst = new RenderTable($grupo, $grupo_campos, $grupo_btn, []);
+        $this->table_inst = new RenderTable($saberes, $saberes_campos, $saberes_btn, []);
         //---------------------------------------------------------------------------------
 
         //valida si hay usuarios y permiso de consulta
-        if (($grupo) && ($consulta == 1)) {
+        if (($saberes) && ($consulta == 1)) {
 
             //ejecuta el render de la tabla
             $this->table_inst->render();
 
-        } elseif (($grupo) && ($consulta == 0)) {
+        } elseif (($saberes) && ($consulta == 0)) {
 
             $this->table_inst->render_blank();
 
@@ -767,7 +772,7 @@ class grupoController extends grupoDAO
         //---------------------------------------------------------------------------------
     }
 
-    public function getTablaAlbumGrupo($pkID_grupo)
+    public function getTablaAlbumGrupo($pkID_saber)
     {
 
         $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo_estudiantes, $_COOKIE[$this->NameCookieApp . "_IDtipo"]);
@@ -778,7 +783,7 @@ class grupoController extends grupoDAO
         $consulta = $arrPermisos[0]["consultar"];
 
         //la configuracion de los botones de opciones
-        $grupo_btn = [
+        $saberes_btn = [
 
             [
                 "tipo"    => "editar",
@@ -797,7 +802,7 @@ class grupoController extends grupoDAO
         //Define las variables de la tabla a renderizar
 
         //Los campos que se van a ver
-        $grupo_campos = [
+        $saberes_campos = [
             ["nombre" => "nombre_album"],
             ["nombre" => "fecha_creacion_album"],
             ["nombre" => "observacion_album"],
@@ -812,20 +817,20 @@ class grupoController extends grupoDAO
 
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
-        $grupo = $this->getAlbumGrupo($pkID_grupo);
-        //print_r($grupo);
+        $saberes = $this->getAlbumGrupo($pkID_saber);
+        //print_r($saberes);
 
         //Instancia el render
-        $this->table_inst = new RenderTable($grupo, $grupo_campos, $grupo_btn,$array_opciones);
+        $this->table_inst = new RenderTable($saberes, $saberes_campos, $saberes_btn,$array_opciones);
         //---------------------------------------------------------------------------------
 
         //valida si hay usuarios y permiso de consulta
-        if (($grupo) && ($consulta == 1)) {
+        if (($saberes) && ($consulta == 1)) {
 
             //ejecuta el render de la tabla
             $this->table_inst->render();
 
-        } elseif (($grupo) && ($consulta == 0)) {
+        } elseif (($saberes) && ($consulta == 0)) {
 
             $this->table_inst->render_blank();
 

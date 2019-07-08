@@ -2,17 +2,18 @@
 
 //ini_set('error_reporting', E_ALL|E_STRICT);
 //ini_set('display_errors', 1);
+include '../controller/saberes_propioscontroller.php';
 include '../controller/docentesController.php';
 
 include '../controller/grupoController.php';
 
 include '../conexion/datos.php';
 
-$docentesInst = new docentesController();
+$saberesInst = new saberes_propioscontroller();
 
-$arrPermisosD = $docentesInst->getPermisosModulo_Tipo(26, $_COOKIE[$NomCookiesApp . '_IDtipo']);
+$arrPermisosD = $saberesInst->getPermisosModulo_Tipo($id_modulo, $_COOKIE[$NomCookiesApp . '_IDtipo']);
 
-$creaD = $arrPermisosD[0]['crear'];
+$crea = $arrPermisosD[0]['crear'];
 
 $pkID_user = $_COOKIE[$NomCookiesApp . '_id'];
 
@@ -31,9 +32,9 @@ $arrPermisos = $grupoInst->getPermisosModulo_Tipo($id_modulo, $_COOKIE[$NomCooki
 $crea = $arrPermisos[0]['crear'];
 
 $pkID_proyectoM = $_GET["id_proyectoM"];
-$proyectoMGen   = $docentesInst->getProyectosMarcoId($pkID_proyectoM);
+$proyectoMGen   = $saberesInst->getProyectosMarcoId($pkID_proyectoM);
 
-include "form_grupo.php";
+include "form_saberes_propios.php";
 include "form_novedades.php";
 
 ?>
@@ -48,28 +49,22 @@ include "form_novedades.php";
 
 
       <div class="col-lg-12">
-          <h1 class="page-header titleprincipal"><img src="../img/botones/grupoonly.png">Grupos - <?php echo $proyectoMGen[0]["nombre"] ?></h1>
+          <h1 class="page-header titleprincipal"><img src="../img/botones/grupoonly.png">Saberes Propios - <?php echo $proyectoMGen[0]["nombre"] ?></h1>
       </div>
       <!-- /.col-lg-12 -->
-    <div class="col-md-5">
+    <div class="col-md-9">
           <ol class="breadcrumb migadepan">
             <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
             <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
             <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Académico</a></li>
-            <li class="active migadepan">Grupos - <?php echo $proyectoMGen[0]["nombre"] ?> </li>
+            <li class="active migadepan">Saberes Propios - <?php echo $proyectoMGen[0]["nombre"] ?> </li>
           </ol>
     </div>
 
-    <div class="col-md-4 text-right form-inline">                        
-                    <label for="grupo_filtrop" class="control-label">Tipo de Grupo: </label>      
-                      <?php
-                             $grupoInst->getSelectTipogrupoFiltro();
-                      ?>  
-     </div>
-    <div class="col-md-2 text-center form-inline">                        
+    <div class="col-md-2 text-right form-inline">                        
                     <label for="grupo_filtrop" class="control-label">Año: </label>      
                       <?php
-                             $grupoInst->getSelectAnioFiltro();
+                             $saberesInst->getSelectAnioFiltro();
                       ?>  
      </div>
     <div class="col-md-1 text-left form-inline">                                             
@@ -94,11 +89,11 @@ include "form_novedades.php";
 
             <div class="row">
               <div class="col-md-6">
-                  <div class="titleprincipal"><h4>Registro de Grupos - <?php echo $proyectoMGen[0]["nombre"] ?></h4></div>
+                  <div class="titleprincipal"><h4>Registro de Saberes Propios - <?php echo $proyectoMGen[0]["nombre"] ?></h4></div>
               </div>
               <div class="col-md-6 text-right">
-                 <button id="btn_nuevogrupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-target="#frm_modal_grupo" <?php if ($crea != 1) {echo 'disabled="disabled"';}?> >
-                 <span class="glyphicon glyphicon-plus"></span>Nuevo Grupo</button>
+                 <button id="btn_nuevosaber" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-target="#frm_modal_saber_propio" <?php if ($crea != 1) {echo 'disabled="disabled"';}?> >
+                 <span class="glyphicon glyphicon-plus"></span>Nuevo Saber Propio</button>
               </div>
             </div>
 
@@ -112,11 +107,11 @@ include "form_novedades.php";
                   <thead>
                       <tr>
                          <!-- <th>ID Grupo</th>-->
-                          <th>Nombre</th>
-                          <th >Tipo de Proyecto</th>
-                          <th>Año</th>
-                          <th>Institución</th>
-                          <th>Grado</th>
+                          <th>Fecha de Salida</th>
+                          <th >Grupo Participante</th>
+                          <th>Comunidad Visitada</th>
+                          <th>Número de participantes</th>
+                          <th>Asesor</th>
                           <th data-orderable="false">Opciones</th>
                       </tr>
                   </thead>
@@ -126,9 +121,9 @@ include "form_novedades.php";
 //print_r($_COOKIE);
 //echo "valor de cookie de tipo ".$_COOKIE[$NomCookiesApp."_tipo"];
 if (($pkID_tipo_user == 8) || ($pkID_tipo_user == 9)) {
-    $grupoInst->getTablaGruposUsuario($pkID_user);
+    $saberesInst->getTablaSaberesUsuario($pkID_user);
 } else {
-    $grupoInst->getTablaGrupo($filtro);
+    $saberesInst->getTablasaberes($filtro);
 }
 ?>
                   </tbody>
