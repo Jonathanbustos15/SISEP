@@ -349,7 +349,7 @@ class saberes_propioscontroller extends saberesDAO
               <strong>Asesor Asignado: </strong> ' . $this->saberesId[0]["nombres_funcionario"] . ' <br> <br>
             <div  class="">
             <label class="align-center">Lista de Asistencia:</label><br><br>
-              <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../vistas/subidas/'.$this->saberesId[0]["url_lista"].'" target="_blank" ><span> <img  src="../img/pdfdescargable.png"></span></a>
+              <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class=""  target="_blank" ><span> <img  src="../img/pdfdescargable.png"></span></a>
               <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../vistas/subidas/'.$this->saberesId[0]["url_lista"].'" target="_blank" >'.$this->saberesId[0]["url_lista"].'</a><br><br><br>
               </div>
               ';

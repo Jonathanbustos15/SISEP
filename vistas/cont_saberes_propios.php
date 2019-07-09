@@ -49,7 +49,7 @@ include "form_novedades.php";
 
 
       <div class="col-lg-12">
-          <h1 class="page-header titleprincipal"><img src="../img/botones/grupoonly.png">Saberes Propios - <?php echo $proyectoMGen[0]["nombre"] ?></h1>
+          <h1 class="page-header titleprincipal"><img src="../img/botones/grupoonly.png">Saberes Propios - <?php echo $proyectoMGen[0]["nombre_proyecto"] ?></h1>
       </div>
       <!-- /.col-lg-12 -->
     <div class="col-md-9">

@@ -35,7 +35,7 @@ class saberesDAO extends UsuariosDAO
     public function getSaberes()
     {
 
-        $query = "select saber_propio.*,grupo.nombre,(select count(*) FROM participante_saber LEFT JOIN estudiante ON estudiante.pkID = participante_saber.fkID_estudiante WHERE saber_propio.pkID = participante_saber.fkID_saber_propio) as canti,concat_ws(' ',nombre_funcionario,apellido_funcionario)nombres_funcionario FROM `saber_propio`
+        $query = "select saber_propio.*,grupo.nombre,(select count(*) FROM saber_estudiante LEFT JOIN estudiante ON estudiante.pkID = saber_estudiante.fkID_estudiante WHERE saber_propio.pkID = saber_estudiante.fkID_saber_propio) as canti,concat_ws(' ',nombre_funcionario,apellido_funcionario)nombres_funcionario FROM `saber_propio`
             LEFT JOIN funcionario on funcionario.pkID = saber_propio.fkID_asesor
             INNER JOIN grupo on grupo.pkID = saber_propio.fkID_grupo where saber_propio.estadoV= 1";
 

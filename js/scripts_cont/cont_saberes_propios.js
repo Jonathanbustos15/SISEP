@@ -226,8 +226,9 @@
     }
 
     function edita_saberes() {
-        if (document.getElementById("fileupload_lista").files.length) {
-            var data = new FormData();
+        if ($("#fileupload_lista").length) {
+        	if (document.getElementById("fileupload_lista").files.length) {
+        		var data = new FormData();
             data.append('file', $("#fileupload_lista").get(0).files[0]);
             data.append('fecha_salida', $("#fecha_salida").val());
             data.append('fkID_grupo', $("#fkID_grupo option:selected").val());
@@ -246,6 +247,27 @@
                     location.reload();
                 }
             })
+        	} else {
+        		var data = new FormData();
+            data.append('fecha_salida', $("#fecha_salida").val());
+            data.append('fkID_grupo', $("#fkID_grupo option:selected").val());
+            data.append('comunidad_visitada', $("#comunidad_visitada").val());
+            data.append('fkID_asesor', $("#fkID_asesor option:selected").val());
+            data.append('tipo', "editarsin");
+            data.append('pkID', $("#pkID").val());
+            $.ajax({
+                type: "POST",  
+                url: "../controller/ajaxsaberes.php",
+                data: data,
+                contentType: false,
+                processData: false,
+                success: function(a) {
+                    console.log(a);
+                    location.reload();
+                }
+            })
+        	}
+            
         } else {
             var data = new FormData();
             data.append('fecha_salida', $("#fecha_salida").val());
@@ -367,11 +389,11 @@
         if (confirma == true) {
             var data = new FormData();
             data.append('pkID',id_archivo);
-            data.append('tipo', "eliminararchivo");
+            data.append('tipo',"eliminararchivo");
             //si confirma es true ejecuta ajax
             $.ajax({
                 type: "POST",
-                url: '../controller/ajaxsaber.php',
+                url: '../controller/ajaxsaberes.php',
                 data: data,
                 contentType: false,
                 processData: false, 

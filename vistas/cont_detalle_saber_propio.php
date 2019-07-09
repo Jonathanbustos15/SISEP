@@ -144,7 +144,7 @@ include "frm_modal_proyectog.php";
       <input type="hidden" id="id_mod_page_estudiante" value=<?php echo $id_modulo ?>>
 
       <div class="col-lg-12">
-          <h1 class="page-header titleprincipal"><img src="../img/botones/grupoonly.png">Saber Propio- <?php echo $proyectoMGen[0]["nombre"] . ' - ' . $proyectoMGen[0]["nombre_proyecto"] ?></h1>
+          <h1 class="page-header titleprincipal"><img src="../img/botones/grupoonly.png"><?php echo  $proyectoMGen[0]["nombre_proyecto"] ?> - Saber Propio</h1>
       </div>
       <!-- /.col-lg-12 -->
 
@@ -154,7 +154,7 @@ include "frm_modal_proyectog.php";
             <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
             <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Académico</a></li>
             <li><a href="saberes_propios.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Saberes Propios</a></li>
-            <li class="active migadepan">Detalle Saber Propio - <?php echo $proyectoMGen[0]["nombre"] . ' - ' . $proyectoMGen[0]["nombre_proyecto"] ?> </li>
+            <li class="active migadepan">Detalle Saber Propio</li>
           </ol>
     </div>
 

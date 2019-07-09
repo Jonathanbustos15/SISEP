@@ -111,19 +111,6 @@ switch ($tipo) {
             $r["mensaje"] = "No se inserto.";
         }
         break;
-    case 'eliminararchivo':
-        $generico   = new Generico_DAO();
-        $q_inserta  = "update funcionario SET url_funcionario='' where pkID='$id' ";
-        $r["query"] = $q_inserta;
-        $resultado  = $generico->EjecutaActualizar($q_inserta);
-        /**/
-        if ($resultado) {
-            $r[] = $resultado;
-        } else {
-            $r["estado"]  = "Error";
-            $r["mensaje"] = "No se inserto.";
-        }
-        break;
     case 'crearsin':
         $generico   = new Generico_DAO();
         $q_inserta  = "insert into `saber_propio`(`fecha_salida`, `fkID_grupo`, `comunidad_visitada`, `fkID_asesor`) VALUES ('$fechas', '$fkID_grupo', '$comunidad', '$fk_asesor')";
@@ -142,14 +129,12 @@ switch ($tipo) {
                     $q_inserta = "update saber_propio SET url_lista='' where pkID='$id' ";
                     $r["query"] = $q_inserta;           
                     $resultado = $generico->EjecutaActualizar($q_inserta);
-                    /**/
                     if($resultado){                    
                         $r[] = $resultado;          
                     }else{
                       $r["estado"] = "Error";
                       $r["mensaje"] = "No se inserto.";
                         }
-                
                 break;
     default:
         # code...
