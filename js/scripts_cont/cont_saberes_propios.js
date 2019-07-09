@@ -11,6 +11,9 @@
         $("#btn_actionsaberes").attr("data-action", "crear");
         $("#fileupload_lista").val("");
         $("#form_saber")[0].reset();
+        $("#adjunto_saber").remove();
+     	$("#adjunto_saber2").remove();
+     	cargar_input();
     });
     $("[name*='edita_saber_propio']").click(function() {
         $("#lbl_form_saber").html("Edita Saber Propio");
@@ -18,21 +21,23 @@
         $("#btn_actionsaberes").attr("data-action", "editar");
         $("#fileupload_lista").val("");
         $("#form_saber")[0].reset();
+        $("#adjunto_saber").remove();
+     	$("#adjunto_saber2").remove();
         id_saber = $(this).attr('data-id-saber_propio');
+        cargar_input();
         console.log(id_saber);
         carga_saber(id_saber);
-        //carga_saber_tutor(id_saber);
-        //carga_saber_docente(id_saber);
     });
 
     $("#btn_actionsaberes").click(function() {
-        /*var validacioncon = validarfuncionario();
+        var validacioncon = validarsaber();
         if (validacioncon === "no") {
             window.alert("Faltan Campos por diligenciar.");
-        } else {*/
+        } else {
         action = $(this).attr("data-action");
         valida_actio(action);
         console.log("accion a ejecutar: " + action);
+    	}
     });
     $("[name*='elimina_saber_propio']").click(function(event) {
         id_saberes = $(this).attr('data-id-saber_propio');
@@ -143,6 +148,13 @@
         }
     }
 
+    function cargar_input(){
+      $("#form_saber").append('<div class="form-group" id="adjunto_saber">'+
+                        '<label for="adjunto" id="lbl_url_saber" class=" control-label">Lista de asistencia</label>'+ 
+                        '<input type="file" class="form-control" id="fileupload_lista" name="fileupload_lista" placeholder="Lista de asistencia de saberes propios" required = "">'+
+                    '</div>')
+    }
+
     function carga_saber(id_saber) {
         $.ajax({
             url: '../controller/ajaxController12.php',
@@ -150,7 +162,18 @@
         }).done(function(data) {
             /**/
             $.each(data.mensaje[0], function(key, valu) {
+                if (key=="url_lista" && valu != "") { 
+                  $("#form_saber").append('<div id="adjunto_saber2" class="form-group">'+'<label for="adjunto" id="lbl_pkID_archivo_" name="lbl_pkID_archivo_" class="custom-control-label">Lista de asistencia</label>'+'<br>'+'<input type="text" style="width: 89%;display: inline;" class="form-control" id="pkID_archivo" name="btn_RmFuncionario" value="' + valu + '" readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../vistas/subidas/' + valu + '" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmSaber" id="btn_actionRmSaber" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
+                  $("#lbl_url_saber").remove();
+                  $("#fileupload_lista").remove(); 
+                  $("[name*='btn_actionRmSaber']").click(function(event) {
+                    var id_archivo = $("#pkID").val();
+                    console.log("este es el numero"+id_archivo);
+                    elimina_archivo_saber(id_archivo); 
+                });         
+                 }else{
                 $("#" + key).val(valu);
+              }
             });
         }).fail(function() {
             console.log("error");
@@ -274,6 +297,21 @@
         }
     };
 
+    function validarsaber(){
+      var fecha = $("#fecha_salida").val();
+      var grupo = $("#fkID_grupo option:selected").val();
+      var comunidad = $("#comunidad_visitada").val();
+      var asesor = $("#fkID_asesor option:selected").val();
+        var respuesta;
+        if (fecha === "" || grupo === "" || comunidad === "" || asesor === "") {
+            respuesta = "no"
+            return respuesta
+        }else{
+            respuesta = "ok"
+            return respuesta
+        }
+    }
+
     function deleteDocenteNumReg(numReg) {
         $.ajax({
             url: '../controller/ajaxController12.php',
@@ -319,6 +357,35 @@
         } else if (action === "editar") {
             edita_saberes();
         };
+    };
+
+    function elimina_archivo_saber(id_archivo) {
+        console.log('Eliminar el archivito: ' + id_archivo);
+        var confirma = confirm("En realidad quiere eliminar la lista de asistencia?");
+        console.log(confirma);
+        /**/
+        if (confirma == true) {
+            var data = new FormData();
+            data.append('pkID',id_archivo);
+            data.append('tipo', "eliminararchivo");
+            //si confirma es true ejecuta ajax
+            $.ajax({
+                type: "POST",
+                url: '../controller/ajaxsaber.php',
+                data: data,
+                contentType: false,
+                processData: false, 
+            }).done(function(data) {
+                console.log(data);
+                location.reload();
+            }).fail(function() {
+                console.log("error");
+            }).always(function() {
+                console.log("complete");
+            });
+        } else {
+            //no hace nada
+        }
     };
 
 });

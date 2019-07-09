@@ -1,5 +1,7 @@
 $(function() {
     var arrEstudiante = [];
+    var arrEstudiantes = [];
+    var arrestudiantesasignados=[]
     
     $("#btn_asignarestudiante").click(function() {
         $("#lbl_form_asignarestudiante").html("Asignar Estudiante");
@@ -9,7 +11,7 @@ $(function() {
         $("#frm_estudiante_grupo").html("");
     });
     //Definir la acción del boton del formulario 
-    $("#btn_actionestudiante").click(function() {
+    $("#btn_actionestudiante").click(function() {   
         console.log("al principio");
         action = $(this).attr("data-action");
         //define la acción que va a realizar el formulario
@@ -43,15 +45,16 @@ $(function() {
             
         } else if (action === "editar") {
            
-        } else if (action === "asignar") {
+        } else {
+            guardar();
             asigna_estudiante();
+
         }
     };
 
 
     function asigna_estudiante() {
-        guardar();
-        location.reload();
+       location.reload();
     }
 
     function guardar() {
@@ -68,7 +71,7 @@ $(function() {
                 console.log(data);
             }).always(function() {
                 console.log("complete");
-            });
+            });  
         });
     }
 
@@ -112,11 +115,57 @@ $(function() {
                 serializa_array(crea_array(arrEstudiante, $("#pkID").val(), fecha));
             }
         } else {
-            selectEstudiante(idUsuario, nomUsuario, idGrado, 'select', $(this).data('accion'));
+            selectEstudiante(idUsuario, nomUsuario,'select', $(this).data('accion'));
         };
     });
 
-    function selectEstudiante(id, nombre, grado, type, numReg) {
+    function crea_array(array, id_grupo, fecha) {
+        console.log("no te vallas chavito")
+        console.log(array)
+        array.forEach(function(element, index) {
+            //statements
+            var obtHE = {
+                "fkID_saber_propio": id_grupo,
+                "fkID_estudiante": element
+            };
+            arrestudiantesasignados.push(obtHE);
+            console.log(obtHE);
+        });
+        return arrestudiantesasignados;
+    }
+
+    function serializa_array(array) {
+        console.log("no te vallas chavito")
+        console.log(array);
+        var cadenaSerializa = "";
+        $.each(array, function(index, val) {
+            var dataCadena = "";
+            $.each(val, function(llave, valor) {
+                console.log("llave=" + llave + " valor=" + valor);
+                dataCadena = dataCadena + llave + "=" + valor + "&";
+            });
+            dataCadena = dataCadena.substring(0, dataCadena.length - 1);
+            console.log(dataCadena);
+            insertatutgrupo(dataCadena)
+        });
+        console.log('Se terminó de insertar los usuarios!')
+    }
+
+    function insertatutgrupo(data) {
+        $.ajax({
+            url: "../controller/ajaxController12.php",
+            data: data + "&tipo=inserta&nom_tabla=funcionario_grupo",
+        }).done(function(data) {
+            console.log(data);
+        }).fail(function(data) {
+            console.log(data);
+        }).always(function() {
+            console.log("complete");
+        });
+    }
+
+
+    function selectEstudiante(id, nombre, type, numReg) {
         console.log(id)
         console.log("ya vamos aca ")
         if (id != "") {

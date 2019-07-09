@@ -333,18 +333,15 @@ class saberes_propioscontroller extends saberesDAO
         echo '<div class="col-sm-6">
 
                 <div class="text-center">
-                  <img src="../server/php/file/' . $this->saberesID[0]["url_logo"] . '" alt="..." height="250" width="250" class="img-thumbnail">
+                  <img src="../server/php/files/' . $this->saberesId[0]["url_logo"] . '" alt="..." height="250" width="250" class="img-thumbnail">
                 </div>
-                <div class="form-group " hidden>                     
-                        <div class="">
-                            <input type="text" class="form-control" id="fkID_grupo" name="fkID_grupo" value='.$this->saberesID[0]["fkID_grupo"].'>
-                        </div>
-                    </div>
 
               </div>
 
             <div class="col-sm-6"> 
-
+                <div class="form-group " hidden>                     
+                            <input type="text" class="form-control" id="fkID_grupo" name="fkID_grupo" value='.$this->saberesid[0]["fkID_grupo"].'>
+                        </div>
               <strong>Fecha de Salida: </strong> ' . $this->saberesId[0]["fecha_salida"] . ' <br> <br>
               <strong>Grupo: </strong> ' . $this->saberesId[0]["nombre"] . ' <br> <br>
               <strong>Comunidad Visitada: </strong> ' . $this->saberesId[0]["comunidad_visitada"] . ' <br> <br>

@@ -44,15 +44,6 @@
                         <?php $saberesInst->getSelectAsesor(); ?>  
                     </div>
 
-                    <div class="form-group">
-                        <label for="url_lista" class="control-label">Lista de Participantes</label>  
-                        <input id="fileupload_lista" type="file" name="files[]" data-url="../server/php/" multiple>
-                    </div>
-
-                    <div class="form-group">
-                            <input type="text" class="form-control" id="url_lista" name="url_lista" disabled="disabled" >
-                    </div>
-
                 </form>
 
         <!-- /form modal contenido-->

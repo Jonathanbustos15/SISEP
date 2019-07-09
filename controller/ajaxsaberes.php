@@ -137,6 +137,20 @@ switch ($tipo) {
             $r["mensaje"] = "No se inserto.";
         }
         break;
+    case 'eliminararchivo':
+                    $generico = new Generico_DAO();
+                    $q_inserta = "update saber_propio SET url_lista='' where pkID='$id' ";
+                    $r["query"] = $q_inserta;           
+                    $resultado = $generico->EjecutaActualizar($q_inserta);
+                    /**/
+                    if($resultado){                    
+                        $r[] = $resultado;          
+                    }else{
+                      $r["estado"] = "Error";
+                      $r["mensaje"] = "No se inserto.";
+                        }
+                
+                break;
     default:
         # code...
         break;

@@ -153,7 +153,7 @@ include "frm_modal_proyectog.php";
             <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
             <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
             <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Académico</a></li>
-            <li><a href="grupo.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Saberes Propios</a></li>
+            <li><a href="saberes_propios.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Saberes Propios</a></li>
             <li class="active migadepan">Detalle Saber Propio - <?php echo $proyectoMGen[0]["nombre"] . ' - ' . $proyectoMGen[0]["nombre_proyecto"] ?> </li>
           </ol>
     </div>

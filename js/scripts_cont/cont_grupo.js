@@ -31,13 +31,14 @@ $(function() {
         carga_grupo_docente(id_grupo);
     });
     $("#btn_actiongrupo").click(function() {
-        /*var validacioncon = validarfuncionario();
+        var validacioncon = validargrupo();
         if (validacioncon === "no") {
             window.alert("Faltan Campos por diligenciar.");
-        } else {*/
+        } else {
         action = $(this).attr("data-action");
         valida_actio(action);
         console.log("accion a ejecutar: " + action);
+        }
     });
     $("[name*='elimina_grupo']").click(function(event) {
         id_funciona = $(this).attr('data-id-grupo');
@@ -81,6 +82,21 @@ $(function() {
             selectDocente(idDocente, nomUsuario, 'select', $(this).data('accion'));
         }
     });
+
+    function validargrupo(){
+      var nombre = $("#nombre").val();
+      var tigrupo = $("#fkID_tipo_grupo option:selected").val();
+      var institucion = $("#fkID_institucion option:selected").val();
+      var fecha = $("#fecha_creacion").val();
+        var respuesta;
+        if (fecha === "" || tigrupo === "" || nombre === "" || institucion === "") {
+            respuesta = "no"
+            return respuesta
+        }else{
+            respuesta = "ok"
+            return respuesta
+        }
+    }
 
     function verPkIdTutor() {
         var id_proyecto_form = $("#pkID").val();
