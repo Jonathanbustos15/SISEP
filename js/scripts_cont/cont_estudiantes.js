@@ -42,7 +42,7 @@ $(function() {
     $("[name*='elimina_estudiante']").click(function(event) {
         id_estudian = $(this).attr('data-id-estudiante');
         console.log(id_estudian)
-        elimina_estudiante(id_estudian);
+        elimina_institucion(id_estudian);
     });
     //---------------------------------------------------------
     //
@@ -96,24 +96,6 @@ $(function() {
         location.reload();
     }
 
-    function removeUsuario(id) {
-        $("#" + id).remove();
-    }
-
-    function deleteTutorNumReg(numReg) {
-        $.ajax({
-            url: '../controller/ajaxController12.php',
-            data: "pkID=" + numReg + "&tipo=eliminarlogico&nom_tabla=funcionario_grupo",
-        }).done(function(data) {
-            console.log(data);
-            alert(data.mensaje.mensaje);
-        }).fail(function() {
-            console.log("error");
-        }).always(function() {
-            console.log("complete"); 
-        });
-    }
-
     function guardar() {
         $.each(arrTutor, function(llave, valor) {
             console.log("llave=" + llave + " valor=" + valor);
@@ -150,7 +132,7 @@ $(function() {
         });
     };
 
-    function elimina_estudiante(id_estudian) {
+    function elimina_institucion(id_estudian) {
         console.log('Eliminar el hvida: ' + id_estudian);
         var confirma = confirm("En realidad quiere eliminar este estudiante?");
         console.log(confirma);

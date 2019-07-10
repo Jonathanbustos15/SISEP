@@ -232,7 +232,7 @@ class RenderTable
                 break;
             case 'descarga_multiple':
                 //pasa el nombre del campo que contiene el nombre del archivo
-                echo '<button title="Ver Archivos" name="ver_archivos_' . $name . '" class="btn btn-success" data-toggle="modal" data-target="#frm_modal_archivos" data-id-registro="' . $id . '"><span class="glyphicon glyphicon-new-window"></span></button>&nbsp';
+                echo '<button title="Ver Archivos" name="ver_archivos_' . $name . '" class="btn btn-success" data-toggle="modal" data-target="#frm_modal_archivos" data-id-registro="' . $id . '"><span class="glyphicon glyphicon-file"></span></button>&nbsp';
                 break;
             case 'ver_docs':
                 echo '<a class="btn btn-info" title="Visualizar Archivo con Google Docs" href="https://docs.google.com/viewer?url=' . $ruta_visor . '' . $arr_val[$name] . '" target="_blank"><span class="glyphicon glyphicon-eye-open"></span></a>';

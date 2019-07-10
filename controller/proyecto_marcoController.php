@@ -72,6 +72,7 @@ class proyecto_marcoController extends proyecto_marcoDAO
             "title"  => "Click Ver Detalles", //etiqueta html title
             "href"   => "principal.php?id_proyectoM=",
             "class"  => "detail", //clase que permite que añadir el evento jquery click
+            "style"  => "cursor:pointer;",
         ];
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO

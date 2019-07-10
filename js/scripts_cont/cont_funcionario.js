@@ -1,201 +1,192 @@
-$(function(){
-   //INGRESA A LOS ATRIBUTOS AL FORMULARIO PARA INSERTAR INSTITUCIÓN 
-   $("#btn_nuevofuncionario").click(function(){
-      $("#lbl_form_funcionario").html("Nuevo Funcionario");
-      $("#lbl_btn_actionfuncionario").html("Guardar <span class='glyphicon glyphicon-save'></span>");
-      $("#btn_actionfuncionario").attr("data-action","crear");
-      $("#form_funcionario")[0].reset();
-      $("#adjun_funcio").remove();
-      $("#adjunto_funcionhv").remove();
-      cargar_input();
-   });     
-   //Definir la acción del boton del formulario 
-   $("#btn_actionfuncionario").click(function() {
+$(function() {
+    //INGRESA A LOS ATRIBUTOS AL FORMULARIO PARA INSERTAR INSTITUCIÓN 
+    $("#btn_nuevofuncionario").click(function() {
+        $("#lbl_form_funcionario").html("Nuevo Funcionario");
+        $("#lbl_btn_actionfuncionario").html("Guardar <span class='glyphicon glyphicon-save'></span>");
+        $("#btn_actionfuncionario").attr("data-action", "crear");
+        $("#form_funcionario")[0].reset();
+        $("#adjun_funcio").remove();
+        $("#adjunto_funcionhv").remove();
+        cargar_input();
+    });
+    //Definir la acción del boton del formulario 
+    $("#btn_actionfuncionario").click(function() {
         var validacioncon = validarfuncionario();
         if (validacioncon === "no") {
             window.alert("Faltan Campos por diligenciar.");
         } else {
-        action = $(this).attr("data-action");
-        valida_actio(action);
-        console.log("accion a ejecutar: " + action); 
+            action = $(this).attr("data-action");
+            valida_actio(action);
+            console.log("accion a ejecutar: " + action);
         }
     });
-
-   $("[name*='edita_funcionario']").click(function(){
-       $("#lbl_form_funcionario").html("Edita Funcionario");
-      $("#lbl_btn_actionfuncionario").html("Guardar Cambios <span class='glyphicon glyphicon-save'></span>");
-      $("#btn_actionfuncionario").attr("data-action","editar");
-      $("#form_funcionario")[0].reset();
-      id = $(this).attr('data-id-funcionario');
-      $("#adjun_funcio").remove();
-      $("#adjunto_funcionhv").remove();
-      cargar_input();
-      console.log(id);
-      carga_funcionario(id);
-   });
-
-   $("[name*='elimina_funcionario']").click(function(event) {
+    $("[name*='edita_funcionario']").click(function() {
+        $("#lbl_form_funcionario").html("Edita Funcionario");
+        $("#lbl_btn_actionfuncionario").html("Guardar Cambios <span class='glyphicon glyphicon-save'></span>");
+        $("#btn_actionfuncionario").attr("data-action", "editar");
+        $("#form_funcionario")[0].reset();
+        id = $(this).attr('data-id-funcionario');
+        $("#adjun_funcio").remove();
+        $("#adjunto_funcionhv").remove();
+        cargar_input();
+        console.log(id);
+        carga_funcionario(id);
+    });
+    $("[name*='elimina_funcionario']").click(function(event) {
         id_funciona = $(this).attr('data-id-funcionario');
         console.log(id_funciona)
         elimina_funcionario(id_funciona);
     });
-   
-
-  //
-  sessionStorage.setItem("id_tab_funcionario",null);
-  //---------------------------------------------------------
-
+    //
+    sessionStorage.setItem("id_tab_funcionario", null);
+    //---------------------------------------------------------
     //click al detalle en cada fila----------------------------
-    $('.table').on( 'click', '.detail', function () {
+    $('.table').on('click', '.detail', function() {
         window.location.href = $(this).attr('href');
-    });  
+    });
 
-    function validarfuncionario(){
-      var nombre = $("#nombre_funcionario").val();
-      var apellido = $("#apellido_funcionario").val();
-      var tipo = $("#fkID_tipo_documento option:selected").val();
-      var documento = $("#documento_funcionario").val();
-      var telefono = $("#telefono_funcionario").val();
-      var direccion = $("#direccion_funcionario").val();
-      var email = $("#email_funcionario").val();
+    function validarfuncionario() {
+        var nombre = $("#nombre_funcionario").val();
+        var apellido = $("#apellido_funcionario").val();
+        var tipo = $("#fkID_tipo_documento option:selected").val();
+        var documento = $("#documento_funcionario").val();
+        var telefono = $("#telefono_funcionario").val();
+        var direccion = $("#direccion_funcionario").val();
+        var email = $("#email_funcionario").val();
         var respuesta;
-        if (nombre === "" || apellido === "" || tipo === "" || documento === "" || telefono === "" || direccion === "" || email === "" ) {
+        if (nombre === "" || apellido === "" || tipo === "" || documento === "" || telefono === "" || direccion === "" || email === "") {
             respuesta = "no"
             return respuesta
-        }else{
+        } else {
             respuesta = "ok"
             return respuesta
         }
     }
     //valida accion a realizar
-    function valida_actio(action){
-      console.log("en la mitad");
-        if(action==="crear"){  
+    function valida_actio(action) {
+        console.log("en la mitad");
+        if (action === "crear") {
             crea_funcionario();
-        }else if(action==="editar"){
+        } else if (action === "editar") {
             edita_funcionario();
         };
     };
 
-    function validarEmail( email ) {
-      expr = /([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})/;
-      if ( !expr.test(email) ){
-        alert("Error: La dirección de correo " + email + " es incorrecta.");
-        $("#email_funcionario").val('');
-        $("#email_funcionario").focus();
-      }else{
-        return true;
-      }     
+    function validarEmail(email) {
+        expr = /([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})/;
+        if (!expr.test(email)) {
+            alert("Error: La dirección de correo " + email + " es incorrecta.");
+            $("#email_funcionario").val('');
+            $("#email_funcionario").focus();
+        } else {
+            return true;
+        }
     }
-
     $("#email_funcionario").change(function(event) {
-      validarEmail( $(this).val() )
+        validarEmail($(this).val())
     });
 
-    function crea_funcionario(){
-      if( document.getElementById("url_funcionario").files.length){
-      var data = new FormData();
-      data.append('file', $("#url_funcionario").get(0).files[0]);
-      data.append('nombre', $("#nombre_funcionario").val());
-      data.append('apellido',  $("#apellido_funcionario").val());
-      data.append('fk_tipo',  $("#fkID_tipo_documento option:selected").val());
-      data.append('documento', $("#documento_funcionario").val());
-      data.append('telefono', $("#telefono_funcionario").val());
-      data.append('direccion', $("#direccion_funcionario").val());
-      data.append('email', $("#email_funcionario").val());
-      data.append('tipo', "crear");
-       $.ajax({  
-              type: "POST",
-              url: "../controller/ajaxfuncionario.php",
-              data: data,
-              contentType: false,
-              processData: false,  
-              success:function(a){
-                      console.log(a);
-                      location.reload();  
-              }
+    function crea_funcionario() {
+        if (document.getElementById("url_funcionario").files.length) {
+            var data = new FormData();
+            data.append('file', $("#url_funcionario").get(0).files[0]);
+            data.append('nombre', $("#nombre_funcionario").val());
+            data.append('apellido', $("#apellido_funcionario").val());
+            data.append('fk_tipo', $("#fkID_tipo_documento option:selected").val());
+            data.append('documento', $("#documento_funcionario").val());
+            data.append('telefono', $("#telefono_funcionario").val());
+            data.append('direccion', $("#direccion_funcionario").val());
+            data.append('email', $("#email_funcionario").val());
+            data.append('tipo', "crear");
+            $.ajax({
+                type: "POST",
+                url: "../controller/ajaxfuncionario.php",
+                data: data,
+                contentType: false,
+                processData: false,
+                success: function(a) {
+                    console.log(a);
+                    location.reload();
+                }
             })
-     }else{
-      var data = new FormData();
-      data.append('nombre', $("#nombre_funcionario").val());
-      data.append('apellido',  $("#apellido_funcionario").val());
-      data.append('fk_tipo',  $("#fkID_tipo_documento option:selected").val());
-      data.append('documento', $("#documento_funcionario").val());
-      data.append('telefono', $("#telefono_funcionario").val());
-      data.append('direccion', $("#direccion_funcionario").val());
-      data.append('email', $("#email_funcionario").val());
-      data.append('tipo', "crearsin");
-       $.ajax({  
-              type: "POST",
-              url: "../controller/ajaxfuncionario.php",
-              data: data,
-              contentType: false,
-              processData: false,  
-              success:function(a){
-                      console.log(a);
-                      location.reload();  
-              }
-            })
-     }
-    }
-
-    function cargar_input(){
-      $("#form_funcionario").append('<div class="form-group" id="adjunto_funcionhv">'+
-                        '<label for="adjunto" id="lbl_url_funcionario" class=" control-label">Hoja de Vida</label>'+ 
-                        '<input type="file" class="form-control" id="url_funcionario" name="url_funcionario" placeholder="Email del Funcionario" required = "true">'+
-                    '</div>')
-    }
-
-     function 
-     edita_funcionario(){
-        if ($("#url_funcionario").length) {
-          //existe
-          console.log("exitesss");
-          var data = new FormData();
-          data.append('file', $("#url_funcionario").get(0).files[0]);
-          data.append('nombre', $("#nombre_funcionario").val());
-          data.append('apellido',  $("#apellido_funcionario").val());
-          data.append('fk_tipo',  $("#fkID_tipo_documento option:selected").val());
-          data.append('documento', $("#documento_funcionario").val());
-          data.append('telefono', $("#telefono_funcionario").val());
-          data.append('direccion', $("#direccion_funcionario").val());
-          data.append('email', $("#email_funcionario").val());
-          data.append('tipo', "editar"); 
-          data.append('pkID', $("#pkID").val());
-           $.ajax({  
-                  type: "POST",
-                  url: "../controller/ajaxfuncionario.php",
-                  data: data,
-                  contentType: false,
-                  processData: false,  
-                  success:function(a){
-                          console.log(a);
-                          location.reload();
-                  }
-                })
         } else {
-          //no existe
-          var data = new FormData();
-          data.append('nombre', $("#nombre_funcionario").val());
-          data.append('apellido',  $("#apellido_funcionario").val());
-          data.append('fk_tipo',  $("#fkID_tipo_documento option:selected").val());
-          data.append('documento', $("#documento_funcionario").val());
-          data.append('telefono', $("#telefono_funcionario").val());
-          data.append('direccion', $("#direccion_funcionario").val());
-          data.append('email', $("#email_funcionario").val());
-          data.append('tipo', "editarsin"); 
-          data.append('pkID', $("#pkID").val());
-           $.ajax({  
-                  type: "POST",
-                  url: "../controller/ajaxfuncionario.php",
-                  data: data,
-                  contentType: false,
-                  processData: false,  
-                  success:function(a){
-                          console.log(a);
-                          location.reload();
-                  }
-                })
+            var data = new FormData();
+            data.append('nombre', $("#nombre_funcionario").val());
+            data.append('apellido', $("#apellido_funcionario").val());
+            data.append('fk_tipo', $("#fkID_tipo_documento option:selected").val());
+            data.append('documento', $("#documento_funcionario").val());
+            data.append('telefono', $("#telefono_funcionario").val());
+            data.append('direccion', $("#direccion_funcionario").val());
+            data.append('email', $("#email_funcionario").val());
+            data.append('tipo', "crearsin");
+            $.ajax({
+                type: "POST",
+                url: "../controller/ajaxfuncionario.php",
+                data: data,
+                contentType: false,
+                processData: false,
+                success: function(a) {
+                    console.log(a);
+                    location.reload();
+                }
+            })
+        }
+    }
+
+    function cargar_input() {
+        $("#form_funcionario").append('<div class="form-group" id="adjunto_funcionhv">' + '<label for="adjunto" id="lbl_url_funcionario" class=" control-label">Hoja de Vida</label>' + '<input type="file" class="form-control" id="url_funcionario" name="url_funcionario" placeholder="Email del Funcionario" required = "true">' + '</div>')
+    }
+
+    function
+    edita_funcionario() {
+        if ($("#url_funcionario").length) {
+            //existe
+            console.log("exitesss");
+            var data = new FormData();
+            data.append('file', $("#url_funcionario").get(0).files[0]);
+            data.append('nombre', $("#nombre_funcionario").val());
+            data.append('apellido', $("#apellido_funcionario").val());
+            data.append('fk_tipo', $("#fkID_tipo_documento option:selected").val());
+            data.append('documento', $("#documento_funcionario").val());
+            data.append('telefono', $("#telefono_funcionario").val());
+            data.append('direccion', $("#direccion_funcionario").val());
+            data.append('email', $("#email_funcionario").val());
+            data.append('tipo', "editar");
+            data.append('pkID', $("#pkID").val());
+            $.ajax({
+                type: "POST",
+                url: "../controller/ajaxfuncionario.php",
+                data: data,
+                contentType: false,
+                processData: false,
+                success: function(a) {
+                    console.log(a);
+                    location.reload();
+                }
+            })
+        } else {
+            //no existe
+            var data = new FormData();
+            data.append('nombre', $("#nombre_funcionario").val());
+            data.append('apellido', $("#apellido_funcionario").val());
+            data.append('fk_tipo', $("#fkID_tipo_documento option:selected").val());
+            data.append('documento', $("#documento_funcionario").val());
+            data.append('telefono', $("#telefono_funcionario").val());
+            data.append('direccion', $("#direccion_funcionario").val());
+            data.append('email', $("#email_funcionario").val());
+            data.append('tipo', "editarsin");
+            data.append('pkID', $("#pkID").val());
+            $.ajax({
+                type: "POST",
+                url: "../controller/ajaxfuncionario.php",
+                data: data,
+                contentType: false,
+                processData: false,
+                success: function(a) {
+                    console.log(a);
+                    location.reload();
+                }
+            })
         }
     }
 
@@ -205,24 +196,24 @@ $(function(){
             url: '../controller/ajaxController12.php',
             data: "pkID=" + id_funciona + "&tipo=consultar&nom_tabla=funcionario",
         }).done(function(data) {
-            $.each(data.mensaje[0], function(key, value) {  
+            $.each(data.mensaje[0], function(key, value) {
                 console.log(key + "--" + value);
-                if (key=="url_funcionario" && value != "") { 
-                  $("#form_funcionario").append('<div id="adjun_funcio" class="form-group">'+'<label for="adjunto" id="lbl_pkID_archivo_" name="lbl_pkID_archivo_" class="custom-control-label">Hoja de vida</label>'+'<br>'+'<input type="text" style="width: 89%;display: inline;" class="form-control" id="pkID_archivo" name="btn_RmFuncionario" value="' + value + '" readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../vistas/subidas/' + value + '" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmFuncionario" id="btn_actionRmFuncionario" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
-                  $("#lbl_url_funcionario").remove();
-                  $("#url_funcionario").remove(); 
-                  $("[name*='btn_actionRmFuncionario']").click(function(event) {
-                    var id_archivo = $("#pkID").val();
-                    console.log("este es el numero"+id_archivo);
-                    elimina_archivo_funcionario(id_archivo);
-                });         
-                 }else{
-                $("#" + key).val(value);
-              }
+                if (key == "url_funcionario" && value != "") {
+                    $("#form_funcionario").append('<div id="adjun_funcio" class="form-group">' + '<label for="adjunto" id="lbl_pkID_archivo_" name="lbl_pkID_archivo_" class="custom-control-label">Hoja de vida</label>' + '<br>' + '<input type="text" style="width: 89%;display: inline;" class="form-control" id="pkID_archivo" name="btn_RmFuncionario" value="' + value + '" readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../vistas/subidas/' + value + '" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmFuncionario" id="btn_actionRmFuncionario" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
+                    $("#lbl_url_funcionario").remove();
+                    $("#url_funcionario").remove();
+                    $("[name*='btn_actionRmFuncionario']").click(function(event) {
+                        var id_archivo = $("#pkID").val();
+                        console.log("este es el numero" + id_archivo);
+                        elimina_archivo_funcionario(id_archivo);
+                    });
+                } else {
+                    $("#" + key).val(value);
+                }
             });
         }).fail(function() {
             console.log("error");
-        }).always(function() {  
+        }).always(function() {
             console.log("complete");
         });
     };
@@ -258,7 +249,7 @@ $(function(){
         /**/
         if (confirma == true) {
             var data = new FormData();
-            data.append('pkID',id_archivo);
+            data.append('pkID', id_archivo);
             data.append('tipo', "eliminararchivo");
             //si confirma es true ejecuta ajax
             $.ajax({
@@ -266,7 +257,7 @@ $(function(){
                 url: '../controller/ajaxfuncionario.php',
                 data: data,
                 contentType: false,
-                processData: false, 
+                processData: false,
             }).done(function(data) {
                 console.log(data);
                 location.reload();
@@ -301,9 +292,6 @@ $(function(){
             console.log("complete");
         });
     }
-
-    
-
     $("#nombre_funcionario").keyup(function(event) {
         /* Act on the event */
         if (((event.keyCode > 32) && (event.keyCode < 65)) || (event.keyCode > 200)) {
@@ -312,7 +300,6 @@ $(function(){
             $(this).val("");
         }
     });
-
     $("#apellido_funcionario").keyup(function(event) {
         /* Act on the event */
         if (((event.keyCode > 32) && (event.keyCode < 65)) || (event.keyCode > 200)) {
@@ -321,7 +308,6 @@ $(function(){
             $(this).val("");
         }
     });
-
     $("#telefono_funcionario").keyup(function(event) {
         /* Act on the event */
         if (((event.keyCode > 32) && (event.keyCode < 48)) || (event.keyCode > 57)) {
@@ -330,7 +316,6 @@ $(function(){
             $(this).val("");
         }
     });
-
     $("#documento_funcinario").change(function(event) {
         /* valida que no tenga menos de 8 caracteres*/
         var valores_idCli = $(this).val().length;
@@ -342,7 +327,6 @@ $(function(){
         }
         validaEqualIdentifica($(this).val());
     });
-
     $("#documento_funcionario").keyup(function(event) {
         /* Act on the event */
         if (((event.keyCode > 32) && (event.keyCode < 48)) || (event.keyCode > 57)) {
@@ -351,5 +335,4 @@ $(function(){
             $(this).val("");
         }
     });
-
 });

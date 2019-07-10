@@ -15,6 +15,9 @@
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="pkID" name="pkID">
                         </div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="fkID_proyecto_marco" name="fkID_proyecto_marco">
+                        </div>
                     </div>
 
                     <div class="form-group">

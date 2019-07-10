@@ -36,7 +36,7 @@ class grupoController extends grupoDAO
     //$consulta = $arrPermisos[0]["consultar"];
     //-----------------------------------------------------------------------------
 
-    public function getTablaGrupo($filtro)
+    public function getTablaGrupo($filtro, $pkID_proyectoM)
     {
 
         //permisos-------------------------------------------------------------------------
@@ -81,14 +81,14 @@ class grupoController extends grupoDAO
         ];
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
-        if ($filtro=="* *") {
-            $grupo = $this->getGrupos();
-        } else if ($filtro=="") {
-            $grupo = $this->getGrupos();
+        if ($filtro == "* *") {
+            $grupo = $this->getGrupos($pkID_proyectoM);
+        } else if ($filtro == "") {
+            $grupo = $this->getGrupos($pkID_proyectoM);
         } else {
-            $grupo = $this->getGrupo($filtro);
+            $grupo = $this->getGrupo($filtro, $pkID_proyectoM);
         }
-        
+
         //print_r($grupo);
 
         //Instancia el render
@@ -332,7 +332,7 @@ class grupoController extends grupoDAO
         echo '<div class="col-sm-6">
 
                 <div class="text-center">
-                  <img src="../server/php/file/' . $this->gruposId[0]["url_logo"] . '" alt="..." height="250" width="250" class="img-thumbnail">
+                  <img src="../server/php/files/' . $this->gruposId[0]["url_logo"] . '" alt="..." height="250" width="250" class="img-thumbnail">
                 </div>
 
               </div>
@@ -357,12 +357,12 @@ class grupoController extends grupoDAO
         $this->grupoId = $this->getproyectoId($pkID);
 
         //print_r($this->gruposId);
-        if ($this->grupoId[0]["linea_investigacion"]=="") {
-            echo'<div class="col-md-12 text-center">
+        if ($this->grupoId[0]["linea_investigacion"] == "") {
+            echo '<div class="col-md-12 text-center">
                              <button id="btn_crearproyectogrupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="" data-target="#frm_modal_proyecto_grupo" ><span class="glyphicon glyphicon-plus"></span> Crear Proyecto</button>
                           </div>';
-            
-        } else if ($this->grupoId[0]["url_documento"]=="" && $this->grupoId[0]["url_bitacora"]=="") {
+
+        } else if ($this->grupoId[0]["url_documento"] == "" && $this->grupoId[0]["url_bitacora"] == "") {
             echo '<div class="panel panel-default proc-pan-def3">
 
                     <div class="titulohead">
@@ -378,7 +378,7 @@ class grupoController extends grupoDAO
                         </div>
 
                     </div>
-                 </div>   
+                 </div>
 
 
         <div class="col-sm-12 panel panel-primary">
@@ -386,17 +386,17 @@ class grupoController extends grupoDAO
 
         <div class="col-sm-12 panel panel-info">
                 <label class="align-center">Linea de Investigación: </label><br> <br>
-              <strong></strong>' .$this->grupoId[0]["linea_investigacion"].' <br> <br>
+              <strong></strong>' . $this->grupoId[0]["linea_investigacion"] . ' <br> <br>
               </div>
         <div class="col-sm-12 panel panel-info">
                 <label class="align-center">Pregunta de Investigación:</label><br> <br>
-              <strong> </strong>' .$this->grupoId[0]["pregunta_investigacion"].'<br> <br>
+              <strong> </strong>' . $this->grupoId[0]["pregunta_investigacion"] . '<br> <br>
               </div>
         <div class="col-sm-12 panel panel-info">
               <label class="align-center">Objetivo General:</label><br> <br>
-              <strong></strong>'.$this->grupoId[0]["objetivo_general"].' <br> <br>
+              <strong></strong>' . $this->grupoId[0]["objetivo_general"] . ' <br> <br>
               </div>
-              </div> 
+              </div>
               <div class="col-sm-1 panel panel-primary"><br>
                 <img  src="../img/pdf.png"><br><br><br>
               </div>
@@ -411,7 +411,7 @@ class grupoController extends grupoDAO
               </div>
 
               <div class="col-sm-2">
-                
+
               </div>
               <div class="col-sm-1 panel panel-primary"><br>
                 <img  src="../img/pdf.png"><br><br><br>
@@ -426,8 +426,8 @@ class grupoController extends grupoDAO
                 <button id="btn_bitacora" type="button" class="btn btn-success"  ><span class="glyphicon glyphicon-upload"></span> Guardar archivo</button>
                 </form><br>
             ';
-        echo '</div>';
-        } else if($this->grupoId[0]["url_bitacora"]!="" && $this->grupoId[0]["url_documento"]=="") {
+            echo '</div>';
+        } else if ($this->grupoId[0]["url_bitacora"] != "" && $this->grupoId[0]["url_documento"] == "") {
             echo '<div class="panel panel-default proc-pan-def3">
 
                     <div class="titulohead">
@@ -443,7 +443,7 @@ class grupoController extends grupoDAO
                         </div>
 
                     </div>
-                 </div>   
+                 </div>
 
 
         <div class="col-sm-12 panel panel-primary">
@@ -451,18 +451,18 @@ class grupoController extends grupoDAO
 
         <div class="col-sm-12 panel panel-info">
                 <label class="align-center">Linea de Investigación: </label><br> <br>
-              <strong></strong>' .$this->grupoId[0]["linea_investigacion"].' <br> <br>
+              <strong></strong>' . $this->grupoId[0]["linea_investigacion"] . ' <br> <br>
               </div>
         <div class="col-sm-12 panel panel-info">
                 <label class="align-center">Pregunta de Investigación:</label><br> <br>
-              <strong> </strong>' .$this->grupoId[0]["pregunta_investigacion"].'<br> <br>
+              <strong> </strong>' . $this->grupoId[0]["pregunta_investigacion"] . '<br> <br>
               </div>
         <div class="col-sm-12 panel panel-info">
               <label class="align-center">Objetivo General:</label><br> <br>
-              <strong></strong>'.$this->grupoId[0]["objetivo_general"].' <br> <br>
+              <strong></strong>' . $this->grupoId[0]["objetivo_general"] . ' <br> <br>
               </div>
-              </div> 
-              
+              </div>
+
               <div class="col-sm-1 panel panel-primary"><br>
                 <img  src="../img/pdf.png"><br><br><br>
               </div>
@@ -477,14 +477,14 @@ class grupoController extends grupoDAO
               </div>
 
               <div class="col-sm-2">
-                
+
               </div>
                 <div  class="col-sm-5 panel panel-primary">
               <label for="adjunto" id="lbl_pkID_archivo_" name="lbl_pkID_archivo_" class="custom-control-label">Bitacora</label><br><br>
-              <input type="text" style="width: 79%;display: inline;" class="form-control" id="pkID_archivo" name="btn_RmFuncionario" value='.$this->grupoId[0]["url_bitacora"].' readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../vistas/subidas/'.$this->grupoId[0]["url_bitacora"].'" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmBitacora" id="btn_actionRmBitacora" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button><br><br><br>
+              <input type="text" style="width: 79%;display: inline;" class="form-control" id="pkID_archivo" name="btn_RmFuncionario" value=' . $this->grupoId[0]["url_bitacora"] . ' readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../vistas/subidas/' . $this->grupoId[0]["url_bitacora"] . '" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmBitacora" id="btn_actionRmBitacora" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button><br><br><br>
             ';
-        echo '</div>';
-        }else if ($this->grupoId[0]["url_bitacora"]=="" && $this->grupoId[0]["url_documento"]!="") {
+            echo '</div>';
+        } else if ($this->grupoId[0]["url_bitacora"] == "" && $this->grupoId[0]["url_documento"] != "") {
             echo '<div class="panel panel-default proc-pan-def3">
 
                     <div class="titulohead">
@@ -500,7 +500,7 @@ class grupoController extends grupoDAO
                         </div>
 
                     </div>
-                 </div>   
+                 </div>
 
 
         <div class="col-sm-12 panel panel-primary">
@@ -508,27 +508,27 @@ class grupoController extends grupoDAO
 
         <div class="col-sm-12 panel panel-info">
                 <label class="align-center">Linea de Investigación: </label><br> <br>
-              <strong></strong>' .$this->grupoId[0]["linea_investigacion"].' <br> <br>
+              <strong></strong>' . $this->grupoId[0]["linea_investigacion"] . ' <br> <br>
               </div>
         <div class="col-sm-12 panel panel-info">
                 <label class="align-center">Pregunta de Investigación:</label><br> <br>
-              <strong> </strong>' .$this->grupoId[0]["pregunta_investigacion"].'<br> <br>
+              <strong> </strong>' . $this->grupoId[0]["pregunta_investigacion"] . '<br> <br>
               </div>
         <div class="col-sm-12 panel panel-info">
               <label class="align-center">Objetivo General:</label><br> <br>
-              <strong></strong>'.$this->grupoId[0]["objetivo_general"].' <br> <br>
+              <strong></strong>' . $this->grupoId[0]["objetivo_general"] . ' <br> <br>
               </div>
-              </div> 
+              </div>
               <div  class="col-sm-5 panel panel-primary">
               <label for="adjunto" id="lbl_pkID_archivo_" name="lbl_pkID_archivo_" class="custom-control-label">Documento Técnico</label><br><br>
-              <input type="text" style="width: 79%;display: inline;" class="form-control" id="pkID_archivo" name="btn_RmFuncionario" value='.$this->grupoId[0]["url_documento"].' readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../vistas/subidas/'.$this->grupoId[0]["url_documento"].'" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmDocumento" id="btn_actionRmDocumento" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button><br><br><br>
+              <input type="text" style="width: 79%;display: inline;" class="form-control" id="pkID_archivo" name="btn_RmFuncionario" value=' . $this->grupoId[0]["url_documento"] . ' readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../vistas/subidas/' . $this->grupoId[0]["url_documento"] . '" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmDocumento" id="btn_actionRmDocumento" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button><br><br><br>
 
               </div>
 
               <div class="col-sm-2">
-                
+
               </div>
-              
+
               <div class="col-sm-1 panel panel-primary"><br>
                 <img  src="../img/pdf.png"><br><br><br>
               </div>
@@ -541,8 +541,8 @@ class grupoController extends grupoDAO
                 <button id="btn_bitacora" type="button" class="btn btn-success"  ><span class="glyphicon glyphicon-upload"></span> Guardar archivo</button>
                 </form><br>
             ';
-        echo '</div>';
-        }else{
+            echo '</div>';
+        } else {
             echo '<div class="panel panel-default proc-pan-def3">
 
                     <div class="titulohead">
@@ -558,7 +558,7 @@ class grupoController extends grupoDAO
                         </div>
 
                     </div>
-                 </div>   
+                 </div>
 
 
         <div class="col-sm-12 panel panel-primary">
@@ -566,34 +566,33 @@ class grupoController extends grupoDAO
 
         <div class="col-sm-12 panel panel-info">
                 <label class="align-center">Linea de Investigación: </label><br> <br>
-              <strong></strong>' .$this->grupoId[0]["linea_investigacion"].' <br> <br>
+              <strong></strong>' . $this->grupoId[0]["linea_investigacion"] . ' <br> <br>
               </div>
         <div class="col-sm-12 panel panel-info">
                 <label class="align-center">Pregunta de Investigación:</label><br> <br>
-              <strong> </strong>' .$this->grupoId[0]["pregunta_investigacion"].'<br> <br>
+              <strong> </strong>' . $this->grupoId[0]["pregunta_investigacion"] . '<br> <br>
               </div>
         <div class="col-sm-12 panel panel-info">
               <label class="align-center">Objetivo General:</label><br> <br>
-              <strong></strong>'.$this->grupoId[0]["objetivo_general"].' <br> <br>
+              <strong></strong>' . $this->grupoId[0]["objetivo_general"] . ' <br> <br>
               </div>
-              </div> 
+              </div>
               <div  class="col-sm-5 panel panel-primary">
               <label for="adjunto" id="lbl_pkID_archivo_" name="lbl_pkID_archivo_" class="custom-control-label">Documento Técnico</label><br><br>
-              <input type="text" style="width: 79%;display: inline;" class="form-control" id="pkID_archivo" name="btn_RmFuncionario" value='.$this->grupoId[0]["url_documento"].' readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../vistas/subidas/'.$this->grupoId[0]["url_documento"].'" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmDocumento" id="btn_actionRmDocumento" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button><br><br><br>
+              <input type="text" style="width: 79%;display: inline;" class="form-control" id="pkID_archivo" name="btn_RmFuncionario" value=' . $this->grupoId[0]["url_documento"] . ' readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../vistas/subidas/' . $this->grupoId[0]["url_documento"] . '" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmDocumento" id="btn_actionRmDocumento" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button><br><br><br>
 
               </div>
 
               <div class="col-sm-2">
-                
+
               </div>
               <div  class="col-sm-5 panel panel-primary">
               <label for="adjunto" id="lbl_pkID_archivo_" name="lbl_pkID_archivo_" class="custom-control-label">Bitacora</label><br><br>
-              <input type="text" style="width: 79%;display: inline;" class="form-control" id="pkID_archivo" name="btn_RmFuncionario" value='.$this->grupoId[0]["url_bitacora"].' readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../vistas/subidas/'.$this->grupoId[0]["url_bitacora"].'" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmBitacora" id="btn_actionRmBitacora" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button><br><br><br>
+              <input type="text" style="width: 79%;display: inline;" class="form-control" id="pkID_archivo" name="btn_RmFuncionario" value=' . $this->grupoId[0]["url_bitacora"] . ' readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../vistas/subidas/' . $this->grupoId[0]["url_bitacora"] . '" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmBitacora" id="btn_actionRmBitacora" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button><br><br><br>
             ';
-        echo '</div>';
+            echo '</div>';
 
         }
-        
 
     }
 
@@ -816,7 +815,7 @@ class grupoController extends grupoDAO
         //print_r($grupo);
 
         //Instancia el render
-        $this->table_inst = new RenderTable($grupo, $grupo_campos, $grupo_btn,$array_opciones);
+        $this->table_inst = new RenderTable($grupo, $grupo_campos, $grupo_btn, $array_opciones);
         //---------------------------------------------------------------------------------
 
         //valida si hay usuarios y permiso de consulta

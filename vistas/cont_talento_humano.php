@@ -60,7 +60,7 @@ include "form_modal_archivos.php";
                   <div class="titleprincipal"><h4>Asignación de talento humano - <?php echo $proyectoMGen[0]["nombre"] ?></h4></div>
               </div>
               <div class="col-md-6 text-right">
-                 <button id="btn_nuevoProyectoM" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-target="#frm_modal_proyectoM" <?php if ($crea != 1) {echo 'disabled="disabled"';}?> >
+                 <button id="btn_nuevoProyectoM" type="button" class="btn btn-primary botonnewgrupo" data-proyecto="<?php echo $pkID_proyectoM; ?>" data-toggle="modal" data-target="#frm_modal_proyectoM" <?php if ($crea != 1) {echo 'disabled="disabled"';}?> >
                  <span class="glyphicon glyphicon-plus"></span>Asignar Talento Humano</button>
               </div>
             </div>
@@ -85,7 +85,7 @@ include "form_modal_archivos.php";
 
                   <tbody>
                       <?php
-$talento_humanoInst->getTablaFuncionarioCargo();
+$talento_humanoInst->getTablaFuncionarioCargo($pkID_proyectoM);
 ?>
                   </tbody>
               </table>

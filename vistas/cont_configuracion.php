@@ -50,10 +50,10 @@ $proyectoMGen   = $principalInst->getProyectosMarcoId($pkID_proyectoM);
 
                                         <div class="">
                                             <div class="">
-                                                <div class="col-md-2 zoom"><a class="" href="institucion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/botones/instituciones.jpg"></a></div>
-                                                <div class="col-md-2 zoom"><a class="" href="docentes.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img  class="zoom" src="../img/botones/docentes.jpg"></a></div>
-                                                <div class="col-md-2 zoom"><a class="" href="estudiantes.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img  class="zoom" src="../img/botones/estudiantes.jpg"></a></div>
-                                                <div class="col-md-2 zoom"><a class="" href="funcionario.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/botones/actor.jpg"></a></div>
+                                                <div class="col-md-3 zoom"><a class="" href="institucion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/botones/instituciones.png"></a></div>
+                                                <div class="col-md-3 zoom"><a class="" href="docentes.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img  class="zoom" src="../img/botones/docentes.png"></a></div>
+                                                <div class="col-md-3 zoom"><a class="" href="estudiantes.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img  class="zoom" src="../img/botones/estudiantes.png"></a></div>
+                                                <div class="col-md-3 zoom"><a class="" href="funcionario.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/botones/funcionarios.png"></a></div>
                                             </div>
                                         </div>
 

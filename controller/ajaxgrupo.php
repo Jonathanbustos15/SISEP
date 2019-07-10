@@ -14,11 +14,12 @@ $tipo = $_POST['tipo'];
 if (isset($_POST['pkID'])) {
     $id = $_POST['pkID'];
 }
-$nombref        = $_POST['nombre'];
-$fk_tipo_grupo  = $_POST['fkID_tipo_grupo'];
-$fk_grado       = $_POST['fkID_grado'];
-$fk_institucion = $_POST['fkID_institucion'];
-$fecha          = $_POST['fecha_creacion'];
+$nombref             = $_POST['nombre'];
+$fk_tipo_grupo       = $_POST['fkID_tipo_grupo'];
+$fk_grado            = $_POST['fkID_grado'];
+$fk_institucion      = $_POST['fkID_institucion'];
+$fecha               = $_POST['fecha_creacion'];
+$fkID_proyecto_marco = $_POST['fkID_proyecto_marco'];
 
 switch ($tipo) {
     case 'crear':
@@ -34,7 +35,7 @@ switch ($tipo) {
         //carga el archivo en el servidor
         $destino = "../vistas/logos/" . $nombre;
         if (move_uploaded_file($_FILES['file']["tmp_name"], $destino)) {
-            $q_inserta  = "insert into `grupo`(nombre, fkID_tipo_grupo, fkID_grado, fkID_institucion, url_logo, fecha_creacion) VALUES ('$nombref', '$fk_tipo_grupo', '$fk_grado', '$fk_institucion', '$nombre', '$fecha')";
+            $q_inserta  = "insert into `grupo`(nombre, fkID_tipo_grupo, fkID_grado, fkID_institucion, url_logo, fecha_creacion,fkID_proyecto_marco) VALUES ('$nombref', '$fk_tipo_grupo', '$fk_grado', '$fk_institucion', '$nombre', '$fecha','$fkID_proyecto_marco')";
             $r["query"] = $q_inserta;
 
             $resultado = $generico->EjecutaInsertar($q_inserta);

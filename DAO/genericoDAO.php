@@ -56,6 +56,21 @@ trait GenericoDAO
         }
 
     }
+
+    public function EjecutarConsulta2($query)
+    {
+        $db = $this->connect();
+
+        if (!$result = $db->query($query)) {
+            $retorno["error"] = $db->error;
+            return $retorno;
+        } else {
+            $retorno = $result;
+
+                return $retorno;
+        }
+
+    }
     //------------------------------------------------------------------------
     public function EjecutaInsertar($query)
     {

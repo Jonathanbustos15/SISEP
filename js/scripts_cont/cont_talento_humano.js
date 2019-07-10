@@ -1,15 +1,17 @@
 $(function() {
     $("#btn_nuevoProyectoM").jquery_controllerV2({
         nom_modulo: 'proyectoM',
-        titulo_label: 'Nuevo Proyecto Marco',
+        titulo_label: 'Nuevo Talento Humano',
         functionBefore: function(ajustes) {
             console.log('Ejecutando antes de todo...');
             console.log(ajustes);
-            upload.functionReset()
-            //$("#btn_actionusuario").html("Esto es antes...")
+            upload.functionReset();
         },
         functionAfter: function(ajustes) {
             console.log('Ejecutando despues de todo...');
+            id = $("#btn_nuevoProyectoM").attr('data-proyecto');
+            $("#fkID_proyecto_marco").val(id);
+            console.log(id);
             //console.log(ajustes);
             //destruye_cambia_pass();
             //------------------------------------------

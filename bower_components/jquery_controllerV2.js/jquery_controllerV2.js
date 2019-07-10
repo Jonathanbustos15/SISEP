@@ -368,9 +368,11 @@
                 beforeSend: function() {
                     console.log("Subiendo archivo, por favor espere...");
                     if ($("#archivo")[0]["files"].length > 0) {
-                        $(".alert").html("Subiendo archivo, por favor espere...");
+                        //$(".alert").html("Subiendo archivo, por favor espere...");
+                        console.log("Subiendo archivo");
                     } else {
-                        $(".alert").html("No hay archivo para subir.");
+                        //$(".alert").html("No hay archivo para subir.");
+                        console.log("No hay archivo para subir");
                     };
                 },
                 //una vez finalizado correctamente
@@ -394,6 +396,28 @@
             });
             //---------------------------------------------------------------------------------------
         }; //cierra función subida*/
+        function subida_archivo2() {
+            var form = $("#form_acompanamiento");
+            var file1 = $('#archivo1'); //Ya que utilizas jquery aprovechalo...
+            var archivo1 = file1[0].files; //el array pertenece al elemento
+            if (archivo1) {
+                // Crea un formData y lo envías
+                var formData = new FormData(form);
+                formData.append('archivo1[]', archivo1);
+                jQuery.ajax({
+                    url: '../url.php',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    type: 'POST',
+                    success: function(data) {
+                        console.log(data);
+                    }
+                });
+            }
+            return false;
+        }
         //------------------------------------------------------------------------------------------------------------------------
         switch (ajustes.tipo) {
             case 'nuevo':

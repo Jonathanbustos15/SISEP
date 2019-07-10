@@ -23,7 +23,7 @@ include "form_institucion.php";
       <input type="hidden" id="id_mod_page_institucion" value=<?php echo $id_modulo ?>>
 
       <div class="col-lg-12">
-          <h1 class="page-header titleprincipal"><img src="../img/botones/institucionesonly.png">Instituciones - <?php echo $proyectoMGen[0]["nombre"] ?></h1>
+          <h2 class="page-header titleprincipal"><img src="../img/botones/institucionesonly.png">Instituciones - <?php echo $proyectoMGen[0]["nombre"] ?></h2>
       </div>
 
       <div class="col-lg-12">

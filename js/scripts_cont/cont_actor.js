@@ -2,20 +2,16 @@ $(function(){
 	 
 	 //https://github.com/jsmorales/jquery_controllerV2
 	 
-	 $("#btn_nuevoActor").jquery_controllerV2({
-	 	nom_modulo:'actor',
-      	titulo_label:'Nuevo Actor',
-      	functionBefore:function(ajustes){
-        	console.log('Ejecutando antes de todo...');
-        	console.log(ajustes);
-           upload.functionReset()     
-        //$("#btn_actionusuario").html("Esto es antes...")
-      	},
-      	functionAfter:function(ajustes){
-        	console.log('Ejecutando despues de todo...');
-        //console.log(ajustes);
-        //destruye_cambia_pass();
-      	}
+	 $("#btn_nuevoActor").click(function(){
+    $("#lbl_form_actor").html("Crear Actor");
+        $("#lbl_btn_actionactor").html("Guardar Cambios <span class='glyphicon glyphicon-pencil'></span>");
+        $("#btn_actionactor").attr("data-action","crear");
+        $("#btn_actionactor").removeAttr('disabled', 'disabled');
+        $("#form_actor")[0].reset();
+        $("#btn_actionHvida").removeAttr('disabled');
+        $("#selectMunicipio").remove();
+        $("#selectDepartamento").remove();
+        $("#selectPais").remove();
 	 });
 	 
 	 $("#btn_actionactor").jquery_controllerV2({
@@ -78,46 +74,30 @@ $(function(){
         
 	 });
 
-    
-	 $("[name*='edita_actor']").jquery_controllerV2({
-	 	tipo:'carga_editar',
-      	nom_modulo:'actor',
-      	nom_tabla:'actor',
-      	titulo_label:'Editar Actor',
-      	tipo_load:1,
-      	functionBefore:function(ajustes){
-        	console.log('Ejecutando antes de todo...');
-        	console.log(ajustes);
-       // crea_cambia_pass();
-      	},
-      	functionAfter:function(data){
-        	console.log('Ejecutando despues de todo...');
-        	console.log(data);
-        
-        	id_actor = data.mensaje[0].pkID
+   $("[name*='edita_actor']").click(function(event) {
+      $("#lbl_form_actor").html("Editar Registro Actor");
+        $("#lbl_btn_actionactor").html("Guardar Cambios <span class='glyphicon glyphicon-pencil'></span>");
+        $("#btn_actionactor").attr("data-action","editar");
+        $("#btn_actionactor").removeAttr('disabled', 'disabled');
+        $("#form_actor")[0].reset();
+        id_actor = $(this).attr('data-id-actor');
+        $("#btn_actionHvida").removeAttr('disabled');
+        $("#selectMunicipio").remove();
+        $("#selectDepartamento").remove();  
+        $("#selectPais").remove();
+        carga_actor(id_actor); 
+        var ope = $("#fkID_tipo option:selected").val();
+            console.log("aqui ta"+ope);
+            var query_docs = "SELECT * FROM `documentos_actor` WHERE fkID_actor = "+id_actor;
+          upload.functionLoad(query_docs); 
+        cargar_ubicacion();
+        carga_select(id_actor);
+    });
 
-
-          var query_docs = "SELECT * FROM `documentos_actor` WHERE fkID_actor = "+id_actor;
-
-          upload.functionLoad(query_docs);   
-
-      	}
-	 });
-
-	 $("[name*='elimina_actor']").jquery_controllerV2({
-	 	  tipo:'eliminar',
-  		nom_modulo:'actor',
-  		nom_tabla:'actor',
-      auditar:true,
-  		functionBefore:function(ajustes){
-  			console.log('Ejecutando antes de todo...');
-  			console.log(ajustes);  			
-  		},
-  		functionAfter:function(data){
-  			console.log('Ejecutando despues de todo...');
-  			console.log(data);  		
-  		}
-	 });
+	 $("[name*='elimina_actor']").click(function(event) {
+        id_actor = $(this).attr('data-id-actor');
+        elimina_actor(id_actor);
+    });
 
 
    $("[name*='ver_archivos_actor']").click(function(event) {
@@ -187,6 +167,225 @@ $("#form_actor").overlooker({
     
 
   sessionStorage.setItem("id_tab_actor",null);
+
+  $(document).ready(function(){
+        $("#fkID_tipo").change(function(){
+            cargar_ubicacion();
+        });
+        });
+
+
+  $(document).ready(function(){
+        $("#fkID_municipio").change(function(){
+            console.log("chavoo");
+        });
+        });
+
+
+  function cargar_selectregional(){
+      $("#selectMunicipio").remove();
+      $("#selectDepartamento").remove();
+      $("#selectPais").remove();
+      $("#div_actor").append('<div class="form-group" id="selectMunicipio">'+
+                        '<label for="fkID_municipio" class="control-label">Municipio</label>'+ 
+                        '<select name="fkID_municipio" id="fkID_municipio" class="form-control" required = "true">'+
+                            '</select>'+
+                    '</div>')
+    }
+
+  function cargar_selectDepartamento(){
+      $("#selectMunicipio").remove();
+      $("#selectDepartamento").remove();
+      $("#selectPais").remove();
+      $("#div_actor").append('<div class="form-group" id="selectDepartamento">'+
+                        '<label for="fkID_departamento" class="control-label">Departamento</label>'+ 
+                        '<select class="form-control" id="fkID_departamento" name="fkID_departamento" required = "true">'+
+                            '</select>'+
+                    '</div>');
+      $("#div_actor").append('<div class="form-group" id="selectMunicipio">'+
+                        '<label for="fkID_municipio" class="control-label">Municipio</label>'+ 
+                        '<select name="fkID_municipio" id="fkID_municipio" class="form-control" required ="true">'+
+                              '<option value="" selected="selected">Elije la Ciudad</option>'+
+                            '</select>'+
+                    '</div>')
+    }
+
+
+
+    function cargar_selectpais(){
+      $("#selectMunicipio").remove();
+      $("#selectDepartamento").remove();
+      $("#selectPais").remove();
+      $("#div_actor").append('<div class="form-group" id="selectPais">'+
+                        '<label for="fkID_pais" class="control-label">País</label>'+ 
+                        '<select name="fkID_pais" id="fkID_pais" class="form-control" required ="true">'+
+                            '</select>'+
+                    '</div>')
+    }
+
+    function carga_actor(id_actor) {
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "pkID=" + id_actor + "&tipo=consultar&nom_tabla=actor",
+        }).done(function(data) {
+            /**/
+            $.each(data.mensaje[0], function(key, valu) {
+                $("#" + key).val(valu);
+            });
+        }).fail(function() {
+            console.log("error");
+        }).always(function() {
+            console.log("complete");
+        });
+    };
+
+    function cargar_ubicacion(){
+      var ope = $("#fkID_tipo option:selected").val();
+            if (ope==1) {
+                cargar_selectregional()
+                completamunicipio();
+            } else if (ope==2) { 
+                cargar_selectDepartamento()
+                completadepartamento()
+            } else if (ope==3) { 
+                console.log("Internacional");
+                cargar_selectpais();
+                completapais();
+            } else {ope==""
+                $("#selectMunicipio").remove();
+                $("#selectDepartamento").remove();
+                $("#selectPais").remove();
+            }
+          };
+
+    function carga_select(id) {
+      console.log(id)
+        var ruta = "../controller/ajaxactor.php"; 
+          $.ajax({
+              url: ruta,
+              type: 'POST',  
+              data: {tipo: "consultarciudad2",id: id},
+              success: function(data){
+                console.log(data)
+                  var cod = 0
+                  var tipos = JSON.parse(data);
+                        console.log(tipos[x])
+                      if (tipos[0].fkID_pais != 0) {
+                        $("#fkID_departamento option[value="+ tipos[0].fkID_pais+"]").attr("selected",true);
+                      } if (tipos[0].fkID_departamento != 0) {
+                        $("#fkID_departamento option[value="+ tipos[0].fkID_departamento+"]").attr("selected",true);
+                        
+                      }  if (tipos[0].fkID_municipio != 0 ) {
+                        console.log("si llega")
+                        $('#fkID_municipio').append('<option value='+tipos[0].fkID_municipio+' selected="selected">'+tipos[0].nombre+'</option>');
+                      } 
+              }
+          }) 
+    };
+
+    function cargar_selectmunicipio(valu){
+      $("#fkID_municipio option[value="+ valu +"]").attr("selected",true);
+
+      console.log("este es "+valu);
+
+    }
+
+    function completamunicipio(){
+    var ruta = "../controller/ajaxactor.php"; 
+          $.ajax({
+              url: ruta,
+              type: 'POST',  
+              data: {tipo: "consultarmunicipio"},
+              success: function(data){
+                  //convierte la cadena que se recibe json
+                  var tipos = JSON.parse(data);
+                  $('#fkID_municipio').append('<option value="" selected="selected">Elije el Municipio</option>');
+                  for(x=0; x<tipos.length; x++) {
+                      $('#fkID_municipio').append('<option value='+tipos[x].codigo+'>'+tipos[x].nombre+'</option>');
+                  }
+              }
+          })
+      };
+
+    function completadepartamento(){
+    var ruta = "../controller/ajaxactor.php"; 
+          $.ajax({
+              url: ruta,
+              type: 'POST',  
+              data: {tipo: "consultardepartamento"},
+              success: function(data){
+                  //convierte la cadena que se recibe json
+                  var tipos = JSON.parse(data);
+                  $('#fkID_departamento').append('<option value="" selected="selected">Elije el Departamento</option>');
+                  for(x=0; x<tipos.length; x++) {
+                      $('#fkID_departamento').append('<option value='+tipos[x].codigo+'>'+tipos[x].nombre+'</option>');
+                  }
+              }
+          })
+      };
+
+    function completapais(){
+    var ruta = "../controller/ajaxactor.php"; 
+          $.ajax({
+              url: ruta,
+              type: 'POST',  
+              data: {tipo: "consultarpais"},
+              success: function(data){
+                  //convierte la cadena que se recibe json
+                  var tipos = JSON.parse(data);
+                  $('#fkID_pais').append('<option value="" selected="selected">Elije el País</option>');
+                  for(x=0; x<tipos.length; x++) {
+                      $('#fkID_pais').append('<option value='+tipos[x].codigo+'>'+tipos[x].nombre+'</option>');
+                  }
+              }
+          })
+      };
+
+    function completaciudad(id){
+    var ruta = "../controller/ajaxactor.php"; 
+          $.ajax({
+              url: ruta,
+              type: 'POST',  
+              data: {tipo: "consultarciudad",id: id},
+              success: function(data){
+                  //convierte la cadena que se recibe json
+                  var tipos = JSON.parse(data);
+                  $('#fkID_municipio').append('<option value="" selected="selected">Elije la Ciudad</option>');
+                  for(x=0; x<tipos.length; x++) {
+                      $('#fkID_municipio').append('<option value='+tipos[x].codigo+'>'+tipos[x].nombre+'</option>');
+                  }
+              }
+          })
+      };
+
+        $(document).ready(function () {   
+    $('body').on('change','#fkID_departamento', function() {
+        var id = $("#fkID_departamento option:selected").val();
+        document.getElementById ("fkID_municipio") .options.length = 0;
+         completaciudad(id);
+    });
+}); 
+
+function elimina_actor(id) {
+        var confirma = confirm("En realidad quiere eliminar este Actor?");
+        console.log(confirma);
+        if (confirma == true) {
+            $.ajax({
+              type: "POST", 
+                url: '../controller/ajaxactor.php',  
+                data: {tipo: "eliminarlogico",id: id},
+            }).done(function(data) {
+                //---------------------
+                console.log(data);
+                location.reload();
+            }).fail(function() {
+                console.log("errorfatal");
+            }).always(function() {
+                console.log("complete");
+            });
+        }
+    };
+
 
 
 

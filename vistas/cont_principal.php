@@ -10,7 +10,7 @@ $proyectoMGen   = $principalInst->getProyectosMarcoId($pkID_proyectoM);
 //--------------------------------------------------------------------
 ?>
 
-<div id="page-wrapper" style="margin: 0px;">
+<div id="page-principal" style="margin: 0px;">
 
              <!-- Contenido del Index -->
              <div class="row">
@@ -51,9 +51,9 @@ $proyectoMGen   = $principalInst->getProyectosMarcoId($pkID_proyectoM);
                                             <div class="">
                                                 <div class="col-md-2 zoom"><a class="" href="talento_humano.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/talento_humano.png"></a></div>
                                                 <div class="col-md-2 zoom"><a class="" href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img  class="zoom" src="../img/academico.png"></a></div>
-                                                <div class="col-md-2 zoom"><a class="" href="financiero.php"><img  class="zoom" src="../img/financiero.png"></a></div>
                                                 <div class="col-md-2 zoom"><a class="" href="cientifico.php"><img class="zoom" src="../img/cientifico.png"></a></div>
                                                 <div class="col-md-2 zoom"><a class="" href="reportes.php"><img class="zoom" src="../img/reportes.png"></a></div>
+                                                <div class="col-md-2 zoom"><a class="" href="financiero.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img  class="zoom" src="../img/financiero.png"></a></div>
                                                 <div class="col-md-2 zoom"><a class="" href="configuracion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/configuracion.png"></a></div>
                                             </div>
                                         </div>

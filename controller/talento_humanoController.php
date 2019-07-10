@@ -24,7 +24,7 @@ class talento_humanoController extends talento_humanoDAO
     //Funciones-------------------------------------------
     //Espacio para las funciones de esta clase.
 
-    public function getTablaFuncionarioCargo()
+    public function getTablaFuncionarioCargo($pkID_proyectoM)
     {
 
         //permisos-------------------------------------------------------------------------
@@ -62,7 +62,7 @@ class talento_humanoController extends talento_humanoDAO
 
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
-        $proyectoM = $this->getProyectosMarco($_COOKIE[$this->NameCookieApp . "_id"]);
+        $proyectoM = $this->getFuncionariosCargo($pkID_proyectoM);
 
         //print_r($proyectoM);
         //Instancia el render

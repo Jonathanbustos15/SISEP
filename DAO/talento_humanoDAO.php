@@ -12,18 +12,15 @@ class talento_humanoDAO
     //Funciones------------------------------------------
     //Espacio para las funciones en general de esta clase.
 
-    public function getProyectosMarco($pkID_usuario)
+    public function getFuncionariosCargo($pkID_proyectoM)
     {
 
         include '../conexion/datos.php';
 
-        $this->q_general = "SELECT funcionario_cargo.pkID AS pkID,nombre_funcionario,apellido_funcionario,nombre_cargo,anio_funcionario_cargo,estado_funcionario_cargo FROM `funcionario_cargo`
+        $this->q_general = "SELECT fkID_proyecto_marco,funcionario_cargo.pkID AS pkID,nombre_funcionario,apellido_funcionario,nombre_cargo,anio_funcionario_cargo,estado_funcionario_cargo FROM `funcionario_cargo`
             INNER JOIN funcionario ON funcionario.pkID = funcionario_cargo.fkID_funcionario
             INNER JOIN cargo ON cargo.pkID = funcionario_cargo.fkID_cargo
-            WHERE funcionario_cargo.estadoV = 1";
-
-        /**/
-        $this->q_general = $_COOKIE[$NomCookiesApp . "_IDtipo"] != "1" ? $this->q_general . " INNER JOIN usuario_proyectoM ON usuario_proyectoM.fkID_proyectoM = proyecto_marco.pkID INNER JOIN usuarios ON usuarios.pkID = usuario_proyectoM.fkID_usuario WHERE usuario_proyectoM.fkID_usuario = " . $pkID_usuario : $this->q_general;
+            WHERE funcionario_cargo.estadoV = 1 AND funcionario_cargo.fkID_proyecto_marco = " . $pkID_proyectoM;
 
         return $this->EjecutarConsulta($this->q_general);
     }

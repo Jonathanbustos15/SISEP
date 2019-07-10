@@ -51,7 +51,7 @@ $proyectoMGen   = $academicoInst->getProyectosMarcoId($pkID_proyectoM);
                                         <div class="">
                                             <div class="row text-center">
                                                 <div class="col-md-3 zoom"><a class="" href="grupo.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/botones/grupos.png"></a></div>
-                                                <div class="col-md-3 zoom"><a class="" href="saberes.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img  class="zoom" src="../img/botones/saberes.png"></a></div>
+                                                <div class="col-md-3 zoom"><a class="" href="saberes_propios.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img  class="zoom" src="../img/botones/saberes.png"></a></div>
                                                 <div class="col-md-3 zoom"><a class="" href="formacion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img  class="zoom" src="../img/botones/formacion.png"></a></div>
                                                 <div class="col-md-3 zoom"><a class="" href="apropiacion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/botones/apropiacion.png"></a></div>
                                             </div>
