@@ -39,6 +39,7 @@
         console.log("accion a ejecutar: " + action);
     	}
     });
+    
     $("[name*='elimina_saber_propio']").click(function(event) {
         id_saberes = $(this).attr('data-id-saber_propio');
         console.log(id_saberes)

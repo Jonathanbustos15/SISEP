@@ -21,8 +21,9 @@
                     <div class="form-group">
                         <label for="" class=" control-label">Estudiantes</label>
                         <?php
-$estudiantesInst->getSelectEstudiantes();
-?>
+                          $estudiantesInst->getSelectEstudiantes();
+                          ?>
+                    <button id="btn_nuevoestudiante" type="button" class="btn btn-success" data-toggle="modal" data-target="#frm_modal_estudiante"><span class="glyphicon glyphicon-plus"></span></button>
                     </div>
 </form>
                     <div id='select_tutor'>

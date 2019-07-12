@@ -7,6 +7,8 @@ include '../controller/cambio_estado_grupo_invController.php';
 
 include '../controller/saberes_propioscontroller.php';
 
+include '../controller/tallerescontroller.php';
+
 include '../controller/proyectoController.php';
 
 include '../controller/docentesController.php';
@@ -29,9 +31,9 @@ $arrPermisosD = $docentesInst->getPermisosModulo_Tipo(26, $_COOKIE[$NomCookiesAp
 
 $creaD = $arrPermisosD[0]['crear'];
 
-$saberesInst = new saberes_propioscontroller;
+$tallerInst = new talleresController();
 
-$arrPermisoss = $saberesInst->getPermisosModulo_Tipo(26, $_COOKIE[$NomCookiesApp . '_IDtipo']);
+$arrPermisoss = $tallerInst->getPermisosModulo_Tipo(26, $_COOKIE[$NomCookiesApp . '_IDtipo']);
 
 $creas = $arrPermisoss[0]['crear'];
 
@@ -53,9 +55,9 @@ $arrPermisos = $detalles_grupoInst->getPermisosModulo_Tipo($id_modulo, $_COOKIE[
 
 $crea = $arrPermisos[0]['crear'];
 
-$pkID_grupo = $_GET["id_saber_propio"];
+$pkID_taller = $_GET["id_taller_formacion"];
 
-$estado = $detalles_grupoInst->getEstadoGrupo($pkID_grupo);
+$estado = $detalles_grupoInst->getEstadoGrupo($pkID_taller);
 
 $estadoG = $estado[0]['fkID_estado'];
 
@@ -71,7 +73,7 @@ $tipo_user = $_COOKIE[$NomCookiesApp . '_IDtipo'];
 
 //++++++++++++++++++++++++++++++
 
-$grupoGen = $detalles_grupoInst->getGruposId($pkID_grupo);
+$grupoGen = $detalles_grupoInst->getGruposId($pkID_taller);
 
 //variables grado
 $pkID_grado = $grupoGen[0]["fkID_grado"];
@@ -87,11 +89,11 @@ $arrPermisosDocentes = $detalles_grupoInst->getPermisosModulo_Tipo(39, $_COOKIE[
 $creaDocente         = $arrPermisosDocentes[0]['crear'];
 //------------------------------------------
 
-$numeroEstudiantes = $detalles_grupoInst->getNumEstudiantesGrupo(9, $pkID_grupo, $pkID_grado);
+$numeroEstudiantes = $detalles_grupoInst->getNumEstudiantesGrupo(9, $pkID_taller, $pkID_grado);
 
 $ne = $numeroEstudiantes[0]['num_estudiantes'];
 
-$proyectoMGen = $detalles_grupoInst->getProyectosMarcoGrupo($pkID_grupo);
+$proyectoMGen = $detalles_grupoInst->getProyectosMarcoGrupo($pkID_taller);
 
 //echo date("Y-m-d");
 
@@ -111,7 +113,7 @@ include "frm_modal_proyectog.php";
 
 <div class="form-group " hidden>
     <div class="col-sm-10">
-        <input type="text" class="form-control" id="grupo" name="grupo" value=<?php echo $pkID_grupo; ?>>
+        <input type="text" class="form-control" id="grupo" name="grupo" value=<?php echo $pkID_taller; ?>>
     </div>
 </div>
 
@@ -144,7 +146,7 @@ include "frm_modal_proyectog.php";
       <input type="hidden" id="id_mod_page_estudiante" value=<?php echo $id_modulo ?>>
 
       <div class="col-lg-12">
-          <h1 class="page-header titleprincipal"><img src="../img/botones/grupoonly.png"><?php echo  $proyectoMGen[0]["nombre_proyecto"] ?> - Saber Propio</h1>
+          <h1 class="page-header titleprincipal"><img src="../img/botones/grupoonly.png"><?php echo  $proyectoMGen[0]["nombre_proyecto"] ?> - Taller Formación</h1>
       </div>
       <!-- /.col-lg-12 -->
 
@@ -153,8 +155,8 @@ include "frm_modal_proyectog.php";
             <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
             <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
             <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Académico</a></li>
-            <li><a href="saberes_propios.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Saberes Propios</a></li>
-            <li class="active migadepan">Detalle Saber Propio</li>
+            <li><a href="saberes_propios.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Taller de formación</a></li>
+            <li class="active migadepan">Detalle Talleres de Formación</li>
           </ol>
     </div>
 
@@ -183,10 +185,10 @@ include "frm_modal_proyectog.php";
 
 						<div class="col-md-12">
 							<!-- instanciFa php controller -->
-							<?php $saberesInst->getDataSaberesGen($pkID_grupo);?>
+							<?php $tallerInst->getDataTallerGen($pkID_taller);?>
 						</div>
 						<div class="col-md-12" hidden="true">
-							<input type="text" id="grupo_id" value=<?php echo $pkID_grupo; ?>>
+							<input type="text" id="grupo_id" value=<?php echo $pkID_taller; ?>>
 							<input type="text" id="grado_grupo" value=<?php echo $pkID_grado; ?>>
 							<input type="text" id="institucion_grupo" value=<?php echo $pkID_institucion; ?>>
 						</div>
@@ -209,7 +211,7 @@ include "frm_modal_proyectog.php";
 			                  <div class="titleprincipal"><h4>Estudiantes Asignados - <?php echo $proyectoMGen[0]["nombre"] . ' - ' . $proyectoMGen[0]["nombre_proyecto"] ?></h4></div>
 			              </div>
 			              <div class="col-md-6 text-right">
-			      			 <button id="btn_asignarestudiante" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-saber="<?php echo $pkID_grupo ?>" data-target="#frm_modal_asignacion_estudiante" <?php if (($creaeg != 1) || ($ne >= 30)) {echo 'disabled="disabled"';}?> ><span class="glyphicon glyphicon-plus"></span> Asignar Estudiante</button>
+			      			 <button id="btn_asignarestudiante" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-saber="<?php echo $pkID_taller ?>" data-target="#frm_modal_asignacion_estudiante" <?php if (($creaeg != 1) || ($ne >= 30)) {echo 'disabled="disabled"';}?> ><span class="glyphicon glyphicon-plus"></span> Asignar Estudiante</button>
 			              </div>
 			            </div>
 
@@ -233,7 +235,7 @@ include "frm_modal_proyectog.php";
 
 				                  <tbody>
 				                      <?php
-$saberesInst->getTablaEstudiantesSaberes($pkID_grupo);
+//$tallerInst->getTablaEstudiantesSaberes($pkID_taller);
 ?>
 				                  </tbody>
 				              </table>
@@ -261,12 +263,12 @@ $saberesInst->getTablaEstudiantesSaberes($pkID_grupo);
 			                  <div class="titleprincipal"><h4>Galeria de fotos - <?php echo $proyectoMGen[0]["nombre"] . ' - ' . $proyectoMGen[0]["nombre_proyecto"] ?></h4></div>
 			              </div>
 			              <div class="col-md-6 text-right">
-			      			 <button id="btn_album_grupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="<?php echo $pkID_grupo ?>" data-target="#frm_modal_album_grupo" <?php if (($creaeg != 1) || ($ne >= 30)) {echo 'disabled="disabled"';}?> ><span class="glyphicon glyphicon-plus"></span> 
+			      			 <button id="btn_album_grupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="<?php echo $pkID_taller ?>" data-target="#frm_modal_album_grupo" <?php if (($creaeg != 1) || ($ne >= 30)) {echo 'disabled="disabled"';}?> ><span class="glyphicon glyphicon-plus"></span> 
 			      			 Crear album</button>
 
 			      			 <div class="form-group " hidden>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="pkID_grup" name="pkID_grup" value=<?php echo $pkID_grupo; ?>>
+                            <input type="text" class="form-control" id="pkID_grup" name="pkID_grup" value=<?php echo $pkID_taller; ?>>
                         </div>
                     </div>
 			              </div>
@@ -291,7 +293,7 @@ $saberesInst->getTablaEstudiantesSaberes($pkID_grupo);
 
 				                  <tbody>
 				                      <?php
-$detalles_grupoInst->getTablaAlbumGrupo($pkID_grupo);
+//$detalles_grupoInst->getTablaAlbumGrupo($pkID_taller);
 ?>
 				                  </tbody>
 				              </table>

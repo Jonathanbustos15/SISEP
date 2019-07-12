@@ -36,7 +36,7 @@ class saberes_propioscontroller extends saberesDAO
     //$consulta = $arrPermisos[0]["consultar"];
     //-----------------------------------------------------------------------------
 
-    public function getTablasaberes($filtro)
+    public function getTablasaberes($filtro,$pkID_proyectoM)
     {
 
         //permisos-------------------------------------------------------------------------
@@ -82,9 +82,9 @@ class saberes_propioscontroller extends saberesDAO
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
         if ($filtro=="*") {
-            $saberes = $this->getSaberes();
+            $saberes = $this->getSaberes($pkID_proyectoM);
         } else if ($filtro=="") {
-            $saberes = $this->getSaberes();
+            $saberes = $this->getSaberes($pkID_proyectoM);
         } else {
             $saberes = $this->getGrupo($filtro);
         }
@@ -203,6 +203,17 @@ class saberes_propioscontroller extends saberesDAO
             echo '<option value="' . $m_u_Select[$i]["pkID"] . '">' . $m_u_Select[$i]["nombre"] . '</option>';
         };
         echo '</select>';
+    }
+
+    public function getSelectTotal()
+    {
+
+        $m_u_Select = $this->getTotalEstudiantes();
+
+        echo '<span class="input-group-addon">#</span>';
+        for ($i = 0; $i < sizeof($m_u_Select); $i++) {
+            echo '<input type="text" class="form-control" id="total_estudiantes" name="total_estudiantes" readonly="true" value='. $m_u_Select[$i]["cantidad"].'>';
+        }
     }
 
     public function getSelectInstituciones()

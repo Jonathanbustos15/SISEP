@@ -17,16 +17,25 @@
                             <input type="text" class="form-control" id="pkID" name="pkID">
                         </div>
                     </div>
+                    <div  class="form-group">
+                       <label  for="nombres" class="control-label">Primer Nombre</label>                   
+                       <input  type="text" class="form-control" id="nombre_estudiante1" name="nombre_estudiante1" placeholder="Primer Nombre del estudiante" required="true">                       
+                   </div>
 
-                    <div class="form-group">
-                        <label for="nombres" class=" control-label">Nombres</label>                        
-                        <input type="text" class="form-control" id="nombre_estudiante" name="nombre_estudiante" placeholder="Nombre del estudiante" required = "true">                        
-                    </div>
+                   <div  class="form-group">
+                       <label  for="nombres" class="control-label">Segundo Nombre</label>                 
+                       <input  type="text" class="form-control" id="nombre_estudiante2" name="nombre_estudiante2" placeholder="Segundo Nombre del estudiante">                       
+                   </div>
 
-                    <div class="form-group">
-                        <label for="apellidos" class=" control-label">Apellidos</label>                        
-                        <input type="text" class="form-control" id="apellido_estudiante" name="apellido_estudiante" placeholder="Apellidos del estudiante" required = "true">                        
-                    </div>
+                    <div  class="form-group">
+                       <label  for="apellidos" class="control-label">Primer Apellido</label>                       
+                       <input  type="text" class="form-control" id="apellido_estudiante1" name="apellido_estudiante1" placeholder="Primer Apellido del estudiante" required="true">                       
+                   </div>
+
+                   <div  class="form-group">
+                       <label for="apellidos" class="control-label">Segundo Apellido</label>                       
+                       <input type="text" class="form-control" id="apellido_estudiante2" name="apellido_estudiante2" placeholder="Segundo Apellido del estudiante">                       
+                   </div>
 
 
                     <div class="form-group">

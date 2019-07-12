@@ -36,6 +36,13 @@
       		return $this->EjecutarConsulta($query);
     	}
 
+    	public function getAnio(){        
+       
+	      $query = "select * FROM anio";
+
+	      return $this->EjecutarConsulta($query);
+	    }
+
     	public function getTipoVinculacion(){        
        
       		$query = "select * FROM `tipo_vinculacion`";

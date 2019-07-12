@@ -1,19 +1,19 @@
 <?php
-	
-	/**/
-	
-	include('../controller/actorController.php');
-	
-	include('../conexion/datos.php');
-	
-	$actorInst = new actorController();
-	
-	$arrPermisos = $actorInst->getPermisosModulo_Tipo($id_modulo,$_COOKIE[$NomCookiesApp.'_IDtipo']);
-	
-	$crea = $arrPermisos[0]['crear'];
-	
-  include("form_actor.php");
-  include("form_modal_archivos.php");
+  
+  /**/
+  
+  include('../controller/talleresController.php');
+  
+  include('../conexion/datos.php');
+  
+  $TallerInst = new talleresController();
+  
+  $arrPermisos = $TallerInst->getPermisosModulo_Tipo($id_modulo,$_COOKIE[$NomCookiesApp.'_IDtipo']);
+  
+  $crea = $arrPermisos[0]['crear'];
+  
+  include("form_taller_formacion.php");
+  //include("form_modal_archivos.php");
 ?>
 
 <div id="page-wrapper" style="margin: 0px;">
@@ -23,20 +23,20 @@
       <input type="hidden" id="id_mod_page_actor" value=<?php echo $id_modulo ?>>
 
       <div class="col-lg-12">
-          <h1 class="page-header titleprincipal"><img src="../img/botones/actoronly.png">Actores</h1> 
+          <h1 class="page-header titleprincipal"><img src="../img/botones/actoronly.png">Talleres de Formación</h1> 
       </div>       
       <!-- /.col-lg-12 -->
       <div class="col-md-8">
           <ol class="breadcrumb migadepan">
-            <li><a class="migadepan" <?php echo 'href="detalles_proyectoM.php?id_proyectoM='.$actorInst->getcpm().'&nom_proyectoM='.$actorInst->getCookieNombreProyectoM().'"';?>>Proyecto Marco <?php echo $actorInst->getCookieNombreProyectoM(); ?></a></li>            
-            <li class="active migadepan">Actores</li>
+            <li><a class="migadepan" <?php echo 'href="detalles_proyectoM.php?id_proyectoM='.$TallerInst->getcpm().'&nom_proyectoM='.$TallerInst->getCookieNombreProyectoM().'"';?>>Proyecto Marco <?php echo $TallerInst->getCookieNombreProyectoM(); ?></a></li>            
+            <li class="active migadepan">Talleres de Formación</li>
           </ol>
       </div>
 
       <div class="col-md-2 text-right form-inline">                        
                     <label for="grupo_filtrop" class="control-label">Año: </label>      
                       <?php
-                             $actorInst->getSelectAnioFiltro();
+                             $TallerInst->getSelectAnioFiltro();
                       ?>  
      </div>
     <div class="col-md-1 text-left form-inline">                                             
@@ -59,11 +59,11 @@
 
             <div class="row">
               <div class="col-md-6">
-                  <div class="titleprincipal"><h4>Registro de Actores</h4></div>
+                  <div class="titleprincipal"><h4>Registro de Talleres de Formación</h4></div>
               </div>
               <div class="col-md-6 text-right">
-                 <button id="btn_nuevoActor" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-target="#frm_modal_actor" <?php if ($crea != 1){echo 'disabled="disabled"';} ?> >
-                 <span class="glyphicon glyphicon-plus"></span>Nuevo Actor</button>  
+                 <button id="btn_nuevotaller" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-target="#frm_modal_taller" <?php if ($crea != 1){echo 'disabled="disabled"';} ?> >
+                 <span class="glyphicon glyphicon-plus"></span>Nuevo Taller de Formación</button>  
               </div>
             </div>
 
@@ -77,12 +77,11 @@
                   <thead>
                       <tr>
                          <!-- <th>ID Actor</th>-->
-                          <th class="tabla-form-ancho-std">Nombre Actor</th>
-                          <th class="tabla-form-ancho-std">Tipo de Actor</th>
-                          <th class="tabla-form-ancho-std">Nombre Contacto</th>
-                          <th class="tabla-form-ancho-std">Apellido Contacto</th>
-                          <th class="tabla-form-ancho-std">Email Contacto</th>
-                          <th class="tabla-form-ancho-std">Télefono Contacto</th>                                                       
+                          <th class="tabla-form-ancho-std">Fecha de Taller</th>
+                          <th class="tabla-form-ancho-std">Tipo de Taller</th>
+                          <th class="tabla-form-ancho-std">Descripción</th>
+                          <th class="tabla-form-ancho-std">Número de participantes</th>
+                          <th class="tabla-form-ancho-std">Asesor</th>                    
 
                           <th class="tabla-form-ancho-sm" data-orderable="false">Opciones</th>                                               
                       </tr>
@@ -92,7 +91,7 @@
                       <?php
                           //print_r($_COOKIE); 
                           //echo "valor de cookie de tipo ".$_COOKIE[$NomCookiesApp."_tipo"];
-                          $actorInst->getTablaActor();                        
+                          $TallerInst->getTablaTaller();                        
                        ?>
                   </tbody>
               </table>

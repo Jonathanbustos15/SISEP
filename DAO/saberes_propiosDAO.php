@@ -21,7 +21,7 @@ class saberesDAO extends UsuariosDAO
     public function getProyectosMarcoId($pkID)
     {
 
-        $query = "select proyecto_marco.*, departamento.nombre as nom_departamento
+        $query = "select proyecto_marco.*, departamento.nombre_departamento as nom_departamento
 
                       FROM proyecto_marco
 
@@ -32,12 +32,12 @@ class saberesDAO extends UsuariosDAO
         return $this->EjecutarConsulta($query);
     }
 
-    public function getSaberes()
+    public function getSaberes($pkID_proyectoM)
     {
 
         $query = "select saber_propio.*,grupo.nombre,(select count(*) FROM saber_estudiante LEFT JOIN estudiante ON estudiante.pkID = saber_estudiante.fkID_estudiante WHERE saber_propio.pkID = saber_estudiante.fkID_saber_propio) as canti,concat_ws(' ',nombre_funcionario,apellido_funcionario)nombres_funcionario FROM `saber_propio`
             LEFT JOIN funcionario on funcionario.pkID = saber_propio.fkID_asesor
-            INNER JOIN grupo on grupo.pkID = saber_propio.fkID_grupo where saber_propio.estadoV= 1";
+            INNER JOIN grupo on grupo.pkID = saber_propio.fkID_grupo where saber_propio.estadoV= 1 and fkID_proyectos=".$pkID_proyectoM;
 
         return $this->EjecutarConsulta($query);
     }
@@ -199,6 +199,16 @@ class saberesDAO extends UsuariosDAO
         return $this->EjecutarConsulta($query);
     }
 
+    public function getTotalEstudiantes()
+    {
+
+        $query = "select count(*) as cantidad FROM saber_estudiante LEFT JOIN estudiante ON estudiante.pkID = saber_estudiante.fkID_estudiante
+                LEFT JOIN saber_propio on saber_propio.pkID = saber_estudiante.fkID_saber_propio
+                WHERE saber_propio.pkID = saber_estudiante.fkID_saber_propio";
+
+        return $this->EjecutarConsulta($query);
+    }
+
     public function getInstitucion()
     {
 
@@ -294,9 +304,9 @@ class saberesDAO extends UsuariosDAO
     public function getProyectosMarcoGrupo($fkID_grupo)
     {
 
-        $query = "SELECT *,proyecto_marco.nombre AS nombre_proyecto FROM proyecto_marco
+        $query = "select *,proyecto_marco.nombre AS nombre_proyecto FROM proyecto_marco
                 INNER JOIN grupo ON grupo.fkID_proyecto_marco = proyecto_marco.pkID
-                WHERE grupo.pkID = " . $fkID_grupo;
+                WHERE grupo.pkID=" . $fkID_grupo;
 
         return $this->EjecutarConsulta($query);
     }
@@ -312,6 +322,7 @@ class saberesDAO extends UsuariosDAO
 
         return $this->EjecutarConsulta($query);
     }
+
 
     public function getAlbumGrupo($pkID_grupo)
     {
