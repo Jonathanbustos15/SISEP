@@ -42,11 +42,13 @@
         public function getDataTallerGen($pkID)
     {
 
-        $this->talleresId = $this->getSaberesId($pkID);
-
+        $this->talleresId = $this->getTalleresId($pkID);
+        $this->sesionesId = $this->getlistadoID($pkID);
         //print_r($this->gruposId);
 
-        echo '<div class="col-sm-6">
+        echo '<div class="col-sm-3 ">
+        </div>
+        <div class="col-sm-6 panel panel-primary align-center">
                 <div class="form-group " hidden>                     
                             <input type="text" class="form-control" id="fkID_grupo" name="fkID_grupo" value='.$this->talleresId[0]["fkID_grupo"].'>
                         </div>
@@ -55,26 +57,87 @@
               <strong>Descripción: </strong> ' . $this->talleresId[0]["comunidad_visitada"] . ' <br> <br>
               <strong>Numero de participantes: </strong> ' . $this->talleresId[0]["canti"] . ' <br> <br>
               <strong>Asesor Asignado: </strong> ' . $this->talleresId[0]["nombres_funcionario"] . ' <br> <br>
-                </div>
-            <div class="col-sm-6"> 
-                
-            <div  class="">
-            <label class="align-center">Documento Taller de Formación:</label><br><br>
               <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class=""  target="_blank" ><span> <img  src="../img/pdfdescargable.png"></span></a>
-              <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../server/php/files/'.$this->talleresId[0]["url_documento"].'" target="_blank" >'.$this->talleresId[0]["url_documento"].'</a><br><br><br>
-              </div>
-              <div  class="">
-            <label class="align-center">Lista de Asistencia:</label><br><br>
-              <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class=""  target="_blank" ><span> <img  src="../img/pdfdescargable.png"></span></a>
-              <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../server/php/files/'.$this->talleresId[0]["url_lista"].'" target="_blank" >'.$this->talleresId[0]["url_lista"].'</a><br><br><br>
-              </div>
-              ';
-
-        echo '</div>';
+              <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../server/php/files/'.$this->talleresId[0]["url_documento"].'" target="_blank" >'.$this->talleresId[0]["url_documento"].'</a><br><br>
+              
+                </div>';
+    
+              
 
     }
 
-    
+    public function getTablasesiones($pkID_sesion)
+    {
+
+        $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo,$_COOKIE[$this->NameCookieApp."_IDtipo"]);
+            $edita = $arrPermisos[0]["editar"];
+            $elimina = $arrPermisos[0]["eliminar"];
+            $consulta = $arrPermisos[0]["consultar"];
+            //---------------------------------------------------------------------------------
+
+            //Define las variables de la tabla a renderizar
+
+                //la configuracion de los botones de opciones
+                $sesion_btn =[
+
+                     [
+                        "tipo"=>"editar",
+                        "nombre"=>"sesion",
+                        "permiso"=>$edita,
+                     ],
+                     [
+                        "tipo"=>"eliminar",
+                        "nombre"=>"sesion",
+                        "permiso"=>$elimina,
+                     ]
+                ];
+
+                $sesion_opciones = [ 
+                    "modulo" => "taller_formacion", //nombre del modulo definido para jquerycontrollerV2
+                    "title"  => "Click Ver Detalles", //etiqueta html title
+                    "href"   => "../server/php/files/".$this->sesion[0]["url_lista"],
+                    "class"  => "detail", //clase que permite que añadir el evento jquery click
+                ];
+        //---------------------------------------------------------------------------------
+
+        //Define las variables de la tabla a renderizar
+
+        //Los campos que se van a ver
+        $sesion_campos = [
+            ["nombre" => "fecha_sesion"],
+            ["nombre" => "descripcion_sesion"],
+            ["nombre" => "url_lista"],
+        ];
+
+        //---------------------------------------------------------------------------------
+        //carga el array desde el DAO
+        $sesion = $this->getsesiones($pkID_sesion);    
+        //print_r($saberes);
+
+        //Instancia el render
+        $this->table_inst = new RenderTable($sesion, $sesion_campos, $sesion_btn, $sesion_opciones);
+        //---------------------------------------------------------------------------------
+
+        //valida si hay usuarios y permiso de consulta
+        if (($sesion) && ($consulta == 1)) {
+
+            //ejecuta el render de la tabla
+            $this->table_inst->render();
+
+        } elseif (($sesion) && ($consulta == 0)) {
+
+            $this->table_inst->render_blank();
+
+            echo "<h3>En este momento no tiene permiso de consulta.</h3>";
+
+        } else {
+
+            $this->table_inst->render_blank();
+
+            echo "<h3>En este momento no hay registros.</h3>";
+        }; /**/
+        //---------------------------------------------------------------------------------
+    }
 
 
 

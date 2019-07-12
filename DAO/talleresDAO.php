@@ -34,14 +34,10 @@
             return $this->EjecutarConsulta($query);
         }
 
-        public function getEstudiantesSaberes($pkID_saber)
+        public function getsesiones($pkID_sesion)
     {
 
-        $query = "select saber_estudiante.pkID,estudiante.documento_estudiante,estudiante.pkID as pkIDestudiante,CONCAT(nombre_estudiante1,' ',nombre_estudiante2) AS nombre,CONCAT(apellido_estudiante1,' ',apellido_estudiante2) AS apellido,grado.nombre AS nombre_grado FROM saber_estudiante
-                INNER JOIN estudiante ON estudiante.pkID = saber_estudiante.fkID_estudiante
-                INNER JOIN saber_propio ON saber_propio.pkID = saber_estudiante.fkID_saber_propio
-                INNER JOIN grado ON grado.pkID = estudiante.fkID_grado
-                WHERE saber_propio.pkID= " . $pkID_saber;
+        $query = "select * FROM `sesion_taller` WHERE estadoV=1 and fkID_taller_formacion=" . $pkID_sesion;
 
         return $this->EjecutarConsulta($query);
     }
@@ -62,7 +58,7 @@
         return $this->EjecutarConsulta($this->q_general);
     }
 
-        public function getSaberesId($pkID)
+        public function getTalleresId($pkID)
     {
 
         $query = "select saber_propio.*,grupo.nombre,grupo.url_logo,(select count(*) FROM saber_estudiante LEFT JOIN estudiante ON estudiante.pkID = saber_estudiante.fkID_estudiante WHERE saber_propio.pkID = saber_estudiante.fkID_saber_propio) as canti,concat_ws(' ',nombre_funcionario,apellido_funcionario)nombres_funcionario FROM `saber_propio`
@@ -70,6 +66,16 @@
             INNER JOIN grupo on grupo.pkID = saber_propio.fkID_grupo where saber_propio.estadoV= 1 and saber_propio.pkID=" . $pkID;
 
         return $this->EjecutarConsulta($query);
+    }
+
+     public function getlistadoID($pkID)
+    {
+
+        $query = "select * FROM `sesion_taller` 
+        INNER join talleres_formacion on talleres_formacion.pkID = sesion_taller.fkID_taller_formacion
+        WHERE sesion_taller.estadoV=1 AND fkID_taller_formacion=" . $pkID;
+
+        return $this->EjecutarConsulta2($query);
     }
 
         public function getAnio(){        

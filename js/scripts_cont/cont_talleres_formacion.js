@@ -14,7 +14,6 @@ $(function(){
         $("#adjunto_documento").remove();
         $("#adjunto_documento2").remove();
         cargar_input();
-        cargar_input_lista();
 	 });
 
    $("#btn_actiontaller").click(function() {
@@ -36,12 +35,9 @@ $(function(){
         $("#form_taller")[0].reset();
         id_taller = $(this).attr('data-id-taller');
         $("#btn_actionHvida").removeAttr('disabled');
-        $("#adjunto_lista2").remove();
-        $("#adjunto_lista").remove();
         $("#adjunto_documento").remove();
         $("#adjunto_documento2").remove();
         cargar_input();
-        cargar_input_lista();
         carga_taller(id_taller); 
         var ope = $("#fkID_tipo option:selected").val();
     });
@@ -50,15 +46,6 @@ $(function(){
         id_taller = $(this).attr('data-id-taller');
         elimina_taller(id_taller);
     });
-
-
-  $( "#fecha_taller" ).datepicker({
-    dateFormat: "yy-mm-dd",
-    yearRange: "1930:2040",
-    changeYear: true,
-    showButtonPanel: true,      
-  });
-
 
   sessionStorage.setItem("id_tab_taller",null);
 
@@ -95,16 +82,7 @@ $(function(){
             data: "pkID=" + id_taller + "&tipo=consultar&nom_tabla=talleres_formacion",
         }).done(function(data) {
             $.each(data.mensaje[0], function(key, valu) {
-                if (key=="url_listado" && valu != "") { 
-                  $("#form_taller").append('<div id="adjunto_lista2" class="form-group">'+'<label for="adjunto" id="lbl_pkID_archivo_lista" name="lbl_pkID_archivo_lista" class="custom-control-label">Lista de asistencia</label>'+'<br>'+'<input type="text" style="width: 89%;display: inline;" class="form-control" id="pkID_lista" name="btn_Rmtaller_lista" value="' + valu + '" readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../server/php/files/' + valu + '" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmtaller_lista" id="btn_actionRmtaller_lista" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
-                  $("#lbl_url_lista").remove();
-                  $("#url_lista").remove(); 
-                  $("[name*='btn_actionRmtaller_lista']").click(function(event) {
-                    var id_archivo = $("#pkID").val();
-                    console.log("este es el numero"+id_archivo);
-                    elimina_archivo_lista(id_archivo); 
-                });         
-                 }else if (key=="url_documento" && valu != "") {
+                if (key=="url_documento" && valu != "") {
                   $("#form_taller").append('<div id="adjunto_documento2" class="form-group">'+'<label for="adjunto" id="lbl_pkID_archivo_documento" name="lbl_pkID_archivo_documento" class="custom-control-label">Documento Taller de Formación</label>'+'<br>'+'<input type="text" style="width: 89%;display: inline;" class="form-control" id="pkID_documento" name="btn_Rmtaller_documento" value="' + valu + '" readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../server/php/files/' + valu + '" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmtaller_documento" id="btn_actionRmtaller_documento" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
                   $("#lbl_url_documento").remove();
                   $("#url_documento").remove(); 
@@ -131,12 +109,7 @@ $(function(){
                     '</div>')
     }
 
-    function cargar_input_lista(){
-      $("#form_taller").append('<div class="form-group" id="adjunto_lista">'+
-                        '<label for="adjunto" id="lbl_url_lista" class=" control-label">Adjuntar Lista</label>'+ 
-                        '<input type="file" class="form-control" id="url_lista" name="url_lista" placeholder="Lista de asistencia del taller de formación" required = "">'+
-                    '</div>')
-    }
+    
 
     function valida_actio(action) {
         console.log("en la mitad");
@@ -153,9 +126,6 @@ $(function(){
         data.append('fkID_tipo_taller', $("#fkID_tipo_taller option:selected").val());
         data.append('descripcion', $("#descripcion").val());
         data.append('fkID_tutor', $("#fkID_tutor option:selected").val());
-        if (document.getElementById("url_lista").files.length) {
-          data.append('file2', $("#url_lista").get(0).files[0]);
-        }
         if (document.getElementById("url_documento").files.length) {
           data.append('file', $("#url_documento").get(0).files[0]);
         }
@@ -180,11 +150,6 @@ $(function(){
         data.append('fkID_tipo_taller', $("#fkID_tipo_taller option:selected").val());
         data.append('descripcion', $("#descripcion").val());
         data.append('fkID_tutor', $("#fkID_tutor option:selected").val());
-        if ($("#url_lista").length) {
-        if (document.getElementById("url_lista").files.length) {
-          data.append('file2', $("#url_lista").get(0).files[0]);
-        }
-        }
         if ($("#url_documento").length) {
         if (document.getElementById("url_documento").files.length) {
           data.append('file', $("#url_documento").get(0).files[0]);

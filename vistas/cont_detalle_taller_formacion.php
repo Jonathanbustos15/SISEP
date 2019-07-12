@@ -107,6 +107,7 @@ include 'form_grupo_docente.php';
 include "form_proyecto.php";
 include "form_modal_archivos.php";
 include "form_album_grupo.php";
+include "form_sesiones.php";
 include "frm_modal_proyectog.php";
 //++++++++++++++++++++++++++++++++++/**/
 ?>
@@ -170,7 +171,8 @@ include "frm_modal_proyectog.php";
         <!-- Nav tabs -->
         <ul class="nav nav-tabs tabs-proc3" role="tablist">
 	        <li id="li_general" role="presentation"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
-          	<li id="li_estudiantes" role="presentation"><a href="#estudiantes" aria-controls="general" role="tab" data-toggle="tab">Participantes</a></li>
+	        <li id="li_general" role="presentation"><a href="#Sesiones" aria-controls="general" role="tab" data-toggle="tab">Sesiones</a></li>
+          	<li id="li_estudiantes" role="presentation"><a href="#participantes" aria-controls="general" role="tab" data-toggle="tab">Participantes</a></li>
 	        <li id="li_album" role="presentation"><a href="#album" aria-controls="general" role="tab" data-toggle="tab">Galeria</a></li>
 	    </ul>
 
@@ -199,7 +201,7 @@ include "frm_modal_proyectog.php";
 
 			</div>
 
-			<div role="tabpanel" class="tab-pane" id="estudiantes">
+			<div role="tabpanel" class="tab-pane" id="Sesiones">
 				<br>
 				<!-- contenido general -->
 				<div class="panel panel-default proc-pan-def3">
@@ -208,10 +210,60 @@ include "frm_modal_proyectog.php";
 
 			            <div class="row">
 			              <div class="col-md-6">
-			                  <div class="titleprincipal"><h4>Estudiantes Asignados - <?php echo $proyectoMGen[0]["nombre"] . ' - ' . $proyectoMGen[0]["nombre_proyecto"] ?></h4></div>
+			                  <div class="titleprincipal"><h4>Sesiones del Taller</h4></div>
 			              </div>
 			              <div class="col-md-6 text-right">
-			      			 <button id="btn_asignarestudiante" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-saber="<?php echo $pkID_taller ?>" data-target="#frm_modal_asignacion_estudiante" <?php if (($creaeg != 1) || ($ne >= 30)) {echo 'disabled="disabled"';}?> ><span class="glyphicon glyphicon-plus"></span> Asignar Estudiante</button>
+			      			 <button id="btn_nuevosesion" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-saber="<?php echo $pkID_taller ?>" data-target="#frm_modal_sesion"><span class="glyphicon glyphicon-plus"></span> Crear Sesion</button>
+			              </div>
+			            </div>
+
+		            </div>
+		            <!-- /.panel-heading -->
+
+					<div class="panel-body">
+
+						<div class="col-md-12">
+							<div class="dataTable_wrapper">
+				              <table class="display table table-striped table-bordered table-hover" id="tbl_grupo_estudiante">
+				                  <thead>
+				                      <tr>
+				                          <th>Fecha</th>
+				                          <th>Descripción</th>
+				                          <th>Lista de Asistencia</th>
+				                          <th data-orderable="false">Opciones</th>
+				                      </tr>
+				                  </thead>
+
+				                  <tbody>
+				                      <?php
+										$tallerInst->getTablasesiones($pkID_taller);
+										?>
+				                  </tbody>
+				              </table>
+					        </div>
+					        <!-- /.table-responsive -->
+						</div>
+
+					</div>
+
+				</div>
+				<!-- /.contenido general -->
+
+			</div>
+
+			<div role="tabpanel" class="tab-pane" id="participantes">
+				<br>
+				<!-- contenido general -->
+				<div class="panel panel-default proc-pan-def3">
+
+					<div class="titulohead">
+
+			            <div class="row">
+			              <div class="col-md-6">
+			                  <div class="titleprincipal"><h4>Participantes</h4></div>
+			              </div>
+			              <div class="col-md-6 text-right">
+			      			 <button id="btn_asignarestudiante" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-saber="<?php echo $pkID_taller ?>" data-target="#frm_modal_asignacion_estudiante"><span class="glyphicon glyphicon-plus"></span> Asignar Participante</button>
 			              </div>
 			            </div>
 
@@ -228,7 +280,7 @@ include "frm_modal_proyectog.php";
 				                          <th>Nombres</th>
 				                          <th>Apellidos</th>
 				                          <th>Documento</th>
-				                          <th>Grado</th>
+				                          <th>Dirección</th>
 				                          <th data-orderable="false">Opciones</th>
 				                      </tr>
 				                  </thead>
@@ -260,10 +312,10 @@ include "frm_modal_proyectog.php";
 
 			            <div class="row">
 			              <div class="col-md-6">
-			                  <div class="titleprincipal"><h4>Galeria de fotos - <?php echo $proyectoMGen[0]["nombre"] . ' - ' . $proyectoMGen[0]["nombre_proyecto"] ?></h4></div>
+			                  <div class="titleprincipal"><h4>Galeria de fotos</h4></div>
 			              </div>
 			              <div class="col-md-6 text-right">
-			      			 <button id="btn_album_grupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="<?php echo $pkID_taller ?>" data-target="#frm_modal_album_grupo" <?php if (($creaeg != 1) || ($ne >= 30)) {echo 'disabled="disabled"';}?> ><span class="glyphicon glyphicon-plus"></span> 
+			      			 <button id="btn_album_grupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="<?php echo $pkID_taller ?>" data-target="#frm_modal_album_grupo"><span class="glyphicon glyphicon-plus"></span> 
 			      			 Crear album</button>
 
 			      			 <div class="form-group " hidden>
