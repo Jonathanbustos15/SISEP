@@ -156,7 +156,7 @@ include "frm_modal_proyectog.php";
             <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
             <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
             <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Académico</a></li>
-            <li><a href="saberes_propios.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Taller de formación</a></li>
+            <li><a href="taller_formacion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Taller de formación</a></li>
             <li class="active migadepan">Detalle Talleres de Formación</li>
           </ol>
     </div>
@@ -331,24 +331,10 @@ include "frm_modal_proyectog.php";
 
 					<div class="panel-body">
 
-						<div class="col-md-12">
+						<div class="col-md-2 text-center">
 							<div class="dataTable_wrapper">
-				              <table class="display table table-striped table-bordered table-hover" id="tbl_grupo_album">
-				                  <thead>
-				                      <tr>
-				                          <th>Nombre</th>
-				                          <th>Fecha de Creación</th>
-				                          <th>Observación</th>
-				                          <th data-orderable="false">Opciones</th>
-				                      </tr>
-				                  </thead>
-
-				                  <tbody>
-				                      <?php
-//$detalles_grupoInst->getTablaAlbumGrupo($pkID_taller);
-?>
-				                  </tbody>
-				              </table>
+				              <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class=""  target="_blank" ><span> <img  src="../img/carpeta_fotos.png"></span></a>
+				              <label class="text-center">Galeria uno</label>
 					        </div>
 					        <!-- /.table-responsive -->
 						</div>

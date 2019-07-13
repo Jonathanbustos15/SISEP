@@ -66,7 +66,7 @@
 
     }
 
-    public function getTablasesiones($pkID_sesion)
+    public function getTablasesione($pkID_sesion)
     {
 
         $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo,$_COOKIE[$this->NameCookieApp."_IDtipo"]);
@@ -92,12 +92,6 @@
                      ]
                 ];
 
-                $sesion_opciones = [ 
-                    "modulo" => "taller_formacion", //nombre del modulo definido para jquerycontrollerV2
-                    "title"  => "Click Ver Detalles", //etiqueta html title
-                    "href"   => "../server/php/files/".$this->sesion[0]["url_lista"],
-                    "class"  => "detail", //clase que permite que añadir el evento jquery click
-                ];
         //---------------------------------------------------------------------------------
 
         //Define las variables de la tabla a renderizar
@@ -115,7 +109,7 @@
         //print_r($saberes);
 
         //Instancia el render
-        $this->table_inst = new RenderTable($sesion, $sesion_campos, $sesion_btn, $sesion_opciones);
+        $this->table_inst = new RenderTable($sesion, $sesion_campos, $sesion_btn, []);
         //---------------------------------------------------------------------------------
 
         //valida si hay usuarios y permiso de consulta
@@ -137,6 +131,45 @@
             echo "<h3>En este momento no hay registros.</h3>";
         }; /**/
         //---------------------------------------------------------------------------------
+    }
+
+    public function getTablasesiones($pkID_sesion)
+    {
+
+        //$sesion = $this->getsesiones($pkID_sesion); 
+        $this->sesion = $this->getsesiones($pkID_sesion);
+        //print_r($this->personal);
+
+        //permisos-------------------------------------------------------------------------
+        $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo,$_COOKIE[$this->NameCookieApp."_IDtipo"]);
+            $edita = $arrPermisos[0]["editar"];
+            $elimina = $arrPermisos[0]["eliminar"];
+            $consulta = $arrPermisos[0]["consultar"];
+        //---------------------------------------------------------------------------------
+
+        if (($this->sesion)) {
+
+            for ($a = 0; $a < sizeof($this->sesion); $a++) {
+                $id              = $this->sesion[$a]["pkID"];
+                $fecha_sesion    = $this->sesion[$a]["fecha_sesion"];
+                $descripcion = $this->sesion[$a]["descripcion_sesion"];
+                $url_lista       = $this->sesion[$a]["url_lista"];
+
+                echo '   
+                             <tr>
+
+                                 <td title="Click Ver Detalles" href="" class="detail">' . $fecha_sesion . '</td>
+                                 <td title="Click Ver Detalles" href="" class="detail">' . $descripcion . '</td>
+                                 <td title="Descargar Archivo"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../server/php/files/'.$url_lista.'" target="_blank" >'.$url_lista.'</a></td>
+                                 <td>
+                                     <button id="edita_sesion" title="Editar" name="edita_sesion" type="button" class="btn btn-warning" data-toggle="modal" data-target="#frm_modal_sesion" data-id-sesion = "' . $id . '" ';echo '><span class="glyphicon glyphicon-pencil"></span></button>
+
+                                     <button id="btn_elimina_sesion" title="Eliminar" name="elimina_sesion" type="button" class="btn btn-danger" data-id-sesion = "' . $id . '" ';echo '><span class="glyphicon glyphicon-remove"></span></button>
+                                 </td>
+                             </tr>';
+            };
+
+        } 
     }
 
 
