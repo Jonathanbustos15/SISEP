@@ -9,6 +9,8 @@ include '../controller/saberes_propioscontroller.php';
 
 include '../controller/tallerescontroller.php';
 
+include '../controller/participantecontroller.php';
+
 include '../controller/proyectoController.php';
 
 include '../controller/docentesController.php';
@@ -84,6 +86,9 @@ $nom_institucion  = $grupoGen[0]["nom_institucion"];
 //------------------------------------------
 $arrPermisosEstudiantes = $detalles_grupoInst->getPermisosModulo_Tipo(38, $_COOKIE[$NomCookiesApp . '_IDtipo']);
 $creaEstudiante         = $arrPermisosEstudiantes[0]['crear'];
+
+$participanteInst = new participanteController();
+
 //+++++++++++++++++++++++++++++++
 $arrPermisosDocentes = $detalles_grupoInst->getPermisosModulo_Tipo(39, $_COOKIE[$NomCookiesApp . '_IDtipo']);
 $creaDocente         = $arrPermisosDocentes[0]['crear'];
@@ -99,7 +104,8 @@ $proyectoMGen = $detalles_grupoInst->getProyectosMarcoGrupo($pkID_taller);
 
 //print_r($fecha);
 //++++++++++++++++++++++++++++++++++
-include 'form_asignacion_estudiantes.php';
+include 'form_asignacion_participante.php';
+include 'form_participante.php';
 include 'form_estudiantes.php';
 include 'form_docentes.php';
 include 'form_grupo_estudiante.php';
@@ -172,7 +178,7 @@ include "frm_modal_proyectog.php";
         <ul class="nav nav-tabs tabs-proc3" role="tablist">
 	        <li id="li_general" role="presentation"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
 	        <li id="li_general" role="presentation"><a href="#Sesiones" aria-controls="general" role="tab" data-toggle="tab">Sesiones</a></li>
-          	<li id="li_estudiantes" role="presentation"><a href="#participantes" aria-controls="general" role="tab" data-toggle="tab">Participantes</a></li>
+          	<li id="li_general" role="presentation"><a href="#participantes" aria-controls="general" role="tab" data-toggle="tab">Participantes</a></li>
 	        <li id="li_album" role="presentation"><a href="#album" aria-controls="general" role="tab" data-toggle="tab">Galeria</a></li>
 	    </ul>
 
@@ -263,7 +269,7 @@ include "frm_modal_proyectog.php";
 			                  <div class="titleprincipal"><h4>Participantes</h4></div>
 			              </div>
 			              <div class="col-md-6 text-right">
-			      			 <button id="btn_asignarestudiante" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-saber="<?php echo $pkID_taller ?>" data-target="#frm_modal_asignacion_estudiante"><span class="glyphicon glyphicon-plus"></span> Asignar Participante</button>
+			      			 <button id="btn_asignarparticipante" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-taller="<?php echo $pkID_taller ?>" data-target="#frm_modal_asignacion_participante"><span class="glyphicon glyphicon-plus"></span> Asignar Participante</button>
 			              </div>
 			            </div>
 
@@ -287,8 +293,8 @@ include "frm_modal_proyectog.php";
 
 				                  <tbody>
 				                      <?php
-//$tallerInst->getTablaEstudiantesSaberes($pkID_taller);
-?>
+												$tallerInst->getTablaParticipantesTaller($pkID_taller);
+										?>
 				                  </tbody>
 				              </table>
 					        </div>

@@ -85,6 +85,24 @@
       return $this->EjecutarConsulta($query);
     }
 
+    public function getAsignacionParticipantes(){        
+       
+      $query = "select *, concat_ws(' ',nombre_participante,apellido_participante) as nombre FROM participante where estadoV=1 and proyecto_macro=2";
+
+      return $this->EjecutarConsulta($query);
+    }
+
+    public function getParticipantesTaller($pkID_taller)
+    {
+
+        $query = "select participante_taller.pkID,participante.documento_participante,participante.pkID as pkIDparticipante,nombre_participante as nombre,apellido_participante AS apellido,telefono_participante FROM participante_taller
+            INNER JOIN participante ON participante.pkID = participante_taller.fkID_participante
+            INNER JOIN talleres_formacion ON talleres_formacion.pkID = participante_taller.fkID_taller_formacion
+            WHERE talleres_formacion.pkID= " . $pkID_taller;
+
+        return $this->EjecutarConsulta($query);
+    }
+
         public function getTutor(){        
        
             $query = "select pkID,concat_ws(' ',nombre_funcionario,apellido_funcionario) as nombre FROM `funcionario` where estadoV=1";

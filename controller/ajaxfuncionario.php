@@ -10,7 +10,7 @@
 
     $r = array();  
     $tipo  = $_POST['tipo'];
-    $id      = $_POST['pkID'];  
+    $id      = isset($_POST['pkID'])? $_POST['pkID'] : ""; 
     $nombref  = $_POST['nombre'];
     $apellido  = $_POST['apellido'];
     $fk_tipo  = $_POST['fk_tipo'];
@@ -36,8 +36,7 @@
                         $q_inserta = "insert into funcionario(nombre_funcionario, apellido_funcionario, fkID_tipo_documento, documento_funcionario, telefono_funcionario, direccion_funcionario, email_funcionario, url_funcionario) VALUES ('$nombref', '$apellido', '$fk_tipo', '$documento', '$telefono', '$direccion', '$email', '$nombre')";
                         $r["query"] = $q_inserta;           
 
-                        $resultado = $generico->EjecutaInsertar($q_inserta);
-                        /**/
+                        $resultado = $generico->EjecutaInsertar($q_inserta);                        /**/
                         if($resultado){
                             
                             $r[] = $resultado;          
@@ -53,6 +52,25 @@
             }
             echo json_encode($nombre);
             break;
+        case 'crearsin':
+            $generico = new Generico_DAO();       
+                        $q_inserta = "insert into funcionario(nombre_funcionario, apellido_funcionario, fkID_tipo_documento, documento_funcionario, telefono_funcionario, direccion_funcionario, email_funcionario) VALUES ('$nombref', '$apellido', '$fk_tipo', '$documento', '$telefono', '$direccion', '$email')";
+                        $r["query"] = $q_inserta;           
+
+                        $resultado = $generico->EjecutaInsertar($q_inserta);
+                        /**/
+                        if($resultado){
+                            
+                            $r[] = $resultado;          
+
+                        }else{
+
+                            $r["estado"] = "Error";
+                            $r["mensaje"] = "No se inserto.";
+                        }
+            echo json_encode($nombre);
+            break;
+
         case 'editar':
             $generico = new Generico_DAO();
             $nombre =$_FILES['file']["name"];

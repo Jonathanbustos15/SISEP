@@ -1,6 +1,7 @@
 $(function(){
 	 
-	 //https://github.com/jsmorales/jquery_controllerV2
+	 var arrParticipante = [];
+    var arrGrado = [];
 	 
 	 $("#btn_nuevosesion").click(function(){
     $("#lbl_form_sesion").html("Crear sesion");
@@ -12,11 +13,27 @@ $(function(){
         $("#adjunto_lista").remove();
         cargar_input_lista();
 	 });
+
+ $("#btn_asignarparticipante").click(function(){
+    $("#lbl_form_asignarparticipante").html("Asignar Participante");
+        $("#lbl_btn_actionasignarparticipante").html("Guardar Cambios <span class='glyphicon glyphicon-pencil'></span>");
+        $("#btn_actionasignarparticipante").attr("data-action","asignar");
+        $("#btn_actionasignarparticipante").removeAttr('disabled', 'disabled');
+        $("#form_asignarparticipante")[0].reset();
+        
+     });
 	 
-	 $("#btn_actionsesion").click(function() {
-        var validacioncon = validarsesion();
-        if (validacioncon === "no") {
-            window.alert("Faltan Campos por diligenciar.");
+	 $("#btn_actionasignarparticipante").click(function() {
+        action = $(this).attr("data-action");
+        guardar();
+        console.log("accion a ejecutar: " + action);
+        asigna_participante();
+    });
+
+     $("#btn_actionsesion").click(function() {
+        var validacioncon = validarasignacion();
+        if (validacioncon === "no") { 
+            window.alert("Falta asignar participantes.");
         } else {
         action = $(this).attr("data-action");
         valida_actio(action);
@@ -38,10 +55,80 @@ $(function(){
         carga_sesion(id_sesion);
     });
 
+   $("[name*='elimina_asignar_participante']").click(function(event) {
+        id_partici = $(this).attr('data-id-asignar_participante');
+        console.log(id_partici)
+        elimina_asignacionparticipante(id_partici);
+    });
+
 	 $("[name*='elimina_sesion']").click(function(event) {
         id_sesion = $(this).attr('data-id-sesion');
         elimina_sesion(id_sesion);
     });
+
+     $("#fkID_participante").change(function(event) {
+        idUsuario = $(this).val();
+        nomUsuario = $(this).find("option:selected").data('nombre')
+        idGrado = $(this).find("option:selected").data('grado')
+        console.log(nomUsuario);
+        console.log(idGrado);
+        if (verPkIdParticipante()) {
+            if (document.getElementById("fkID_participante_form_" + idUsuario)) {
+                console.log(document.getElementById("fkID_participante_form_" + idUsuario));
+                console.log("Este usuario ya fue seleccionado.");
+            } else {
+                arrParticipante.length = 0;
+                console.log("este usuario es chavito")
+                selectParticipante(idUsuario, nomUsuario, idGrado, 'select', $(this).data('accion'));
+                serializa_array(crea_array(arrParticipante, $("#pkID").val(), fecha));
+            }
+        } else {
+            selectParticipante(idUsuario, nomUsuario, idGrado, 'select', $(this).data('accion'));
+        };
+    });
+
+     function asigna_participante() {
+       location.reload();
+    }
+
+    function selectParticipante(id, nombre, grado, type, numReg) {
+        console.log(nombre+"este es")
+        console.log(id)
+        if (id != "") {
+            if (document.getElementById("fkID_usuario_form_" + id)) {
+                console.log("Este usuario ya fue seleccionado.")
+            } else {
+                if (type == 'select') {
+                    console.log("1");
+                    $("#frm_participante_taller").append('<div class="form-group" id="frm_group' + id + '">' + '<input type="text" style="width: 93%;display: inline;" class="form-control" id="fkID_usuario_form_' + id + '" name="fkID_usuario" value="' + nombre + '" readonly="true"> <button name="btn_actionRmUsuario_' + id + '" data-id-tutor="' + id + '" data-id-frm-group="frm_group' + id + '" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
+                } else {
+                    console.log("2");
+                    $("#frm_participante_taller").append('<div class="form-group" id="frm_group' + id + '">' + '<input type="text" style="width: 90%;display: inline;" class="form-control" id="fkID_usuario_form_' + id + '" name="fkID_usuario" value="' + nombre + '" readonly="true"> <button name="btn_actionRmUsuario_' + id + '" data-id-tutor="' + id + '" data-id-frm-group="frm_group' + id + '" data-numReg = "' + numReg + '" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
+                }
+                $("[name*='btn_actionRmUsuario_" + id + "']").click(function(event) {
+                    console.log('click remover usuario ' + $(this).data('id-frm-group'));
+                    removeUsuario($(this).data('id-frm-group'));
+                    //buscar el indice
+                    var idUsuario = $(this).attr("data-id-tutor");
+                    console.log('el elemento es:' + idUsuario);
+                    var indexArr = arrParticipante.indexOf(idUsuario);
+                    console.log("El indice encontrado es:" + indexArr);
+                    //quitar del array
+                    if (indexArr >= 0) {
+                        arrParticipante.splice(indexArr, 1);
+                        console.log(arrParticipante);
+                    } else {
+                        console.log('salio menor a 0');
+                        console.log(arrParticipante);
+                    }
+                });
+                arrParticipante.push(id);
+                console.log(arrParticipante);
+            }
+        } else {
+            alert("No se seleccionó ningún usuario.")
+        }
+    };
 
 
   function validarsesion(){
@@ -55,6 +142,24 @@ $(function(){
             respuesta = "ok"
             return respuesta
         }
+    }
+
+    function guardar() {
+        $.each(arrParticipante, function(llave, valor) {
+            console.log("llave=" + llave + " valor=" + valor);
+            id = $("#btn_asignarparticipante").attr('data-taller');
+            data = "fkID_taller_formacion=" + id + "&fkID_participante=" + valor;
+            $.ajax({
+                url: "../controller/ajaxController12.php",
+                data: data + "&tipo=inserta&nom_tabla=participante_taller",
+            }).done(function(data) {
+                console.log(data);
+            }).fail(function(data) {
+                console.log(data);
+            }).always(function() {
+                console.log("complete");
+            });  
+        });
     }
 
 
@@ -210,7 +315,42 @@ function elimina_sesion(id) {
         } 
     };
 
+    function verPkIdParticipante() {
+        var id_proyecto_form = $("#pkID").val();
+        if (id_proyecto_form != "") {
+            return true;
+        } else {
+            return false;
+        }
+    };
 
+    function removeUsuario(id) {
+      $("#" + id).remove();
+    }
+
+     function elimina_asignacionparticipante(id_partici) {
+        console.log('Eliminar el participante: ' + id_partici);
+        var confirma = confirm("En realidad quiere eliminar esta Asignación?");
+        console.log(confirma);
+        /**/
+        if (confirma == true) {
+            //si confirma es true ejecuta ajax
+            $.ajax({
+                type: "POST",
+                url: '../controller/ajaxparticipante.php',
+                data: "pkID=" + id_partici + "&tipo=eliminarasignacion",
+            }).done(function(data) {
+                console.log(data);
+                location.reload();
+            }).fail(function() {
+                console.log("errorfatal");
+            }).always(function() {
+                console.log("complete");
+            });
+        } else {
+            //no hace nada
+        }
+    };
 
 
 

@@ -106,7 +106,7 @@
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
         $sesion = $this->getsesiones($pkID_sesion);    
-        //print_r($saberes);
+        //print_r($talleres);
 
         //Instancia el render
         $this->table_inst = new RenderTable($sesion, $sesion_campos, $sesion_btn, []);
@@ -212,6 +212,81 @@
         for ($a = 0; $a < sizeof($tipo); $a++) {
             echo "<option value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombre"] . "</option>";
         }
+        echo "</select>";
+    }
+
+    public function getTablaParticipantesTaller($pkID_taller)
+    { 
+
+        $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo, $_COOKIE[$this->NameCookieApp . "_IDtipo"]);
+
+        //$arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo,$_COOKIE[$this->NameCookieApp."_IDtipo"]);
+        $edita    = $arrPermisos[0]["editar"];
+        $elimina  = $arrPermisos[0]["eliminar"];
+        $consulta = $arrPermisos[0]["consultar"];
+
+        //la configuracion de los botones de opciones
+        $talleres_btn = [
+
+            [
+                "tipo"    => "eliminar",
+                "nombre"  => "asignar_participante",
+                "permiso" => $elimina,
+            ],
+
+        ];
+        //---------------------------------------------------------------------------------
+
+        //Define las variables de la tabla a renderizar
+
+        //Los campos que se van a ver
+        $talleres_campos = [
+            ["nombre" => "nombre"],
+            ["nombre" => "apellido"],
+            ["nombre" => "documento_participante"],
+            ["nombre" => "telefono_participante"],
+        ];
+
+        //---------------------------------------------------------------------------------
+        //carga el array desde el DAO
+        $talleres = $this->getParticipantesTaller($pkID_taller);    
+        //print_r($talleres);
+
+        //Instancia el render
+        $this->table_inst = new RenderTable($talleres, $talleres_campos, $talleres_btn, []);
+        //---------------------------------------------------------------------------------
+
+        //valida si hay usuarios y permiso de consulta
+        if (($talleres) && ($consulta == 1)) {
+
+            //ejecuta el render de la tabla
+            $this->table_inst->render();
+
+        } elseif (($talleres) && ($consulta == 0)) {
+
+            $this->table_inst->render_blank();
+
+            echo "<h3>En este momento no tiene permiso de consulta.</h3>";
+
+        } else {
+
+            $this->table_inst->render_blank();
+
+            echo "<h3>En este momento no hay registros.</h3>";
+        }; /**/
+        //---------------------------------------------------------------------------------
+    }
+
+    public function getSelectParticipante()
+    {
+
+        $tipo = $this->getAsignacionParticipantes();
+
+        echo '<select name="fkID_participante" id="fkID_participante" class="form-control" required = "true">
+                        <option value="" selected>Elija el Participante</option>';
+        for ($a = 0; $a < sizeof($tipo); $a++) {
+        echo "<option id='fkID_participante_form_' data-nombre='" . $tipo[$a]["nombre"] . "' value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombre"] . "</option>";
+         }
         echo "</select>";
     }
 
