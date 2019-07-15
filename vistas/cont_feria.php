@@ -2,17 +2,17 @@
   
   /**/
   
-  include('../controller/talleresController.php');
+  include('../controller/feriaController.php');
   
   include('../conexion/datos.php');
   
-  $TallerInst = new talleresController();
+  $FeriaInst = new feriaController();
   
-  $arrPermisos = $TallerInst->getPermisosModulo_Tipo($id_modulo,$_COOKIE[$NomCookiesApp.'_IDtipo']);
+  $arrPermisos = $FeriaInst->getPermisosModulo_Tipo($id_modulo,$_COOKIE[$NomCookiesApp.'_IDtipo']);
   
   $crea = $arrPermisos[0]['crear'];
   
-  include("form_taller_formacion.php");
+  include("form_feria.php");
   //include("form_modal_archivos.php");
 ?>
 
@@ -23,21 +23,21 @@
       <input type="hidden" id="id_mod_page_actor" value=<?php echo $id_modulo ?>>
 
       <div class="col-lg-12">
-          <h1 class="page-header titleprincipal"><img src="../img/botones/actoronly.png">Talleres de Formación</h1> 
+          <h1 class="page-header titleprincipal"><img src="../img/botones/actoronly.png">Feria de Ciencias</h1> 
       </div>       
       <!-- /.col-lg-12 -->
       <div class="col-md-8">
           <ol class="breadcrumb migadepan">
             <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
             <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Académico</a></li>
-            <li><a href="" class="migadepan">Taller de formación</a></li>
+            <li><a href="" class="migadepan">Feria de Ciencias</a></li>
           </ol>
       </div>
 
       <div class="col-md-2 text-right form-inline">                        
                     <label for="grupo_filtrop" class="control-label">Año: </label>      
                       <?php
-                             $TallerInst->getSelectAnioFiltro();
+                             $FeriaInst->getSelectAnioFiltro();
                       ?>  
      </div>
     <div class="col-md-1 text-left form-inline">                                             
@@ -60,11 +60,11 @@
 
             <div class="row">
               <div class="col-md-6">
-                  <div class="titleprincipal"><h4>Registro de Talleres de Formación</h4></div>
+                  <div class="titleprincipal"><h4>Registro de Feria de Ciencia</h4></div>
               </div>
               <div class="col-md-6 text-right">
-                 <button id="btn_nuevotaller" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-target="#frm_modal_taller" <?php if ($crea != 1){echo 'disabled="disabled"';} ?> >
-                 <span class="glyphicon glyphicon-plus"></span>Nuevo Taller de Formación</button>  
+                 <button id="btn_nuevoferia" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-target="#frm_modal_feria" <?php if ($crea != 1){echo 'disabled="disabled"';} ?> >
+                 <span class="glyphicon glyphicon-plus"></span>Nueva Feria de Ciencias</button>  
               </div>
             </div>
 
@@ -78,8 +78,8 @@
                   <thead>
                       <tr>
                          <!-- <th>ID Actor</th>-->
-                          <th class="tabla-form-ancho-std">Fecha de Taller</th>
-                          <th class="tabla-form-ancho-std">Tipo de Taller</th>
+                          <th class="tabla-form-ancho-std">Fecha de la Feria</th>
+                          <th class="tabla-form-ancho-std">Tipo de Feria</th>
                           <th class="tabla-form-ancho-std">Descripción</th>
                           <th class="tabla-form-ancho-std">Número de participantes</th>
                           <th class="tabla-form-ancho-std">Asesor</th>                    
@@ -92,7 +92,7 @@
                       <?php
                           //print_r($_COOKIE); 
                           //echo "valor de cookie de tipo ".$_COOKIE[$NomCookiesApp."_tipo"];
-                          $TallerInst->getTablaTaller();                        
+                          $FeriaInst->getTablaFeria();                        
                        ?>
                   </tbody>
               </table>

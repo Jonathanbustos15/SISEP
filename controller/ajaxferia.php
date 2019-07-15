@@ -9,10 +9,10 @@
     $r = array();  
     $tipo  = $_POST['tipo'];
     $id      = isset($_POST['pkID'])? $_POST['pkID'] : "";
-    $fecha  = isset($_POST['fecha_taller'])? $_POST['fecha_taller'] : ""; 
+    $fecha  = isset($_POST['fecha_feria'])? $_POST['fecha_feria'] : ""; 
     $fecha2  = isset($_POST['fecha_sesion'])? $_POST['fecha_sesion'] : "";
-    $fk_tipo_t  = isset($_POST['fkID_tipo_taller'])? $_POST['fkID_tipo_taller'] : "";
-    $fk_taller  = isset($_POST['fkID_taller_formacion'])? $_POST['fkID_taller_formacion'] : "";
+    $fk_tipo_t  = isset($_POST['fkID_tipo_feria'])? $_POST['fkID_tipo_feria'] : "";
+    $fk_feria  = isset($_POST['fkID_feria_formacion'])? $_POST['fkID_feria_formacion'] : "";
     $descripcion  = isset($_POST['descripcion'])? $_POST['descripcion'] : ""; 
     $fk_tutor  = isset($_POST['fkID_tutor'])? $_POST['fkID_tutor'] : "";
     $proyecto  = isset($_POST['fkID_proyectoM'])? $_POST['fkID_proyectoM'] : "2";
@@ -25,6 +25,11 @@
             } else {
                 $nombre1="";
             }
+            if (isset($_FILES['file2']["name"])) {
+                $nombre2=$_FILES['file2']["name"];
+            } else {
+                $nombre2="";
+            }
             if ($nombre1!="") {
                 $nombre1 = str_replace(" ", "_", $nombre1);
                 $destino = "../server/php/files/" . $nombre1;
@@ -34,26 +39,6 @@
                     $nombre1="";
                     $r["estado"] = "Error servidor";
                 }
-            }
-
-            $q_inserta = "insert INTO `talleres_formacion`(`fkID_tipo_taller`, `fecha_taller`, `fkID_tutor`, `descripcion`, `url_documento`, `fkID_proyectoM`) VALUES ('$fk_tipo_t', '$fecha', '$fk_tutor','$descripcion', '$nombre1', '$proyecto')";
-                        $r["query"] = $q_inserta;           
-                        $resultado = $generico->EjecutaInsertar($q_inserta);
-                        /**/
-                        if($resultado){                   
-                            $r[] = $resultado;          
-                        }else{
-                            $r["estado"] = "Error";
-                            $r["mensaje"] = "No se inserto.";
-                        }
-            break;
-
-        case 'crearsesion':
-            $generico = new Generico_DAO();
-            if (isset($_FILES['file2']["name"])) {
-                $nombre2=$_FILES['file2']["name"];
-            } else {
-                $nombre2="";
             }
             if ($nombre2!="") {
                 $nombre2 = str_replace(" ", "_", $nombre2);
@@ -66,7 +51,7 @@
                 }
             }
 
-            $q_inserta = "insert into `sesion_taller`(`fkID_taller_formacion`, `fecha_sesion`, `descripcion_sesion`, `url_lista`) VALUES ('$fk_taller', '$fecha2', '$descripcion','$nombre2')";
+            $q_inserta = "insert INTO `feria`(`fecha_feria`, `fkID_tipo_feria`, `descripcion_feria`, `fkID_tutor`, `url_documento`, `url_lista`, `proyecto_macro`) VALUES ('$fecha', '$fk_tipo_t','$descripcion','$fk_tutor', '$nombre1', '$nombre2','$proyecto')";
                         $r["query"] = $q_inserta;           
                         $resultado = $generico->EjecutaInsertar($q_inserta);
                         /**/
@@ -85,6 +70,11 @@
             } else {
                 $nombre1="";
             }
+            if (isset($_FILES['file2']["name"])) {
+                $nombre2=$_FILES['file2']["name"];
+            } else {
+                $nombre2="";
+            }
             if ($nombre1!="") {
                 $nombre1 = str_replace(" ", "_", $nombre1);
                 $destino = "../server/php/files/" . $nombre1;
@@ -94,32 +84,6 @@
                     $nombre1="";
                     $r["estado"] = "Error servidor";
                 }
-            }
-            if ($nombre1=="") {
-                       $q_inserta = "update `talleres_formacion` SET `fkID_tipo_taller`='$fk_tipo_t',`fecha_taller`='$fecha',`fkID_tutor`='$fk_tutor',`descripcion`='$descripcion' where pkID='$id'";
-            }
-            if ($nombre1!="") {
-                       $q_inserta = "update `talleres_formacion` SET `fkID_tipo_taller`='$fk_tipo_t',`fecha_taller`='$fecha',`fkID_tutor`='$fk_tutor',`descripcion`='$descripcion',`url_documento`='$nombre1' where pkID='$id'";
-            } 
-            $r["query"] = $q_inserta;           
-            $resultado = $generico->EjecutaActualizar($q_inserta);
-            if($resultado){
-                            
-                $r[] = $resultado;          
-
-            }else{
-
-                $r["estado"] = "Error";
-                $r["mensaje"] = "No se inserto.";
-            }
-            break;
-
-            case 'editarsesion':
-            $generico = new Generico_DAO();
-            if (isset($_FILES['file2']["name"])) {
-                $nombre2=$_FILES['file2']["name"];
-            } else {
-                $nombre2="";
             }
             if ($nombre2!="") {
                 $nombre2 = str_replace(" ", "_", $nombre2);
@@ -131,11 +95,17 @@
                     $r["estado"] = "Error servidor";
                 }
             }
-            if ($nombre2=="") {
-                       $q_inserta = "update `sesion_taller` SET `fkID_taller_formacion`='$fk_taller',`fecha_sesion`='$fecha2',`descripcion_sesion`='$descripcion' where pkID='$id'";
+            if ($nombre1=="" && $nombre2=="") {
+                       $q_inserta = "update `feria` SET `fkID_tipo_feria`='$fk_tipo_t',`fecha_feria`='$fecha',`fkID_tutor`='$fk_tutor',`descripcion_feria`='$descripcion' where pkID='$id'";
             }
-            if ($nombre2!="") {
-                       $q_inserta = "update `sesion_taller` SET `fkID_taller_formacion`='$fk_taller',`fecha_sesion`='$fecha2',`descripcion_sesion`='$descripcion',`url_lista`='$nombre2' where pkID='$id'";
+            if ($nombre1!="" && $nombre2=="") {
+                       $q_inserta = "update `feria` SET `fkID_tipo_feria`='$fk_tipo_t',`fecha_feria`='$fecha',`fkID_tutor`='$fk_tutor',`descripcion_feria`='$descripcion',`url_documento`='$nombre1' where pkID='$id'";
+            } 
+            if ($nombre2!="" && $nombre1=="") {
+                       $q_inserta = "update `feria` SET `fkID_tipo_feria`='$fk_tipo_t',`fecha_feria`='$fecha',`fkID_tutor`='$fk_tutor',`descripcion_feria`='$descripcion',`url_lista`='$nombre2' where pkID='$id'";
+            } 
+            if ($nombre1!="" && $nombre2 !="") {
+                       $q_inserta = "update `feria` SET `fkID_tipo_feria`='$fk_tipo_t',`fecha_feria`='$fecha',`fkID_tutor`='$fk_tutor',`descripcion_feria`='$descripcion',`url_documento`='$nombre1',`url_lista`='$nombre2' where pkID='$id'";
             } 
             $r["query"] = $q_inserta;           
             $resultado = $generico->EjecutaActualizar($q_inserta);
@@ -151,7 +121,7 @@
             break;
             case 'eliminarlista':
                     $generico = new Generico_DAO();
-                    $q_inserta = "update `sesion_taller` SET url_lista='' where pkID='$id' ";
+                    $q_inserta = "update `feria` SET url_lista='' where pkID='$id' ";
                     $r["query"] = $q_inserta;           
                     $resultado = $generico->EjecutaActualizar($q_inserta);
                     /**/
@@ -164,7 +134,7 @@
             break;
             case 'eliminardocumento':
                     $generico = new Generico_DAO();
-                    $q_inserta = "update `talleres_formacion` SET url_documento='' where pkID='$id' ";
+                    $q_inserta = "update `feria` SET url_documento='' where pkID='$id' ";
                     $r["query"] = $q_inserta;           
                     $resultado = $generico->EjecutaActualizar($q_inserta);
                     /**/
@@ -177,7 +147,7 @@
             break;
             case 'eliminarlogico':
                     $generico = new Generico_DAO();
-                    $q_inserta = "update `talleres_formacion` SET estadoV=2 where pkID='$id' ";
+                    $q_inserta = "update `feria` SET estadoV=2 where pkID='$id' ";
                     $r["query"] = $q_inserta;           
                     $resultado = $generico->EjecutaActualizar($q_inserta);
                     /**/
@@ -190,7 +160,7 @@
             break;
             case 'eliminarlogicos':
                     $generico = new Generico_DAO();
-                    $q_inserta = "update `sesion_taller` SET estadoV=2 where pkID='$id' ";
+                    $q_inserta = "update `sesion_feria` SET estadoV=2 where pkID='$id' ";
                     $r["query"] = $q_inserta;           
                     $resultado = $generico->EjecutaActualizar($q_inserta);
                     /**/
