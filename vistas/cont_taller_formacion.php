@@ -5,12 +5,18 @@
   include('../controller/talleresController.php');
   
   include('../conexion/datos.php');
+
+  include '../controller/grupoController.php';
   
   $TallerInst = new talleresController();
   
   $arrPermisos = $TallerInst->getPermisosModulo_Tipo($id_modulo,$_COOKIE[$NomCookiesApp.'_IDtipo']);
   
   $crea = $arrPermisos[0]['crear'];
+
+  $detalles_grupoInst = new grupoController();
+
+  $proyectoMGen = $detalles_grupoInst->getProyectosMarcoGrupo($pkID_taller);
   
   include("form_taller_formacion.php");
   //include("form_modal_archivos.php");
@@ -23,7 +29,7 @@
       <input type="hidden" id="id_mod_page_actor" value=<?php echo $id_modulo ?>>
 
       <div class="col-lg-12">
-          <h1 class="page-header titleprincipal"><img src="../img/botones/actoronly.png">Talleres de Formación</h1> 
+          <h1 class="page-header titleprincipal"><img src="../img/botones/actoronly.png"><?php echo  $proyectoMGen[0]["nombre_proyecto"] ?> - Taller Formación</h1>
       </div>       
       <!-- /.col-lg-12 -->
       <div class="col-md-8">

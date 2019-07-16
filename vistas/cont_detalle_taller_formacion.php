@@ -333,18 +333,62 @@ include "frm_modal_proyectog.php";
 			            </div>
 
 		            </div>
+		            <br><br>
 		            <!-- /.panel-heading -->
 
-					<div class="panel-body">
-
+					<div class="container-fluid">
+						<div class="row">
 						<div class="col-md-2 text-center">
-							<div class="dataTable_wrapper">
-				              <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class=""  target="_blank" ><span> <img  src="../img/carpeta_fotos.png"></span></a>
+				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo_3.jpg" height="360">
 				              <label class="text-center">Galeria uno</label>
-					        </div>
-					        <!-- /.table-responsive -->
 						</div>
 
+						<div class="col-md-2 ext-center">
+				               <img  class="img-responsive img-thumbnail" src="../img/sin_foto.png" height="360">
+				              <label class="text-center">Galeria dos</label>
+						</div>
+
+						<div class="col-md-2 text-center">
+				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo_2.jpg" height="360">
+				              <label class="text-center">Galeria tres</label>
+						</div>
+
+						<div class="col-md-2 text-center">
+				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo.jpg" height="360">
+				              <label class="text-center">Galeria cuatro</label>
+						</div>
+
+						<div class="col-md-2 text-center">
+				               <img  class="img-responsive img-thumbnail" src="../img/sin_foto.png" height="360">
+				              <label class="text-center">Galeria cinco</label>
+						</div>
+
+						<div class="hidden-xs col-md-2 text-center">
+				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo.jpg" height="360">
+				              <label class="text-center">Galeria seis</label>
+						</div>
+
+						<div class="hidden-xs col-md-2 text-center">
+				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo.jpg" height="360">
+				              <label class="text-center">Galeria siete</label>
+						</div>
+
+						<div class="col-md-2 text-center">
+				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo_1.jpg" height="360">
+				              <label class="text-center">Galeria ocho</label>
+						</div>
+
+						<div class="hidden-xs col-md-2 text-center">
+				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo_3.jpg" height="360">
+				              <label class="text-center">Galeria nueve</label>
+						</div>
+
+						<div class="col-md-2 text-center">
+							<a href=feria.php>
+				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo_2.jpg"></a>
+				              <label class="text-center">Galeria diez</label>
+						</div>
+						</div>
 					</div>
 
 				</div>

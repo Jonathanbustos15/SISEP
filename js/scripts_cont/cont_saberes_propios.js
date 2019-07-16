@@ -201,7 +201,7 @@
                 success: function(a) {
                 	console.log(a);
                     var tipo = JSON.parse(a);
-                    location.reload();
+                    //location.reload();
                 }
             })
         } else {
@@ -220,7 +220,7 @@
                 success: function(a) {
                 	console.log(a)
                     var tipo = JSON.parse(a);
-                    location.reload();
+                    //location.reload();
                 }
             })
         }
