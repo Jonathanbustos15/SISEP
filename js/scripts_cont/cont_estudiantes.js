@@ -221,7 +221,7 @@ $(function() {
                 serializa_array(crea_array(arrTutor, $("#pkID").val(), fecha));
             }
         } else {
-            selectTutor(idUsuario, nomUsuario, idGrado, 'select', $(this).data('accion'));
+            //selectTutor(idUsuario, nomUsuario, idGrado, 'select', $(this).data('accion'));
         };
     });
 

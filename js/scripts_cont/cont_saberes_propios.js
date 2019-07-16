@@ -45,7 +45,7 @@
         console.log(id_saberes)
         elimina_saberes(id_saberes);
     });
-    $("#fkID_tutor").change(function(event) {
+    $("#fkID_estudiante").change(function(event) {
         fecha = $("#fecha_creacion").val();
         idUsuario = $(this).val();
         nomUsuario = $(this).find("option:selected").data('nombre')
@@ -58,11 +58,8 @@
                 arrTutor.length = 0;
                 console.log("este usuario es chavito")
                 selectTutor(idUsuario, nomUsuario, 'select', $(this).data('accion'));
-                serializa_array(crea_array(arrTutor, $("#pkID").val(), fecha));
             }
-        } else {
-            selectTutor(idUsuario, nomUsuario, 'select', $(this).data('accion'));
-        };
+        } 
     });
 
     function verPkIdTutor() {
@@ -129,26 +126,6 @@
         return arrTutoresgrupos;
     }
 
-    function serializa_array(array) {
-        console.log("no te vallas chavito")
-        console.log(array);
-        var cadenaSerializa = "";
-        $.each(array, function(index, val) {
-            var dataCadena = "";
-            $.each(val, function(llave, valor) {
-                console.log("llave=" + llave + " valor=" + valor);
-                dataCadena = dataCadena + llave + "=" + valor + "&";
-            });
-            dataCadena = dataCadena.substring(0, dataCadena.length - 1);
-            console.log(dataCadena);
-            insertatutgrupo(dataCadena)
-        });
-        console.log('Se terminó de insertar los usuarios!')
-        if ($("#fkID_tutor").attr('data-accion') == 'load') {
-            console.log("Se ha agregado el usuario correctamente.")
-        }
-    }
-
     function cargar_input(){
       $("#form_saber").append('<div class="form-group" id="adjunto_saber">'+
                         '<label for="adjunto" id="lbl_url_saber" class=" control-label">Lista de asistencia</label>'+ 
@@ -201,7 +178,7 @@
                 success: function(a) {
                 	console.log(a);
                     var tipo = JSON.parse(a);
-                    //location.reload();
+                    location.reload();
                 }
             })
         } else {
@@ -220,7 +197,7 @@
                 success: function(a) {
                 	console.log(a)
                     var tipo = JSON.parse(a);
-                    //location.reload();
+                    location.reload();
                 }
             })
         }
@@ -296,12 +273,8 @@
         console.log(confirma);
         if (confirma == true) {
         	var data = new FormData();
-        	data.append('fecha_salida', $("#fecha_salida").val());
-            data.append('fkID_grupo', $("#fkID_grupo option:selected").val());
-            data.append('comunidad_visitada', $("#comunidad_visitada").val());
-            data.append('fkID_asesor', $("#fkID_asesor option:selected").val());
         	data.append('tipo', "eliminarlogico");
-            data.append('pkID', $("#pkID").val());
+            data.append('pkID', id_saber);
             $.ajax({
             	type: "POST",
                 url: '../controller/ajaxsaberes.php',  
@@ -311,7 +284,7 @@
             }).done(function(data) {
                 //---------------------
                 console.log(data);
-                location.reload();
+                //location.reload();
             }).fail(function() {
                 console.log("errorfatal");
             }).always(function() {
@@ -335,19 +308,6 @@
         }
     }
 
-    function deleteDocenteNumReg(numReg) {
-        $.ajax({
-            url: '../controller/ajaxController12.php',
-            data: "pkID=" + numReg + "&tipo=eliminarlogico&nom_tabla=docente_grupo",
-        }).done(function(data) {
-            console.log(data);
-            alert(data.mensaje.mensaje);
-        }).fail(function() {
-            console.log("error");
-        }).always(function() {
-            console.log("complete");
-        });
-    }
 
     function deleteTutorNumReg(numReg) {
         $.ajax({

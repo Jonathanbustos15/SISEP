@@ -733,7 +733,7 @@ class saberes_propioscontroller extends saberesDAO
 
             [
                 "tipo"    => "eliminar",
-                "nombre"  => "estudiante",
+                "nombre"  => "estudiante_saber_propio",
                 "permiso" => $elimina,
             ],
 

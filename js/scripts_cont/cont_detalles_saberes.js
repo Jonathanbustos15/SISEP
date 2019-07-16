@@ -26,7 +26,7 @@ $(function() {
         console.log("accion a ejecutar: " + action);
     });
 
-    $("[name*='elimina_estudiante']").click(function(event) {
+    $("[name*='elimina_estudiante_saber_propio']").click(function(event) {
         id_estudian = $(this).attr('data-id-estudiante');
         console.log(id_estudian)
         deleteSaberNumReg(id_estudian);
