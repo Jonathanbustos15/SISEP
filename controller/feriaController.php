@@ -36,7 +36,6 @@
     {
 
         $this->feriaId = $this->getFeriaId($pkID);
-        $this->sesionesId = $this->getlistadoID($pkID);
         //print_r($this->gruposId);
 
         echo '<div class="col-sm-3 ">
@@ -45,13 +44,14 @@
                 <div class="form-group " hidden>                     
                             <input type="text" class="form-control" id="fkID_grupo" name="fkID_grupo" value='.$this->feriaId[0]["fkID_grupo"].'>
                         </div>
-              <strong>Fecha del Feria: </strong> ' . $this->feriaId[0]["fecha_salida"] . ' <br> <br>
+              <strong>Fecha de la Feria: </strong> ' . $this->feriaId[0]["fecha_feria"] . ' <br> <br>
               <strong>Tipo de Feria: </strong> ' . $this->feriaId[0]["nombre"] . ' <br> <br>
-              <strong>Descripción: </strong> ' . $this->feriaId[0]["comunidad_visitada"] . ' <br> <br>
+              <strong>Lugar de la Feria:</strong> ' . $this->feriaId[0]["lugar_feria"] . ' <br> <br>
               <strong>Numero de participantes: </strong> ' . $this->feriaId[0]["canti"] . ' <br> <br>
-              <strong>Asesor Asignado: </strong> ' . $this->feriaId[0]["nombres_funcionario"] . ' <br> <br>
-              <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class=""  target="_blank" ><span> <img  src="../img/pdfdescargable.png"></span></a>
+              <strong>Informe de la Feria:</strong><br> <br><a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class=""  target="_blank" ><span> <img  src="../img/pdfdescargable.png"></span></a>
               <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../server/php/files/'.$this->feriaId[0]["url_documento"].'" target="_blank" >'.$this->feriaId[0]["url_documento"].'</a><br><br>
+              <strong>Lista de Asistencia de la Feria:</strong><br> <br><a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class=""  target="_blank" ><span> <img  src="../img/pdfdescargable.png"></span></a>
+              <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../server/php/files/'.$this->feriaId[0]["url_lista"].'" target="_blank" >'.$this->feriaId[0]["url_lista"].'</a><br><br>
               
                 </div>';
     
@@ -302,9 +302,8 @@
                    // ["nombre"=>"pkID"],
                     ["nombre"=>"fecha_feria"],
                     ["nombre"=>"nombre"],
-                    ["nombre"=>"descripcion_feria"],
+                    ["nombre"=>"lugar_feria"],
                     ["nombre"=>"canti"],
-                    ["nombre"=>"nombres_funcionario"]
                 ];
                 //la configuracion de los botones de opciones
                 $Feria_btn =[
@@ -322,9 +321,9 @@
                 ];
 
                 $array_opciones = [ 
-                    "modulo" => "Feria_formacion", //nombre del modulo definido para jquerycontrollerV2
+                    "modulo" => "Feria", //nombre del modulo definido para jquerycontrollerV2
                     "title"  => "Click Ver Detalles", //etiqueta html title
-                    "href"   => "detalle_Feria_formacion.php?id_Feria_formacion=",
+                    "href"   => "detalle_Feria.php?id_Feria=",
                     "class"  => "detail", //clase que permite que añadir el evento jquery click
                 ];
             //---------------------------------------------------------------------------------

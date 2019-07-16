@@ -66,10 +66,10 @@ $(function(){
 
     function validarferia(){
       var fecha = $("#fecha_feria").val();
-      var asesor = $("#fkID_tutor option:selected").val();
+      var lugar = $("#lugar_feria").val();
       var tipo = $("#fkID_tipo_feria option:selected").val();
         var respuesta;
-        if (fecha === "" || asesor === "" || tipo === "") {
+        if (fecha === "" || lugar === "" || tipo === "") {
             respuesta = "no"
             return respuesta
         }else{
@@ -85,7 +85,7 @@ $(function(){
         }).done(function(data) {
             $.each(data.mensaje[0], function(key, valu) {
                 if (key=="url_documento" && valu != "") {
-                  $("#form_feria").append('<div id="adjunto_documento2" class="form-group">'+'<label for="adjunto" id="lbl_pkID_archivo_documento" name="lbl_pkID_archivo_documento" class="custom-control-label">Documento feria de Ciencia</label>'+'<br>'+'<input type="text" style="width: 89%;display: inline;" class="form-control" id="pkID_documento" name="btn_Rmferia_documento" value="' + valu + '" readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../server/php/files/' + valu + '" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmferia_documento" id="btn_actionRmferia_documento" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
+                  $("#form_feria").append('<div id="adjunto_documento2" class="form-group">'+'<label for="adjunto" id="lbl_pkID_archivo_documento" name="lbl_pkID_archivo_documento" class="custom-control-label">Informe feria de Ciencia</label>'+'<br>'+'<input type="text" style="width: 89%;display: inline;" class="form-control" id="pkID_documento" name="btn_Rmferia_documento" value="' + valu + '" readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../server/php/files/' + valu + '" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmferia_documento" id="btn_actionRmferia_documento" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
                   $("#lbl_url_documento").remove();
                   $("#url_documento").remove(); 
                   $("[name*='btn_actionRmferia_documento']").click(function(event) {
@@ -115,7 +115,7 @@ $(function(){
 
     function cargar_input(){
       $("#form_feria").append('<div class="form-group" id="adjunto_documento">'+
-                        '<label for="adjunto" id="lbl_url_documento" class=" control-label">Adjuntar Documento</label>'+ 
+                        '<label for="adjunto" id="lbl_url_documento" class=" control-label">Adjuntar Informe</label>'+ 
                         '<input type="file" class="form-control" id="url_documento" name="url_documento" placeholder="Documento del feria de ciencias" required = "">'+
                     '</div>')
       $("#form_feria").append('<div class="form-group" id="adjunto_listado">'+
@@ -140,8 +140,7 @@ $(function(){
         var data = new FormData();
         data.append('fecha_feria', $("#fecha_feria").val());
         data.append('fkID_tipo_feria', $("#fkID_tipo_feria option:selected").val());
-        data.append('descripcion', $("#descripcion_feria").val());
-        data.append('fkID_tutor', $("#fkID_tutor option:selected").val());
+        data.append('descripcion', $("#lugar_feria").val());
         if (document.getElementById("url_documento").files.length) {
           data.append('file', $("#url_documento").get(0).files[0]);
         }
@@ -167,8 +166,7 @@ $(function(){
         var data = new FormData();
         data.append('fecha_feria', $("#fecha_feria").val());
         data.append('fkID_tipo_feria', $("#fkID_tipo_feria option:selected").val());
-        data.append('descripcion', $("#descripcion_feria").val());
-        data.append('fkID_tutor', $("#fkID_tutor option:selected").val());
+        data.append('descripcion', $("#lugar_feria").val());
         if ($("#url_documento").length) {
         if (document.getElementById("url_documento").files.length) {
           data.append('file', $("#url_documento").get(0).files[0]);
@@ -190,7 +188,7 @@ $(function(){
             processData: false,
             success: function(data) {
               console.log(data);
-              //location.reload();
+              location.reload();
             }
         });
     }

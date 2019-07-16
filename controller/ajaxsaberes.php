@@ -10,14 +10,14 @@ class Generico_DAO
 }
 
 $r    = array();
-$tipo = $_POST['tipo'];
+$tipo = isset($_POST['tipo'])? $_POST['tipo'] : "";
 if (isset($_POST['pkID'])) {
     $id = $_POST['pkID'];
 }
-$fechas = $_POST['fecha_salida'];
-$fkID_grupo = $_POST['fkID_grupo'];
-$comunidad = $_POST['comunidad_visitada'];
-$fk_asesor = $_POST['fkID_asesor'];
+$fechas = $tipo = isset($_POST['fecha_salida'])? $_POST['fecha_salida'] : "";
+$fkID_grupo = $tipo = isset($_POST['fkID_grupo'])? $_POST['fkID_grupo'] : "";
+$comunidad = $tipo = isset($_POST['comunidad_visitada'])? $_POST['comunidad_visitada'] : "";
+$fk_asesor = $tipo = isset($_POST['fkID_asesor'])? $_POST['fkID_asesor'] : "";
 
 switch ($tipo) {
     case 'crear':

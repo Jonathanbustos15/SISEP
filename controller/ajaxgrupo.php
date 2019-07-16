@@ -10,16 +10,16 @@ class Generico_DAO
 }
 
 $r    = array();
-$tipo = $_POST['tipo'];
+$tipo = isset($_POST['tipo'])? $_POST['tipo'] : "";
 if (isset($_POST['pkID'])) {
     $id = $_POST['pkID'];
 }
-$nombref             = $_POST['nombre'];
-$fk_tipo_grupo       = $_POST['fkID_tipo_grupo'];
-$fk_grado            = $_POST['fkID_grado'];
-$fk_institucion      = $_POST['fkID_institucion'];
-$fecha               = $_POST['fecha_creacion'];
-$fkID_proyecto_marco = $_POST['fkID_proyecto_marco'];
+$nombref             = isset($_POST['nombre'])? $_POST['nombre'] : "";
+$fk_tipo_grupo       = isset($_POST['fkID_tipo_grupo'])? $_POST['fkID_tipo_grupo'] : "";
+$fk_grado            = isset($_POST['fkID_grado'])? $_POST['fkID_grado'] : "";
+$fk_institucion      = isset($_POST['fkID_institucion'])? $_POST['fkID_institucion']: "";
+$fecha               = isset($_POST['fecha_creacion'])? $_POST['fecha_creacion'] : "";
+$fkID_proyecto_marco = isset($_POST['fkID_proyecto_marco'])? $_POST['fkID_proyecto_marco'] : "";
 
 switch ($tipo) {
     case 'crear':

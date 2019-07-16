@@ -3,14 +3,22 @@
   /**/
   
   include('../controller/feriaController.php');
+
+  include '../controller/grupoController.php';
   
   include('../conexion/datos.php');
   
   $FeriaInst = new feriaController();
   
   $arrPermisos = $FeriaInst->getPermisosModulo_Tipo($id_modulo,$_COOKIE[$NomCookiesApp.'_IDtipo']);
+
+  $detalles_grupoInst = new grupoController();
+
+  $pkID_proyectoM = $_GET["id_proyectoM"];
+
+  $proyectoMGen = $detalles_grupoInst->getProyectosMarcoGrupo($pkID_feria);
   
-  $crea = $arrPermisos[0]['crear'];
+  $crea = $arrPermisos[0]['crear'];  
   
   include("form_feria.php");
   //include("form_modal_archivos.php");
@@ -23,8 +31,8 @@
       <input type="hidden" id="id_mod_page_actor" value=<?php echo $id_modulo ?>>
 
       <div class="col-lg-12">
-          <h1 class="page-header titleprincipal"><img src="../img/botones/actoronly.png">Feria de Ciencias</h1> 
-      </div>       
+          <h1 class="page-header titleprincipal"><img src="../img/botones/grupoonly.png">Feria de Ciencias - <?php echo $proyectoMGen[0]["nombre_proyecto"] ?></h1>
+      </div>     
       <!-- /.col-lg-12 -->
       <div class="col-md-8">
           <ol class="breadcrumb migadepan">
@@ -80,9 +88,8 @@
                          <!-- <th>ID Actor</th>-->
                           <th class="tabla-form-ancho-std">Fecha de la Feria</th>
                           <th class="tabla-form-ancho-std">Tipo de Feria</th>
-                          <th class="tabla-form-ancho-std">Descripción</th>
-                          <th class="tabla-form-ancho-std">Número de participantes</th>
-                          <th class="tabla-form-ancho-std">Asesor</th>                    
+                          <th class="tabla-form-ancho-std">Lugar de la Feria</th>
+                          <th class="tabla-form-ancho-std">Número de participantes</th>                  
 
                           <th class="tabla-form-ancho-sm" data-orderable="false">Opciones</th>                                               
                       </tr>

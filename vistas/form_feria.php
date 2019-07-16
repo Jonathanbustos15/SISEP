@@ -33,19 +33,9 @@
                     </div>                
 
                     <div class="form-group">
-                        <label for="descripcion_feria" class="control-label">Descripción de la Feria</label>                        
-                        <textarea class="form-control" id="descripcion_feria" name="descripcion_feria" placeholder="Descripción breve de la Feria"></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="fkID_tutor" class="control-label">Asesor</label>
-                            <select class="form-control" id="fkID_tutor" name="fkID_tutor" <?php if ($crea != 1){echo 'disabled="disabled"';} ?> required = "true">
-                              <option value="" selected>Elija el Tutor</option>
-                              <?php 
-                                  $FeriaInst->getSelectTutor();
-                               ?>
-                            </select>
-                    </div>         
+                        <label for="descripcion_feria" class="control-label">Lugar de la Feria</label>                        
+                        <input type="text" class="form-control" id="lugar_feria" name="lugar_feria" placeholder="Lugar de la Feria" required = "true">
+                    </div>       
 
                     <div class="form-group" hidden="true">
                         <label class="control-label"></label>

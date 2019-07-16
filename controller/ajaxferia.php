@@ -51,7 +51,7 @@
                 }
             }
 
-            $q_inserta = "insert INTO `feria`(`fecha_feria`, `fkID_tipo_feria`, `descripcion_feria`, `fkID_tutor`, `url_documento`, `url_lista`, `proyecto_macro`) VALUES ('$fecha', '$fk_tipo_t','$descripcion','$fk_tutor', '$nombre1', '$nombre2','$proyecto')";
+            $q_inserta = "insert INTO `feria`(`fecha_feria`, `fkID_tipo_feria`, `lugar_feria`, `url_documento`, `url_lista`, `proyecto_macro`) VALUES ('$fecha', '$fk_tipo_t','$descripcion', '$nombre1', '$nombre2','$proyecto')";
                         $r["query"] = $q_inserta;           
                         $resultado = $generico->EjecutaInsertar($q_inserta);
                         /**/
@@ -96,16 +96,16 @@
                 }
             }
             if ($nombre1=="" && $nombre2=="") {
-                       $q_inserta = "update `feria` SET `fkID_tipo_feria`='$fk_tipo_t',`fecha_feria`='$fecha',`fkID_tutor`='$fk_tutor',`descripcion_feria`='$descripcion' where pkID='$id'";
+                       $q_inserta = "update `feria` SET `fkID_tipo_feria`='$fk_tipo_t',`fecha_feria`='$fecha',`lugar_feria`='$descripcion' where pkID='$id'";
             }
             if ($nombre1!="" && $nombre2=="") {
-                       $q_inserta = "update `feria` SET `fkID_tipo_feria`='$fk_tipo_t',`fecha_feria`='$fecha',`fkID_tutor`='$fk_tutor',`descripcion_feria`='$descripcion',`url_documento`='$nombre1' where pkID='$id'";
+                       $q_inserta = "update `feria` SET `fkID_tipo_feria`='$fk_tipo_t',`fecha_feria`='$fecha',`lugar_feria`='$descripcion',`url_documento`='$nombre1' where pkID='$id'";
             } 
             if ($nombre2!="" && $nombre1=="") {
-                       $q_inserta = "update `feria` SET `fkID_tipo_feria`='$fk_tipo_t',`fecha_feria`='$fecha',`fkID_tutor`='$fk_tutor',`descripcion_feria`='$descripcion',`url_lista`='$nombre2' where pkID='$id'";
+                       $q_inserta = "update `feria` SET `fkID_tipo_feria`='$fk_tipo_t',`fecha_feria`='$fecha',`lugar_feria`='$descripcion',`url_lista`='$nombre2' where pkID='$id'";
             } 
             if ($nombre1!="" && $nombre2 !="") {
-                       $q_inserta = "update `feria` SET `fkID_tipo_feria`='$fk_tipo_t',`fecha_feria`='$fecha',`fkID_tutor`='$fk_tutor',`descripcion_feria`='$descripcion',`url_documento`='$nombre1',`url_lista`='$nombre2' where pkID='$id'";
+                       $q_inserta = "update `feria` SET `fkID_tipo_feria`='$fk_tipo_t',`fecha_feria`='$fecha',`lugar_feria`='$descripcion',`url_documento`='$nombre1',`url_lista`='$nombre2' where pkID='$id'";
             } 
             $r["query"] = $q_inserta;           
             $resultado = $generico->EjecutaActualizar($q_inserta);

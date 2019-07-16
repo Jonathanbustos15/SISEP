@@ -7,7 +7,7 @@
     }
 
     $r = array();  
-    $tipo  = $_POST['tipo'];
+    $tipo  = isset($_POST['tipo'])? $_POST['tipo'] : "";
     $id      = isset($_POST['pkID'])? $_POST['pkID'] : "";
     $fecha  = isset($_POST['fecha_taller'])? $_POST['fecha_taller'] : ""; 
     $fecha2  = isset($_POST['fecha_sesion'])? $_POST['fecha_sesion'] : "";

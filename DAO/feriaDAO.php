@@ -19,8 +19,7 @@
         
         public function getFeria(){        
        
-            $query = "select feria.pkID,fecha_feria,feria.descripcion_feria,(select count(*) FROM feria_participantes LEFT JOIN estudiante ON estudiante.pkID = feria_participantes.fkID_participante WHERE feria.pkID = feria_participantes.fkID_feria) as canti,tipo_feria.nombre,concat_ws(' ',nombre_funcionario,apellido_funcionario)nombres_funcionario FROM `feria`
-                INNER JOIN funcionario on funcionario.pkID = feria.fkID_tutor
+            $query = "select feria.pkID,fecha_feria,feria.lugar_feria,(select count(*) FROM feria_participantes LEFT JOIN participante ON participante.pkID = feria_participantes.fkID_participante WHERE feria.pkID = feria_participantes.fkID_feria) as canti,tipo_feria.nombre FROM `feria`
                 INNER JOIN tipo_feria on tipo_feria.pkID = feria.fkID_tipo_feria
                 where feria.estadoV= 1";
 
@@ -55,16 +54,16 @@
         public function getFeriaId($pkID)
     {
 
-        $query = "select saber_propio.*,grupo.nombre,grupo.url_logo,(select count(*) FROM saber_estudiante LEFT JOIN estudiante ON estudiante.pkID = saber_estudiante.fkID_estudiante WHERE saber_propio.pkID = saber_estudiante.fkID_saber_propio) as canti,concat_ws(' ',nombre_funcionario,apellido_funcionario)nombres_funcionario FROM `saber_propio`
-            LEFT JOIN funcionario on funcionario.pkID = saber_propio.fkID_asesor
-            INNER JOIN grupo on grupo.pkID = saber_propio.fkID_grupo where saber_propio.estadoV= 1 and saber_propio.pkID=" . $pkID;
+        $query = "select feria.*,(select count(*) FROM feria_participantes LEFT JOIN participante ON participante.pkID = feria_participantes.fkID_participante WHERE feria.pkID = feria_participantes.fkID_feria) as canti, tipo_feria.nombre FROM feria
+            INNER JOIN tipo_feria on tipo_feria.pkID = feria.fkID_tipo_feria
+            where  feria.pkID=" . $pkID;
 
         return $this->EjecutarConsulta($query);
     }
 
     public function getTipoFeria(){        
        
-            $query = "select * FROM `tipo_feria`";
+            $query = "select * FROM `tipo_feria` ORDER by nombre";
 
             return $this->EjecutarConsulta($query);
         }
@@ -96,10 +95,10 @@
     public function getParticipantesFeria($pkID_feria)
     {
 
-        $query = "select participante_feria.pkID,participante.documento_participante,participante.pkID as pkIDparticipante,nombre_participante as nombre,apellido_participante AS apellido,telefono_participante FROM participante_feria
-            INNER JOIN participante ON participante.pkID = participante_feria.fkID_participante
-            INNER JOIN feriaes_formacion ON feriaes_formacion.pkID = participante_feria.fkID_feria_formacion
-            WHERE feriaes_formacion.pkID= " . $pkID_feria;
+        $query = "select feria_participantes.pkID,participante.documento_participante,participante.pkID as pkIDparticipante,nombre_participante as nombre,apellido_participante AS apellido,telefono_participante FROM feria_participantes
+            INNER JOIN participante ON participante.pkID = feria_participantes.fkID_participante
+            INNER JOIN feria ON feria.pkID = feria_participantes.fkID_feria
+            WHERE feria.pkID= " . $pkID_feria;
 
         return $this->EjecutarConsulta($query);
     }

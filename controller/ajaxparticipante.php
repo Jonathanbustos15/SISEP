@@ -79,6 +79,20 @@
                       $r["mensaje"] = "No se inserto.";
                         }
                 break;
+                case 'eliminarasignacionf':
+                    $generico = new Generico_DAO();
+                    $q_inserta = "delete FROM `feria_participantes` WHERE pkID='$id' ";
+                    $r["query"] = $q_inserta;           
+                    $resultado = $generico->EjecutaEliminar($q_inserta);
+                    /**/
+                    if($resultado){                    
+                        $r[] = $resultado;          
+
+                    }else{
+                      $r["estado"] = "Error";
+                      $r["mensaje"] = "No se inserto.";
+                        }
+                break;
         default:
             # code...
             break;

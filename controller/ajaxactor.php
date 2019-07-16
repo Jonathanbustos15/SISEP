@@ -9,7 +9,7 @@
     }
 
     $r = array();  
-    $tipo  = $_POST['tipo'];
+    $tipo  = isset($_POST['tipo'])? $_POST['tipo'] : "";
 
     switch ($tipo) {
 

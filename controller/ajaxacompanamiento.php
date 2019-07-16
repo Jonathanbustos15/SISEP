@@ -10,15 +10,15 @@ class Generico_DAO
 }
 
 $r         = array();
-$tipo      = $_POST['tipo'];
-$id        = $_POST['pkID'];
-$nombref   = $_POST['nombre'];
-$apellido  = $_POST['apellido'];
-$fk_tipo   = $_POST['fk_tipo'];
-$documento = $_POST['documento'];
-$telefono  = $_POST['telefono'];
-$direccion = $_POST['direccion'];
-$email     = $_POST['email'];
+$tipo      = isset($_POST['tipo'])? $_POST['tipo'] : "";
+$id        = isset($_POST['pkID'])? $_POST['pkID'] : "";
+$nombref   = isset($_POST['nombre'])? $_POST['nombre'] : "";
+$apellido  = isset($_POST['apellido'])? $_POST['apellido'] : "";
+$fk_tipo   = isset($_POST['fk_tipo'])? $_POST['fk_tipo'] : "";
+$documento = isset($_POST['documento'])? $_POST['documento'] : "";
+$telefono  = isset($_POST['telefono'])? $_POST['telefono'] : "";
+$direccion = isset($_POST['direccion'])? $_POST['direccion'] : "";
+$email     = isset($_POST['email'])? $_POST['email'] : "";
 
 switch ($tipo) {
     case 'crear':

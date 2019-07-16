@@ -187,7 +187,7 @@
     //valida si existe el documento
     function validaEqualIdentifica(num_id) {
         console.log("busca valor " + encodeURI(num_id));
-        var consEqual = "SELECT COUNT(*) as res_equal FROM `estudiante` WHERE `documento_participante` = '" + num_id + "'";
+        var consEqual = "SELECT COUNT(*) as res_equal FROM `participante` WHERE `documento_participante`= '" + num_id + "'";
         $.ajax({
             url: '../controller/ajaxController12.php',
             data: "query=" + consEqual + "&tipo=consulta_gen",
@@ -230,7 +230,7 @@
             $(this).val("");
         }
     });
-    $("#documento_funcinario").change(function(event) {
+    $("#documento_participante").change(function(event) {
         /* valida que no tenga menos de 8 caracteres*/
         var valores_idCli = $(this).val().length;
         console.log(valores_idCli);
