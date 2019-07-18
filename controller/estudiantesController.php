@@ -23,7 +23,7 @@ class estudiantesController extends estudiantesDAO
     //Espacio para las funciones de esta clase.
 
     //---------------------------------------------------------------------------------
-    public function getTablaEstudiantes()
+    public function getTablaEstudiantes($pkID_proyectoM)
     {
 
         //permisos-------------------------------------------------------------------------
@@ -67,7 +67,7 @@ class estudiantesController extends estudiantesDAO
         ];
         //---------------------------------------------------------------------------------
         //get de los datos
-        $estudiantes = $this->getEstudiantes();
+        $estudiantes = $this->getEstudiantes($pkID_proyectoM);
 
         //Instancia el render
         $this->table_inst = new RenderTable($estudiantes, $array_campos, $array_btn, []);

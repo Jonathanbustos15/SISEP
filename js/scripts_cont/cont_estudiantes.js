@@ -177,7 +177,7 @@ $(function() {
             console.log("complete");
         });
     }
-    $("#nombre_estuadiante").keyup(function(event) {
+    $("#nombre_estudiante1").keyup(function(event) {
         /* Act on the event */
         if (((event.keyCode > 32) && (event.keyCode < 65)) || (event.keyCode > 200)) {
             console.log(String.fromCharCode(event.which));
@@ -185,7 +185,23 @@ $(function() {
             $(this).val("");
         }
     });
-    $("#apellido_estudiante").keyup(function(event) {
+    $("#nombre_estudiante2").keyup(function(event) {
+        /* Act on the event */
+        if (((event.keyCode > 32) && (event.keyCode < 65)) || (event.keyCode > 200)) {
+            console.log(String.fromCharCode(event.which));
+            alert("El Nombre NO puede llevar valores numericos.");
+            $(this).val("");
+        }
+    });
+    $("#apellido_estudiante1").keyup(function(event) {
+        /* Act on the event */
+        if (((event.keyCode > 32) && (event.keyCode < 65)) || (event.keyCode > 200)) {
+            console.log(String.fromCharCode(event.which));
+            alert("El Apellido NO puede llevar valores numericos.");
+            $(this).val("");
+        }
+    });
+    $("#apellido_estudiante2").keyup(function(event) {
         /* Act on the event */
         if (((event.keyCode > 32) && (event.keyCode < 65)) || (event.keyCode > 200)) {
             console.log(String.fromCharCode(event.which));
@@ -203,6 +219,14 @@ $(function() {
             $(this).focus();
         }
         validaEqualIdentifica($(this).val());
+    });
+    $("#documento_estudiante").keyup(function(event) {
+        /* Act on the event */
+        if (((event.keyCode > 32) && (event.keyCode < 48)) || (event.keyCode > 57)) {
+            console.log(String.fromCharCode(event.which));
+            alert("El número de Documento NO puede llevar valores alfanuméricos.");
+            $(this).val("");
+        }
     });
     $("#fkID_estudiante").change(function(event) {
         idUsuario = $(this).val();
@@ -274,5 +298,5 @@ $(function() {
         } else {
             return false;
         }
-    };
+    };  
 });

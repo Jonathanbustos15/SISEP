@@ -9,11 +9,11 @@ include_once 'usuariosDAO.php';
 class docentesDAO extends UsuariosDAO
 {
 
-    public function getDocente()
+    public function getDocente($pkID_proyectoM)
     {
 
         $query = "select docente.pkID, CONCAT_WS(' ',docente.nombre_docente,docente.apellido_docente) as nombres, docente.documento_docente,institucion.nombre_institucion as institucion, docente.email_docente FROM `docente`
-INNER JOIN institucion on institucion.pkID = docente.fkID_institucion WHERE docente.estadoV = 1";
+INNER JOIN institucion on institucion.pkID = docente.fkID_institucion WHERE docente.estadoV = 1 and proyecto_macro=".$pkID_proyectoM;
 
         return $this->EjecutarConsulta($query);
     }
@@ -161,13 +161,13 @@ INNER JOIN institucion on institucion.pkID = docente.fkID_institucion WHERE doce
     public function getProyectosMarcoId($pkID)
     {
 
-        $query = "select proyecto_marco.*, departamento.nombre as nom_departamento
+        $query = "select proyecto_marco.*, departamento.nombre_departamento as nom_departamento
 
                       FROM proyecto_marco
 
                       INNER JOIN departamento ON departamento.pkID = proyecto_marco.fkID_departamento
 
-                      WHERE proyecto_marco.pkID = " . $pkID;
+                      WHERE proyecto_marco.pkID= " . $pkID;
 
         return $this->EjecutarConsulta($query);
     }

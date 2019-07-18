@@ -56,6 +56,12 @@
                             ?>
                     </div>
 
+                    <div class="form-group " hidden>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="proyecto_marco" name="proyecto_marco" value="<?php echo $pkID_proyectoM; ?>">
+                        </div>
+                    </div>
+
                 </form>
 
         <!-- /form modal contenido-->

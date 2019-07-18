@@ -8,7 +8,7 @@
 	//---------------------------------------------------------
 	$pagina = 'cont_detalle_taller_formacion.php';
 	$scripts = array('test_validaPV3.js','helper_detalles_grupo.js','cont_detalles_grupo.js','helper_proyecto.js', 'cont_detalle_taller_formacion.js','cont_albumgrupos.js','cont_participante.js');
-	$id_modulo = 31;
+	$id_modulo = 24;
 	//---------------------------------------------------------
 	
 	$muestra_detalles_grupo->mostrar_pagina_scripts($pagina,$scripts,$id_modulo);

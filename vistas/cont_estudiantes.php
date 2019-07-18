@@ -21,7 +21,7 @@ include 'form_estudiantes.php';
   <div class="row">
 
       <div class="col-lg-12">
-          <h2 class="page-header titleprincipal"><img src="../img/botones/estudiantesonly.png">Estudiantes - <?php echo $proyectoMGen[0]["nombre"] ?></h2>
+          <h2 class="page-header titleprincipal"><img src="../img/botones/estudiantesonly.png"><?php echo $proyectoMGen[0]["nombre"] ?> - Estudiantes</h2>
       </div>
       <!-- /.col-lg-12 -->
       <div class="col-lg-12">
@@ -29,7 +29,7 @@ include 'form_estudiantes.php';
           <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
           <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
           <li><a href="configuracion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Configuración</a></li>
-          <li class="active migadepan">Estudiantes - <?php echo $proyectoMGen[0]["nombre"] ?> </li>
+          <li class="active migadepan"> Estudiantes </li>  
         </ol>
       </div>
 
@@ -73,7 +73,7 @@ include 'form_estudiantes.php';
 
                   <tbody>
                       <?php
-$estudiantesInst->getTablaEstudiantes();
+$estudiantesInst->getTablaEstudiantes($pkID_proyectoM);
 ?>
                   </tbody>
               </table>

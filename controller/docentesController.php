@@ -56,7 +56,7 @@ class docentesController extends docentesDAO
     }
 
     //---------------------------------------------------------------------------------
-    public function getTablaDocentes()
+    public function getTablaDocentes($pkID_proyectoM)
     {
 
         //permisos-------------------------------------------------------------------------
@@ -93,7 +93,7 @@ class docentesController extends docentesDAO
         ];
         //---------------------------------------------------------------------------------
         //get de los datos
-        $docentes = $this->getDocente();
+        $docentes = $this->getDocente($pkID_proyectoM);
 
         //Instancia el render
         $this->table_inst = new RenderTable($docentes, $array_campos, $array_btn, $array_opciones);

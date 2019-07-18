@@ -29,7 +29,7 @@ class institucionController extends institucionDAO
         $tipo = $this->getDepartamentos();
 
         for ($a = 0; $a < sizeof($tipo); $a++) {
-            echo "<option value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombre"] . "</option>";
+            echo "<option value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombre_departamento"] . "</option>";
         }
     }
 
@@ -73,7 +73,7 @@ class institucionController extends institucionDAO
         }
     }
 
-    public function getTablaInstitucion()
+    public function getTablaInstitucion($pkID_proyectoM)
     {
 
         //permisos-------------------------------------------------------------------------
@@ -112,7 +112,7 @@ class institucionController extends institucionDAO
 
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
-        $institucion = $this->getInstituciones();
+        $institucion = $this->getInstituciones($pkID_proyectoM);
         //print_r($institucion);
         //echo $this->getCookieProyectoM();
 
@@ -149,7 +149,7 @@ class institucionController extends institucionDAO
         echo '<select name="fkID_municipio" id="fkID_municipio" class="form-control" required = "true">
                         <option value="" selected>Elija el municipio</option>';
         for ($i = 0; $i < sizeof($municipioSelect); $i++) {
-            echo '<option value="' . $municipioSelect[$i]["pkID"] . '" data-nom-estudio="' . $municipioSelect[$i]["nombre_municipio"] . '">' . $municipioSelect[$i]["nombre_municipio"] . '</option>';
+            echo '<option value="' . $municipioSelect[$i]["pkID"] . '" data-nom-estudio="' . $municipioSelect[$i]["nombre"] . '">' . $municipioSelect[$i]["nombre"] . '</option>';
         };
         echo '</select>';
     }

@@ -55,7 +55,12 @@ $funcionarioInst->getSelectTipoDocumento();
                         <label for="direccion" class=" control-label">Email</label>
                         <input type="email" class="form-control" id="email_funcionario" name="email_funcionario" placeholder="Email del Funcionario" required = "true">
                     </div>
-
+                    
+                    <div class="form-group " hidden>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="proyecto_marco" name="proyecto_marco" value="<?php echo $pkID_proyectoM; ?>">
+                        </div>
+                    </div>
 
                 </form>
 

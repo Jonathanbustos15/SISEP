@@ -87,15 +87,17 @@ $(function() {
     });
 
     function crea_funcionario() {
+        var data = new FormData();
         if (document.getElementById("url_funcionario").files.length) {
-            var data = new FormData();
             data.append('file', $("#url_funcionario").get(0).files[0]);
+        }
             data.append('nombre', $("#nombre_funcionario").val());
             data.append('apellido', $("#apellido_funcionario").val());
             data.append('fk_tipo', $("#fkID_tipo_documento option:selected").val());
             data.append('documento', $("#documento_funcionario").val());
             data.append('telefono', $("#telefono_funcionario").val());
             data.append('direccion', $("#direccion_funcionario").val());
+            data.append('proyecto_marco', $("#proyecto_marco").val());
             data.append('email', $("#email_funcionario").val());
             data.append('tipo', "crear");
             $.ajax({
@@ -104,33 +106,12 @@ $(function() {
                 data: data,
                 contentType: false,
                 processData: false,
-                success: function(a) {
+                success: function(a) {  
                     console.log(a);
                     location.reload();
                 }
             })
-        } else {
-            var data = new FormData();
-            data.append('nombre', $("#nombre_funcionario").val());
-            data.append('apellido', $("#apellido_funcionario").val());
-            data.append('fk_tipo', $("#fkID_tipo_documento option:selected").val());
-            data.append('documento', $("#documento_funcionario").val());
-            data.append('telefono', $("#telefono_funcionario").val());
-            data.append('direccion', $("#direccion_funcionario").val());
-            data.append('email', $("#email_funcionario").val());
-            data.append('tipo', "crearsin");
-            $.ajax({
-                type: "POST",
-                url: "../controller/ajaxfuncionario.php",
-                data: data,
-                contentType: false,
-                processData: false,
-                success: function(a) {
-                    console.log(a);
-                    location.reload();
-                }
-            })
-        }
+
     }
 
     function cargar_input() {
@@ -139,11 +120,12 @@ $(function() {
 
     function
     edita_funcionario() {
+        var data = new FormData();
         if ($("#url_funcionario").length) {
-            //existe
-            console.log("exitesss");
-            var data = new FormData();
+            if (document.getElementById("url_funcionario").files.length) {
             data.append('file', $("#url_funcionario").get(0).files[0]);
+            }
+            }
             data.append('nombre', $("#nombre_funcionario").val());
             data.append('apellido', $("#apellido_funcionario").val());
             data.append('fk_tipo', $("#fkID_tipo_documento option:selected").val());
@@ -164,30 +146,7 @@ $(function() {
                     location.reload();
                 }
             })
-        } else {
-            //no existe
-            var data = new FormData();
-            data.append('nombre', $("#nombre_funcionario").val());
-            data.append('apellido', $("#apellido_funcionario").val());
-            data.append('fk_tipo', $("#fkID_tipo_documento option:selected").val());
-            data.append('documento', $("#documento_funcionario").val());
-            data.append('telefono', $("#telefono_funcionario").val());
-            data.append('direccion', $("#direccion_funcionario").val());
-            data.append('email', $("#email_funcionario").val());
-            data.append('tipo', "editarsin");
-            data.append('pkID', $("#pkID").val());
-            $.ajax({
-                type: "POST",
-                url: "../controller/ajaxfuncionario.php",
-                data: data,
-                contentType: false,
-                processData: false,
-                success: function(a) {
-                    console.log(a);
-                    location.reload();
-                }
-            })
-        }
+
     }
 
     function carga_funcionario(id_funciona) {
@@ -219,15 +178,14 @@ $(function() {
     };
 
     function elimina_funcionario(id_funciona) {
-        console.log('Eliminar el hvida: ' + id_funciona);
-        var confirma = confirm("En realidad quiere eliminar esta Institución?");
+        var confirma = confirm("En realidad quiere eliminar este Funcionario?");
         console.log(confirma);
         /**/
         if (confirma == true) {
             //si confirma es true ejecuta ajax
             $.ajax({
                 url: '../controller/ajaxController12.php',
-                data: "pkID=" + id_funciona + "&tipo=eliminarlogico&nom_tabla=funcionario",
+                data: "pkID=" + id_funciona + "&tipo=eliminar_logico&nom_tabla=funcionario",
             }).done(function(data) {
                 //---------------------
                 console.log(data);
@@ -273,7 +231,7 @@ $(function() {
     //valida si existe el documento
     function validaEqualIdentifica(num_id) {
         console.log("busca valor " + encodeURI(num_id));
-        var consEqual = "SELECT COUNT(*) as res_equal FROM `estudiante` WHERE `documento_funcionario` = '" + num_id + "'";
+        var consEqual = "SELECT COUNT(*) as res_equal FROM `funcionario` WHERE `documento_funcionario` = '" + num_id + "'";
         $.ajax({
             url: '../controller/ajaxController12.php',
             data: "query=" + consEqual + "&tipo=consulta_gen",
@@ -282,7 +240,7 @@ $(function() {
             //console.log(data.mensaje[0].res_equal);
             if (data.mensaje[0].res_equal > 0) {
                 alert("El Número de indetificación ya existe, por favor ingrese un número diferente.");
-                $("#documento_estudiante").val("");
+                $("#documento_funcionario").val("");
             } else {
                 //return false;
             }
@@ -316,7 +274,7 @@ $(function() {
             $(this).val("");
         }
     });
-    $("#documento_funcinario").change(function(event) {
+    $("#documento_funcionario").change(function(event) {
         /* valida que no tenga menos de 8 caracteres*/
         var valores_idCli = $(this).val().length;
         console.log(valores_idCli);

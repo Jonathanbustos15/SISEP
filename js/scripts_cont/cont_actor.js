@@ -8,7 +8,6 @@ $(function(){
         $("#btn_actionactor").attr("data-action","crear");
         $("#btn_actionactor").removeAttr('disabled', 'disabled');
         $("#form_actor")[0].reset();
-        $("#btn_actionHvida").removeAttr('disabled');
         $("#selectMunicipio").remove();
         $("#selectDepartamento").remove();
         $("#selectPais").remove();

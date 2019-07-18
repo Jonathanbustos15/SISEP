@@ -15,11 +15,11 @@ class institucionDAO
         return $this->getCookieProyectoM();
     }
 
-    public function getInstituciones()
+    public function getInstituciones($pkID_proyectoM)
     {
 
-        $this->q_general = "select institucion.pkID, institucion.persona_contacto, institucion.nombre_institucion,institucion.codigo_dane,institucion.email_institucion, municipio.nombre_municipio as fkID_municipio FROM `institucion`
-                INNER JOIN municipio on municipio.pkID = institucion.fkID_municipio where estadoV=1";
+        $this->q_general = "select institucion.pkID, institucion.persona_contacto, institucion.nombre_institucion,institucion.codigo_dane,institucion.email_institucion, municipio.nombre as fkID_municipio FROM `institucion`
+                INNER JOIN municipio on municipio.pkID = institucion.fkID_municipio where estadoV=1 and proyecto_marco=".$pkID_proyectoM;
 
         return $this->EjecutarConsulta($this->q_general);
     }
@@ -106,7 +106,7 @@ class institucionDAO
     public function getProyectosMarcoId($pkID)
     {
 
-        $query = "select proyecto_marco.*, departamento.nombre as nom_departamento
+        $query = "select proyecto_marco.*, departamento.nombre_departamento as nom_departamento
 
                       FROM proyecto_marco
 

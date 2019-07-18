@@ -13,7 +13,7 @@ $muestra_detalles_proyectoM = new mostrar();
 //---------------------------------------------------------
 $pagina    = 'cont_academico.php';
 $scripts   = array('helper_proyectoM.js', 'cont_academico.js');
-$id_modulo = 59;
+$id_modulo = 11;
 //---------------------------------------------------------
 
 $muestra_detalles_proyectoM->mostrar_pagina_scripts($pagina, $scripts, $id_modulo);

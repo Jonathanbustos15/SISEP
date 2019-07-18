@@ -8,7 +8,7 @@
 	//---------------------------------------------------------
 	$pagina = 'cont_actor.php';
 	$scripts = array( 'test_validaPV3.js', 'cont_actor.js', 'cont_institucion_selectsMunicipio.js');
-	$id_modulo = 18;
+	$id_modulo = 22;
 	//---------------------------------------------------------
 	
 	$muestra_actor->mostrar_pagina_scripts($pagina,$scripts,$id_modulo);

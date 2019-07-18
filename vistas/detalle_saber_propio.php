@@ -8,7 +8,7 @@
 	//---------------------------------------------------------
 	$pagina = 'cont_detalle_saber_propio.php';
 	$scripts = array('test_validaPV3.js','helper_detalles_grupo.js','cont_detalles_grupo.js','helper_proyecto.js', 'cont_detalles_saberes.js','cont_albumgrupos.js','cont_estudiantes.js');
-	$id_modulo = 31;
+	$id_modulo = 15;
 	//---------------------------------------------------------
 	
 	$muestra_detalles_grupo->mostrar_pagina_scripts($pagina,$scripts,$id_modulo);

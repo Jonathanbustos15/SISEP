@@ -8,7 +8,7 @@
 	//---------------------------------------------------------
 	$pagina = 'cont_funcionario.php';
 	$scripts = array('cont_funcionario.js'); 
-	$id_modulo = 30;
+	$id_modulo = 7;
 	//---------------------------------------------------------
 	
 	$muestra_funcionario->mostrar_pagina_scripts($pagina,$scripts,$id_modulo);

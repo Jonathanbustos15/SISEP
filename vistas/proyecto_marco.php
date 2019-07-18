@@ -13,7 +13,7 @@ $muestra_proyecto_marco = new mostrar();
 //---------------------------------------------------------
 $pagina    = 'cont_proyecto_marco.php';
 $scripts   = array('cont_proyecto_marco.js', 'cont_proyecto_marco_date.js');
-$id_modulo = 15;
+$id_modulo = 1;
 //echo $id_modulo;
 //---------------------------------------------------------
 

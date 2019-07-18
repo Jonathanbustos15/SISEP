@@ -36,7 +36,7 @@ $docentesInst->getSelectTipoDocumento();
 
                     <div class="form-group">
                         <label for="documentos" class=" control-label">Numero de Documento</label>
-                        <input type="text" class="form-control" id="documento_docente" name="documento_docente" placeholder="Apellidos del docente" required = "true">
+                        <input type="text" class="form-control" id="documento_docente" name="documento_docente" placeholder="Documento del docente" required = "true">
                     </div>
 
                     <div class="form-group">
@@ -62,6 +62,12 @@ $docentesInst->getSelectInstitu();
                         <input type="email" class="form-control" id="email_docente" name="email_docente" placeholder="Email del Docente" required = "true">
                     </div>
 
+                    <div class="form-group " hidden>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="proyecto_macro" name="proyecto_macro" value="<?php echo $pkID_proyectoM; ?>">
+                        </div>
+                    </div>
+
                 <br>
 
         <!-- /form modal contenido-->
@@ -72,6 +78,7 @@ $docentesInst->getSelectInstitu();
         </button>
       </div>
     </div>
+</form>
   </div>
 </div>
 <!-- /form modal -->

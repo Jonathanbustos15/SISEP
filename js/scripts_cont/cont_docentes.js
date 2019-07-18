@@ -63,7 +63,8 @@ $(function() {
 
     function crea_docente() {
         objt_f_docente = $("#form_docente").valida();
-        console.log("aca esta la ")
+        e= $("#proyecto_macro").val();
+        console.log("aca esta la "+e);
         email = $("#email_docente").val();
         if ((objt_f_docente.estado == true) && (validarEmail(email))) {
             $.ajax({
@@ -144,6 +145,15 @@ $(function() {
             $(this).val("");
         }
     });
+    $("#documento_docente").keyup(function(event) {
+        /* Act on the event */
+        if (((event.keyCode > 32) && (event.keyCode < 48)) || (event.keyCode > 57)) {
+            console.log(String.fromCharCode(event.which));
+            alert("El número de Documento NO puede llevar valores alfanuméricos.");
+            $(this).val("");
+        }
+    });
+
     $("#documento_docente").change(function(event) {
         /* valida que no tenga menos de 8 caracteres*/
         var valores_idCli = $(this).val().length;
@@ -164,8 +174,8 @@ $(function() {
             $(this).val("");
             $(this).focus();
         }
-        validaEqualIdentifica($(this).val());
     });
+
     $("#nombre_docente").keyup(function(event) {
         /* Act on the event */
         if (((event.keyCode > 32) && (event.keyCode < 65)) || (event.keyCode > 200)) {
@@ -182,4 +192,32 @@ $(function() {
             $(this).val("");
         }
     });
+
+    function validaEqualIdentifica(num_id) {
+        console.log("busca valor " + encodeURI(num_id));
+        var consEqual = "SELECT COUNT(*) as res_equal FROM `docente` WHERE estadoV=1 and`documento_docente`= '" + num_id + "'";
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "query=" + consEqual + "&tipo=consulta_gen",
+        }).done(function(data) {
+            /**/
+            //console.log(data.mensaje[0].res_equal);
+            if (data.mensaje[0].res_equal > 0) {
+                alert("El Número de indetificación ya existe, por favor ingrese un número diferente.");
+                $("#documento_docente").val(""); 
+            } else {
+                //return false;
+            }
+        }).fail(function() {
+            console.log("error");
+        }).always(function() {
+            console.log("complete");
+        });
+    }
+
 });
+
+
+
+
+

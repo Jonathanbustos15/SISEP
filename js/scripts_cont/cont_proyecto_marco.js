@@ -22,6 +22,9 @@ $(function() {
             //------------------------------------------      
         }
     });
+    $("#btn_nuevoProyectoM").click(function(){
+    $("select_municipio").val($("#select_municipio").data("default-value"));
+   });
     $("#btn_actionproyectoM").jquery_controllerV2({
         tipo: 'inserta/edita',
         nom_modulo: 'proyectoM',
@@ -89,18 +92,10 @@ $(function() {
             //----------------------------------------------------------------
         }
     });
-    $("[name*='elimina_proyectoM']").jquery_controllerV2({
-        tipo: 'eliminar',
-        nom_modulo: 'proyectoM',
-        nom_tabla: 'proyecto_marco',
-        functionBefore: function(ajustes) {
-            console.log('Ejecutando antes de todo...');
-            console.log(ajustes);
-        },
-        functionAfter: function(data) {
-            console.log('Ejecutando despues de todo...');
-            console.log(data);
-        }
+  
+    $("[name*='elimina_proyectoM']").click(function(event) {
+        id_proyecto = $(this).attr('data-id-proyectom');
+        elimina_proyecto(id_proyecto);
     });
     //
     $("[name*='ver_archivos_proyectoM']").click(function(event) {
@@ -109,6 +104,25 @@ $(function() {
         var carga_archivos = new loadArchivosMult("SELECT * FROM `documentos_proyectoM` WHERE fkID_proyectoM = " + $(this).data("id-registro"));
         carga_archivos.load()
     });
+
+    function elimina_proyecto(id) {
+        var confirma = confirm("En realidad quiere eliminar este Proyecto?");
+        console.log(confirma);
+        if (confirma == true) {  
+            $.ajax({ 
+                url: '../controller/ajaxController12.php',  
+                data: "pkID=" + id + "&tipo=eliminar_logico&nom_tabla=proyecto_marco",
+            }).done(function(data) {
+                //---------------------
+                console.log(data);
+                //location.reload();
+            }).fail(function() {
+                console.log("errorfatal");
+            }).always(function() {
+                console.log("complete");
+            });
+        }
+    };
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
     //Función para cargar varios archivos
     self.upload = new funcionesUpload("btn_actionproyectoM", "res_form", "not_documentos", "documentos_proyectoM", "fkID_proyectoM")
@@ -155,4 +169,46 @@ $(function() {
     //
     sessionStorage.setItem("id_tab_proyectoM", null);
     //------------------------------------------------------
+$("#operador").keyup(function(event) {
+        /* Act on the event */
+        if (((event.keyCode > 47) && (event.keyCode < 58))) {
+            console.log(String.fromCharCode(event.which));
+            alert("El Operador NO puede llevar valores numericos.");
+            $(this).val("");
+        }
+    });
+$("#fuente_recursos").keyup(function(event) {
+        /* Act on the event */
+        if (((event.keyCode > 47) && (event.keyCode < 58))) {
+            console.log(String.fromCharCode(event.which));
+            alert("La Fuente de Recursos NO puede llevar valores numericos.");
+            $(this).val("");
+        }
+    });
+$("#financiadores").keyup(function(event) {
+        /* Act on the event */
+        if (((event.keyCode > 47) && (event.keyCode < 58))) {
+            console.log(String.fromCharCode(event.which));
+            alert("El Financiador NO puede llevar valores numericos.");
+            $(this).val("");
+        }
+    });
+$("#interventoria").keyup(function(event) {
+        /* Act on the event */
+        if (((event.keyCode > 47) && (event.keyCode < 58))) {
+            console.log(String.fromCharCode(event.which));
+            alert("La Interventoria NO puede llevar valores numericos.");
+            $(this).val("");
+        }
+    });
+
+$("#supervisor").keyup(function(event) {
+        /* Act on the event */
+        if (((event.keyCode > 47) && (event.keyCode < 58))) {
+            console.log(String.fromCharCode(event.which));
+            alert("El Supervisor NO puede llevar valores numericos.");
+            $(this).val("");
+        }
+    });
+
 });

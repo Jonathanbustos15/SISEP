@@ -4,7 +4,7 @@ $(function() {
         $("#lbl_form_institucion").html("Nueva Institución");
         $("#lbl_btn_actioninstitucion").html("Guardar <span class='glyphicon glyphicon-save'></span>");
         $("#btn_actioninstitucion").attr("data-action", "crear");
-        $("#form_institucion")[0].reset();
+        $("#form_institucion")[0].reset();  
     });
     //Definir la acción del boton del formulario 
     $("#btn_actioninstitucion").click(function() {
@@ -152,4 +152,41 @@ $(function() {
             $(this).val("");
         }
     });
+    $("#telefono_institucion").change(function(event) {
+        /* valida que no tenga menos de 8 caracteres*/
+        var valores_idCli = $(this).val().length;
+        console.log(valores_idCli);
+        if (valores_idCli < 7) {
+            alert("El número de Telefono no puede ser menor a 7 valores.");
+            $(this).val("");
+            $(this).focus();
+        }
+    });
+    $("#nombre_institucion").change(function(event) {
+        /* valida que no tenga menos de 8 caracteres*/
+        validaEqualIdentifica($(this).val());
+    });
+
+    function validaEqualIdentifica(num_id) {
+        console.log("busca valor " + encodeURI(num_id));
+        var consEqual = "SELECT COUNT(*) as res_equal FROM `institucion` WHERE estadoV=1 and `nombre_institucion`= '" + num_id + "'";
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "query=" + consEqual + "&tipo=consulta_gen",
+        }).done(function(data) {
+            /**/
+            //console.log(data.mensaje[0].res_equal);
+            if (data.mensaje[0].res_equal > 0) {
+                alert("El Nombre de la Institución ya existe, por favor ingrese un nombre diferente.");
+                $("#nombre_institucion").val("");
+            } else {
+                //return false;
+            }
+        }).fail(function() {
+            console.log("error");
+        }).always(function() {
+            console.log("complete");
+        });
+    }
+
 });

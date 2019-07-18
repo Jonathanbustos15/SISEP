@@ -15,12 +15,12 @@ class estudiantesDAO extends docentesDAO
     //return $this->getCookieProyectoM();
     //}
 
-    public function getEstudiantes()
+    public function getEstudiantes($pkID_proyectoM)
     {
 
         $query = "select grado.pkID AS id_grado,estudiante.pkID, concat_ws(' ',nombre_estudiante1,apellido_estudiante1) as nombres, documento_estudiante, grado.nombre as grado_estudiante FROM `estudiante`
-INNER JOIN grado on grado.pkID= estudiante.fkID_grado
-WHERE estudiante.estadoV=1";
+            INNER JOIN grado on grado.pkID= estudiante.fkID_grado
+            WHERE estudiante.estadoV=1 and proyecto_marco=".$pkID_proyectoM;
 
         return $this->EjecutarConsulta($query);
     }
@@ -66,7 +66,7 @@ WHERE estudiante.estadoV=1";
     public function getProyectosMarcoId($pkID)
     {
 
-        $query = "select proyecto_marco.*, departamento.nombre as nom_departamento
+        $query = "select proyecto_marco.*, departamento.nombre_departamento as nom_departamento
 
                       FROM proyecto_marco
 

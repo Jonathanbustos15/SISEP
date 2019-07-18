@@ -23,7 +23,7 @@ include "form_institucion.php";
       <input type="hidden" id="id_mod_page_institucion" value=<?php echo $id_modulo ?>>
 
       <div class="col-lg-12">
-          <h2 class="page-header titleprincipal"><img src="../img/botones/institucionesonly.png">Instituciones - <?php echo $proyectoMGen[0]["nombre"] ?></h2>
+          <h2 class="page-header titleprincipal"><img src="../img/botones/institucionesonly.png"><?php echo $proyectoMGen[0]["nombre"] ?> - Institución</h2>
       </div>
 
       <div class="col-lg-12">
@@ -31,7 +31,7 @@ include "form_institucion.php";
           <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
           <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
           <li><a href="configuracion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Configuración</a></li>
-          <li class="active migadepan">Institución - <?php echo $proyectoMGen[0]["nombre"] ?> </li>
+          <li class="active migadepan"> Institución </li>
         </ol>
       </div>
 
@@ -74,7 +74,7 @@ include "form_institucion.php";
 
                   <tbody>
                       <?php
-$institucionInst->getTablaInstitucion();
+$institucionInst->getTablaInstitucion($pkID_proyectoM);
 ?>
                   </tbody>
               </table>
