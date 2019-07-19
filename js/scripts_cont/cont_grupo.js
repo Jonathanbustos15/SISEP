@@ -338,15 +338,17 @@ $(function() {
     }
 
     function crear_grupo() {
+        var data = new FormData();
         if (document.getElementById("fileupload").files.length) {
-            var data = new FormData();
             data.append('file', $("#fileupload").get(0).files[0]);
+        } 
             data.append('nombre', $("#nombre").val());
             data.append('fkID_tipo_grupo', $("#fkID_tipo_grupo option:selected").val());
             data.append('fkID_grado', $("#fkID_grado option:selected").val());
             data.append('fkID_institucion', $("#fkID_institucion option:selected").val());
             data.append('fecha_creacion', $("#fecha_creacion").val());
-            data.append('tipo', "crear");
+            data.append('proyecto_marco', $("#proyecto_marco").val());
+            data.append('tipo', "crear"); 
             $.ajax({
                 type: "POST",
                 url: "../controller/ajaxgrupo.php",
@@ -362,35 +364,15 @@ $(function() {
                     location.reload();
                 }
             })
-        } else {
-            var data = new FormData();
-            data.append('nombre', $("#nombre").val());
-            data.append('fkID_tipo_grupo', $("#fkID_tipo_grupo option:selected").val());
-            data.append('fkID_grado', $("#fkID_grado option:selected").val());
-            data.append('fkID_institucion', $("#fkID_institucion option:selected").val());
-            data.append('fecha_creacion', $("#fecha_creacion").val());
-            data.append('tipo', "crearsin");
-            $.ajax({
-                type: "POST",
-                url: "../controller/ajaxgrupo.php",
-                data: data,
-                contentType: false,
-                processData: false,
-                success: function(a) {
-                    var tipo = JSON.parse(a);
-                    fkID_grupo = tipo[0].last_id;
-                    fecha = $("#fecha_creacion").val();
-                    serializa_array(crea_array(arrTutor, fkID_grupo, fecha));
-                    serializa_array2(crea_array2(arrDocente, fkID_grupo, fecha));
-                    location.reload();
-                }
-            })
-        }
     }
 
     function edita_grupo() {
-        if ($("#url_funcionario").length) {
+        var data = new FormData();
+        if ($("#fileupload").length) {
+            if (document.getElementById("fileupload").files.length) {
             data.append('file', $("#fileupload").get(0).files[0]);
+        } 
+    }
             data.append('nombre', $("#nombre").val());
             data.append('fkID_tipo_grupo', $("#fkID_tipo_grupo option:selected").val());
             data.append('fkID_grado', $("#fkID_grado option:selected").val());
@@ -403,34 +385,12 @@ $(function() {
                 url: "../controller/ajaxgrupo.php",
                 data: data,
                 contentType: false,
-                processData: false,
+                processData: false, 
                 success: function(a) {
                     console.log(a);
                     location.reload();
-                }
+                }  
             })
-        } else {
-            var data = new FormData();
-            data.append('file', $("#fileupload").get(0).files[0]);
-            data.append('nombre', $("#nombre").val());
-            data.append('fkID_tipo_grupo', $("#fkID_tipo_grupo option:selected").val());
-            data.append('fkID_grado', $("#fkID_grado option:selected").val());
-            data.append('fkID_institucion', $("#fkID_institucion option:selected").val());
-            data.append('fecha_creacion', $("#fecha_creacion").val());
-            data.append('tipo', "editarsin");
-            data.append('pkID', $("#pkID").val());
-            $.ajax({
-                type: "POST",
-                url: "../controller/ajaxgrupo.php",
-                data: data,
-                contentType: false,
-                processData: false,
-                success: function(a) {
-                    console.log(a);
-                    location.reload();
-                }
-            })
-        }
     }
 
     function elimina_grupo(id_grupo) {
@@ -441,7 +401,7 @@ $(function() {
             //si confirma es true ejecuta ajax
             $.ajax({
                 url: '../controller/ajaxController12.php',
-                data: "pkID=" + id_grupo + "&tipo=eliminarlogico&nom_tabla=grupo",
+                data: "pkID=" + id_grupo + "&tipo=eliminar_logico&nom_tabla=grupo",
             }).done(function(data) {
                 //---------------------
                 console.log(data);
@@ -457,7 +417,7 @@ $(function() {
     function deleteDocenteNumReg(numReg) {
         $.ajax({
             url: '../controller/ajaxController12.php',
-            data: "pkID=" + numReg + "&tipo=eliminarlogico&nom_tabla=docente_grupo",
+            data: "pkID=" + numReg + "&tipo=eliminar_logico&nom_tabla=docente_grupo",
         }).done(function(data) {
             console.log(data);
             alert(data.mensaje.mensaje);
@@ -471,7 +431,7 @@ $(function() {
     function deleteTutorNumReg(numReg) {
         $.ajax({
             url: '../controller/ajaxController12.php',
-            data: "pkID=" + numReg + "&tipo=eliminarlogico&nom_tabla=funcionario_grupo",
+            data: "pkID=" + numReg + "&tipo=eliminar_logico&nom_tabla=funcionario_grupo",
         }).done(function(data) {
             console.log(data);
             alert(data.mensaje.mensaje);
@@ -500,5 +460,50 @@ $(function() {
             edita_grupo();
         };
     };
+
+    $("#nombre").change(function(event) {
+        var nombre = $("#nombre").val();
+        var date = $("#fecha_creacion").val();
+        var fecha = date.split("-", 1);           
+        validaEqualIdentifica(nombre,fecha[0]);
+    });
+
+    $("#fecha_creacion").change(function(event) {
+        var nombre = $("#nombre").val();
+        var date = $("#fecha_creacion").val();
+        var fecha = date.split("-", 1);           
+        validaEqualIdentifica(nombre,fecha[0]);
+    });
+
+    function validaEqualIdentifica(nombre,fecha) {
+        console.log("busca valor " + encodeURI(nombre));
+        var consEqual = "SELECT COUNT(*) as res_equal FROM `grupo` WHERE estadoV=1 and `nombre`='" + nombre + "' and YEAR(`fecha_creacion`)='" + fecha + "'";
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "query=" + consEqual + "&tipo=consulta_gen",
+        }).done(function(data) {
+            /**/
+            //console.log(data.mensaje[0].res_equal);
+            if (data.mensaje[0].res_equal > 0) {
+                alert("El grupo ya existe, por favor ingrese un nombre ó un año diferente .");
+                $("#nombre").val(""); 
+                $("#fecha_creacion").val(""); 
+            } else {
+                //return false;
+            }
+        }).fail(function() {
+            console.log("error"); 
+        }).always(function() {
+            console.log("complete");
+        });
+    }
+
+    $("#btn_filtrog_anio").click(function(event) { 
+        proyecto = $("#btn_nuevogrupo").attr("data-proyecto");
+        nombre = $('select[name="anio_filtrog"] option:selected').text();
+        tipo = $("#tipo_filtrog option:selected").val();
+        if (tipo=="") {tipo="Todos"}
+        location.href = "grupo.php?id_proyectoM=" + proyecto + "&anio=" + nombre +  "&tipo=" + tipo + "";
+    });
 
 });

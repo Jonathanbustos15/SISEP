@@ -24,7 +24,7 @@ class talento_humanoController extends talento_humanoDAO
     //Funciones-------------------------------------------
     //Espacio para las funciones de esta clase.
 
-    public function getTablaFuncionarioCargo($pkID_proyectoM)
+    public function getTablaFuncionarioCargo($pkID_proyectoM, $filtro, $filtro2)
     {
 
         //permisos-------------------------------------------------------------------------
@@ -49,12 +49,12 @@ class talento_humanoController extends talento_humanoDAO
 
             [
                 "tipo"    => "editar",
-                "nombre"  => "proyectoM",
+                "nombre"  => "talento_humano",
                 "permiso" => $edita,
             ],
             [
                 "tipo"    => "eliminar",
-                "nombre"  => "proyectoM",
+                "nombre"  => "talento_humano",
                 "permiso" => $elimina,
             ],
 
@@ -62,7 +62,7 @@ class talento_humanoController extends talento_humanoDAO
 
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
-        $proyectoM = $this->getFuncionariosCargo($pkID_proyectoM);
+        $proyectoM = $this->getFuncionariosCargo($pkID_proyectoM, $filtro, $filtro2);
 
         //print_r($proyectoM);
         //Instancia el render
@@ -178,7 +178,7 @@ class talento_humanoController extends talento_humanoDAO
                 if ($edita != 1) {echo 'disabled="disabled"';}
                 echo '><span class="glyphicon glyphicon-pencil"></span></button>&nbsp
 
-        <button id="btn_eliminar" name="elimina_proyectoM" title="Eliminar" type="button" class="btn btn-danger btn-xl-proyectoM" data-id-proyectoM = "' . $value["pkID"] . '"';
+        <button id="btn_eliminar" name="elimina_acompanamiento" title="Eliminar" type="button" class="btn btn-danger btn-xl-proyectoM" data-id-acompanamiento = "' . $value["pkID"] . '"';
                 //permisos del boton
                 if ($elimina != 1) {echo 'disabled="disabled"';}
                 echo '>
@@ -284,5 +284,19 @@ class talento_humanoController extends talento_humanoDAO
             echo "<option value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombre_cargo"] . "</option>";
         }
     }
+
+    public function getSelectAnioFiltro()
+    {
+
+        $tipo = $this->getAnio();
+
+        echo '<select name="anio_filtro" id="anio_filtro" class="form-control" required = "true">
+                        <option value="" selected>Todos</option>';
+        for ($a = 0; $a < sizeof($tipo); $a++) {
+            echo "<option value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombre"] . "</option>";
+        }
+        echo "</select>";
+    }
+
 
 }

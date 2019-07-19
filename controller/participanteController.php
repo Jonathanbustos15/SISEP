@@ -23,7 +23,7 @@
 		//Espacio para las funciones de esta clase.
 		
 		//---------------------------------------------------------------------------------
-	    public function getTablaParticipante(){    	
+	    public function getTablaParticipante($pkID_proyectoM){    	
 
 	    	//permisos-------------------------------------------------------------------------
 			$arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo,$_COOKIE[$this->NameCookieApp."_IDtipo"]);
@@ -67,7 +67,7 @@
 		        ];	    	
 		    //---------------------------------------------------------------------------------
 		    //get de los datos	    	
-	    	$Participante = $this->getParticipante();
+	    	$Participante = $this->getParticipante($pkID_proyectoM);
 	    	
 	    	//Instancia el render
 	    	$this->table_inst = new RenderTable($Participante,$array_campos,$array_btn,[]);	    	

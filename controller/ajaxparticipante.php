@@ -18,11 +18,12 @@
     $telefono  = isset($_POST['telefono'])? $_POST['telefono'] : "";
     $direccion  = isset($_POST['direccion'])? $_POST['direccion'] : "";
     $email  = isset($_POST['email'])? $_POST['email'] : "";
+    $proyecto_marco  = isset($_POST['proyecto_marco'])? $_POST['proyecto_marco'] : "";
 
     switch ($tipo) {
         case 'crear':
             $generico = new Generico_DAO();       
-                        $q_inserta = "insert into participante(nombre_participante, apellido_participante, fkID_tipo_documento, documento_participante, telefono_participante, direccion_participante, email_participante) VALUES ('$nombref', '$apellido', '$fk_tipo', '$documento', '$telefono', '$direccion', '$email')";
+                        $q_inserta = "insert into participante(nombre_participante, apellido_participante, fkID_tipo_documento, documento_participante, telefono_participante, direccion_participante, email_participante, proyecto_macro) VALUES ('$nombref', '$apellido', '$fk_tipo', '$documento', '$telefono', '$direccion', '$email', '$proyecto_marco')";
                         $r["query"] = $q_inserta;           
 
                         $resultado = $generico->EjecutaInsertar($q_inserta);

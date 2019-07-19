@@ -84,6 +84,7 @@ $numeroEstudiantes = $detalles_grupoInst->getNumEstudiantesGrupo(9, $pkID_grupo,
 $ne = $numeroEstudiantes[0]['num_estudiantes'];
 
 $proyectoMGen = $detalles_grupoInst->getProyectosMarcoGrupo($pkID_grupo);
+$pkID_proyectoM = $proyectoMGen[0]["pkIDproyecto"]; 
 
 //echo date("Y-m-d");
 
@@ -143,11 +144,11 @@ include "frm_modal_proyectog.php";
     <div class="col-lg-12">
           <ol class="breadcrumb migadepan">
             <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
-            <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
-            <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Académico</a></li>
-            <li><a href="grupo.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Grupo ondas</a></li>
-            <li class="active migadepan">Detalle Grupos - <?php echo $proyectoMGen[0]["nombre"] . ' - ' . $proyectoMGen[0]["nombre_proyecto"] ?> </li>
-          </ol>
+            <li><a href="principal.php?id_proyectoM=<?php echo $proyectoMGen[0]["pkIDproyecto"]; ?>" class="migadepan">Menú principal</a></li>
+            <li><a href="academico.php?id_proyectoM=<?php echo $proyectoMGen[0]["pkIDproyecto"]; ?>" class="migadepan">Académico</a></li>
+            <li><a href="grupo.php?id_proyectoM=<?php echo $proyectoMGen[0]["pkIDproyecto"]; ?>" class="migadepan">Grupo ondas</a></li>
+            <li class="active migadepan">Detalle Grupos </li>
+          </ol> 
     </div>
 
   </div>

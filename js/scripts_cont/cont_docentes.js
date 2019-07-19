@@ -34,7 +34,7 @@ $(function() {
         if (!expr.test(email)) {
             alert("Error: La dirección de correo " + email + " es incorrecta.");
             $("#email_docente").val('');
-            $("#email_docente").focus();
+            $("#email_docente").focus();  
         } else {
             return true;
         }

@@ -9,10 +9,10 @@ include_once 'usuariosDAO.php';
 class ParticipanteDAO extends UsuariosDAO
 {
 
-    public function getParticipante()
+    public function getParticipante($pkID_proyectoM)
     {
 
-        $query = "select pkID, concat_ws(' ',nombre_Participante,apellido_Participante) as nombres, documento_Participante, telefono_Participante, email_Participante FROM `Participante` WHERE estadoV=1 and proyecto_macro=2";
+        $query = "select pkID, concat_ws(' ',nombre_Participante,apellido_Participante) as nombres, documento_Participante, telefono_Participante, email_Participante FROM `Participante` WHERE estadoV=1 and proyecto_macro=".$pkID_proyectoM;
 
         return $this->EjecutarConsulta($query);
     }
@@ -58,7 +58,7 @@ class ParticipanteDAO extends UsuariosDAO
     public function getProyectosMarcoId($pkID)
     {
 
-        $query = "select proyecto_marco.*, departamento.nombre as nom_departamento
+        $query = "select proyecto_marco.*, departamento.nombre_departamento as nom_departamento
 
                       FROM proyecto_marco
 

@@ -32,44 +32,18 @@ class saberesDAO extends UsuariosDAO
         return $this->EjecutarConsulta($query);
     }
 
-    public function getSaberes($pkID_proyectoM)
+    public function getSaberes($filtro,$pkID_proyectoM)
     {
+        if ($filtro == "Todos" || $filtro == "") {
+                    $anio = "!=0";
+                } else {
+                    $anio = "=" . $filtro;
+                }
+           
 
         $query = "select saber_propio.*,grupo.nombre,(select count(*) FROM saber_estudiante LEFT JOIN estudiante ON estudiante.pkID = saber_estudiante.fkID_estudiante WHERE saber_propio.pkID = saber_estudiante.fkID_saber_propio) as canti,concat_ws(' ',nombre_funcionario,apellido_funcionario)nombres_funcionario FROM `saber_propio`
             LEFT JOIN funcionario on funcionario.pkID = saber_propio.fkID_asesor
-            INNER JOIN grupo on grupo.pkID = saber_propio.fkID_grupo where saber_propio.estadoV= 1 and fkID_proyectos=".$pkID_proyectoM;
-
-        return $this->EjecutarConsulta($query);
-    }
-
-    public function getGrupos($filtro)
-    {
-        $porciones = explode(" ", $filtro);
-        $filtro = $porciones[0];
-        $tipos = $porciones[1]; 
-        if ($porciones[1]=="*") {
-            $t="!=0";
-        } else {
-            $t="=".$tipos;
-        }
-        
-        if ($filtro=="grupo.YEAR=1") {
-            $anio='2017';
-        } else if ($filtro=="grupo.YEAR=2") {
-            $anio="2018";
-        } else if ($filtro=="grupo.YEAR=3") {
-            $anio="2019";
-        } else {
-            $anio="2020";
-        }
-        
-        if ($porciones[0]=="*") {
-            $f="!=0";
-        } else {
-            $f="=".$anio;
-        }
-
-        $query = "select distinct grupo.*,YEAR(grupo.fecha_creacion) as anio, grado.nombre as nom_grado, institucion.nombre_institucion as nom_institucion, grupo.pkID as numero, tipo_proyecto.nombre as nom_tipo FROM grupo INNER JOIN tipo_proyecto ON tipo_proyecto.pkID = grupo.fkID_tipo_grupo INNER JOIN institucion ON institucion.pkID = grupo.fkID_institucion INNER JOIN grado ON grado.pkID = (CASE WHEN grupo.fkID_grado = 0 THEN 6 WHEN grupo.fkID_grado != 0 THEN grupo.fkID_grado END) where grupo.estadoV = 1 and YEAR(grupo.fecha_creacion)".$f. " And fkID_tipo_grupo". $t ;
+            INNER JOIN grupo on grupo.pkID = saber_propio.fkID_grupo where saber_propio.estadoV= 1 and year(fecha_salida) ".$anio." and saber_propio.fkID_proyectos=".$pkID_proyectoM;
 
         return $this->EjecutarConsulta($query);
     }
@@ -199,12 +173,17 @@ class saberesDAO extends UsuariosDAO
         return $this->EjecutarConsulta($query);
     }
 
-    public function getTotalEstudiantes()
+    public function getTotalEstudiantes($filtro,$pkID_proyectoM)
     {
+        if ($filtro == "Todos" || $filtro == "") {
+                    $anio = "!=0";
+                } else {
+                    $anio = "=" . $filtro;
+                }
 
         $query = "select count(*) as cantidad FROM saber_estudiante LEFT JOIN estudiante ON estudiante.pkID = saber_estudiante.fkID_estudiante
                 LEFT JOIN saber_propio on saber_propio.pkID = saber_estudiante.fkID_saber_propio
-                WHERE saber_propio.pkID = saber_estudiante.fkID_saber_propio";
+                WHERE saber_propio.pkID = saber_estudiante.fkID_saber_propio and year(fecha_salida)".$anio." and saber_propio.fkID_proyectos=".$pkID_proyectoM;
 
         return $this->EjecutarConsulta($query);
     }
@@ -301,12 +280,22 @@ class saberesDAO extends UsuariosDAO
         return $this->EjecutarConsulta($query);
     }
 
-    public function getProyectosMarcoGrupo($fkID_grupo)
+    public function getProyectosMarcoGrupo($fkID_saber)
     {
 
-        $query = "select *,proyecto_marco.nombre AS nombre_proyecto FROM proyecto_marco
-                INNER JOIN grupo ON grupo.fkID_proyecto_marco = proyecto_marco.pkID
-                WHERE grupo.pkID=" . $fkID_grupo;
+        $query = "select saber_propio.*,proyecto_marco.nombre AS nombre_proyecto, proyecto_marco.pkID as fkIDproyecto  FROM proyecto_marco
+                INNER JOIN saber_propio ON saber_propio.fkID_proyectos = proyecto_marco.pkID
+                WHERE saber_propio.pkID=" . $fkID_saber;
+
+        return $this->EjecutarConsulta($query);
+    }
+
+    public function getEstudiantes($pkID_proyectoM)
+    {
+
+        $query = "select grado.pkID AS id_grado,estudiante.pkID, concat_ws(' ',nombre_estudiante1,apellido_estudiante1) as nombres, documento_estudiante, grado.nombre as grado_estudiante FROM `estudiante`
+            INNER JOIN grado on grado.pkID= estudiante.fkID_grado
+            WHERE estudiante.estadoV=1 and proyecto_marco=".$pkID_proyectoM;
 
         return $this->EjecutarConsulta($query);
     }

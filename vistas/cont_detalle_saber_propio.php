@@ -53,9 +53,9 @@ $arrPermisos = $detalles_grupoInst->getPermisosModulo_Tipo($id_modulo, $_COOKIE[
 
 $crea = $arrPermisos[0]['crear'];
 
-$pkID_grupo = $_GET["id_saber_propio"];
+$pkID_saber = $_GET["id_saber_propio"];
 
-$estado = $detalles_grupoInst->getEstadoGrupo($pkID_grupo);
+$estado = $detalles_grupoInst->getEstadoGrupo($pkID_saber);
 
 $estadoG = $estado[0]['fkID_estado'];
 
@@ -71,7 +71,7 @@ $tipo_user = $_COOKIE[$NomCookiesApp . '_IDtipo'];
 
 //++++++++++++++++++++++++++++++
 
-$grupoGen = $detalles_grupoInst->getGruposId($pkID_grupo);
+$grupoGen = $detalles_grupoInst->getGruposId($pkID_saber);
 
 //variables grado
 $pkID_grado = $grupoGen[0]["fkID_grado"];
@@ -87,17 +87,18 @@ $arrPermisosDocentes = $detalles_grupoInst->getPermisosModulo_Tipo(39, $_COOKIE[
 $creaDocente         = $arrPermisosDocentes[0]['crear'];
 //------------------------------------------
 
-$numeroEstudiantes = $detalles_grupoInst->getNumEstudiantesGrupo(9, $pkID_grupo, $pkID_grado);
+$numeroEstudiantes = $detalles_grupoInst->getNumEstudiantesGrupo(9, $pkID_saber, $pkID_grado);
 
 $ne = $numeroEstudiantes[0]['num_estudiantes'];
 
-$proyectoMGen = $detalles_grupoInst->getProyectosMarcoGrupo($pkID_grupo);
+$proyectoMGen = $saberesInst->getProyectosMarcoGrupo($pkID_saber);
+$pkID_proyectoM = $proyectoMGen[0]["fkIDproyecto"];
 
 //echo date("Y-m-d");
 
 //print_r($fecha);
 //++++++++++++++++++++++++++++++++++
-include 'form_asignacion_estudiantes.php';
+include 'form_asignacion_estudiantess.php';
 include 'form_estudiantes.php';
 include 'form_docentes.php';
 include 'form_grupo_estudiante.php';
@@ -111,7 +112,7 @@ include "frm_modal_proyectog.php";
 
 <div class="form-group " hidden>
     <div class="col-sm-10">
-        <input type="text" class="form-control" id="grupo" name="grupo" value=<?php echo $pkID_grupo; ?>>
+        <input type="text" class="form-control" id="grupo" name="grupo" value=<?php echo $pkID_saber; ?>>
     </div>
 </div>
 
@@ -183,10 +184,10 @@ include "frm_modal_proyectog.php";
 
 						<div class="col-md-12">
 							<!-- instanciFa php controller -->
-							<?php $saberesInst->getDataSaberesGen($pkID_grupo);?>
+							<?php $saberesInst->getDataSaberesGen($pkID_saber);?>
 						</div>
 						<div class="col-md-12" hidden="true">
-							<input type="text" id="grupo_id" value=<?php echo $pkID_grupo; ?>>
+							<input type="text" id="grupo_id" value=<?php echo $pkID_saber; ?>>
 							<input type="text" id="grado_grupo" value=<?php echo $pkID_grado; ?>>
 							<input type="text" id="institucion_grupo" value=<?php echo $pkID_institucion; ?>>
 						</div>
@@ -206,10 +207,10 @@ include "frm_modal_proyectog.php";
 
 			            <div class="row">
 			              <div class="col-md-6">
-			                  <div class="titleprincipal"><h4>Estudiantes Asignados - <?php echo $proyectoMGen[0]["nombre"] . ' - ' . $proyectoMGen[0]["nombre_proyecto"] ?></h4></div>
-			              </div>
+			                  <div class="titleprincipal"><h4>Estudiantes Asignados - Saber Propio</h4></div>
+			              </div>  
 			              <div class="col-md-6 text-right">
-			      			 <button id="btn_asignarestudiante" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-saber="<?php echo $pkID_grupo ?>" data-target="#frm_modal_asignacion_estudiante" <?php if (($creaeg != 1) || ($ne >= 30)) {echo 'disabled="disabled"';}?> ><span class="glyphicon glyphicon-plus"></span> Asignar Estudiante</button>
+			      			 <button id="btn_asignarestudiante" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-saber="<?php echo $pkID_saber ?>" data-target="#frm_modal_asignacion_estudiantes" <?php if (($creaeg != 1) || ($ne >= 30)) {echo 'disabled="disabled"';}?> ><span class="glyphicon glyphicon-plus"></span> Asignar Estudiante</button>
 			              </div>
 			            </div>
 
@@ -233,7 +234,7 @@ include "frm_modal_proyectog.php";
 
 				                  <tbody>
 				                      <?php
-$saberesInst->getTablaEstudiantesSaberes($pkID_grupo);
+$saberesInst->getTablaEstudiantesSaberes($pkID_saber);
 ?>
 				                  </tbody>
 				              </table>
@@ -261,12 +262,12 @@ $saberesInst->getTablaEstudiantesSaberes($pkID_grupo);
 			                  <div class="titleprincipal"><h4>Galeria de fotos - <?php echo $proyectoMGen[0]["nombre"] . ' - ' . $proyectoMGen[0]["nombre_proyecto"] ?></h4></div>
 			              </div>
 			              <div class="col-md-6 text-right">
-			      			 <button id="btn_album_grupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="<?php echo $pkID_grupo ?>" data-target="#frm_modal_album_grupo" <?php if (($creaeg != 1) || ($ne >= 30)) {echo 'disabled="disabled"';}?> ><span class="glyphicon glyphicon-plus"></span> 
+			      			 <button id="btn_album_grupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="<?php echo $pkID_saber ?>" data-target="#frm_modal_album_grupo" <?php if (($creaeg != 1) || ($ne >= 30)) {echo 'disabled="disabled"';}?> ><span class="glyphicon glyphicon-plus"></span> 
 			      			 Crear album</button>
 
 			      			 <div class="form-group " hidden>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="pkID_grup" name="pkID_grup" value=<?php echo $pkID_grupo; ?>>
+                            <input type="text" class="form-control" id="pkID_grup" name="pkID_grup" value=<?php echo $pkID_saber; ?>>
                         </div>
                     </div>
 			              </div>
@@ -291,7 +292,7 @@ $saberesInst->getTablaEstudiantesSaberes($pkID_grupo);
 
 				                  <tbody>
 				                      <?php
-$detalles_grupoInst->getTablaAlbumGrupo($pkID_grupo);
+$detalles_grupoInst->getTablaAlbumGrupo($pkID_saber);
 ?>
 				                  </tbody>
 				              </table>

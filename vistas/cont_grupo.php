@@ -16,7 +16,16 @@ $creaD = $arrPermisosD[0]['crear'];
 
 $pkID_user = $_COOKIE[$NomCookiesApp . '_id'];
 
-$filtro = $_GET["filter"];
+if (isset($_GET["anio"])) {
+    $filtro = $_GET["anio"];
+} else {
+    $filtro = "Todos";
+}
+if (isset($_GET["tipo"])) {
+    $filtro2 = $_GET["tipo"];
+} else {
+    $filtro2 = "Todos";
+}
 //print_r($pkID_user);
 
 $pkID_tipo_user = $_COOKIE[$NomCookiesApp . '_IDtipo'];
@@ -48,7 +57,7 @@ include "form_novedades.php";
 
 
       <div class="col-lg-12">
-          <h1 class="page-header titleprincipal"><img src="../img/botones/grupoonly.png">Grupos - <?php echo $proyectoMGen[0]["nombre"] ?></h1>
+          <h1 class="page-header titleprincipal"><img src="../img/botones/grupoonly.png"><?php echo $proyectoMGen[0]["nombre"] ?> - Grupos</h1>
       </div>
       <!-- /.col-lg-12 -->
     <div class="col-md-5">
@@ -56,7 +65,7 @@ include "form_novedades.php";
             <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
             <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
             <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Académico</a></li>
-            <li class="active migadepan">Grupos - <?php echo $proyectoMGen[0]["nombre"] ?> </li>
+            <li class="active migadepan">Grupos </li>
           </ol>
     </div>
 
@@ -69,15 +78,15 @@ $grupoInst->getSelectTipogrupoFiltro();
     <div class="col-md-2 text-center form-inline">
                     <label for="grupo_filtrop" class="control-label">Año: </label>
                       <?php
-$grupoInst->getSelectAnioFiltro();
+$grupoInst->getSelectAnioFiltro(); 
 ?>
      </div>
     <div class="col-md-1 text-left form-inline">
-                     <button class="btn btn-success" id="btn_filtrarg"><span class="glyphicon glyphicon-filter"></span> Filtrar</button>
+                     <button class="btn btn-success" id="btn_filtrog_anio"><span class="glyphicon glyphicon-filter"></span> Filtrar</button>
 
                      <hr>
 
-            </div>
+            </div>  
 
   </div>
   <!-- /.row -->
@@ -98,7 +107,7 @@ $grupoInst->getSelectAnioFiltro();
               </div>
               <div class="col-md-6 text-right">
                  <button id="btn_nuevogrupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-proyecto="<?php echo $pkID_proyectoM; ?>" data-target="#frm_modal_grupo" <?php if ($crea != 1) {echo 'disabled="disabled"';}?> >
-                 <span class="glyphicon glyphicon-plus"></span>Nuevo Grupo</button>
+                 <span class="glyphicon glyphicon-plus"></span>Nuevo Grupo</button> 
               </div>
             </div>
 
@@ -122,17 +131,24 @@ $grupoInst->getSelectAnioFiltro();
                   </thead>
 
                   <tbody>
-                      <?php
+                      <?php  
 //print_r($_COOKIE);
 //echo "valor de cookie de tipo ".$_COOKIE[$NomCookiesApp."_tipo"];
 if (($pkID_tipo_user == 8) || ($pkID_tipo_user == 9)) {
     $grupoInst->getTablaGruposUsuario($pkID_user);
-} else {
-    $grupoInst->getTablaGrupo($filtro, $pkID_proyectoM);
+} else { 
+    $grupoInst->getTablaGrupo($pkID_proyectoM,$filtro,$filtro2);
 }
 ?>
                   </tbody>
               </table>
+              <div class="col-md-6 text-right">
+                                <label for="total_ingresos" class="control-label"><B>Total Estudiantes</B></label>
+              </div>
+                                <div class="input-group col-md-2 text-left">
+                                   <?php $grupoInst->getSelectTotal($pkID_proyectoM,$filtro,$filtro2); ?>
+                                </div>
+                            </div>
           </div>
           <!-- /.table-responsive -->
 

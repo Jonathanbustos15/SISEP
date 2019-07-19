@@ -28,7 +28,7 @@ class academicoDAO
     public function getProyectosMarcoId($pkID)
     {
 
-        $query = "select proyecto_marco.*, departamento.nombre as nom_departamento
+        $query = "select proyecto_marco.*, departamento.nombre_departamento as nom_departamento
 
                       FROM proyecto_marco
 

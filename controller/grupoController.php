@@ -36,7 +36,7 @@ class grupoController extends grupoDAO
     //$consulta = $arrPermisos[0]["consultar"];
     //-----------------------------------------------------------------------------
 
-    public function getTablaGrupo($filtro, $pkID_proyectoM)
+    public function getTablaGrupo($pkID_proyectoM,$filtro,$filtro2)
     {
 
         //permisos-------------------------------------------------------------------------
@@ -81,13 +81,8 @@ class grupoController extends grupoDAO
         ];
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
-        if ($filtro == "* *") {
-            $grupo = $this->getGrupos($pkID_proyectoM);
-        } else if ($filtro == "") {
-            $grupo = $this->getGrupos($pkID_proyectoM);
-        } else {
-            $grupo = $this->getGrupo($filtro, $pkID_proyectoM);
-        }
+            $grupo = $this->getGrupo($pkID_proyectoM,$filtro,$filtro2);
+        
 
         //print_r($grupo);
 
@@ -345,7 +340,8 @@ class grupoController extends grupoDAO
               <strong>Fecha de creación: </strong> ' . $this->gruposId[0]["fecha_creacion"] . ' <br> <br>
               <strong>Docente Asignado: </strong> ' . $this->gruposId[0]["nombres_docente"] . ' <br> <br>
               <strong>Asesor Asignado: </strong> ' . $this->gruposId[0]["nombres_funcionario"] . ' <br> <br>
-              ';
+              <strong>Número de Estudiantes: </strong> ' . $this->gruposId[0]["canti"] . ' <br> <br>
+              ';    
 
         echo '</div>';
 
@@ -699,6 +695,17 @@ class grupoController extends grupoDAO
 
     }
 
+    public function getSelectTotal($pkID_proyectoM,$filtro,$filtro2)
+    {
+
+        $grupo = $this->getTotalEstudiantes($pkID_proyectoM,$filtro,$filtro2);
+
+        echo '<span class="input-group-addon">#</span>';
+        for ($i = 0; $i < sizeof($grupo); $i++) {
+            echo '<input type="text" class="form-control" id="total_estudiantes" name="total_estudiantes" readonly="true" value='. $grupo[$i]["cantidad"].'>';
+        }
+    }
+
     public function getTablaEstudiantesGrupo($pkID_grupo)
     {
 
@@ -707,19 +714,14 @@ class grupoController extends grupoDAO
         //$arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo,$_COOKIE[$this->NameCookieApp."_IDtipo"]);
         $edita    = $arrPermisos[0]["editar"];
         $elimina  = $arrPermisos[0]["eliminar"];
-        $consulta = $arrPermisos[0]["consultar"];
+        $consulta = $arrPermisos[0]["consultar"]; 
 
         //la configuracion de los botones de opciones
         $grupo_btn = [
 
             [
-                "tipo"    => "editar",
-                "nombre"  => "estudiante",
-                "permiso" => $edita,
-            ],
-            [
                 "tipo"    => "eliminar",
-                "nombre"  => "estudiante",
+                "nombre"  => "asignacion_grupo",
                 "permiso" => $elimina,
             ],
 

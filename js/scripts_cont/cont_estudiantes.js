@@ -1,6 +1,7 @@
 $(function() {
     var arrTutor = [];
     var arrGrado = [];
+    var opcion;
     //INGRESA A LOS ATRIBUTOS AL FORMULARIO PARA INSERTAR INSTITUCIÓN 
     $("#btn_nuevoestudiante").click(function() {
         $("#lbl_form_estudiante").html("Nuevo Estudiante");
@@ -42,7 +43,13 @@ $(function() {
     $("[name*='elimina_estudiante']").click(function(event) {
         id_estudian = $(this).attr('data-id-estudiante');
         console.log(id_estudian)
-        elimina_institucion(id_estudian);
+        elimina_estudiante(id_estudian);
+    });
+
+    $("[name*='elimina_asignacion_grupo']").click(function(event) {
+        id_estudian = $(this).attr('data-id-asignacion_grupo');
+        console.log(id_estudian)
+        elimina_asignacion(id_estudian);
     });
     //---------------------------------------------------------
     //
@@ -60,7 +67,12 @@ $(function() {
         } else if (action === "editar") {
             edita_estudiante();
         } else if (action === "asignar") {
-            asigna_estudiante();
+            guardar();
+            console.log("");
+            console.log("");
+            console.log("");
+            console.log("");
+            location.reload();
         }
     };
 
@@ -92,7 +104,7 @@ $(function() {
     }
 
     function asigna_estudiante() {
-        guardar();
+        //guardar();
         location.reload();
     }
 
@@ -132,8 +144,7 @@ $(function() {
         });
     };
 
-    function elimina_institucion(id_estudian) {
-        console.log('Eliminar el hvida: ' + id_estudian);
+    function elimina_estudiante(id_estudian) {
         var confirma = confirm("En realidad quiere eliminar este estudiante?");
         console.log(confirma);
         /**/
@@ -142,6 +153,29 @@ $(function() {
             $.ajax({
                 url: '../controller/ajaxController12.php',
                 data: "pkID=" + id_estudian + "&tipo=eliminar_logico&nom_tabla=estudiante",
+            }).done(function(data) {
+                //---------------------
+                console.log(data);
+                location.reload();
+            }).fail(function() {
+                console.log("errorfatal");
+            }).always(function() {
+                console.log("complete");
+            });
+        } else {
+            //no hace nada
+        }
+    };
+
+    function elimina_asignacion(id_estudian) {
+        var confirma = confirm("En realidad quiere eliminar esta Asignación ?");
+        console.log(confirma);
+        /**/
+        if (confirma == true) {
+            //si confirma es true ejecuta ajax
+            $.ajax({
+                url: '../controller/ajaxController12.php',
+                data: "pkID=" + id_estudian + "&tipo=eliminar_logico&nom_tabla=estudiante_grupo",
             }).done(function(data) {
                 //---------------------
                 console.log(data);
@@ -177,6 +211,23 @@ $(function() {
             console.log("complete");
         });
     }
+    function validaEqualEstudiante(cod,num_id) {
+        console.log("busca valor " + encodeURI(num_id));
+        var consEqual = "SELECT COUNT(*) as res_equal FROM `estudiante_grupo` WHERE `fkID_grupo` ='" + cod + "' and fkID_estudiante= '" + num_id + "'";
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "query=" + consEqual + "&tipo=consulta_gen",
+            success: function(data) {
+            if (data.mensaje[0].res_equal > 0) {
+                alert("El Estudiante ya esta asignado a este grupo, por favor ingrese otro estudiante.");
+                removeUsuario("frm_group"+num_id);
+                $("#fkID_estudiante").val("");
+            } else {
+            }
+        }
+        })
+    }
+
     $("#nombre_estudiante1").keyup(function(event) {
         /* Act on the event */
         if (((event.keyCode > 32) && (event.keyCode < 65)) || (event.keyCode > 200)) {
@@ -229,8 +280,11 @@ $(function() {
         }
     });
     $("#fkID_estudiante").change(function(event) {
-        idUsuario = $(this).val();
-        nomUsuario = $(this).find("option:selected").data('nombre')
+        grupo = $("#btn_asignarestudiante").attr("data-grupo");
+        idUsuario = $(this).val();  
+        validaEqualEstudiante(grupo,idUsuario);
+        console.log("la opcion es"+opcion)
+            nomUsuario = $(this).find("option:selected").data('nombre')
         idGrado = $(this).find("option:selected").data('grado')
         console.log(nomUsuario);
         console.log(idGrado);
@@ -245,8 +299,9 @@ $(function() {
                 serializa_array(crea_array(arrTutor, $("#pkID").val(), fecha));
             }
         } else {
-            //selectTutor(idUsuario, nomUsuario, idGrado, 'select', $(this).data('accion'));
+            selectTutor(idUsuario, nomUsuario, idGrado, 'select', $(this).data('accion'));
         };
+        
     });
 
     function selectTutor(id, nombre, grado, type, numReg) {
@@ -273,13 +328,13 @@ $(function() {
                     console.log("El indice encontrado es:" + indexArr);
                     //quitar del array
                     if (indexArr >= 0) {
-                        arrTutor.splice(indexArr, 1);
+                        arrTutor.splice(indexArr, 1); 
                         console.log(arrTutor);
                     } else {
                         console.log('salio menor a 0');
                         console.log(arrTutor);
                     }
-                    deleteTutorNumReg(numReg);
+                    //deleteTutorNumReg(numReg);
                 });
                 arrTutor.push(id);
                 arrGrado.push(grado);
@@ -291,6 +346,20 @@ $(function() {
         }
     };
 
+    function deleteEstudianteNumReg(numReg) {
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "pkID=" + numReg + "&tipo=eliminar_logico&nom_tabla=estudiante_grupo",
+        }).done(function(data) {
+            console.log(data);
+            location.reload();
+        }).fail(function() {
+            console.log("error");
+        }).always(function() {
+            console.log("complete"); 
+        });
+    }
+
     function verPkIdTutor() {
         var id_proyecto_form = $("#pkID").val();
         if (id_proyecto_form != "") {
@@ -298,5 +367,10 @@ $(function() {
         } else {
             return false;
         }
-    };  
+    }; 
+
+    function removeUsuario(id) {
+        console.log("este es"+ id)
+        $("#" + id).remove();
+    } 
 });

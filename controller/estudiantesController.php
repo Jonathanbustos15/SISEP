@@ -204,9 +204,9 @@ class estudiantesController extends estudiantesDAO
         echo '</select>';
     }
 
-    public function getSelectEstudiantes()
+    public function getSelectEstudiantes($pkID_proyectoM)
     {
-        $tipo = $this->getEstudiantes();
+        $tipo = $this->getEstudiantes($pkID_proyectoM);
 
         echo '<select name="fkID_estudiante" id="fkID_estudiante" class="form-control" required = "true">
                         <option value="" selected>Elija el estudiante del Grupo</option>';

@@ -93,6 +93,7 @@
             data.append('telefono', $("#telefono_participante").val());
             data.append('direccion', $("#direccion_participante").val());
             data.append('email', $("#email_participante").val());
+            data.append('proyecto_marco', $("#proyecto_marco").val());
             data.append('tipo', "crear");
             $.ajax({
                 type: "POST",
@@ -196,7 +197,7 @@
             //console.log(data.mensaje[0].res_equal);
             if (data.mensaje[0].res_equal > 0) {
                 alert("El Número de indetificación ya existe, por favor ingrese un número diferente.");
-                $("#documento_estudiante").val("");
+                $("#documento_participante").val("");
             } else {
                 //return false;
             }

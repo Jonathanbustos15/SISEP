@@ -34,6 +34,12 @@ $crea = $arrPermisos[0]['crear'];
 $pkID_proyectoM = $_GET["id_proyectoM"];
 $proyectoMGen   = $saberesInst->getProyectosMarcoId($pkID_proyectoM);
 
+if (isset($_GET["anio"])) {
+    $filtro = $_GET["anio"];
+} else {
+    $filtro = "Todos";
+}
+
 include "form_saberes_propios.php";
 include "form_novedades.php";
 
@@ -57,9 +63,9 @@ include "form_novedades.php";
             <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
             <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
             <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Académico</a></li>
-            <li class="active migadepan">Saberes Propios - <?php echo $proyectoMGen[0]["nombre"] ?> </li>
+            <li class="active migadepan">Saberes Propios </li>
           </ol>
-    </div>
+    </div> 
 
     <div class="col-md-2 text-right form-inline">                        
                     <label for="grupo_filtrop" class="control-label">Año: </label>      
@@ -68,7 +74,7 @@ include "form_novedades.php";
                       ?>  
      </div>
     <div class="col-md-1 text-left form-inline">                                             
-                     <button class="btn btn-success" id="btn_filtrarg"><span class="glyphicon glyphicon-filter"></span> Filtrar</button>
+                     <button class="btn btn-success" id="btn_filtrars"><span class="glyphicon glyphicon-filter"></span> Filtrar</button>
                 
                      <hr>
 
@@ -92,7 +98,7 @@ include "form_novedades.php";
                   <div class="titleprincipal"><h4>Registro de Saberes Propios - <?php echo $proyectoMGen[0]["nombre"] ?></h4></div>
               </div>
               <div class="col-md-6 text-right">
-                 <button id="btn_nuevosaber" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-target="#frm_modal_saber_propio" <?php if ($crea != 1) {echo 'disabled="disabled"';}?> >
+                 <button id="btn_nuevosaber" type="button" class="btn btn-primary botonnewgrupo" data-proyecto="<?php echo $pkID_proyectoM; ?>" data-toggle="modal" data-target="#frm_modal_saber_propio" <?php if ($crea != 1) {echo 'disabled="disabled"';}?> >
                  <span class="glyphicon glyphicon-plus"></span>Nuevo Saber Propio</button>
               </div>
             </div>
@@ -123,7 +129,7 @@ include "form_novedades.php";
 if (($pkID_tipo_user == 8) || ($pkID_tipo_user == 9)) {
     $saberesInst->getTablaSaberesUsuario($pkID_user);
 } else {
-    $saberesInst->getTablasaberes($filtro,$pkID_proyectoM);
+    $saberesInst->getTablasaberes($filtro,$pkID_proyectoM);  
 }
 ?>
                   </tbody>
@@ -132,7 +138,7 @@ if (($pkID_tipo_user == 8) || ($pkID_tipo_user == 9)) {
                                 <label for="total_ingresos" class="control-label"><B>Total Estudiantes</B></label>
               </div>
                                 <div class="input-group col-md-2 text-left">
-                                   <?php $saberesInst->getSelectTotal(); ?>
+                                   <?php $saberesInst->getSelectTotal($filtro,$pkID_proyectoM); ?>
                                 </div>
                             </div>
           </div>

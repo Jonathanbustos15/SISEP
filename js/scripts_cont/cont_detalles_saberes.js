@@ -4,11 +4,11 @@ $(function() {
     var arrestudiantesasignados=[]
     
     $("#btn_asignarestudiante").click(function() {
-        $("#lbl_form_asignarestudiante").html("Asignar Estudiante");
-        $("#lbl_btn_actionasignarestudiante").html("Guardar <span class='glyphicon glyphicon-save'></span>");
+        $("#lbl_form_asignarestudiantes").html("Asignar Estudiante");
+        $("#lbl_btn_actionasignarestudiantes").html("Guardar <span class='glyphicon glyphicon-save'></span>");
         $("#btn_actionasignarestudiante").attr("data-action", "asignar");
-        $("#form_asignarestudiante")[0].reset();
-        $("#frm_estudiante_grupo").html("");
+        $("#form_asignarestudiantes")[0].reset();
+        $("#frm_estudiantessaber_grupo").html("");
     });
     //Definir la acción del boton del formulario 
     $("#btn_actionestudiante").click(function() {   
@@ -18,7 +18,7 @@ $(function() {
         valida_actio(action);
         console.log("accion a ejecutar: " + action);
     });
-    $("#btn_actionasignarestudiante").click(function() {
+    $("#btn_actionasignarestudiantes").click(function() {
         console.log("al principio");
         action = $(this).attr("data-action");
         //define la acción que va a realizar el formulario
@@ -27,7 +27,7 @@ $(function() {
     });
 
     $("[name*='elimina_estudiante_saber_propio']").click(function(event) {
-        id_estudian = $(this).attr('data-id-estudiante');
+        id_estudian = $(this).attr('data-id-estudiante_saber_propio');
         console.log(id_estudian)
         deleteSaberNumReg(id_estudian);
     });
@@ -93,13 +93,15 @@ $(function() {
             }
         }).fail(function() {
             console.log("error");
-        }).always(function() {
+        }).always(function() { 
             console.log("complete");
         });
     }
     
-    $("#fkID_estudiante").change(function(event) {
-        idUsuario = $(this).val();
+    $("#fkID_estudiantesaber").change(function(event) {
+        grupo = $("#btn_asignarestudiante").attr("data-saber");
+        idUsuario = $(this).val();  
+        validaEqualEstudiante(grupo,idUsuario);
         nomUsuario = $(this).find("option:selected").data('nombre')
         idGrado = $(this).find("option:selected").data('grado')
         console.log(nomUsuario);
@@ -126,7 +128,7 @@ $(function() {
             //statements
             var obtHE = {
                 "fkID_saber_propio": id_grupo,
-                "fkID_estudiante": element
+                "fkID_estudiantesaber": element
             };
             arrestudiantesasignados.push(obtHE);
             console.log(obtHE);
@@ -174,10 +176,10 @@ $(function() {
             } else {
                 if (type == 'select') {
                     console.log("1");
-                    $("#frm_estudiante_grupo").append('<div class="form-group" id="frm_group' + id + '">' + '<input type="text" style="width: 93%;display: inline;" class="form-control" id="fkID_usuario_form_' + id + '" name="fkID_usuario" value="' + nombre + '" readonly="true"> <button name="btn_actionRmUsuario_' + id + '" data-id-tutor="' + id + '" data-id-frm-group="frm_group' + id + '" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
+                    $("#frm_estudiantessaber_grupo").append('<div class="form-group" id="frm_group' + id + '">' + '<input type="text" style="width: 93%;display: inline;" class="form-control" id="fkID_usuario_form_' + id + '" name="fkID_usuario" value="' + nombre + '" readonly="true"> <button name="btn_actionRmUsuario_' + id + '" data-id-tutor="' + id + '" data-id-frm-group="frm_group' + id + '" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
                 } else {
                     console.log("2");
-                    $("#frm_estudiante_grupo").append('<div class="form-group" id="frm_group' + id + '">' + '<input type="text" style="width: 90%;display: inline;" class="form-control" id="fkID_usuario_form_' + id + '" name="fkID_usuario" value="' + nombre + '" readonly="true"> <button name="btn_actionRmUsuario_' + id + '" data-id-tutor="' + id + '" data-id-frm-group="frm_group' + id + '" data-numReg = "' + numReg + '" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
+                    $("#frm_estudiantessaber_grupo").append('<div class="form-group" id="frm_group' + id + '">' + '<input type="text" style="width: 90%;display: inline;" class="form-control" id="fkID_usuario_form_' + id + '" name="fkID_usuario" value="' + nombre + '" readonly="true"> <button name="btn_actionRmUsuario_' + id + '" data-id-tutor="' + id + '" data-id-frm-group="frm_group' + id + '" data-numReg = "' + numReg + '" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
                 }
                 $("[name*='btn_actionRmUsuario_" + id + "']").click(function(event) {
                     console.log('click remover usuario ' + $(this).data('id-frm-group'));
@@ -234,7 +236,24 @@ $(function() {
             console.log("complete"); 
         });
     }
-}
+    }
+
+    function validaEqualEstudiante(cod,num_id) {
+        console.log("busca valor " + encodeURI(num_id));
+        var consEqual = "SELECT COUNT(*) as res_equal FROM `saber_estudiante` WHERE `fkID_saber_propio` ='" + cod + "' and fkID_estudiante= '" + num_id + "'";
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "query=" + consEqual + "&tipo=consulta_gen",
+            success: function(data) {
+            if (data.mensaje[0].res_equal > 0) {
+                alert("El Estudiante ya esta asignado a este saber, por favor ingrese otro estudiante.");
+                removeUsuario("frm_group"+num_id);
+                $("#fkID_estudiantesaber").val("");
+            } else {
+            }
+        }
+        })
+    }
 
 
 });

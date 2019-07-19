@@ -8,7 +8,7 @@ class principalDAO
     use GenericoDAO;
 
     public $q_general;
-
+ 
     //Funciones------------------------------------------
     //Espacio para las funciones en general de esta clase.
 
@@ -28,7 +28,7 @@ class principalDAO
     public function getProyectosMarcoId($pkID)
     {
 
-        $query = "select proyecto_marco.*, departamento.nombre as nom_departamento
+        $query = "select proyecto_marco.*, departamento.nombre_departamento as nom_departamento
 
                       FROM proyecto_marco
 

@@ -14,7 +14,7 @@ class saberes_propioscontroller extends saberesDAO
     public $table_inst;
     public $saberessId;
 
-    public function __construct()
+    public function __construct() 
     {
 
         include '../conexion/datos.php';
@@ -81,13 +81,7 @@ class saberes_propioscontroller extends saberesDAO
         ];
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
-        if ($filtro=="*") {
-            $saberes = $this->getSaberes($pkID_proyectoM);
-        } else if ($filtro=="") {
-            $saberes = $this->getSaberes($pkID_proyectoM);
-        } else {
-            $saberes = $this->getGrupo($filtro);
-        }
+            $saberes = $this->getSaberes($filtro,$pkID_proyectoM);
         
         //print_r($saberes);
 
@@ -205,10 +199,10 @@ class saberes_propioscontroller extends saberesDAO
         echo '</select>';
     }
 
-    public function getSelectTotal()
+    public function getSelectTotal($filtro,$pkID_proyectoM)
     {
 
-        $m_u_Select = $this->getTotalEstudiantes();
+        $m_u_Select = $this->getTotalEstudiantes($filtro,$pkID_proyectoM);
 
         echo '<span class="input-group-addon">#</span>';
         for ($i = 0; $i < sizeof($m_u_Select); $i++) {
@@ -225,6 +219,18 @@ class saberes_propioscontroller extends saberesDAO
                         <option value="" selected>Elija la institucion</option>';
         for ($a = 0; $a < sizeof($tipo); $a++) {
             echo "<option value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombre_institucion"] . "</option>";
+        }
+        echo "</select>";
+    }
+
+    public function getSelectEstudiantes($pkID_proyectoM)
+    {
+        $tipo = $this->getEstudiantes($pkID_proyectoM);
+
+        echo '<select name="fkID_estudiantesaber" id="fkID_estudiantesaber" class="form-control" required = "true">
+                        <option value="" selected>Elija el estudiante del Grupo</option>';
+        for ($a = 0; $a < sizeof($tipo); $a++) {
+            echo "<option id='fkID_estudiante_form_' data-nombre='" . $tipo[$a]["nombres"] . "' data-grado='" . $tipo[$a]["id_grado"] . "' value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombres"] . "</option>";
         }
         echo "</select>";
     }

@@ -31,7 +31,7 @@
                     <div class="form-group">
                         <label for="" class="control-label">Grupo Participante</label>                       
                         <?php $saberesInst->getSelectGrupos(); ?>
-                    </div>
+                    </div> 
                     
                     <div class="form-group">
                         <label for="nombre" class="control-label">Comunidad Visitada</label>
@@ -42,6 +42,12 @@
                     <div class="form-group">
                         <label for="" class="control-label">Asesor</label>                        
                         <?php $saberesInst->getSelectAsesor(); ?>  
+                    </div>
+
+                    <div class="form-group " hidden>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="proyecto_marco" name="proyecto_marco" value="<?php echo $pkID_proyectoM; ?>">
+                        </div>
                     </div>
 
                 </form>

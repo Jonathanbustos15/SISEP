@@ -161,13 +161,15 @@
     };
 
     function crear_saber_propio() {
+        var data = new FormData();
         if (document.getElementById("fileupload_lista").files.length) {
-            var data = new FormData();
             data.append('file', $("#fileupload_lista").get(0).files[0]);
+        };
             data.append('fecha_salida', $("#fecha_salida").val());
             data.append('fkID_grupo', $("#fkID_grupo option:selected").val());
             data.append('comunidad_visitada', $("#comunidad_visitada").val());
             data.append('fkID_asesor', $("#fkID_asesor option:selected").val());
+            data.append('proyecto_marco', $("#proyecto_marco").val()); 
             data.append('tipo', "crear");
             $.ajax({
                 type: "POST",
@@ -181,33 +183,15 @@
                     location.reload();
                 }
             })
-        } else {
-            var data = new FormData();
-            data.append('fecha_salida', $("#fecha_salida").val());
-            data.append('fkID_grupo', $("#fkID_grupo option:selected").val());
-            data.append('comunidad_visitada', $("#comunidad_visitada").val());
-            data.append('fkID_asesor', $("#fkID_asesor option:selected").val());
-            data.append('tipo', "crearsin");
-            $.ajax({
-                type: "POST",
-                url: "../controller/ajaxsaberes.php",
-                data: data,
-                contentType: false,
-                processData: false,
-                success: function(a) {
-                	console.log(a)
-                    var tipo = JSON.parse(a);
-                    location.reload();
-                }
-            })
-        }
     }
 
     function edita_saberes() {
+        var data = new FormData();
         if ($("#fileupload_lista").length) {
         	if (document.getElementById("fileupload_lista").files.length) {
-        		var data = new FormData();
-            data.append('file', $("#fileupload_lista").get(0).files[0]);
+                data.append('file', $("#fileupload_lista").get(0).files[0]);
+            }
+        }
             data.append('fecha_salida', $("#fecha_salida").val());
             data.append('fkID_grupo', $("#fkID_grupo option:selected").val());
             data.append('comunidad_visitada', $("#comunidad_visitada").val());
@@ -224,48 +208,7 @@
                     console.log(a);
                     location.reload();
                 }
-            })
-        	} else {
-        		var data = new FormData();
-            data.append('fecha_salida', $("#fecha_salida").val());
-            data.append('fkID_grupo', $("#fkID_grupo option:selected").val());
-            data.append('comunidad_visitada', $("#comunidad_visitada").val());
-            data.append('fkID_asesor', $("#fkID_asesor option:selected").val());
-            data.append('tipo', "editarsin");
-            data.append('pkID', $("#pkID").val());
-            $.ajax({
-                type: "POST",  
-                url: "../controller/ajaxsaberes.php",
-                data: data,
-                contentType: false,
-                processData: false,
-                success: function(a) {
-                    console.log(a);
-                    location.reload();
-                }
-            })
-        	}
-            
-        } else {
-            var data = new FormData();
-            data.append('fecha_salida', $("#fecha_salida").val());
-            data.append('fkID_grupo', $("#fkID_grupo option:selected").val());
-            data.append('comunidad_visitada', $("#comunidad_visitada").val());
-            data.append('fkID_asesor', $("#fkID_asesor option:selected").val());
-            data.append('tipo', "editarsin");
-            data.append('pkID', $("#pkID").val());
-            $.ajax({
-                type: "POST",  
-                url: "../controller/ajaxsaberes.php",
-                data: data,
-                contentType: false,
-                processData: false,
-                success: function(a) {
-                    console.log(a);
-                    location.reload();
-                }
-            })
-        }
+            })     
     }
 
     function elimina_saberes(id_saber) {
@@ -284,7 +227,7 @@
             }).done(function(data) {
                 //---------------------
                 console.log(data);
-                //location.reload();
+                location.reload();
             }).fail(function() {
                 console.log("errorfatal");
             }).always(function() {
@@ -312,7 +255,7 @@
     function deleteTutorNumReg(numReg) {
         $.ajax({
             url: '../controller/ajaxController12.php',
-            data: "pkID=" + numReg + "&tipo=eliminarlogico&nom_tabla=funcionario_grupo",
+            data: "pkID=" + numReg + "&tipo=eliminar_logico&nom_tabla=funcionario_grupo",
         }).done(function(data) {
             console.log(data);
             alert(data.mensaje.mensaje);
@@ -366,9 +309,58 @@
             }).always(function() {
                 console.log("complete");
             });
-        } else {
-            //no hace nada
-        }
+        } 
     };
+
+    $("#comunidad_visitada").change(function(event) {
+        var comunidad = $("#comunidad_visitada").val();
+        var grupo = $("#fkID_grupo option:selected").val();
+        var date = $("#fecha_salida").val();            
+        validaEqualIdentifica(comunidad,grupo,date);
+    });
+
+    $("#fkID_grupo").change(function(event) {
+        var comunidad = $("#comunidad_visitada").val();
+        var grupo = $("#fkID_grupo option:selected").val();
+        var date = $("#fecha_salida").val();            
+        validaEqualIdentifica(comunidad,grupo,date);
+    });
+
+    $("#fecha_salida").change(function(event) {
+        var comunidad = $("#comunidad_visitada").val();
+        var grupo = $("#fkID_grupo option:selected").val();
+        var date = $("#fecha_salida").val();            
+        validaEqualIdentifica(comunidad,grupo,date);
+    });
+
+    function validaEqualIdentifica(comunidad,grupo,date) {
+        console.log("busca valor " + encodeURI(comunidad+grupo+date));
+        var consEqual = "SELECT COUNT(*) as res_equal FROM `saber_propio` WHERE estadoV=1 and fkID_grupo='" + grupo + "' and comunidad_visitada='" + comunidad + "' and fecha_salida='" + date + "'";
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "query=" + consEqual + "&tipo=consulta_gen",
+        }).done(function(data) {
+            /**/
+            //console.log(data.mensaje[0].res_equal);
+            if (data.mensaje[0].res_equal > 0) {
+                alert("Este Saber Propio ya existe, por favor ingrese un saber propio diferente.");
+                $("#comunidad_visitada").val("");
+                $("#fecha_salida").val(""); 
+            } else {
+                //return false;
+            }
+        }).fail(function() {
+            console.log("error");
+        }).always(function() {
+            console.log("complete");
+        });
+    }
+
+    $("#btn_filtrars").click(function(event) {
+        proyecto = $("#btn_nuevosaber").attr("data-proyecto");
+        nombre = $('select[name="anio_filtrog"] option:selected').text();
+        location.href = "saberes_propios.php?id_proyectoM=" + proyecto + "&anio=" + nombre;
+    });
+
 
 });

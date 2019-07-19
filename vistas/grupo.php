@@ -7,7 +7,7 @@
 	
 	//---------------------------------------------------------
 	$pagina = 'cont_grupo.php';
-	$scripts = array('test_validaPV3.js','cont_grupo.js','cont_filtro_anio.js');
+	$scripts = array('test_validaPV3.js','cont_grupo.js');
 	$id_modulo = 12;
 	//---------------------------------------------------------
 	
