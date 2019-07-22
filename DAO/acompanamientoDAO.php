@@ -21,7 +21,7 @@ class acompanamientoDAO extends UsuariosDAO
     public function getGrupos($pkID_proyectoM)
     {
 
-        $query = "SELECT *,(SELECT count(*) FROM acompanamiento_docente LEFT JOIN docente ON docente.pkID = acompanamiento_docente.fkID_docente WHERE acompanamiento.pkID = acompanamiento_docente.fkID_acompanamiento) as canti FROM acompanamiento
+        $query = "select *,(SELECT count(*) FROM acompanamiento_docente LEFT JOIN docente ON docente.pkID = acompanamiento_docente.fkID_docente WHERE acompanamiento.pkID = acompanamiento_docente.fkID_acompanamiento) as canti FROM acompanamiento
                 WHERE estadoV = 1 AND fkID_proyecto_marco = " . $pkID_proyectoM;
 
         return $this->EjecutarConsulta($query);
@@ -267,11 +267,11 @@ class acompanamientoDAO extends UsuariosDAO
 
     public function getEstudiantesGrupo($pkID_grupo)
     {
-        $query = "SELECT *,CONCAT(nombre_docente,' ',apellido_docente) AS nombre FROM acompanamiento_docente
+        $query = "select acompanamiento_docente.*,CONCAT(nombre_docente,' ',apellido_docente) AS nombre, estado_acompanamiento.estado_acompanamiento, documento_docente FROM acompanamiento_docente
                 INNER JOIN acompanamiento ON acompanamiento.pkID = acompanamiento_docente.fkID_acompanamiento
                 INNER JOIN docente ON docente.pkID = acompanamiento_docente.fkID_docente
                 INNER JOIN estado_acompanamiento ON estado_acompanamiento.pkID = acompanamiento_docente.fkID_estado
-                WHERE acompanamiento.pkID = " . $pkID_grupo;
+                WHERE acompanamiento.pkID =" . $pkID_grupo;
 
         return $this->EjecutarConsulta($query);
     }
@@ -281,6 +281,21 @@ class acompanamientoDAO extends UsuariosDAO
 
         $query = "SELECT * FROM acompanamiento_asistencia
                 WHERE fkID_acompanamiento = " . $pkID_grupo;
+
+        return $this->EjecutarConsulta($query);
+    }
+
+    public function getTotalDocentes($pkID_proyectoM,$filtro)
+    {
+        if ($filtro == "'Todos'") {
+            $anio = "!= 0";
+        } else {
+            $anio = "=" . $filtro;
+        }
+
+        $query = "select count(*) as cantidad FROM acompanamiento_docente LEFT JOIN docente ON docente.pkID = acompanamiento_docente.fkID_docente
+                LEFT JOIN acompanamiento on acompanamiento.pkID = acompanamiento_docente.fkID_acompanamiento
+                WHERE acompanamiento.pkID = acompanamiento_docente.fkID_acompanamiento and  acompanamiento.fkID_proyecto_marco=".$pkID_proyectoM." and  YEAR(acompanamiento.fecha_acompanamiento)" . $anio ;
 
         return $this->EjecutarConsulta($query);
     }

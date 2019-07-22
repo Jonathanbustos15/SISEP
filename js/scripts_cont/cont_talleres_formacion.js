@@ -124,10 +124,11 @@ $(function(){
         var data = new FormData();
         data.append('fecha_taller', $("#fecha_taller").val());
         data.append('fkID_tipo_taller', $("#fkID_tipo_taller option:selected").val());
+        data.append('fkID_proyectoM', $("#fkID_proyectoM").val());
         data.append('descripcion', $("#descripcion").val());
         data.append('fkID_tutor', $("#fkID_tutor option:selected").val());
         if (document.getElementById("url_documento").files.length) {
-          data.append('file', $("#url_documento").get(0).files[0]);
+          data.append('file', $("#url_documento").get(0).files[0]); 
         }
         data.append('tipo',"crear");
         console.log('Datos serializados: '+data);
@@ -252,6 +253,12 @@ function elimina_taller(id) {
         } 
     };
 
+    $("#btn_filtrart").click(function(event) {
+        proyecto = $("#btn_nuevotaller").attr("data-proyecto");
+        nombre = $('select[name="anio_filtrot"] option:selected').text();
+        tipo = $('select[name="tipot_filtro"] option:selected').text();
+        location.href = "taller_formacion.php?id_proyectoM=" + proyecto + "&anio=" + nombre + "&tipo=" + tipo  ;
+    });
 
 
 

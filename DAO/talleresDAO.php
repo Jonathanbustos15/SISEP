@@ -17,12 +17,24 @@
             return $this->getCookieProyectoM();
     }
         
-        public function getTalleres(){        
+        public function getTalleres($pkID_proyectoM,$filtro,$filtro2){
+
+            if ($filtro == "Todos") {
+            $where_anio = "!= 0";
+        } else {
+            $where_anio = "=" . $filtro;
+        }     
+
+        if ($filtro2 == "Todos") {
+            $where_tipo = "!='0'";
+        } else { 
+            $where_tipo = "= '$filtro2'";
+        }         
        
             $query = "select talleres_formacion.pkID,fecha_taller,talleres_formacion.descripcion,(select count(*) FROM talleres_participantes LEFT JOIN estudiante ON estudiante.pkID = talleres_participantes.fkID_participantes WHERE talleres_formacion.pkID = talleres_participantes.fkID_taller_formacion) as canti,tipo_taller.nombre,concat_ws(' ',nombre_funcionario,apellido_funcionario)nombres_funcionario FROM `talleres_formacion`
                 INNER JOIN funcionario on funcionario.pkID = talleres_formacion.fkID_tutor
                 INNER JOIN tipo_taller on tipo_taller.pkID = talleres_formacion.fkID_tipo_taller
-                 where talleres_formacion.estadoV= 1";
+                 where talleres_formacion.estadoV= 1 and talleres_formacion.fkID_proyectoM=".$pkID_proyectoM." and year(fecha_taller)".$where_anio." and tipo_taller.nombre".$where_tipo;
 
             return $this->EjecutarConsulta($query);
         }

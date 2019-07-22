@@ -277,7 +277,7 @@ class resignificacionDAO extends UsuariosDAO
 
     public function getEvidencias($pkID_resignificacion)
     {
-        $query = "SELECT * FROM evidencia_resignificacion
+        $query = "select * FROM evidencia_resignificacion
                 WHERE estadoV = 1 AND fkID_resignificacion   = " . $pkID_resignificacion;
 
         return $this->EjecutarConsulta($query);

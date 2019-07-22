@@ -193,6 +193,19 @@
             }
         }
 
+        public function getSelectTipoTFiltro()
+    {
+
+        $tipo = $this->getTipoTaller();
+
+        echo '<select name="tipot_filtro" id="tipot_filtro" class="form-control" required = "true">
+                        <option value="" selected>Todos</option>';
+        for ($a = 0; $a < sizeof($tipo); $a++) {
+            echo "<option value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombre"] . "</option>";
+        }
+        echo "</select>";
+    }
+
         public function getSelectMunicipios() {
         
             $tipo = $this->getMunicipios();
@@ -207,7 +220,7 @@
 
         $tipo = $this->getAnio();
 
-        echo '<select name="anio_filtrog" id="anio_filtrog" class="form-control" required = "true">
+        echo '<select name="anio_filtrot" id="anio_filtrot" class="form-control" required = "true">
                         <option value="" selected>Todos</option>';
         for ($a = 0; $a < sizeof($tipo); $a++) {
             echo "<option value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombre"] . "</option>";
@@ -293,7 +306,7 @@
 
 
 
-        public function getTablaTaller(){       
+        public function getTablaTaller($pkID_proyectoM,$filtro,$filtro2){       
 
             //permisos-------------------------------------------------------------------------
             $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo,$_COOKIE[$this->NameCookieApp."_IDtipo"]);
@@ -336,7 +349,7 @@
                 ];
             //---------------------------------------------------------------------------------
             //carga el array desde el DAO
-            $taller = $this->getTalleres();
+            $taller = $this->getTalleres($pkID_proyectoM,$filtro,$filtro2);
 
 
             //Instancia el render

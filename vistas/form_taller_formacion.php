@@ -49,8 +49,7 @@
 
                     <div class="form-group" hidden="true">
                         <label class="control-label"></label>
-                        <input type="text" name="fkID_proyectoM" id="fkID_proyectoM" value=<?php 
-                        echo $TallerInst->getcpm(); ?>>
+                        <input type="text" name="fkID_proyectoM" id="fkID_proyectoM" value="<?php echo $pkID_proyectoM; ?>">
                     </div>
 
                 </form>

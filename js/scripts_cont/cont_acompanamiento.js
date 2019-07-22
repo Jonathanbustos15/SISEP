@@ -7,7 +7,9 @@ $(function() {
         $("#form_acompanamiento")[0].reset();
         id = $("#btn_nuevoAcompanamiento").attr('data-proyecto');
         $("#fkID_proyecto_marco").val(id);
-        cargar_input_documento();
+        $("#pdf_documento").remove();
+        $("#pdf_informe").remove();
+        cargar_input_documento();  
         cargar_input_informe();
     });
     //Definir la acción del boton del formulario 
@@ -143,7 +145,7 @@ $(function() {
     }
 
     function carga_acompanamiento(id_funciona) {
-        console.log("Carga el acompanamiento " + id_funciona);
+        console.log("Carga el acompanamiento " + id_funciona); 
         $.ajax({
             url: '../controller/ajaxController12.php',
             data: "pkID=" + id_funciona + "&tipo=consultar&nom_tabla=acompanamiento",

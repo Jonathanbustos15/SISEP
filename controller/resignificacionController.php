@@ -769,60 +769,52 @@ class resignificacionController extends resignificacionDAO
     public function getTablaEvidencias($pkid_evidencia)
     {
 
-        $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo_estudiantes, $_COOKIE[$this->NameCookieApp . "_IDtipo"]);
-
-        //$arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo,$_COOKIE[$this->NameCookieApp."_IDtipo"]);
-        $edita    = $arrPermisos[0]["editar"];
-        $elimina  = $arrPermisos[0]["eliminar"];
-        $consulta = $arrPermisos[0]["consultar"];
-
-        //la configuracion de los botones de opciones
-        $grupo_btn = [
-            [
-                "tipo"    => "eliminar",
-                "nombre"  => "evidencia",
-                "permiso" => $elimina,
-            ],
-
-        ];
-        //---------------------------------------------------------------------------------
-
-        //Define las variables de la tabla a renderizar
-
-        //Los campos que se van a ver
-        $grupo_campos = [
-            ["nombre" => "fecha"],
-            ["nombre" => "descripcion"],
-            ["nombre" => "url_evidencia"],
-        ];
-
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
-        $grupo = $this->getEvidencias($pkid_evidencia);
-        //print_r($grupo);
+        $this->evidencia = $this->getEvidencias($pkid_evidencia);
 
-        //Instancia el render
-        $this->table_inst = new RenderTable($grupo, $grupo_campos, $grupo_btn, []);
+        $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo, $_COOKIE[$this->NameCookieApp . "_IDtipo"]);
+        $edita       = $arrPermisos[0]["editar"];
+        $elimina     = $arrPermisos[0]["eliminar"];
+        $consulta    = $arrPermisos[0]["consultar"];
         //---------------------------------------------------------------------------------
 
-        //valida si hay usuarios y permiso de consulta
-        if (($grupo) && ($consulta == 1)) {
+        if (($this->evidencia)) {
 
-            //ejecuta el render de la tabla
-            $this->table_inst->render();
+            for ($a = 0; $a < sizeof($this->evidencia); $a++) {
+                $id           = $this->evidencia[$a]["pkID"];
+                $descripcion  = $this->evidencia[$a]["descripcion"];
+                $fecha = $this->evidencia[$a]["fecha"];
+                $url_evidencia = $this->evidencia[$a]["url_evidencia"];
 
-        } elseif (($grupo) && ($consulta == 0)) {
+                echo '
+                             <tr>
 
-            $this->table_inst->render_blank();
+                                 <td title="Click Ver Detalles" href="" class="detail">' . $fecha . '</td>
+                                 <td title="Click Ver Detalles" href="" class="detail">' . $descripcion . '</td>
+                                 <td title="Descargar Archivo"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../server/php/files/' . $url_evidencia . '" target="_blank" >' . $url_evidencia . '</a></td>
+                                 <td>
+                                     <button id="edita_evidencia" title="Editar" name="edita_evidencia" type="button" class="btn btn-warning" data-toggle="modal" data-target="#frm_modal_evidencia" data-id-evidencia = "' . $id . '" ';
+                echo '><span class="glyphicon glyphicon-pencil"></span></button>
 
-            echo "<h3>En este momento no tiene permiso de consulta.</h3>";
+                                     <button id="btn_elimina_evidencia" title="Eliminar" name="elimina_asistencia" type="button" class="btn btn-danger" data-id-evidencia = "' . $id . '" ';
+                echo '><span class="glyphicon glyphicon-remove"></span></button>
+                                 </td>
+                             </tr>';
+            };
 
         } else {
 
-            $this->table_inst->render_blank();
+            echo "<tr>
 
-            echo "<h3>En este momento no hay registros.</h3>";
-        }; /**/
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                   </tr>
+                   <div class='alert alert-danger' role='alert'>
+                        En este momento no hay <strong>Asistencias.</strong>
+                   </div>";
+        };
         //---------------------------------------------------------------------------------
     }
     public function getTablaAlbumGrupo($pkid_acompanamiento)

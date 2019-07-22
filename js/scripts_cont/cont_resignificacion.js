@@ -42,15 +42,11 @@ $(function() {
     });
 
     function validarresignificacion() {
-        var nombre = $("#nombre_resignificacion").val();
-        var apellido = $("#apellido_resignificacion").val();
-        var tipo = $("#fkID_tipo_documento option:selected").val();
-        var documento = $("#documento_resignificacion").val();
-        var telefono = $("#telefono_resignificacion").val();
-        var direccion = $("#direccion_resignificacion").val();
-        var email = $("#email_resignificacion").val();
+        var fecha = $("#fecha").val();
+        var fkID_institucion = $("#fkID_institucion option:selected").val();
+        var asesor = $("#fkID_asesor option:selected").val();
         var respuesta;
-        if (nombre === "" || apellido === "" || tipo === "" || documento === "" || telefono === "" || direccion === "" || email === "") {
+        if (fecha === "" || fkID_institucion === "" || asesor === "" ) {
             respuesta = "no"
             return respuesta
         } else {
@@ -99,7 +95,7 @@ $(function() {
             processData: false,
             success: function(a) {
                 console.log(a);
-                location.reload();
+                //location.reload();
             }
         })
     }
@@ -152,7 +148,7 @@ $(function() {
             //si confirma es true ejecuta ajax
             $.ajax({
                 url: '../controller/ajaxController12.php',
-                data: "pkID=" + id_funciona + "&tipo=eliminarlogico&nom_tabla=resignificacion",
+                data: "pkID=" + id_funciona + "&tipo=eliminar_logico&nom_tabla=resignificacion",
             }).done(function(data) {
                 //---------------------
                 console.log(data);

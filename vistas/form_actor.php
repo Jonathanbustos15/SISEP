@@ -100,6 +100,8 @@
                         echo $actorInst->getcpm(); ?>>
                     </div>
 
+                    
+
                 </form>
 
                 <div class="form-group">

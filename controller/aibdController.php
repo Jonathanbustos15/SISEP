@@ -228,6 +228,8 @@ class aibdController extends aibdDAO
         echo "</select>";
     }
 
+    
+
     public function getSelectTipogrupoFiltro()
     {
 

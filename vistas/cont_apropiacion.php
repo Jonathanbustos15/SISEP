@@ -16,7 +16,7 @@ $proyectoMGen   = $principalInst->getProyectosMarcoId($pkID_proyectoM);
              <div class="row">
                 <div class="col-lg-12">
                     <!--<h1 class="page-header">SISEP <h4>Sistema de Información, Seguimiento y Evaluación Permanente</h4>  </h1>--><br>
-                </div>
+                </div>  
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
@@ -25,7 +25,7 @@ $proyectoMGen   = $principalInst->getProyectosMarcoId($pkID_proyectoM);
                     <div class="panel panel-default">
 
                         <div class="titulohead">
-                            <div class="text-center titulo-menu"><h3>Apropiacion social - <?php echo $proyectoMGen[0]["nombre"] ?></h3></div>
+                            <div class="text-center titulo-menu"><h3><?php echo $proyectoMGen[0]["nombre"] ?> - Apropiacion social </h3></div>
                         </div>
                         <div class="panel-body">
 

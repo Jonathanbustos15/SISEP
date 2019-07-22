@@ -54,12 +54,25 @@
 
         $tipo = $this->getAnio();
 
-        echo '<select name="anio_filtrog" id="anio_filtrog" class="form-control" required = "true">
+        echo '<select name="anio_filtroa" id="anio_filtroa" class="form-control" required = "true">
                         <option value="" selected>Todos</option>';
         for ($a = 0; $a < sizeof($tipo); $a++) {
             echo "<option value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombre"] . "</option>";
         }
         echo "</select>";
+    }
+
+    public function getSelectTipoAFiltro()
+    {
+
+        $tipo = $this->getTipoActor();
+
+        echo '<select name="tipoa_filtro" id="tipoa_filtro" class="form-control" required = "true">
+                        <option value="" selected>Todos</option>';
+        for ($a = 0; $a < sizeof($tipo); $a++) {
+            echo "<option value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombre"] . "</option>";
+        }
+        echo "</select>"; 
     }
 
         public function getSelectDepartamentos() {
@@ -83,7 +96,7 @@
 
 
 
-		public function getTablaActor(){       
+		public function getTablaActor($pkID_proyectoM,$filtro,$filtro2){       
 
             //permisos-------------------------------------------------------------------------
             $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo,$_COOKIE[$this->NameCookieApp."_IDtipo"]);
@@ -99,11 +112,10 @@
                    // ["nombre"=>"pkID"],
                     ["nombre"=>"actor"],
                     ["nombre"=>"nom_tipo"],
-                    ["nombre"=>"nombre_contacto"],
-                    ["nombre"=>"apellido_contacto"],
+                    ["nombre"=>"nombres"],
                     ["nombre"=>"email_contacto"],
                     ["nombre"=>"telefono_contacto"]
-                ];
+                ];  
                 //la configuracion de los botones de opciones
                 $actor_btn =[
 
@@ -124,7 +136,7 @@
                 ];
             //---------------------------------------------------------------------------------
             //carga el array desde el DAO
-            $actor = $this->getActores();
+            $actor = $this->getActores($pkID_proyectoM,$filtro,$filtro2);
 
 
             //Instancia el render

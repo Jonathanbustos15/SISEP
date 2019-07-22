@@ -15,7 +15,7 @@
     $fk_taller  = isset($_POST['fkID_taller_formacion'])? $_POST['fkID_taller_formacion'] : "";
     $descripcion  = isset($_POST['descripcion'])? $_POST['descripcion'] : ""; 
     $fk_tutor  = isset($_POST['fkID_tutor'])? $_POST['fkID_tutor'] : "";
-    $proyecto  = isset($_POST['fkID_proyectoM'])? $_POST['fkID_proyectoM'] : "2";
+    $proyecto  = isset($_POST['fkID_proyectoM'])? $_POST['fkID_proyectoM'] : "";
 
     switch ($tipo) {
         case 'crear':

@@ -33,7 +33,12 @@ if (isset($_POST['fkID_proyecto_marco'])) {
 } else {
     $fkID_proyecto_marco = '';
 }
-$fkID_resignificacion = $_POST['fkID_resignificacion'];
+if (isset($_POST['fkID_resignificacion'])) {
+    $fkID_resignificacion = $_POST['fkID_resignificacion'];
+} else {
+    $fkID_resignificacion = '';
+}
+
 if (isset($_POST['file'])) {
     $file = $_POST['file'];
 } else {
@@ -109,20 +114,6 @@ switch ($tipo) {
         }
         echo json_encode($r);
         break;
-    case 'editarsin':
-        $generico   = new Generico_DAO();
-        $q_inserta  = "update funcionario SET nombre_funcionario='$nombref',apellido_funcionario='$apellido',fkID_tipo_documento='$fk_tipo',documento_funcionario='$documento',telefono_funcionario='$telefono',direccion_funcionario='$direccion',email_funcionario='$email' where pkID='$id' ";
-        $r["query"] = $q_inserta;
-        $resultado  = $generico->EjecutaActualizar($q_inserta);
-        /**/
-        if ($resultado) {
-            $r[] = $resultado;
-
-        } else {
-            $r["estado"]  = "Error";
-            $r["mensaje"] = "No se inserto.";
-        }
-        break;
     case 'eliminararchivo':
         $generico   = new Generico_DAO();
         $q_inserta  = "update funcionario SET url_funcionario='' where pkID='$id' ";
@@ -137,6 +128,52 @@ switch ($tipo) {
         }
 
         break;
+    case 'editar_evidencia':
+        $generico = new Generico_DAO();
+        if (isset($_FILES['file']["name"])) {
+            $nombreDoc = $_FILES['file']["name"];
+            //Reemplaza los caracteres especiales por guiones al piso
+            $nombreDoc = str_replace(" ", "_", $nombreDoc);
+            $nombreDoc = str_replace("%", "_", $nombreDoc);
+            $nombreDoc = str_replace("-", "_", $nombreDoc);
+            $nombreDoc = str_replace(";", "_", $nombreDoc);
+            $nombreDoc = str_replace("#", "_", $nombreDoc);
+            $nombreDoc = str_replace("!", "_", $nombreDoc);
+            //carga el archivo en el servidor
+            $destinoDoc = "../server/php/files/" . $nombreDoc;
+            $documento  = ",url_evidencia= '" . $nombreDoc . "'";
+            move_uploaded_file($_FILES['file']["tmp_name"], $destinoDoc);  
+        } else {
+            $documento = '';
+        }
+        $q_inserta  = "update `evidencia_resignificacion` SET `fecha`='$fecha', `descripcion`='$descripcion'". $documento . " WHERE pkID='$id'";
+        $r["query"] = $q_inserta;
+        $resultado  = $generico->EjecutaActualizar($q_inserta);
+        /**/
+        if ($resultado) {
+
+            $r[] = $resultado;
+
+        } else {
+
+            $r["estado"]  = "Error";
+            $r["mensaje"] = "No se inserto.";
+        };
+        break;
+        case 'eliminarevidencia':
+                    $generico = new Generico_DAO();
+                    $q_inserta = "update evidencia_resignificacion SET url_evidencia='' where pkID='$id' ";
+                    $r["query"] = $q_inserta;           
+                    $resultado = $generico->EjecutaActualizar($q_inserta);
+                    /**/
+                    if($resultado){                    
+                        $r[] = $resultado;          
+                    }else{
+                      $r["estado"] = "Error";
+                      $r["mensaje"] = "No se inserto.";
+                        }
+                
+                break;
     default:
         # code...
         break;

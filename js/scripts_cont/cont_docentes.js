@@ -115,8 +115,7 @@ $(function() {
     };
 
     function elimina_docente(id_docente) {
-        console.log('Eliminar el hvida: ' + id_docente);
-        var confirma = confirm("En realidad quiere eliminar esta Institución?");
+        var confirma = confirm("En realidad quiere eliminar este Docente?");
         console.log(confirma);
         /**/
         if (confirma == true) {

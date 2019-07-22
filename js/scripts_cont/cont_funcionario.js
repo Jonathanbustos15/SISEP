@@ -118,8 +118,7 @@ $(function() {
         $("#form_funcionario").append('<div class="form-group" id="adjunto_funcionhv">' + '<label for="adjunto" id="lbl_url_funcionario" class=" control-label">Hoja de Vida</label>' + '<input type="file" class="form-control" id="url_funcionario" name="url_funcionario" placeholder="Email del Funcionario" required = "true">' + '</div>')
     }
 
-    function
-    edita_funcionario() {
+    function edita_funcionario() {
         var data = new FormData();
         if ($("#url_funcionario").length) {
             if (document.getElementById("url_funcionario").files.length) {

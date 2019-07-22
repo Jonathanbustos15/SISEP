@@ -131,6 +131,13 @@ if (($pkID_tipo_user == 8) || ($pkID_tipo_user == 9)) {
 ?>
                   </tbody>
               </table>
+              <div class="col-md-6 text-right">
+                                <label for="total_ingresos" class="control-label"><B>Total Estudiantes</B></label>
+              </div>
+                                <div class="input-group col-md-2 text-left">
+                                   <?php $acompanamientoInst->getSelectTotaldocentes($pkID_proyectoM, $filtro);?>
+                                </div>
+                            </div>  
           </div>
           <!-- /.table-responsive -->
 

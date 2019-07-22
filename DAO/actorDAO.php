@@ -16,15 +16,23 @@
             return $this->getCookieProyectoM();
     }
 		
-		public function getActores(){        
+		public function getActores($pkID_proyectoM,$filtro,$filtro2){
+
+          if ($filtro == "Todos") {
+            $where_anio = "!= 0";
+        } else {
+            $where_anio = "=" . $filtro;
+        }     
+
+        if ($filtro2 == "Todos") {
+            $where_tipo = "!='0'";
+        } else { 
+            $where_tipo = "= '$filtro2'";
+        }   
        
-      		$query = "select actor.*, tipo_actor.nombre as nom_tipo 
-
-                    FROM `actor`
-      	 			  
-                    INNER JOIN tipo_actor ON tipo_actor.pkID = actor.fkID_tipo
-
-                    where estadoV=1";
+      		$query = "select actor.*, tipo_actor.nombre as nom_tipo, concat_ws(' ',actor.nombre_contacto,apellido_contacto) as nombres  FROM `actor`
+                  INNER JOIN tipo_actor ON tipo_actor.pkID = actor.fkID_tipo
+                  where estadoV=1 and fkID_proyectoM=".$pkID_proyectoM." and year(fecha_socializacion)".$where_anio."  and tipo_actor.nombre".$where_tipo;
 
       		return $this->EjecutarConsulta($query);
     	}

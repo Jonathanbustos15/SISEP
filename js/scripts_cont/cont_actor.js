@@ -385,6 +385,13 @@ function elimina_actor(id) {
         }
     };
 
+    $("#btn_filtrara").click(function(event) {
+        proyecto = $("#btn_nuevoActor").attr("data-proyecto");
+        nombre = $('select[name="anio_filtroa"] option:selected').text();
+        tipo = $('select[name="tipoa_filtro"] option:selected').text();
+        location.href = "actor.php?id_proyectoM=" + proyecto + "&anio=" + nombre + "&tipo=" + tipo  ;
+    });
+
 
 
 

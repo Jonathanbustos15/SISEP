@@ -3,6 +3,7 @@ $(function() {
     var arrParticipantes = [];
     var arrParticipantesasignados = []
     var arrEstado = [];
+
     $("#btn_asignarparticipante").click(function() {
         $("#lbl_form_asignarparticipante").html("Asignar participante");
         $("#lbl_btn_actionasignarparticipante").html("Guardar <span class='glyphicon glyphicon-save'></span>");
@@ -10,12 +11,25 @@ $(function() {
         $("#form_asignarparticipante")[0].reset();
         $("#frm_participante_acompanante").html("");
     });
-    $("#btn_asistencia").click(function() {
+
+    $("#btn_asignarasistencia").click(function() {
         $("#lbl_form_asistencia").html("Crear asistencia");
         $("#lbl_btn_actionasistencia").html("Guardar <span class='glyphicon glyphicon-save'></span>");
         $("#btn_actionasistencia").attr("data-action", "asistencia");
         $("#form_asistencia")[0].reset();
         $("#frm_participante_acompanante").html("");
+        $("#pdf_asistencia").remove();
+        cargar_input_asistencia();
+    });
+    $("[name*='edita_compaasistencia']").click(function() {
+        $("#lbl_form_asistencia").html("editar asistencia");
+        $("#lbl_btn_actionasistencia").html("Guardar <span class='glyphicon glyphicon-save'></span>");
+        $("#btn_actionasistencia").attr("data-action", "editar");
+        $("#form_asistencia")[0].reset();
+        $("#pdf_asistencia").remove();
+        id = $(this).attr('data-id-asistencia');
+        cargar_input_asistencia();
+        carga_asistencia(id);
     });
     //Definir la acción del boton del formulario 
     $("#btn_actionparticipante").click(function() {
@@ -39,10 +53,10 @@ $(function() {
         valida_actio(action);
         console.log("accion a ejecutar: " + action);
     });
-    $("[name*='elimina_participante']").click(function(event) {
-        id_estudian = $(this).attr('data-id-participante');
+    $("[name*='elimina_participantes_acompaniamiento']").click(function(event) {
+        id_estudian = $(this).attr('data-id-participantes_acompaniamiento');
         console.log(id_estudian)
-        deleteSaberNumReg(id_estudian);
+        deleteParticiNumReg(id_estudian);
     });
     sessionStorage.setItem("id_tab_participante", null);
     //---------------------------------------------------------
@@ -55,14 +69,43 @@ $(function() {
         console.log("en la mitad");
         if (action === "asistencia") {
             crea_asistencia();
-        } else if (action === "editar") {} else {
+        } else if (action === "asignar") {
             guardar();
+            console.log("");
+            console.log("");
+            console.log("");
             asigna_participante();
+        } else if (action === "editar") {
+            edita_asistencia();
         }
     };
 
     function asigna_participante() {
         location.reload();
+    }
+
+    function edita_asistencia() {
+        var data = new FormData();
+        if ($("#url_asistencia").length) {
+            if (document.getElementById("url_asistencia").files.length) {
+            data.append('file', $("#url_asistencia").get(0).files[0]);
+        }
+        }
+            data.append('fecha_acompanamiento_asistencia', $("#fecha_acompanamiento_asistencia").val());
+            data.append('tipo', "editarasistencia");
+            data.append('pkID', $("#pkID").val());
+            $.ajax({
+                type: "POST",
+                url: "../controller/ajaxacompanamiento.php",
+                data: data,
+                contentType: false,
+                processData: false,
+                success: function(a) {  
+                    console.log(a);
+                    location.reload();
+                }
+            })
+
     }
 
     function guardar() {
@@ -85,15 +128,24 @@ $(function() {
     }
 
     function crea_asistencia() {
-        if (upload.arregloDeArchivos.length > 0) {
-            $('#fileuploadPM').fileupload('send', {
-                files: upload.arregloDeArchivos
-            }).success(function(result, textStatus, jqXHR) {
-                upload.functionSend($("#pkID").val(), result);
-            });
-        } else {
-            location.reload()
+        var data = new FormData();
+        if (document.getElementById("url_asistencia").files.length) {
+            data.append('file', $("#url_asistencia").get(0).files[0]);
         }
+            data.append('fecha_acompanamiento_asistencia', $("#fecha_acompanamiento_asistencia").val());
+            data.append('fkID_acompanamiento', $("#fkID_acompanamiento").val());
+            data.append('tipo', "crearasistencia");
+            $.ajax({
+                type: "POST",
+                url: "../controller/ajaxacompanamiento.php",
+                data: data,
+                contentType: false,
+                processData: false,
+                success: function(a) {  
+                    console.log(a);
+                    location.reload();
+                }
+            })
     }
     //valida si existe el documento
     function validaEqualIdentifica(num_id) {
@@ -120,7 +172,7 @@ $(function() {
     $("#fkID_docente").change(function(event) {
         estado = valida_estado();
         if (estado == false) {
-            alert('Seleccione un estado');
+            alert('Seleccione un estado');  
             $("#fkID_docente").val('');
             $("#fkID_estado").focus();
         } else {
@@ -227,7 +279,7 @@ $(function() {
                         console.log('salio menor a 0');
                         console.log(arrParticipante);
                     }
-                    //deleteSaberNumReg(numReg);
+                    //deleteParticiNumReg(numReg);
                 });
                 arrParticipante.push(idDocente);
                 console.log(arrParticipante);
@@ -235,7 +287,7 @@ $(function() {
                 console.log(arrEstado);
             }
         } else {
-            alert("No se seleccionó ningún usuario.")
+            alert("No se seleccionó ningún usuario.")  
         }
     };
 
@@ -252,14 +304,42 @@ $(function() {
         }
     };
 
-    function deleteSaberNumReg(numReg) {
-        var confirma = confirm("En realidad quiere eliminar la asignación del estudiante?");
+    function carga_asistencia(id_asistencia) {
+        console.log("Carga la asistencia " + id_asistencia);
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "pkID=" + id_asistencia + "&tipo=consultar&nom_tabla=acompanamiento_asistencia",
+        }).done(function(data) {
+            $.each(data.mensaje[0], function(key, value) {
+                console.log(key + "--" + value);
+                if (key == "url_asistencia" && value != "") {
+                    $("#pdf_asistencia").append('<div id="pdf_asiste" class="form-group">' + '<label for="adjunto" id="lbl_pkID_archivo_" name="lbl_pkID_archivo_" class="custom-control-label">Asistencia</label>' + '<br>' + '<input type="text" style="width: 89%;display: inline;" class="form-control" id="pkID_archivo" name="btn_RmAsistencia" value="' + value + '" readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../server/php/files/' + value + '" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmAsistencia" id="btn_actionRmAsistencia" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
+                    $("#lbl_url_asistencia").remove();
+                    $("#url_asistencia").remove();
+                    $("[name*='btn_actionRmAsistencia']").click(function(event) {
+                        var id_archivo = $("#pkID").val();
+                        console.log("este es el numero" + id_archivo);
+                        elimina_archivo_asistencias(id_archivo);
+                    });
+                } else {
+                    $("#" + key).val(value);
+                }
+            });
+        }).fail(function() {
+            console.log("error");
+        }).always(function() {
+            console.log("complete");
+        });
+    };
+
+    function deleteParticiNumReg(numReg) {
+        console.log("vamos por aqui")
+        var confirma = confirm("En realidad quiere eliminar la asignación del docente?");
         console.log(confirma);
-        /**/
         if (confirma == true) {
             $.ajax({
                 url: '../controller/ajaxController12.php',
-                data: "pkID=" + numReg + "&tipo=eliminar&nom_tabla=saber_estudiante",
+                data: "pkID=" + numReg + "&tipo=eliminar&nom_tabla=acompanamiento_docente",
             }).done(function(data) {
                 console.log(data);
                 location.reload();
@@ -271,14 +351,37 @@ $(function() {
         }
     }
     //Función para cargar varios archivos
-    self.upload = new funcionesUpload("btn_actionasistencia", "res_form", "not_documentos", "acompanamiento_asistencia", "fkID_proyectoM")
-    $('#fileuploadPM').fileupload({
-        dataType: 'json',
-        add: function(e, data) {
-            upload.functionAdd(data)
-        },
-        done: function(e, data) {
-            console.log('Load finished.');
+
+    function cargar_input_asistencia() {
+        $("#form_asistencia").append('<div class="form-group" id="pdf_asistencia">' + '<label for="adjunto" id="lbl_url_asistencia" class=" control-label">Asistencia</label>' + '<input type="file" class="form-control" id="url_asistencia" name="asistencia" required = "true">' + '</div>')
+    }
+
+    function elimina_archivo_asistencias(id_archivo) {
+        console.log('Eliminar el archivito: ' + id_archivo);
+        var confirma = confirm("En realidad quiere eliminar este archivo de Asistencia?");
+        console.log(confirma);
+        /**/
+        if (confirma == true) {
+            var data = new FormData();
+            data.append('pkID', id_archivo);
+            data.append('tipo', "eliminarasistencia");
+            //si confirma es true ejecuta ajax  
+            $.ajax({
+                type: "POST",
+                url: '../controller/ajaxacompanamiento.php',
+                data: data,
+                contentType: false,
+                processData: false,
+            }).done(function(data) {
+                console.log(data);
+                location.reload();
+            }).fail(function() {
+                console.log("error");
+            }).always(function() {
+                console.log("complete");
+            });
+        } else {
+            //no hace nada
         }
-    });
+    };
 });

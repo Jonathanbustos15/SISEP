@@ -19,6 +19,18 @@
   $detalles_grupoInst = new grupoController();
 
   $proyectoMGen = $detalles_grupoInst->getProyectosMarcoGrupo($pkID_proyectoM);
+
+  if (isset($_GET["anio"])) {
+    $filtro = $_GET["anio"];
+} else {
+    $filtro = "Todos";
+}
+
+if (isset($_GET["tipo"])) {
+    $filtro2 = $_GET["tipo"];
+} else {
+    $filtro2 = "Todos";
+}
   
   include("form_taller_formacion.php");
   //include("form_modal_archivos.php");
@@ -34,7 +46,7 @@
           <h1 class="page-header titleprincipal"><img src="../img/botones/actoronly.png"><?php echo  $proyectoMGen[0]["nombre_proyecto"] ?> - Taller Formación</h1>
       </div>       
       <!-- /.col-lg-12 -->
-      <div class="col-md-8">
+      <div class="col-md-6">
           <ol class="breadcrumb migadepan">
             <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
              <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
@@ -44,14 +56,21 @@
           </ol>
       </div>
 
-      <div class="col-md-2 text-right form-inline">                        
+      <div class="col-md-3 text-right form-inline">                        
+                    <label for="grupo_filtrop" class="control-label">Tipo de Actor: </label>      
+                      <?php
+                             $TallerInst->getSelectTipoTFiltro();
+                      ?>  
+     </div>
+
+      <div class="col-md-2 text-center form-inline">                        
                     <label for="grupo_filtrop" class="control-label">Año: </label>      
                       <?php
                              $TallerInst->getSelectAnioFiltro();
                       ?>  
      </div>
     <div class="col-md-1 text-left form-inline">                                             
-                     <button class="btn btn-success" id="btn_filtrarg"><span class="glyphicon glyphicon-filter"></span> Filtrar</button>
+                     <button class="btn btn-success" id="btn_filtrart"><span class="glyphicon glyphicon-filter"></span> Filtrar</button>
                 
                      <hr>
 
@@ -73,7 +92,7 @@
                   <div class="titleprincipal"><h4>Registro de Talleres de Formación <?php echo  $proyectoMGen[0]["nombre_proyecto"] ?></h4></div>
               </div>
               <div class="col-md-6 text-right">
-                 <button id="btn_nuevotaller" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-target="#frm_modal_taller" <?php if ($crea != 1){echo 'disabled="disabled"';} ?> >
+                 <button id="btn_nuevotaller" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-proyecto="<?php echo $pkID_proyectoM; ?>" data-target="#frm_modal_taller" <?php if ($crea != 1){echo 'disabled="disabled"';} ?> >
                  <span class="glyphicon glyphicon-plus"></span>Nuevo Taller de Formación</button>  
               </div>
             </div>
@@ -102,7 +121,7 @@
                       <?php
                           //print_r($_COOKIE); 
                           //echo "valor de cookie de tipo ".$_COOKIE[$NomCookiesApp."_tipo"];
-                          $TallerInst->getTablaTaller();                        
+                          $TallerInst->getTablaTaller($pkID_proyectoM,$filtro,$filtro2);                        
                        ?>
                   </tbody>
               </table>

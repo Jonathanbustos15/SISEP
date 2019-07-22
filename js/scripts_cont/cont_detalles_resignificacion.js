@@ -8,17 +8,31 @@ $(function() {
         $("#lbl_btn_actionevidencia").html("Guardar <span class='glyphicon glyphicon-save'></span>");
         $("#btn_actionevidencia").attr("data-action", "crear");
         $("#form_evidencia")[0].reset();
+        $("#pdf_documento").remove();
         cargar_input_documento();
     });
     //Definir la acción del boton del formulario 
     $("#btn_actionevidencia").click(function() {
-        console.log("al principio");
-        action = $(this).attr("data-action");
-        //define la acción que va a realizar el formulario
-        valida_actio(action);
-        console.log("accion a ejecutar: " + action);
+        var validacioncon = validarevidencia();
+        if (validacioncon === "no") {
+            window.alert("Faltan Campos por diligenciar.");
+        } else {
+            action = $(this).attr("data-action");
+            valida_actio(action);
+            console.log("accion a ejecutar: " + action);
+        }
     });
-    $("#btn_actionasistencia").click(function() {
+    $("[name*='edita_evidencia']").click(function() {
+        $("#lbl_form_evidencia").html("Editar evidencia");
+        $("#lbl_btn_actionevidencia").html("Guardar <span class='glyphicon glyphicon-save'></span>");
+        $("#btn_actionevidencia").attr("data-action", "editar");
+        $("#form_evidencia")[0].reset();
+        $("#pdf_documento").remove();
+        id = $(this).attr('data-id-evidencia');
+        cargar_input_documento();
+        carga_evidencia(id);
+    });
+    $("#btn_actionresignificacion").click(function() {
         console.log("al principio");
         action = $(this).attr("data-action");
         //define la acción que va a realizar el formulario
@@ -48,7 +62,9 @@ $(function() {
         console.log("en la mitad");
         if (action === "crear") {
             crea_evidencia();
-        } else {
+        } else if (action === "editar") {
+            edita_evidencia();
+        }else {
             guardar();
         }
     };
@@ -74,17 +90,45 @@ $(function() {
         })
     }
 
-    function crea_asistencia() {
-        if (upload.arregloDeArchivos.length > 0) {
-            $('#fileuploadPM').fileupload('send', {
-                files: upload.arregloDeArchivos
-            }).success(function(result, textStatus, jqXHR) {
-                upload.functionSend($("#pkID").val(), result);
-            });
+    function edita_evidencia() {
+        var data = new FormData();
+        if ($("#url_evidencia").length) {
+            if (document.getElementById("url_evidencia").files.length) {
+            data.append('file', $("#url_evidencia").get(0).files[0]);
+        }
+        }
+        data.append('fecha', $("#fecha").val());
+        data.append('descripcion', $("#descripcion").val());
+        data.append('tipo', "editar_evidencia");
+            data.append('pkID', $("#pkID").val()); 
+            $.ajax({
+                type: "POST",
+                url: "../controller/ajaxresignificacion.php",
+                data: data,
+                contentType: false,
+                processData: false,
+                success: function(a) {  
+                    console.log(a);
+                    location.reload();
+                }
+            })
+
+    }
+
+
+    function validarevidencia() {
+        var fecha = $("#fecha").val();
+        var descripcion = $("#descripcion").val();
+        var respuesta;
+        if (fecha === "" || descripcion === "" ) {
+            respuesta = "no"
+            return respuesta
         } else {
-            location.reload()
+            respuesta = "ok"
+            return respuesta
         }
     }
+
     //valida si existe el documento
     function validaEqualIdentifica(num_id) {
         console.log("busca valor " + encodeURI(num_id));
@@ -242,6 +286,34 @@ $(function() {
         }
     };
 
+    function carga_evidencia(id_resignificacion) {
+        console.log("Carga la resignificacion " + id_resignificacion);
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "pkID=" + id_resignificacion + "&tipo=consultar&nom_tabla=evidencia_resignificacion",
+        }).done(function(data) {
+            $.each(data.mensaje[0], function(key, value) {
+                console.log(key + "--" + value);
+                if (key == "url_evidencia" && value != "") {
+                    $("#pdf_documento").append('<div id="pdf_asiste" class="form-group">' + '<label for="adjunto" id="lbl_pkID_archivo_" name="lbl_pkID_archivo_" class="custom-control-label">resignificacion</label>' + '<br>' + '<input type="text" style="width: 89%;display: inline;" class="form-control" id="pkID_archivo" name="btn_Rmresignificacion" value="' + value + '" readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../server/php/files/' + value + '" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmresignificacion" id="btn_actionRmresignificacion" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
+                    $("#lbl_url_resignificacion").remove();
+                    $("#url_evidencia").remove();
+                    $("[name*='btn_actionRmresignificacion']").click(function(event) {
+                        var id_archivo = $("#pkID").val();
+                        console.log("este es el numero" + id_archivo);
+                        elimina_archivo_resignificacion(id_archivo);
+                    });
+                } else {
+                    $("#" + key).val(value);
+                }
+            });
+        }).fail(function() {
+            console.log("error");
+        }).always(function() {
+            console.log("complete");
+        });
+    };
+
     function deleteSaberNumReg(numReg) {
         var confirma = confirm("En realidad quiere eliminar la evidencia?");
         console.log(confirma);
@@ -260,19 +332,38 @@ $(function() {
             });
         }
     }
-    //Función para cargar varios archivos
-    self.upload = new funcionesUpload("btn_actionasistencia", "res_form", "not_documentos", "acompanamiento_asistencia", "fkID_proyectoM")
-    $('#fileuploadPM').fileupload({
-        dataType: 'json',
-        add: function(e, data) {
-            upload.functionAdd(data)
-        },
-        done: function(e, data) {
-            console.log('Load finished.');
+
+    function elimina_archivo_resignificacion(id_archivo) {
+        console.log('Eliminar el archivito: ' + id_archivo);
+        var confirma = confirm("En realidad quiere eliminar este archivo de Evidencia?");
+        console.log(confirma);
+        /**/
+        if (confirma == true) {
+            var data = new FormData();
+            data.append('pkID', id_archivo);
+            data.append('tipo', "eliminarevidencia");
+            //si confirma es true ejecuta ajax  
+            $.ajax({
+                type: "POST",
+                url: '../controller/ajaxresignificacion.php',
+                data: data,
+                contentType: false,
+                processData: false,
+            }).done(function(data) {
+                console.log(data);
+                location.reload();
+            }).fail(function() {
+                console.log("error");
+            }).always(function() {
+                console.log("complete");
+            });
+        } else {
+            //no hace nada
         }
-    });
+    };
+   
 
     function cargar_input_documento() {
-        $("#form_evidencia").append('<div class="form-group" id="pdf_documento">' + '<label for="adjunto" id="lbl_url_acompanamiento" class=" control-label">Documento</label>' + '<input type="file" class="form-control" id="url_evidencia" name="documento" placeholder="Email del acompanamiento" required = "true">' + '</div>')
+        $("#form_evidencia").append('<div class="form-group" id="pdf_documento">' + '<label for="adjunto" id="lbl_url_resignificacion" class=" control-label">Documento</label>' + '<input type="file" class="form-control" id="url_evidencia" name="documento" placeholder="Email del acompanamiento" required = "true">' + '</div>')
     }
 });
