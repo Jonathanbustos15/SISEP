@@ -1,10 +1,10 @@
 <?php
 /**/
 
-include_once '../DAO/acompanamientoDAO.php';
+include_once '../DAO/aibdDAO.php';
 include_once 'helper_controller/render_table.php';
 
-class acompanamientoController extends acompanamientoDAO
+class aibdController extends aibdDAO
 {
 
     public $NameCookieApp;
@@ -36,7 +36,7 @@ class acompanamientoController extends acompanamientoDAO
     //$consulta = $arrPermisos[0]["consultar"];
     //-----------------------------------------------------------------------------
 
-    public function getTablaAcompanamiento($filtro, $pkID_proyectoM)
+    public function getTablaAibd($filtro, $pkID_proyectoM)
     {
 
         //permisos-------------------------------------------------------------------------
@@ -51,9 +51,8 @@ class acompanamientoController extends acompanamientoDAO
         //Los campos que se van a ver
         $grupo_campos = [
             // ["nombre"=>"pkID"],
-            ["nombre" => "fecha_acompanamiento"],
+            ["nombre" => "fecha"],
             ["nombre" => "descripcion"],
-            ["nombre" => "canti"],
             ["nombre" => "url_documento"],
             ["nombre" => "url_informe"],
         ];
@@ -62,29 +61,29 @@ class acompanamientoController extends acompanamientoDAO
 
             [
                 "tipo"    => "editar",
-                "nombre"  => "acompanamiento",
+                "nombre"  => "aibd",
                 "permiso" => $edita,
             ],
             [
                 "tipo"    => "eliminar",
-                "nombre"  => "acompanamiento",
+                "nombre"  => "aibd",
                 "permiso" => $elimina,
             ],
 
         ];
 
         $array_opciones = [
-            "modulo" => "acompanamiento", //nombre del modulo definido para jquerycontrollerV2
+            "modulo" => "aibd", //nombre del modulo definido para jquerycontrollerV2
             "title"  => "Click Ver Detalles", //etiqueta html title
-            "href"   => "detalles_acompanamiento.php?id_acompanamiento=",
+            "href"   => "detalles_aibd.php?id_aibd=",
             "class"  => "detail", //clase que permite que añadir el evento jquery click
         ];
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
         if ($filtro == "'Todos'") {
-            $grupo = $this->getGrupos($pkID_proyectoM);
+            $grupo = $this->getAibds($pkID_proyectoM);
         } else {
-            $grupo = $this->getGrupo($filtro, $pkID_proyectoM);
+            $grupo = $this->getAibd($filtro, $pkID_proyectoM);
         }
 
         //print_r($grupo);
@@ -695,7 +694,7 @@ class acompanamientoController extends acompanamientoDAO
 
     }
 
-    public function getTablaEstudiantesGrupo($pkid_acompanamiento)
+    public function getTablaInventario($pkid_aibd)
     {
 
         $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo_estudiantes, $_COOKIE[$this->NameCookieApp . "_IDtipo"]);
@@ -709,7 +708,7 @@ class acompanamientoController extends acompanamientoDAO
         $grupo_btn = [
             [
                 "tipo"    => "eliminar",
-                "nombre"  => "estudiante",
+                "nombre"  => "inventario_aibd",
                 "permiso" => $elimina,
             ],
 
@@ -720,14 +719,14 @@ class acompanamientoController extends acompanamientoDAO
 
         //Los campos que se van a ver
         $grupo_campos = [
+            ["nombre" => "fecha"],
             ["nombre" => "nombre"],
-            ["nombre" => "documento_docente"],
-            ["nombre" => "estado_acompanamiento"],
+            ["nombre" => "cantidad"],
         ];
 
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
-        $grupo = $this->getEstudiantesGrupo($pkid_acompanamiento);
+        $grupo = $this->getInventario($pkid_aibd);
         //print_r($grupo);
 
         //Instancia el render

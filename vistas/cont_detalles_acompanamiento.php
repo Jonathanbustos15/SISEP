@@ -1,15 +1,9 @@
- <?php
+<?php
 
 //ini_set('error_reporting', E_ALL|E_STRICT);
 //ini_set('display_errors', 1);
 
 include '../controller/cambio_estado_grupo_invController.php';
-
-include '../controller/saberes_propioscontroller.php';
-
-include '../controller/tallerescontroller.php';
-
-include '../controller/participantecontroller.php';
 
 include '../controller/proyectoController.php';
 
@@ -17,7 +11,7 @@ include '../controller/docentesController.php';
 
 include '../controller/estudiantesController.php';
 
-include '../controller/grupoController.php';
+include '../controller/acompanamientoController.php';
 
 include '../conexion/datos.php';
 
@@ -33,12 +27,6 @@ $arrPermisosD = $docentesInst->getPermisosModulo_Tipo(26, $_COOKIE[$NomCookiesAp
 
 $creaD = $arrPermisosD[0]['crear'];
 
-$tallerInst = new talleresController();
-
-$arrPermisoss = $tallerInst->getPermisosModulo_Tipo(26, $_COOKIE[$NomCookiesApp . '_IDtipo']);
-
-$creas = $arrPermisoss[0]['crear'];
-
 $estudiantesInst = new estudiantesController();
 
 $arrPermisoseg = $estudiantesInst->getPermisosModulo_Tipo(30, $_COOKIE[$NomCookiesApp . '_IDtipo']);
@@ -51,15 +39,15 @@ $re = $rolEstudiante[0]["pkID_rol"];
 
 //print_r($re);
 
-$detalles_grupoInst = new grupoController();
+$detalles_grupoInst = new acompanamientoController();
 
 $arrPermisos = $detalles_grupoInst->getPermisosModulo_Tipo($id_modulo, $_COOKIE[$NomCookiesApp . '_IDtipo']);
 
 $crea = $arrPermisos[0]['crear'];
 
-$pkID_taller = $_GET["id_taller_formacion"];
+$pkID_acompanamiento = $_GET["id_acompanamiento"];
 
-$estado = $detalles_grupoInst->getEstadoGrupo($pkID_taller);
+$estado = $detalles_grupoInst->getEstadoGrupo($pkID_acompanamiento);
 
 $estadoG = $estado[0]['fkID_estado'];
 
@@ -75,7 +63,7 @@ $tipo_user = $_COOKIE[$NomCookiesApp . '_IDtipo'];
 
 //++++++++++++++++++++++++++++++
 
-$grupoGen = $detalles_grupoInst->getGruposId($pkID_taller);
+$grupoGen = $detalles_grupoInst->getGruposId($pkID_acompanamiento);
 
 //variables grado
 $pkID_grado = $grupoGen[0]["fkID_grado"];
@@ -86,43 +74,30 @@ $nom_institucion  = $grupoGen[0]["nom_institucion"];
 //------------------------------------------
 $arrPermisosEstudiantes = $detalles_grupoInst->getPermisosModulo_Tipo(38, $_COOKIE[$NomCookiesApp . '_IDtipo']);
 $creaEstudiante         = $arrPermisosEstudiantes[0]['crear'];
-
-$participanteInst = new participanteController();
-
 //+++++++++++++++++++++++++++++++
 $arrPermisosDocentes = $detalles_grupoInst->getPermisosModulo_Tipo(39, $_COOKIE[$NomCookiesApp . '_IDtipo']);
 $creaDocente         = $arrPermisosDocentes[0]['crear'];
 //------------------------------------------
 
-$numeroEstudiantes = $detalles_grupoInst->getNumEstudiantesGrupo(9, $pkID_taller, $pkID_grado);
+$numeroEstudiantes = $detalles_grupoInst->getNumEstudiantesGrupo(9, $pkID_acompanamiento, $pkID_grado);
 
 $ne = $numeroEstudiantes[0]['num_estudiantes'];
 
-$proyectoMGen = $detalles_grupoInst->getProyectosMarcoGrupo($pkID_taller);
+$proyectoMGen = $detalles_grupoInst->getProyectosMarcoGrupo($pkID_acompanamiento);
 
 $pkID_proyectoM = $proyectoMGen[0]["fkID_proyecto_marco"];
-
 //echo date("Y-m-d");
 
 //print_r($fecha);
 //++++++++++++++++++++++++++++++++++
-include 'form_asignacion_participante.php';
-include 'form_participante.php';
-include 'form_estudiantes.php';
-include 'form_docentes.php';
-include 'form_grupo_estudiante.php';
-include 'form_grupo_docente.php';
-include "form_proyecto.php";
-include "form_modal_archivos.php";
-include "form_album_grupo.php";
-include "form_sesiones.php";
-include "frm_modal_proyectog.php";
+include 'form_asignacion_participantes.php';
+include 'form_asistencia.php';
 //++++++++++++++++++++++++++++++++++/**/
 ?>
 
 <div class="form-group " hidden>
     <div class="col-sm-10">
-        <input type="text" class="form-control" id="grupo" name="grupo" value=<?php echo $pkID_taller; ?>>
+        <input type="text" class="form-control" id="grupo" name="grupo" value=<?php echo $pkID_acompanamiento; ?>>
     </div>
 </div>
 
@@ -155,7 +130,7 @@ include "frm_modal_proyectog.php";
       <input type="hidden" id="id_mod_page_estudiante" value=<?php echo $id_modulo ?>>
 
       <div class="col-lg-12">
-          <h1 class="page-header titleprincipal"><img src="../img/botones/grupoonly.png"><?php echo  $proyectoMGen[0]["nombre_proyecto"] ?> - Taller Formación</h1>
+          <h1 class="page-header titleprincipal"><img src="../img/botones/grupoonly.png">Acompañamiento - <?php echo $proyectoMGen[0]["nombre_proyecto"] ?></h1>
       </div>
       <!-- /.col-lg-12 -->
 
@@ -164,9 +139,9 @@ include "frm_modal_proyectog.php";
             <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
             <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
             <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Académico</a></li>
-            <li><a href="apropiacion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Apropiacion social</a></li> 
-            <li><a href="taller_formacion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Taller de formación</a></li>
-            <li class="active migadepan">Detalle Talleres de Formación</li>
+            <li><a href="formacion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Formación a maestros</a></li>
+            <li><a href="acompanamiento.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Acompañamiento maestros</a></li>
+            <li class="active migadepan">Detalle Acompañamiento </li>
           </ol>
     </div>
 
@@ -180,14 +155,14 @@ include "frm_modal_proyectog.php";
         <!-- Nav tabs -->
         <ul class="nav nav-tabs tabs-proc3" role="tablist">
 	        <li id="li_general" role="presentation"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
-	        <li id="li_general" role="presentation"><a href="#Sesiones" aria-controls="general" role="tab" data-toggle="tab">Sesiones</a></li>
-          	<li id="li_general" role="presentation"><a href="#participantes" aria-controls="general" role="tab" data-toggle="tab">Participantes</a></li>
+          	<li id="li_participantes" role="presentation"><a href="#participantes" aria-controls="general" role="tab" data-toggle="tab">Participantes</a></li>
+	        <li id="li_asistencia" role="presentation"><a href="#asistencia" aria-controls="general" role="tab" data-toggle="tab">Asistencia</a></li>
 	        <li id="li_album" role="presentation"><a href="#album" aria-controls="general" role="tab" data-toggle="tab">Galeria</a></li>
 	    </ul>
 
 	    <div class="tab-content">
 
-			<div role="tabpanel" class="tab-pane" id="general">
+			<div role="tabpanel" class="tab-pane active" id="general">
 				<br>
 				<!-- contenido general -->
 				<div class="panel panel-default proc-pan-def3">
@@ -196,63 +171,13 @@ include "frm_modal_proyectog.php";
 
 						<div class="col-md-12">
 							<!-- instanciFa php controller -->
-							<?php $tallerInst->getDataTallerGen($pkID_taller);?>
+							<?php $detalles_grupoInst->getGeneral($pkID_acompanamiento);?>
 						</div>
 						<div class="col-md-12" hidden="true">
-							<input type="text" id="grupo_id" value=<?php echo $pkID_taller; ?>>
+							<input type="text" id="grupo_id" value=<?php echo $pkID_acompanamiento; ?>>
 							<input type="text" id="grado_grupo" value=<?php echo $pkID_grado; ?>>
 							<input type="text" id="institucion_grupo" value=<?php echo $pkID_institucion; ?>>
 						</div>
-					</div>
-
-				</div>
-				<!-- /.contenido general -->
-
-			</div>
-
-			<div role="tabpanel" class="tab-pane" id="Sesiones">
-				<br>
-				<!-- contenido general -->
-				<div class="panel panel-default proc-pan-def3">
-
-					<div class="titulohead">
-
-			            <div class="row">
-			              <div class="col-md-6">
-			                  <div class="titleprincipal"><h4>Sesiones del Taller</h4></div>
-			              </div>
-			              <div class="col-md-6 text-right">
-			      			 <button id="btn_nuevosesion" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-saber="<?php echo $pkID_taller ?>" data-target="#frm_modal_sesion"><span class="glyphicon glyphicon-plus"></span> Crear Sesion</button>
-			              </div>
-			            </div>
-
-		            </div>
-		            <!-- /.panel-heading -->
-
-					<div class="panel-body">
-
-						<div class="col-md-12">
-							<div class="dataTable_wrapper">
-				              <table class="display table table-striped table-bordered table-hover" id="tbl_grupo_estudiante">
-				                  <thead>
-				                      <tr>
-				                          <th>Fecha</th>
-				                          <th>Descripción</th>
-				                          <th>Lista de Asistencia</th>
-				                          <th data-orderable="false">Opciones</th>
-				                      </tr>
-				                  </thead>
-
-				                  <tbody>
-				                      <?php
-										$tallerInst->getTablasesiones($pkID_taller);
-										?>
-				                  </tbody>
-				              </table>
-					        </div>
-					        <!-- /.table-responsive -->
-						</div>
-
 					</div>
 
 				</div>
@@ -269,10 +194,10 @@ include "frm_modal_proyectog.php";
 
 			            <div class="row">
 			              <div class="col-md-6">
-			                  <div class="titleprincipal"><h4>Participantes</h4></div>
+			                  <div class="titleprincipal"><h4>Participantes Acompañamiento - <?php echo $proyectoMGen[0]["nombre_proyecto"] ?></h4></div>
 			              </div>
 			              <div class="col-md-6 text-right">
-			      			 <button id="btn_asignarparticipante" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-taller="<?php echo $pkID_taller ?>" data-target="#frm_modal_asignacion_participante"><span class="glyphicon glyphicon-plus"></span> Asignar Participante</button>
+			      			 <button id="btn_asignarparticipante" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-acompanamiento="<?php echo $pkID_acompanamiento ?>" data-target="#frm_modal_asignacion_participante" <?php if (($creaeg != 1) || ($ne >= 30)) {echo 'disabled="disabled"';}?> ><span class="glyphicon glyphicon-plus"></span> Asignar Participante</button>
 			              </div>
 			            </div>
 
@@ -287,17 +212,16 @@ include "frm_modal_proyectog.php";
 				                  <thead>
 				                      <tr>
 				                          <th>Nombres</th>
-				                          <th>Apellidos</th>
 				                          <th>Documento</th>
-				                          <th>Dirección</th>
+				                          <th>Estado</th>
 				                          <th data-orderable="false">Opciones</th>
 				                      </tr>
 				                  </thead>
 
 				                  <tbody>
 				                      <?php
-												$tallerInst->getTablaParticipantesTaller($pkID_taller);
-										?>
+$detalles_grupoInst->getTablaEstudiantesGrupo($pkID_acompanamiento);
+?>
 				                  </tbody>
 				              </table>
 					        </div>
@@ -321,77 +245,47 @@ include "frm_modal_proyectog.php";
 
 			            <div class="row">
 			              <div class="col-md-6">
-			                  <div class="titleprincipal"><h4>Galeria de fotos</h4></div>
+			                  <div class="titleprincipal"><h4>Galeria de fotos - <?php echo $proyectoMGen[0]["nombre"] . ' - ' . $proyectoMGen[0]["nombre_proyecto"] ?></h4></div>
 			              </div>
 			              <div class="col-md-6 text-right">
-			      			 <button id="btn_album_grupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="<?php echo $pkID_taller ?>" data-target="#frm_modal_album_grupo"><span class="glyphicon glyphicon-plus"></span> 
+			      			 <button id="btn_album_grupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="<?php echo $pkID_acompanamiento ?>" data-target="#frm_modal_album_grupo" <?php if (($creaeg != 1) || ($ne >= 30)) {echo 'disabled="disabled"';}?> ><span class="glyphicon glyphicon-plus"></span>
 			      			 Crear album</button>
 
 			      			 <div class="form-group " hidden>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="pkID_grup" name="pkID_grup" value=<?php echo $pkID_taller; ?>>
+                            <input type="text" class="form-control" id="pkID_grup" name="pkID_grup" value=<?php echo $pkID_acompanamiento; ?>>
                         </div>
                     </div>
 			              </div>
 			            </div>
 
 		            </div>
-		            <br><br>
 		            <!-- /.panel-heading -->
 
-					<div class="container-fluid">
-						<div class="row">
-						<div class="col-md-2 text-center">
-				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo_3.jpg" height="360">
-				              <label class="text-center">Galeria uno</label>
+					<div class="panel-body">
+
+						<div class="col-md-12">
+							<div class="dataTable_wrapper">
+				              <table class="display table table-striped table-bordered table-hover" id="tbl_grupo_album">
+				                  <thead>
+				                      <tr>
+				                          <th>Nombre</th>
+				                          <th>Fecha de Creación</th>
+				                          <th>Observación</th>
+				                          <th data-orderable="false">Opciones</th>
+				                      </tr>
+				                  </thead>
+
+				                  <tbody>
+				                      <?php
+$detalles_grupoInst->getTablaAlbumGrupo($pkID_acompanamiento);
+?>
+				                  </tbody>
+				              </table>
+					        </div>
+					        <!-- /.table-responsive -->
 						</div>
 
-						<div class="col-md-2 ext-center">
-				               <img  class="img-responsive img-thumbnail" src="../img/sin_foto.png" height="360">
-				              <label class="text-center">Galeria dos</label>
-						</div>
-
-						<div class="col-md-2 text-center">
-				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo_2.jpg" height="360">
-				              <label class="text-center">Galeria tres</label>
-						</div>
-
-						<div class="col-md-2 text-center">
-				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo.jpg" height="360">
-				              <label class="text-center">Galeria cuatro</label>
-						</div>
-
-						<div class="col-md-2 text-center">
-				               <img  class="img-responsive img-thumbnail" src="../img/sin_foto.png" height="360">
-				              <label class="text-center">Galeria cinco</label>
-						</div>
-
-						<div class="hidden-xs col-md-2 text-center">
-				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo.jpg" height="360">
-				              <label class="text-center">Galeria seis</label>
-						</div>
-
-						<div class="hidden-xs col-md-2 text-center">
-				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo.jpg" height="360">
-				              <label class="text-center">Galeria siete</label>
-						</div>
-
-						<div class="col-md-2 text-center">
-				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo_1.jpg" height="360">
-				              <label class="text-center">Galeria ocho</label>
-						</div>
-
-						<div class="hidden-xs col-md-2 text-center">
-				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo_3.jpg" height="360">
-				              <label class="text-center">Galeria nueve</label>
-						</div>
-
-						<div class="col-md-2 text-center">
-							<a href=feria.php>
-				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo_2.jpg"></a>
-				              <label class="text-center">Galeria diez</label>
-						</div>
-						</div>
 					</div>
 
 				</div>
@@ -399,6 +293,55 @@ include "frm_modal_proyectog.php";
 				<!-- /.contenido general -->
 
 			</div>
+
+
+			<div role="tabpanel" class="tab-pane" id="asistencia">
+				<br>
+				<!-- contenido general -->
+				<div class="panel panel-default proc-pan-def3">
+
+					<div class="titulohead">
+
+			            <div class="row">
+			              <div class="col-md-6">
+			                  <div class="titleprincipal"><h4>Asistencia Acompañamiento - <?php echo $proyectoMGen[0]["nombre_proyecto"] ?></h4></div>
+			              </div>
+			              <div class="col-md-6 text-right">
+			      			 <button id="btn_asistencia" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-acompanamiento="<?php echo $pkID_acompanamiento ?>" data-target="#frm_modal_asistencia" <?php if (($creaeg != 1) || ($ne >= 30)) {echo 'disabled="disabled"';}?> ><span class="glyphicon glyphicon-plus"></span> Crear asistencia</button>
+			              </div>
+			            </div>
+
+		            </div>
+		            <!-- /.panel-heading -->
+
+					<div class="panel-body">
+
+						<div class="col-md-12">
+							<div class="dataTable_wrapper">
+				              <table class="display table table-striped table-bordered table-hover" id="tbl_grupo_estudiante">
+				                  <thead>
+				                      <tr>
+				                          <th>Fecha</th>
+				                          <th>Documento</th>
+				                          <th data-orderable="false">Opciones</th>
+				                      </tr>
+				                  </thead>
+
+				                  <tbody>
+				                      <?php
+$detalles_grupoInst->getTablaAsistencia($pkID_acompanamiento);
+?>
+				                  </tbody>
+				              </table>
+					        </div>
+					        <!-- /.table-responsive -->
+						</div>
+
+					</div>
+
+				</div>
+				<!-- /.contenido general -->
+
 
 	    </div>
 

@@ -1,15 +1,15 @@
 <!-- Form institucion -->
-<div class="modal fade bs-example-modal-lg" id="frm_modal_acompanamiento" tabindex="-1" role="dialog">
+<div class="modal fade bs-example-modal-lg" id="frm_modal_microbiologia" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header fondomodalheader">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <div class="imgedicion"></div><h3 class="modal-title titulomodal" id="lbl_form_acompanamiento">-</h3>
+        <div class="imgedicion"></div><h3 class="modal-title titulomodal" id="lbl_form_microbiologia">-</h3>
       </div>
       <div class="modal-body">
         <!-- form modal contenido -->
 
-                <form id="form_acompanamiento" method="POST" enctype="multipart/form-data">
+                <form id="form_microbiologia" method="POST" enctype="multipart/form-data">
                 <br>
                     <div class="form-group " hidden>
                         <div class="col-sm-10">
@@ -22,21 +22,30 @@
 
                     <div class="form-group">
                         <label for="nombre" class="control-label">Fecha</label>
-                        <input type="date" class="form-control" id="fecha_acompanamiento" name="fecha_acompanamiento" placeholder="Fecha de acompañamiento" required = "true">
+                        <input type="date" class="form-control" id="fecha" name="fecha" placeholder="Fecha de acompañamiento" required = "true">
                     </div>
 
                     <div class="form-group">
-                        <label for="descripcion" class="control-label">Descripción</label>
-                        <input type="text" class="form-control" id="descripcion" name="descripcion" required="true">
+                        <label for="institucion" class="control-label">Institución</label>
+                        <?php $microbiologiaInst->getSelectInstituciones();?>
                     </div>
 
+                    <div class="form-group">
+                        <label for="grado" class="control-label">Grado</label>
+                       <?php $microbiologiaInst->getSelectGrados();?>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="curso" class="control-label">Curso</label>
+                        <?php $microbiologiaInst->getSelectCursos();?>
+                    </div>
                 </form>
 
         <!-- /form modal contenido-->
       </div>
       <div class="modal-footer">
-        <button id="btn_actionacompanamiento" type="button" class="btn btn-primary botonnewacompanamiento" data-action="-">
-            <span id="lbl_btn_actionacompanamiento"></span>
+        <button id="btn_actionmicrobiologia" type="button" class="btn btn-primary botonnewmicrobiologia" data-action="-">
+            <span id="lbl_btn_actionmicrobiologia"></span>
         </button>
       </div>
     </div>

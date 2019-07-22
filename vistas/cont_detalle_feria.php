@@ -7,7 +7,7 @@ include '../controller/cambio_estado_grupo_invController.php';
 
 include '../controller/saberes_propioscontroller.php';
 
-include '../controller/feriacontroller.php';
+include '../controller/tallerescontroller.php';
 
 include '../controller/participantecontroller.php';
 
@@ -21,6 +21,9 @@ include '../controller/grupoController.php';
 
 include '../conexion/datos.php';
 
+include '../controller/feriacontroller.php';
+
+
 $cambia_estadoGInst = new cambio_estado_grupo_invController();
 
 $arrPermisosEG = $cambia_estadoGInst->getPermisosModulo_Tipo(57, $_COOKIE[$NomCookiesApp . '_IDtipo']);
@@ -33,7 +36,7 @@ $arrPermisosD = $docentesInst->getPermisosModulo_Tipo(26, $_COOKIE[$NomCookiesAp
 
 $creaD = $arrPermisosD[0]['crear'];
 
-$feriaInst = new feriaController();
+$feriaInst = new talleresController();
 
 $arrPermisoss = $feriaInst->getPermisosModulo_Tipo(26, $_COOKIE[$NomCookiesApp . '_IDtipo']);
 
@@ -57,9 +60,9 @@ $arrPermisos = $detalles_grupoInst->getPermisosModulo_Tipo($id_modulo, $_COOKIE[
 
 $crea = $arrPermisos[0]['crear'];
 
-$pkID_taller = $_GET["id_feria"];
+$pkID_feria = $_GET['id_Feria'];
 
-$estado = $detalles_grupoInst->getEstadoGrupo($pkID_taller);
+$estado = $detalles_grupoInst->getEstadoGrupo($pkID_feria);
 
 $estadoG = $estado[0]['fkID_estado'];
 
@@ -75,7 +78,7 @@ $tipo_user = $_COOKIE[$NomCookiesApp . '_IDtipo'];
 
 //++++++++++++++++++++++++++++++
 
-$grupoGen = $detalles_grupoInst->getGruposId($pkID_taller);
+$grupoGen = $detalles_grupoInst->getGruposId($pkID_feria);
 
 //variables grado
 $pkID_grado = $grupoGen[0]["fkID_grado"];
@@ -94,11 +97,13 @@ $arrPermisosDocentes = $detalles_grupoInst->getPermisosModulo_Tipo(39, $_COOKIE[
 $creaDocente         = $arrPermisosDocentes[0]['crear'];
 //------------------------------------------
 
-$numeroEstudiantes = $detalles_grupoInst->getNumEstudiantesGrupo(9, $pkID_taller, $pkID_grado);
+$numeroEstudiantes = $detalles_grupoInst->getNumEstudiantesGrupo(9, $pkID_feria, $pkID_grado);
 
 $ne = $numeroEstudiantes[0]['num_estudiantes'];
 
-$proyectoMGen = $detalles_grupoInst->getProyectosMarcoGrupo($pkID_taller);
+$proyectoMGen = $detalles_grupoInst->getProyectosMarcoGrupo($pkID_feria);
+
+$pkID_proyectoM = $proyectoMGen[0]["fkID_proyecto_marco"];
 
 //echo date("Y-m-d");
 
@@ -119,7 +124,7 @@ include "frm_modal_proyectog.php";
 
 <div class="form-group " hidden>
     <div class="col-sm-10">
-        <input type="text" class="form-control" id="grupo" name="grupo" value=<?php echo $pkID_taller; ?>>
+        <input type="text" class="form-control" id="grupo" name="grupo" value=<?php echo $pkID_feria; ?>>
     </div>
 </div>
 
@@ -159,9 +164,9 @@ include "frm_modal_proyectog.php";
     <div class="col-lg-12">
           <ol class="breadcrumb migadepan">
             <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
-            <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
-            <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Académico</a></li>
-            <li><a href="feria.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Feria de Ciencia</a></li>
+            <li><a href="principal.php?id_proyectoM=<?php echo $pkID_feria; ?>" class="migadepan">Menú principal</a></li>
+            <li><a href="academico.php?id_proyectoM=<?php echo $pkID_feria; ?>" class="migadepan">Académico</a></li>
+            <li><a href="taller_formacion.php?id_pro=<?php echo $pkID_feria; ?>" class="migadepan">Taller de formación</a></li>
             <li class="active migadepan">Detalle Feria de Ciencia</li>
           </ol>
     </div>
@@ -191,10 +196,10 @@ include "frm_modal_proyectog.php";
 
 						<div class="col-md-12">
 							<!-- instanciFa php controller -->
-							<?php $feriaInst->getDataTallerGen($pkID_taller);?>
+							<?php $feriaInst->getDataTallerGen($pkID_feria);?>
 						</div>
 						<div class="col-md-12" hidden="true">
-							<input type="text" id="grupo_id" value=<?php echo $pkID_taller; ?>>
+							<input type="text" id="grupo_id" value=<?php echo $pkID_feria; ?>>
 							<input type="text" id="grado_grupo" value=<?php echo $pkID_grado; ?>>
 							<input type="text" id="institucion_grupo" value=<?php echo $pkID_institucion; ?>>
 						</div>
@@ -217,7 +222,7 @@ include "frm_modal_proyectog.php";
 			                  <div class="titleprincipal"><h4>Participantes</h4></div>
 			              </div>
 			              <div class="col-md-6 text-right">
-			      			 <button id="btn_asignarparticipante" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-taller="<?php echo $pkID_taller ?>" data-target="#frm_modal_asignacion_participante"><span class="glyphicon glyphicon-plus"></span> Asignar Participante</button>
+			      			 <button id="btn_asignarparticipante" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-taller="<?php echo $pkID_feria ?>" data-target="#frm_modal_asignacion_participante"><span class="glyphicon glyphicon-plus"></span> Asignar Participante</button>
 			              </div>
 			            </div>
 
@@ -241,7 +246,7 @@ include "frm_modal_proyectog.php";
 
 				                  <tbody>
 				                      <?php
-												$feriaInst->getTablaParticipantesFeria($pkID_taller);
+												$feriaInst->getTablaParticipantesFeria($pkID_feria);
 										?>
 				                  </tbody>
 				              </table>
@@ -269,12 +274,12 @@ include "frm_modal_proyectog.php";
 			                  <div class="titleprincipal"><h4>Galeria de fotos</h4></div>
 			              </div>
 			              <div class="col-md-6 text-right">
-			      			 <button id="btn_album_grupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="<?php echo $pkID_taller ?>" data-target="#frm_modal_album_grupo"><span class="glyphicon glyphicon-plus"></span> 
+			      			 <button id="btn_album_grupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="<?php echo $pkID_feria ?>" data-target="#frm_modal_album_grupo"><span class="glyphicon glyphicon-plus"></span> 
 			      			 Crear album</button>
 
 			      			 <div class="form-group " hidden>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="pkID_grup" name="pkID_grup" value=<?php echo $pkID_taller; ?>>
+                            <input type="text" class="form-control" id="pkID_grup" name="pkID_grup" value=<?php echo $pkID_feria; ?>>
                         </div>
                     </div>
 			              </div>

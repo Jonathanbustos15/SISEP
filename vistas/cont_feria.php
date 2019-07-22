@@ -16,7 +16,7 @@
 
   $pkID_proyectoM = $_GET["id_proyectoM"];
 
-  $proyectoMGen = $detalles_grupoInst->getProyectosMarcoGrupo($pkID_feria);
+  $proyectoMGen = $detalles_grupoInst->getProyectosMarcoGrupo($pkID_proyectoM);
   
   $crea = $arrPermisos[0]['crear'];  
   
@@ -31,13 +31,15 @@
       <input type="hidden" id="id_mod_page_actor" value=<?php echo $id_modulo ?>>
 
       <div class="col-lg-12">
-          <h1 class="page-header titleprincipal"><img src="../img/botones/grupoonly.png">Feria de Ciencias - <?php echo $proyectoMGen[0]["nombre_proyecto"] ?></h1>
+          <h1 class="page-header titleprincipal"><img src="../img/botones/grupoonly.png"><?php echo $proyectoMGen[0]["nombre_proyecto"] ?> - Feria de Ciencias</h1>
       </div>     
       <!-- /.col-lg-12 -->
       <div class="col-md-8">
           <ol class="breadcrumb migadepan">
-            <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
-            <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Académico</a></li>
+            <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
+             <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
+             <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Academico</a></li>
+              <li><a href="apropiacion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Apropiacion social</a></li> 
             <li><a href="" class="migadepan">Feria de Ciencias</a></li>
           </ol>
       </div>
@@ -68,7 +70,7 @@
 
             <div class="row">
               <div class="col-md-6">
-                  <div class="titleprincipal"><h4>Registro de Feria de Ciencia</h4></div>
+                  <div class="titleprincipal"><h4>Registro de Feria de Ciencia <?php echo $proyectoMGen[0]["nombre_proyecto"] ?></h4></div>
               </div>
               <div class="col-md-6 text-right">
                  <button id="btn_nuevoferia" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-target="#frm_modal_feria" <?php if ($crea != 1){echo 'disabled="disabled"';} ?> >

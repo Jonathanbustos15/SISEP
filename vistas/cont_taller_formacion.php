@@ -14,9 +14,11 @@
   
   $crea = $arrPermisos[0]['crear'];
 
+  $pkID_proyectoM = $_GET["id_proyectoM"]; 
+
   $detalles_grupoInst = new grupoController();
 
-  $proyectoMGen = $detalles_grupoInst->getProyectosMarcoGrupo($pkID_taller);
+  $proyectoMGen = $detalles_grupoInst->getProyectosMarcoGrupo($pkID_proyectoM);
   
   include("form_taller_formacion.php");
   //include("form_modal_archivos.php");
@@ -34,8 +36,10 @@
       <!-- /.col-lg-12 -->
       <div class="col-md-8">
           <ol class="breadcrumb migadepan">
-            <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
-            <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Académico</a></li>
+            <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
+             <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
+             <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Academico</a></li>
+              <li><a href="apropiacion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Apropiacion social</a></li> 
             <li><a href="" class="migadepan">Taller de formación</a></li>
           </ol>
       </div>
@@ -66,7 +70,7 @@
 
             <div class="row">
               <div class="col-md-6">
-                  <div class="titleprincipal"><h4>Registro de Talleres de Formación</h4></div>
+                  <div class="titleprincipal"><h4>Registro de Talleres de Formación <?php echo  $proyectoMGen[0]["nombre_proyecto"] ?></h4></div>
               </div>
               <div class="col-md-6 text-right">
                  <button id="btn_nuevotaller" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-target="#frm_modal_taller" <?php if ($crea != 1){echo 'disabled="disabled"';} ?> >

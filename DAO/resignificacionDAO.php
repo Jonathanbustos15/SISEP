@@ -3,7 +3,7 @@
 include_once 'genericoDAO.php';
 include_once 'usuariosDAO.php';
 
-class acompanamientoDAO extends UsuariosDAO
+class resignificacionDAO extends UsuariosDAO
 {
 
     use GenericoDAO;
@@ -18,25 +18,30 @@ class acompanamientoDAO extends UsuariosDAO
         return $this->getCookieProyectoM();
     }
 
-    public function getGrupos($pkID_proyectoM)
+    public function getResignificaciones($pkID_proyectoM)
     {
 
-        $query = "SELECT *,(SELECT count(*) FROM acompanamiento_docente LEFT JOIN docente ON docente.pkID = acompanamiento_docente.fkID_docente WHERE acompanamiento.pkID = acompanamiento_docente.fkID_acompanamiento) as canti FROM acompanamiento
-                WHERE estadoV = 1 AND fkID_proyecto_marco = " . $pkID_proyectoM;
+        $query = "SELECT *,resignificacion.pkID AS pkID,CONCAT(nombre_funcionario,' ',apellido_funcionario) AS asesor FROM resignificacion
+                INNER JOIN funcionario ON funcionario.pkID = resignificacion.fkID_asesor
+                INNER JOIN institucion ON institucion.pkID = resignificacion.fkID_institucion
+                WHERE resignificacion.estadoV = 1 AND fkID_proyecto_marco = " . $pkID_proyectoM;
 
         return $this->EjecutarConsulta($query);
     }
 
-    public function getGrupo($filtro, $pkID_proyectoM)
+    public function getResignificacion($filtro, $pkID_proyectoM)
     {
+
         if ($filtro == "'Todos'") {
             $where_anio = '';
         } else {
-            $where_anio = "AND YEAR(fecha_acompanamiento) = " . $filtro;
+            $where_anio = "AND YEAR(fecha) = " . $filtro;
         }
 
-        $query = "SELECT *,(SELECT count(*) FROM acompanamiento_docente LEFT JOIN docente ON docente.pkID = acompanamiento_docente.fkID_docente WHERE acompanamiento.pkID = acompanamiento_docente.fkID_acompanamiento) as canti FROM acompanamiento
-                WHERE estadoV = 1 " . $where_anio . " AND fkID_proyecto_marco = " . $pkID_proyectoM;
+        $query = "SELECT *,resignificacion.pkID AS pkID,CONCAT(nombre_funcionario,' ',apellido_funcionario) AS asesor FROM resignificacion
+                INNER JOIN funcionario ON funcionario.pkID = resignificacion.fkID_asesor
+                INNER JOIN institucion ON institucion.pkID = resignificacion.fkID_institucion
+                WHERE resignificacion.estadoV = 1 " . $where_anio . " AND fkID_proyecto_marco = " . $pkID_proyectoM;
 
         return $this->EjecutarConsulta($query);
     }
@@ -100,14 +105,6 @@ class acompanamientoDAO extends UsuariosDAO
         return $this->EjecutarConsulta($query);
     }
 
-    public function getDocente()
-    {
-
-        $query = "select  pkID, concat_ws(' ',nombre_docente,apellido_docente) as nombres FROM `docente` ORDER BY nombre_docente";
-
-        return $this->EjecutarConsulta($query);
-    }
-
     public function getNumGruposInactivos()
     {
 
@@ -126,8 +123,10 @@ class acompanamientoDAO extends UsuariosDAO
     public function getGruposId($pkID)
     {
 
-        $query = "SELECT * FROM acompanamiento
-                WHERE estadoV = 1 AND pkID =" . $pkID;
+        $query = "SELECT *,resignificacion.pkID AS pkID,CONCAT(nombre_funcionario,' ',apellido_funcionario) AS asesor FROM resignificacion
+                INNER JOIN funcionario ON funcionario.pkID = resignificacion.fkID_asesor
+                INNER JOIN institucion ON institucion.pkID = resignificacion.fkID_institucion
+                WHERE resignificacion.pkID =" . $pkID;
 
         return $this->EjecutarConsulta($query);
     }
@@ -272,6 +271,14 @@ class acompanamientoDAO extends UsuariosDAO
                 INNER JOIN docente ON docente.pkID = acompanamiento_docente.fkID_docente
                 INNER JOIN estado_acompanamiento ON estado_acompanamiento.pkID = acompanamiento_docente.fkID_estado
                 WHERE acompanamiento.pkID = " . $pkID_grupo;
+
+        return $this->EjecutarConsulta($query);
+    }
+
+    public function getEvidencias($pkID_resignificacion)
+    {
+        $query = "SELECT * FROM evidencia_resignificacion
+                WHERE estadoV = 1 AND fkID_resignificacion   = " . $pkID_resignificacion;
 
         return $this->EjecutarConsulta($query);
     }

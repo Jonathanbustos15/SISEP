@@ -10,7 +10,7 @@ $proyectoMGen   = $principalInst->getProyectosMarcoId($pkID_proyectoM);
 //--------------------------------------------------------------------
 ?>
 
-<div id="page-wrapper" style="margin: 0px;">
+<div id="page-principal" style="margin: 0px;">
 
              <!-- Contenido del Index -->
              <div class="row">
@@ -25,7 +25,7 @@ $proyectoMGen   = $principalInst->getProyectosMarcoId($pkID_proyectoM);
                     <div class="panel panel-default">
 
                         <div class="titulohead">
-                            <div class="text-center titulo-menu"><h3>Formación a maestros - <?php echo $proyectoMGen[0]["nombre"] ?></h3></div>
+                            <div class="text-center titulo-menu"><h3>Apropiacion social - <?php echo $proyectoMGen[0]["nombre"] ?></h3></div>
                         </div>
                         <div class="panel-body">
 
@@ -33,8 +33,8 @@ $proyectoMGen   = $principalInst->getProyectosMarcoId($pkID_proyectoM);
                                   <ol class="breadcrumb migadepan">
                                     <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
                                     <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
-                                    <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Academico</a></li>
-                                    <li class="active migadepan">Formación a maestros - <?php echo $proyectoMGen[0]["nombre"] ?> </li>
+                                   <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Academico</a></li>
+                                    <li class="active migadepan">Apropiacion social - <?php echo $proyectoMGen[0]["nombre"] ?> </li>
                                   </ol>
                               </div>
 
@@ -51,8 +51,13 @@ $proyectoMGen   = $principalInst->getProyectosMarcoId($pkID_proyectoM);
 
                                         <div class="">
                                             <div class="">
-                                                <div class="col-md-6 zoom text-center"><a class="" href="acompanamiento.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/botones/acompanamiento.png"></a></div>
-                                                <div class="col-md-6 zoom text-center"><a class="" href="resignificacion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img  class="zoom" src="../img/botones/resignificacion.png"></a></div>
+                                                <div class="col-md-1"></div>
+                                                <div class="col-md-2 zoom"><a class="" href="actor.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/botones/actor.png"></a></div>
+                                                <div class="col-md-2 zoom"><a class="" href="taller_formacion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/botones/taller.png"></a></div>
+                                                <div class="col-md-2 zoom"><a class="" href="anuario.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/botones/anuario.png"></a></div>
+                                                <div class="col-md-2 zoom"><a class="" href="contenido.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/botones/contenidos.png"></a></div>
+                                                <div class="col-md-2 zoom"><a class="" href="feria.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/botones/ferias.png"></a></div>
+                                                <div class="col-md-1"></div>
                                             </div>
                                         </div>
 

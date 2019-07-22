@@ -1,18 +1,26 @@
 $(function() {
     //INGRESA A LOS ATRIBUTOS AL FORMULARIO PARA INSERTAR INSTITUCIÓN 
-    $("#btn_nuevoAcompanamiento").click(function() {
-        $("#lbl_form_acompanamiento").html("Nuevo acompañamiento")
-        $("#lbl_btn_actionacompanamiento").html("Guardar <span class='glyphicon glyphicon-save'></span>");
-        $("#btn_actionacompanamiento").attr("data-action", "crear");
-        $("#form_acompanamiento")[0].reset();
-        id = $("#btn_nuevoAcompanamiento").attr('data-proyecto');
+    $("#btn_nuevoaibd").click(function() {
+        $("#lbl_form_aibd").html("Nuevo AIBD(Aula de Investigación Basica Departamental)")
+        $("#lbl_btn_actionaibd").html("Guardar <span class='glyphicon glyphicon-save'></span>");
+        $("#btn_actionaibd").attr("data-action", "crear");
+        $("#form_aibd")[0].reset();
+        id = $("#btn_nuevoaibd").attr('data-proyecto');
         $("#fkID_proyecto_marco").val(id);
+        limpia_inputs();
+        cargar_input_imagen();
         cargar_input_documento();
         cargar_input_informe();
     });
+
+    function limpia_inputs() {
+        $("#pdf_imagen").remove();
+        $("#pdf_documento").remove();
+        $("#pdf_informe").remove();
+    }
     //Definir la acción del boton del formulario 
-    $("#btn_actionacompanamiento").click(function() {
-        var validacioncon = validaracompanamiento();
+    $("#btn_actionaibd").click(function() {
+        var validacioncon = validaraibd();
         if (validacioncon === "no") {
             window.alert("Faltan Campos por diligenciar.");
         } else {
@@ -21,38 +29,37 @@ $(function() {
             console.log("accion a ejecutar: " + action);
         }
     });
-    $("[name*='edita_acompanamiento']").click(function() {
-        $("#lbl_form_acompanamiento").html("Edita acompañamiento");
-        $("#lbl_btn_actionacompanamiento").html("Guardar Cambios <span class='glyphicon glyphicon-save'></span>");
-        $("#btn_actionacompanamiento").attr("data-action", "editar");
-        $("#form_acompanamiento")[0].reset();
-        id = $(this).attr('data-id-acompanamiento');
+    $("[name*='edita_aibd']").click(function() {
+        $("#lbl_form_aibd").html("Edita acompañamiento");
+        $("#lbl_btn_actionaibd").html("Guardar Cambios <span class='glyphicon glyphicon-save'></span>");
+        $("#btn_actionaibd").attr("data-action", "editar");
+        $("#form_aibd")[0].reset();
+        id = $(this).attr('data-id-aibd');
         console.log(id);
-        $("#pdf_documento").remove();
-        $("#pdf_informe").remove();
-        carga_acompanamiento(id);
+        limpia_inputs();
+        carga_aibd(id);
     });
-    $("[name*='elimina_acompanamiento']").click(function(event) {
-        id_funciona = $(this).attr('data-id-acompanamiento');
+    $("[name*='elimina_aibd']").click(function(event) {
+        id_funciona = $(this).attr('data-id-aibd');
         console.log(id_funciona)
-        elimina_acompanamiento(id_funciona);
+        elimina_aibd(id_funciona);
     });
     //
-    sessionStorage.setItem("id_tab_acompanamiento", null);
+    sessionStorage.setItem("id_tab_aibd", null);
     //---------------------------------------------------------
     //click al detalle en cada fila----------------------------
     $('.table').on('click', '.detail', function() {
         window.location.href = $(this).attr('href');
     });
 
-    function validaracompanamiento() {
-        var nombre = $("#nombre_acompanamiento").val();
-        var apellido = $("#apellido_acompanamiento").val();
+    function validaraibd() {
+        var nombre = $("#nombre_aibd").val();
+        var apellido = $("#apellido_aibd").val();
         var tipo = $("#fkID_tipo_documento option:selected").val();
-        var documento = $("#documento_acompanamiento").val();
-        var telefono = $("#telefono_acompanamiento").val();
-        var direccion = $("#direccion_acompanamiento").val();
-        var email = $("#email_acompanamiento").val();
+        var documento = $("#documento_aibd").val();
+        var telefono = $("#telefono_aibd").val();
+        var direccion = $("#direccion_aibd").val();
+        var email = $("#email_aibd").val();
         var respuesta;
         if (nombre === "" || apellido === "" || tipo === "" || documento === "" || telefono === "" || direccion === "" || email === "") {
             respuesta = "no"
@@ -66,9 +73,9 @@ $(function() {
     function valida_actio(action) {
         console.log("en la mitad");
         if (action === "crear") {
-            crea_acompanamiento();
+            crea_aibd();
         } else if (action === "editar") {
-            edita_acompanamiento();
+            edita_aibd();
         };
     };
 
@@ -76,27 +83,28 @@ $(function() {
         expr = /([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})/;
         if (!expr.test(email)) {
             alert("Error: La dirección de correo " + email + " es incorrecta.");
-            $("#email_acompanamiento").val('');
-            $("#email_acompanamiento").focus();
+            $("#email_aibd").val('');
+            $("#email_aibd").focus();
         } else {
             return true;
         }
     }
-    $("#email_acompanamiento").change(function(event) {
+    $("#email_aibd").change(function(event) {
         validarEmail($(this).val())
     });
 
-    function crea_acompanamiento() {
+    function crea_aibd() {
         var data = new FormData();
-        data.append('file', $("#url_documento").get(0).files[0]);
-        data.append('file2', $("#url_informe").get(0).files[0]);
-        data.append('fecha_acompanamiento', $("#fecha_acompanamiento").val());
+        data.append('file', $("#url_imagen").get(0).files[0]);
+        data.append('file2', $("#url_documento").get(0).files[0]);
+        data.append('file3', $("#url_informe").get(0).files[0]);
+        data.append('fecha', $("#fecha").val());
         data.append('descripcion', $("#descripcion").val());
         data.append('fkID_proyecto_marco', $("#fkID_proyecto_marco").val());
         data.append('tipo', "crear");
         $.ajax({
             type: "POST",
-            url: "../controller/ajaxacompanamiento.php",
+            url: "../controller/ajaxaibd.php",
             data: data,
             contentType: false,
             processData: false,
@@ -107,31 +115,38 @@ $(function() {
         })
     }
 
+    function cargar_input_imagen() {
+        $("#form_aibd").append('<div class="form-group" id="pdf_imagen">' + '<label for="adjunto" id="lbl_url_imagen" class=" control-label">Imagen</label>' + '<input type="file" class="form-control" id="url_imagen" name="imagen" placeholder="Email del aibd" required = "true">' + '</div>')
+    }
+
     function cargar_input_documento() {
-        $("#form_acompanamiento").append('<div class="form-group" id="pdf_documento">' + '<label for="adjunto" id="lbl_url_acompanamiento" class=" control-label">Documento</label>' + '<input type="file" class="form-control" id="url_documento" name="documento" placeholder="Email del acompanamiento" required = "true">' + '</div>')
+        $("#form_aibd").append('<div class="form-group" id="pdf_documento">' + '<label for="adjunto" id="lbl_url_documento" class=" control-label">Acta</label>' + '<input type="file" class="form-control" id="url_documento" name="documento" placeholder="Email del aibd" required = "true">' + '</div>')
     }
 
     function cargar_input_informe() {
-        $("#form_acompanamiento").append('<div class="form-group" id="pdf_informe">' + '<label for="adjunto" id="lbl_url_acompanamiento" class=" control-label">Informe</label>' + '<input type="file" class="form-control" id="url_informe" name="informe" placeholder="Email del acompanamiento" required = "true">' + '</div>')
+        $("#form_aibd").append('<div class="form-group" id="pdf_informe">' + '<label for="adjunto" id="lbl_url_informe" class=" control-label">Informe</label>' + '<input type="file" class="form-control" id="url_informe" name="informe" placeholder="Email del aibd" required = "true">' + '</div>')
     }
 
-    function edita_acompanamiento() {
+    function edita_aibd() {
         //no existe
         var data = new FormData();
+        if (document.getElementById("url_imagen")) {
+            data.append('file', $("#url_imagen").get(0).files[0]);
+        }
         if (document.getElementById("url_documento")) {
-            data.append('file', $("#url_documento").get(0).files[0]);
+            data.append('file2', $("#url_documento").get(0).files[0]);
         }
         if (document.getElementById("url_informe")) {
-            data.append('file2', $("#url_informe").get(0).files[0]);
+            data.append('file3', $("#url_informe").get(0).files[0]);
         }
         data.append('pkID', $("#pkID").val());
-        data.append('fecha_acompanamiento', $("#fecha_acompanamiento").val());
+        data.append('fecha', $("#fecha").val());
         data.append('descripcion', $("#descripcion").val());
         data.append('fkID_proyecto_marco', $("#fkID_proyecto_marco").val());
         data.append('tipo', "editar");
         $.ajax({
             type: "POST",
-            url: "../controller/ajaxacompanamiento.php",
+            url: "../controller/ajaxaibd.php",
             data: data,
             contentType: false,
             processData: false,
@@ -142,22 +157,38 @@ $(function() {
         })
     }
 
-    function carga_acompanamiento(id_funciona) {
-        console.log("Carga el acompanamiento " + id_funciona);
+    function carga_aibd(id_funciona) {
+        console.log("Carga el aibd " + id_funciona);
         $.ajax({
             url: '../controller/ajaxController12.php',
-            data: "pkID=" + id_funciona + "&tipo=consultar&nom_tabla=acompanamiento",
+            data: "pkID=" + id_funciona + "&tipo=consultar&nom_tabla=aibd",
         }).done(function(data) {
             $.each(data.mensaje[0], function(key, value) {
                 console.log(key + "--" + value);
-                if (key == "url_documento" && value != "") {
-                    $("#form_acompanamiento").append('<div id="pdf_documento" class="form-group">' + '<label for="adjunto" id="lbl_pkID_archivo_" name="lbl_pkID_archivo_" class="custom-control-label">Documento</label>' + '<br>' + '<input type="text" style="width: 89%;display: inline;" class="form-control" id="pkID_archivo" name="btn_Rmacompanamiento" value="' + value + '" readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../vistas/subidas/' + value + '" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmadocumento" id="btn_actionRmadocumento" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
-                    $("#lbl_url_acompanamiento").remove();
-                    $("#url_acompanamiento").remove();
+                if (key == "url_imagen" && value != "") {
+                    $("#form_aibd").append('<div id="pdf_imagen" class="form-group">' + '<label for="adjunto" id="lbl_pkID_archivo_" name="lbl_pkID_archivo_" class="custom-control-label">Imagen</label>' + '<br>' + '<input type="text" style="width: 89%;display: inline;" class="form-control" id="pkID_archivo" name="btn_Rmaibd" value="' + value + '" readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../vistas/subidas/' + value + '" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmadocumento" id="btn_actionRmadocumento" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
+                    $("#lbl_url_imagen").remove();
+                    $("#url_imagen").remove();
                     $("[name*='btn_actionRmadocumento']").click(function(event) {
                         var id_archivo = $("#pkID").val();
                         console.log("este es el numero" + id_archivo);
-                        elimina_archivo_acompanamiento(id_archivo, 'documento');
+                        elimina_archivo_aibd(id_archivo, 'imagen');
+                    });
+                } else {
+                    if (key == "url_imagen") {
+                        cargar_input_imagen();
+                    } else {
+                        $("#" + key).val(value);
+                    }
+                }
+                if (key == "url_documento" && value != "") {
+                    $("#form_aibd").append('<div id="pdf_documento" class="form-group">' + '<label for="adjunto" id="lbl_pkID_archivo_" name="lbl_pkID_archivo_" class="custom-control-label">Acta</label>' + '<br>' + '<input type="text" style="width: 89%;display: inline;" class="form-control" id="pkID_archivo" name="btn_Rmaibd" value="' + value + '" readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../vistas/subidas/' + value + '" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmadocumento" id="btn_actionRmadocumento" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
+                    $("#lbl_url_documento").remove();
+                    $("#url_documento").remove();
+                    $("[name*='btn_actionRmadocumento']").click(function(event) {
+                        var id_archivo = $("#pkID").val();
+                        console.log("este es el numero" + id_archivo);
+                        elimina_archivo_aibd(id_archivo, 'documento');
                     });
                 } else {
                     if (key == "url_documento") {
@@ -168,13 +199,13 @@ $(function() {
                 }
                 if (key == "url_informe" && value != "") {
                     console.log('Entro');
-                    $("#form_acompanamiento").append('<div id="pdf_informe" class="form-group">' + '<label for="adjunto" id="lbl_pkID_archivo_" name="lbl_pkID_archivo_" class="custom-control-label">Informe</label>' + '<br>' + '<input type="text" style="width: 89%;display: inline;" class="form-control" id="pkID_archivo" name="btn_Rmacompanamiento" value="' + value + '" readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../vistas/subidas/' + value + '" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmainforme" id="btn_actionRmainforme" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
-                    $("#lbl_url_acompanamiento").remove();
-                    $("#url_acompanamiento").remove();
+                    $("#form_aibd").append('<div id="pdf_informe" class="form-group">' + '<label for="adjunto" id="lbl_pkID_archivo_" name="lbl_pkID_archivo_" class="custom-control-label">Informe</label>' + '<br>' + '<input type="text" style="width: 89%;display: inline;" class="form-control" id="pkID_archivo" name="btn_Rmaibd" value="' + value + '" readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../vistas/subidas/' + value + '" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmainforme" id="btn_actionRmainforme" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
+                    $("#lbl_url_informe").remove();
+                    $("#url_informe").remove();
                     $("[name*='btn_actionRmainforme']").click(function(event) {
                         var id_archivo = $("#pkID").val();
                         console.log("este es el numero" + id_archivo);
-                        elimina_archivo_acompanamiento(id_archivo, 'informe');
+                        elimina_archivo_aibd(id_archivo, 'informe');
                     });
                 } else {
                     if (key == "url_informe") {
@@ -191,7 +222,7 @@ $(function() {
         });
     };
 
-    function elimina_acompanamiento(id_funciona) {
+    function elimina_aibd(id_funciona) {
         console.log('Eliminar el acompañamiento: ' + id_funciona);
         var confirma = confirm("En realidad quiere eliminar este acompañamiento?");
         console.log(confirma);
@@ -200,7 +231,7 @@ $(function() {
             //si confirma es true ejecuta ajax
             $.ajax({
                 url: '../controller/ajaxController12.php',
-                data: "pkID=" + id_funciona + "&tipo=eliminarlogico&nom_tabla=acompanamiento",
+                data: "pkID=" + id_funciona + "&tipo=eliminarlogico&nom_tabla=aibd",
             }).done(function(data) {
                 //---------------------
                 console.log(data);
@@ -215,14 +246,17 @@ $(function() {
         }
     };
 
-    function elimina_archivo_acompanamiento(id_archivo, campo) {
+    function elimina_archivo_aibd(id_archivo, campo) {
         console.log('Eliminar el archivito: ' + id_archivo);
-        var confirma = confirm("En realidad quiere eliminar este archivo de acompanamiento?");
+        var confirma = confirm("En realidad quiere eliminar este archivo de aibd?");
         console.log(confirma);
         /**/
         if (confirma == true) {
             var data = new FormData();
             data.append('pkID', id_archivo);
+            if (campo == 'imagen') {
+                data.append('tipo', "eliminararchivoimagen");
+            }
             if (campo == 'documento') {
                 data.append('tipo', "eliminararchivodocumento");
             }
@@ -232,7 +266,7 @@ $(function() {
             //si confirma es true ejecuta ajax
             $.ajax({
                 type: "POST",
-                url: '../controller/ajaxacompanamiento.php',
+                url: '../controller/ajaxaibd.php',
                 data: data,
                 contentType: false,
                 processData: false,
@@ -251,7 +285,7 @@ $(function() {
     //valida si existe el documento
     function validaEqualIdentifica(num_id) {
         console.log("busca valor " + encodeURI(num_id));
-        var consEqual = "SELECT COUNT(*) as res_equal FROM `estudiante` WHERE `documento_acompanamiento` = '" + num_id + "'";
+        var consEqual = "SELECT COUNT(*) as res_equal FROM `estudiante` WHERE `documento_aibd` = '" + num_id + "'";
         $.ajax({
             url: '../controller/ajaxController12.php',
             data: "query=" + consEqual + "&tipo=consulta_gen",
@@ -270,7 +304,7 @@ $(function() {
             console.log("complete");
         });
     }
-    $("#nombre_acompanamiento").keyup(function(event) {
+    $("#nombre_aibd").keyup(function(event) {
         /* Act on the event */
         if (((event.keyCode > 32) && (event.keyCode < 65)) || (event.keyCode > 200)) {
             console.log(String.fromCharCode(event.which));
@@ -278,7 +312,7 @@ $(function() {
             $(this).val("");
         }
     });
-    $("#apellido_acompanamiento").keyup(function(event) {
+    $("#apellido_aibd").keyup(function(event) {
         /* Act on the event */
         if (((event.keyCode > 32) && (event.keyCode < 65)) || (event.keyCode > 200)) {
             console.log(String.fromCharCode(event.which));
@@ -286,7 +320,7 @@ $(function() {
             $(this).val("");
         }
     });
-    $("#telefono_acompanamiento").keyup(function(event) {
+    $("#telefono_aibd").keyup(function(event) {
         /* Act on the event */
         if (((event.keyCode > 32) && (event.keyCode < 48)) || (event.keyCode > 57)) {
             console.log(String.fromCharCode(event.which));
@@ -305,7 +339,7 @@ $(function() {
         }
         validaEqualIdentifica($(this).val());
     });
-    $("#documento_acompanamiento").keyup(function(event) {
+    $("#documento_aibd").keyup(function(event) {
         /* Act on the event */
         if (((event.keyCode > 32) && (event.keyCode < 48)) || (event.keyCode > 57)) {
             console.log(String.fromCharCode(event.which));
@@ -315,8 +349,8 @@ $(function() {
     });
     //Funcion para pasar condicion de año
     $("#btn_filtro_anio").click(function(event) {
-        proyecto = $("#btn_nuevoAcompanamiento").attr("data-proyecto");
+        proyecto = $("#btn_nuevoaibd").attr("data-proyecto");
         nombre = $('select[name="anio_filtro"] option:selected').text();
-        location.href = "acompanamiento.php?id_proyectoM=" + proyecto + "&anio='" + nombre + "'";
+        location.href = "aibd.php?id_proyectoM=" + proyecto + "&anio='" + nombre + "'";
     });
 });

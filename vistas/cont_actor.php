@@ -3,6 +3,8 @@
 	/**/
 	
 	include('../controller/actorController.php');
+
+  include '../controller/principalController.php';
 	
 	include('../conexion/datos.php');
 	
@@ -11,6 +13,10 @@
 	$arrPermisos = $actorInst->getPermisosModulo_Tipo($id_modulo,$_COOKIE[$NomCookiesApp.'_IDtipo']);
 	
 	$crea = $arrPermisos[0]['crear'];
+
+  $principalInst  = new principalController();
+$pkID_proyectoM = $_GET["id_proyectoM"];
+$proyectoMGen   = $principalInst->getProyectosMarcoId($pkID_proyectoM);
 	
   include("form_actor.php");
   include("form_modal_archivos.php");
@@ -23,12 +29,15 @@
       <input type="hidden" id="id_mod_page_actor" value=<?php echo $id_modulo ?>>
 
       <div class="col-lg-12">
-          <h1 class="page-header titleprincipal"><img src="../img/botones/actoronly.png">Actores</h1> 
+          <h1 class="page-header titleprincipal"><img src="../img/botones/actoronly.png"><?php echo $proyectoMGen[0]["nombre"] ?> - Actores</h1> 
       </div>       
       <!-- /.col-lg-12 -->
       <div class="col-md-8">
           <ol class="breadcrumb migadepan">
-            <li><a class="migadepan" <?php echo 'href="detalles_proyectoM.php?id_proyectoM='.$actorInst->getcpm().'&nom_proyectoM='.$actorInst->getCookieNombreProyectoM().'"';?>>Proyecto Marco <?php echo $actorInst->getCookieNombreProyectoM(); ?></a></li>            
+            <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
+             <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
+             <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Academico</a></li>
+              <li><a href="apropiacion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Apropiacion social</a></li>           
             <li class="active migadepan">Actores</li>
           </ol>
       </div>
@@ -59,7 +68,7 @@
 
             <div class="row">
               <div class="col-md-6">
-                  <div class="titleprincipal"><h4>Registro de Actores</h4></div>
+                  <div class="titleprincipal"><h4>Registro de Actores <?php echo $proyectoMGen[0]["nombre"] ?></h4></div>
               </div>
               <div class="col-md-6 text-right">
                  <button id="btn_nuevoActor" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-target="#frm_modal_actor" <?php if ($crea != 1){echo 'disabled="disabled"';} ?> >

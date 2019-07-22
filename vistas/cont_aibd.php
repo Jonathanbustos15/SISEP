@@ -1,10 +1,8 @@
 <?php
 
-//ini_set('error_reporting', E_ALL|E_STRICT);
-//ini_set('display_errors', 1);
 include '../controller/docentesController.php';
 
-include '../controller/acompanamientoController.php';
+include '../controller/aibdController.php';
 
 include '../conexion/datos.php';
 
@@ -27,17 +25,16 @@ $pkID_tipo_user = $_COOKIE[$NomCookiesApp . '_IDtipo'];
 //print_r($pkID_tipo_user);
 $pkID_grupo = $_GET["id_grupo"];
 
-$acompanamientoInst = new acompanamientoController();
+$aibdInst = new aibdController();
 
-$arrPermisos = $acompanamientoInst->getPermisosModulo_Tipo($id_modulo, $_COOKIE[$NomCookiesApp . '_IDtipo']);
+$arrPermisos = $aibdInst->getPermisosModulo_Tipo($id_modulo, $_COOKIE[$NomCookiesApp . '_IDtipo']);
 
 $crea = $arrPermisos[0]['crear'];
 
 $pkID_proyectoM = $_GET["id_proyectoM"];
 $proyectoMGen   = $docentesInst->getProyectosMarcoId($pkID_proyectoM);
 
-include "form_acompanamiento.php";
-include "form_novedades.php";
+include "form_aibd.php";
 
 ?>
 
@@ -51,23 +48,22 @@ include "form_novedades.php";
 
 
       <div class="col-lg-12">
-          <h1 class="page-header titleprincipal"><img src="../img/botones/grupoonly.png">Acompañamiento maestros - <?php echo $proyectoMGen[0]["nombre"] ?></h1>
+          <h1 class="page-header titleprincipal"><img src="../img/botones/grupoonly.png">AIBD (Aula Investigación Básica Departamental) - <?php echo $proyectoMGen[0]["nombre"] ?></h1>
       </div>
       <!-- /.col-lg-12 -->
     <div class="col-md-9">
           <ol class="breadcrumb migadepan">
             <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
             <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
-            <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Académico</a></li>
-            <li><a href="formacion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Formación a maestros</a></li>
-            <li class="active migadepan">Acompañamiento maestros </li>
+            <li><a href="cientifico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Científico</a></li>
+            <li class="active migadepan">AIBD (Aula Investigación Básica Departamental) - <?php echo $proyectoMGen[0]["nombre"] ?> </li>
           </ol>
     </div>
 
     <div class="col-md-2 text-center form-inline">
                     <label for="grupo_filtrop" class="control-label">Año: </label>
                       <?php
-$acompanamientoInst->getSelectAnioFiltro();
+$aibdInst->getSelectAnioFiltro();
 ?>
      </div>
     <div class="col-md-1 text-left form-inline">
@@ -92,11 +88,11 @@ $acompanamientoInst->getSelectAnioFiltro();
 
             <div class="row">
               <div class="col-md-6">
-                  <div class="titleprincipal"><h4>Registro de Acompañamiento maestros - <?php echo $proyectoMGen[0]["nombre"] ?></h4></div>
+                  <div class="titleprincipal"><h4>Registro de AIBD (Aula Investigación Básica Departamental) - <?php echo $proyectoMGen[0]["nombre"] ?></h4></div>
               </div>
               <div class="col-md-6 text-right">
-                 <button id="btn_nuevoAcompanamiento" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-proyecto="<?php echo $pkID_proyectoM; ?>" data-target="#frm_modal_acompanamiento" <?php if ($crea != 1) {echo 'disabled="disabled"';}?> >
-                 <span class="glyphicon glyphicon-plus"></span>Nuevo Acompañamiento maestros</button>
+                 <button id="btn_nuevoaibd" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-proyecto="<?php echo $pkID_proyectoM; ?>" data-target="#frm_modal_aibd" <?php if ($crea != 1) {echo 'disabled="disabled"';}?> >
+                 <span class="glyphicon glyphicon-plus"></span>Nuevo AIBD (Aula Investigación Básica Departamental)</button>
               </div>
             </div>
 
@@ -112,22 +108,15 @@ $acompanamientoInst->getSelectAnioFiltro();
                          <!-- <th>ID Grupo</th>-->
                           <th>Fecha</th>
                           <th>Descripcion</th>
-                          <th>Cantidad de asistentes</th>
-                          <th>Documento tecnico</th>
-                          <th>Informe</th>
+                          <th>Acta</th>
+                          <th>Ingreso Almacen</th>
                           <th data-orderable="false">Opciones</th>
                       </tr>
                   </thead>
 
                   <tbody>
                       <?php
-//print_r($_COOKIE);
-//echo "valor de cookie de tipo ".$_COOKIE[$NomCookiesApp."_tipo"];
-if (($pkID_tipo_user == 8) || ($pkID_tipo_user == 9)) {
-    $acompanamientoInst->getTablaGruposUsuario($pkID_user);
-} else {
-    $acompanamientoInst->getTablaAcompanamiento($filtro, $pkID_proyectoM);
-}
+$aibdInst->getTablaAibd($filtro, $pkID_proyectoM);
 ?>
                   </tbody>
               </table>

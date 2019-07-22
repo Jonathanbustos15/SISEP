@@ -1,10 +1,10 @@
 <?php
 /**/
 
-include_once '../DAO/acompanamientoDAO.php';
+include_once '../DAO/microbiologiaDAO.php';
 include_once 'helper_controller/render_table.php';
 
-class acompanamientoController extends acompanamientoDAO
+class microbiologiaController extends microbiologiaDAO
 {
 
     public $NameCookieApp;
@@ -36,7 +36,7 @@ class acompanamientoController extends acompanamientoDAO
     //$consulta = $arrPermisos[0]["consultar"];
     //-----------------------------------------------------------------------------
 
-    public function getTablaAcompanamiento($filtro, $pkID_proyectoM)
+    public function getTablaMicrobiologia($filtro, $pkID_proyectoM)
     {
 
         //permisos-------------------------------------------------------------------------
@@ -51,40 +51,40 @@ class acompanamientoController extends acompanamientoDAO
         //Los campos que se van a ver
         $grupo_campos = [
             // ["nombre"=>"pkID"],
-            ["nombre" => "fecha_acompanamiento"],
-            ["nombre" => "descripcion"],
-            ["nombre" => "canti"],
-            ["nombre" => "url_documento"],
-            ["nombre" => "url_informe"],
+            ["nombre" => "fecha"],
+            ["nombre" => "nombre_institucion"],
+            ["nombre" => "grado"],
+            ["nombre" => "curso"],
+            ["nombre" => "cantidad"],
         ];
         //la configuracion de los botones de opciones
         $grupo_btn = [
 
             [
                 "tipo"    => "editar",
-                "nombre"  => "acompanamiento",
+                "nombre"  => "microbiologia",
                 "permiso" => $edita,
             ],
             [
                 "tipo"    => "eliminar",
-                "nombre"  => "acompanamiento",
+                "nombre"  => "microbiologia",
                 "permiso" => $elimina,
             ],
 
         ];
 
         $array_opciones = [
-            "modulo" => "acompanamiento", //nombre del modulo definido para jquerycontrollerV2
+            "modulo" => "microbiologia", //nombre del modulo definido para jquerycontrollerV2
             "title"  => "Click Ver Detalles", //etiqueta html title
-            "href"   => "detalles_acompanamiento.php?id_acompanamiento=",
+            "href"   => "detalles_microbiologia.php?id_microbiologia=",
             "class"  => "detail", //clase que permite que añadir el evento jquery click
         ];
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
         if ($filtro == "'Todos'") {
-            $grupo = $this->getGrupos($pkID_proyectoM);
+            $grupo = $this->getMicrobiologias($pkID_proyectoM);
         } else {
-            $grupo = $this->getGrupo($filtro, $pkID_proyectoM);
+            $grupo = $this->getMicrobiologia($filtro, $pkID_proyectoM);
         }
 
         //print_r($grupo);
@@ -635,12 +635,12 @@ class acompanamientoController extends acompanamientoDAO
 
                 [
                     "tipo"    => "editar",
-                    "nombre"  => "docente",
+                    "nombre"  => "microbiologia",
                     "permiso" => $edita,
                 ],
                 [
                     "tipo"    => "eliminar",
-                    "nombre"  => "docente",
+                    "nombre"  => "microbiologia",
                     "permiso" => $elimina,
                 ],
                 [
@@ -695,7 +695,7 @@ class acompanamientoController extends acompanamientoDAO
 
     }
 
-    public function getTablaEstudiantesGrupo($pkid_acompanamiento)
+    public function getTablaInventario($pkid_aibd)
     {
 
         $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo_estudiantes, $_COOKIE[$this->NameCookieApp . "_IDtipo"]);
@@ -709,7 +709,7 @@ class acompanamientoController extends acompanamientoDAO
         $grupo_btn = [
             [
                 "tipo"    => "eliminar",
-                "nombre"  => "estudiante",
+                "nombre"  => "inventario_aibd",
                 "permiso" => $elimina,
             ],
 
@@ -720,14 +720,14 @@ class acompanamientoController extends acompanamientoDAO
 
         //Los campos que se van a ver
         $grupo_campos = [
+            ["nombre" => "fecha"],
             ["nombre" => "nombre"],
-            ["nombre" => "documento_docente"],
-            ["nombre" => "estado_acompanamiento"],
+            ["nombre" => "cantidad"],
         ];
 
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
-        $grupo = $this->getEstudiantesGrupo($pkid_acompanamiento);
+        $grupo = $this->getInventario($pkid_aibd);
         //print_r($grupo);
 
         //Instancia el render
@@ -904,5 +904,133 @@ class acompanamientoController extends acompanamientoDAO
             echo "<option id='fkID_estado_form_' data-nombre='" . $tipo[$a]["estado_acompanamiento"] . "' value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["estado_acompanamiento"] . "</option>";
         }
         echo "</select>";
+    }
+
+    public function getSelectCursos()
+    {
+
+        $m_u_Select = $this->getCursos();
+        //print_r($m_u_Select);
+
+        echo '<select id="fkID_curso" name="fkID_curso" class="form-control" required="true">
+                      <option value="" selected>Elija el curso</option>';
+        for ($i = 0; $i < sizeof($m_u_Select); $i++) {
+            echo '<option value="' . $m_u_Select[$i]["pkID"] . '">' . $m_u_Select[$i]["curso"] . '</option>';
+        };
+        echo '</select>';
+    }
+
+    public function getTablaMicrobiologiaEstudiantes($pkid_microbiologia)
+    {
+
+        $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo_estudiantes, $_COOKIE[$this->NameCookieApp . "_IDtipo"]);
+
+        //$arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo,$_COOKIE[$this->NameCookieApp."_IDtipo"]);
+        $edita    = $arrPermisos[0]["editar"];
+        $elimina  = $arrPermisos[0]["eliminar"];
+        $consulta = $arrPermisos[0]["consultar"];
+
+        //la configuracion de los botones de opciones
+        $grupo_btn = [
+            [
+                "tipo"    => "eliminar",
+                "nombre"  => "microbiologia_estudiante",
+                "permiso" => $elimina,
+            ],
+
+        ];
+        //---------------------------------------------------------------------------------
+
+        //Define las variables de la tabla a renderizar
+
+        //Los campos que se van a ver
+        $grupo_campos = [
+            ["nombre" => "nombres"],
+            ["nombre" => "apellidos"],
+            ["nombre" => "documento_estudiante"],
+            ["nombre" => "grado"],
+        ];
+
+        //---------------------------------------------------------------------------------
+        //carga el array desde el DAO
+        $grupo = $this->getMicrobiologiaEstudiantes($pkid_microbiologia);
+        //print_r($grupo);
+
+        //Instancia el render
+        $this->table_inst = new RenderTable($grupo, $grupo_campos, $grupo_btn, []);
+        //---------------------------------------------------------------------------------
+
+        //valida si hay usuarios y permiso de consulta
+        if (($grupo) && ($consulta == 1)) {
+
+            //ejecuta el render de la tabla
+            $this->table_inst->render();
+
+        } elseif (($grupo) && ($consulta == 0)) {
+
+            $this->table_inst->render_blank();
+
+            echo "<h3>En este momento no tiene permiso de consulta.</h3>";
+
+        } else {
+
+            $this->table_inst->render_blank();
+
+            echo "<h3>En este momento no hay registros.</h3>";
+        }; /**/
+        //---------------------------------------------------------------------------------
+    }
+
+    public function getSelectEstudiantes()
+    {
+        $tipo = $this->getEstudiantes();
+
+        echo '<select name="fkID_estudiante" id="fkID_estudiante" class="form-control" required = "true">
+                        <option value="" selected>Elija el estudiante del Grupo</option>';
+        for ($a = 0; $a < sizeof($tipo); $a++) {
+            echo "<option id='fkID_estudiante_form_' data-nombre='" . $tipo[$a]["nombres"] . "' data-grado='" . $tipo[$a]["id_grado"] . "' value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombres"] . "</option>";
+        }
+        echo "</select>";
+    }
+
+    public function getTablasesiones($pkID_microbiologia)
+    {
+
+        //$sesion = $this->getsesiones(pkID_microbiologia);
+        $this->sesion = $this->getSesiones($pkID_microbiologia);
+        //print_r($this->personal);
+
+        //permisos-------------------------------------------------------------------------
+        $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo, $_COOKIE[$this->NameCookieApp . "_IDtipo"]);
+        $edita       = $arrPermisos[0]["editar"];
+        $elimina     = $arrPermisos[0]["eliminar"];
+        $consulta    = $arrPermisos[0]["consultar"];
+        //---------------------------------------------------------------------------------
+
+        if (($this->sesion)) {
+
+            for ($a = 0; $a < sizeof($this->sesion); $a++) {
+                $id           = $this->sesion[$a]["pkID"];
+                $fecha_sesion = $this->sesion[$a]["fecha_sesion"];
+                $descripcion  = $this->sesion[$a]["descripcion_sesion"];
+                $url_lista    = $this->sesion[$a]["url_lista"];
+
+                echo '
+                             <tr>
+
+                                 <td title="Click Ver Detalles" href="" class="detail">' . $fecha_sesion . '</td>
+                                 <td title="Click Ver Detalles" href="" class="detail">' . $descripcion . '</td>
+                                 <td title="Descargar Archivo"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../server/php/files/' . $url_lista . '" target="_blank" >' . $url_lista . '</a></td>
+                                 <td>
+                                     <button id="edita_sesion" title="Editar" name="edita_sesion" type="button" class="btn btn-warning" data-toggle="modal" data-target="#frm_modal_microbiologia_sesion" data-id-sesion = "' . $id . '" ';
+                echo '><span class="glyphicon glyphicon-pencil"></span></button>
+
+                                     <button id="btn_elimina_sesion" title="Eliminar" name="elimina_sesion" type="button" class="btn btn-danger" data-id-sesion = "' . $id . '" ';
+                echo '><span class="glyphicon glyphicon-remove"></span></button>
+                                 </td>
+                             </tr>';
+            };
+
+        }
     }
 }

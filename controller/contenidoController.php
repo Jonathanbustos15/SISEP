@@ -1,10 +1,10 @@
 <?php
 /**/
 
-include_once '../DAO/acompanamientoDAO.php';
+include_once '../DAO/contenidoDAO.php';
 include_once 'helper_controller/render_table.php';
 
-class acompanamientoController extends acompanamientoDAO
+class contenidoController extends contenidoDAO
 {
 
     public $NameCookieApp;
@@ -36,7 +36,7 @@ class acompanamientoController extends acompanamientoDAO
     //$consulta = $arrPermisos[0]["consultar"];
     //-----------------------------------------------------------------------------
 
-    public function getTablaAcompanamiento($filtro, $pkID_proyectoM)
+    public function getTablaContenidos($filtro, $pkID_proyectoM)
     {
 
         //permisos-------------------------------------------------------------------------
@@ -51,40 +51,38 @@ class acompanamientoController extends acompanamientoDAO
         //Los campos que se van a ver
         $grupo_campos = [
             // ["nombre"=>"pkID"],
-            ["nombre" => "fecha_acompanamiento"],
-            ["nombre" => "descripcion"],
-            ["nombre" => "canti"],
+            ["nombre" => "anio"],
+            ["nombre" => "nombre"],
             ["nombre" => "url_documento"],
-            ["nombre" => "url_informe"],
         ];
         //la configuracion de los botones de opciones
         $grupo_btn = [
 
             [
                 "tipo"    => "editar",
-                "nombre"  => "acompanamiento",
+                "nombre"  => "contenido",
                 "permiso" => $edita,
             ],
             [
                 "tipo"    => "eliminar",
-                "nombre"  => "acompanamiento",
+                "nombre"  => "contenido",
                 "permiso" => $elimina,
             ],
 
         ];
 
         $array_opciones = [
-            "modulo" => "acompanamiento", //nombre del modulo definido para jquerycontrollerV2
+            "modulo" => "contenido", //nombre del modulo definido para jquerycontrollerV2
             "title"  => "Click Ver Detalles", //etiqueta html title
-            "href"   => "detalles_acompanamiento.php?id_acompanamiento=",
+            "href"   => "",
             "class"  => "detail", //clase que permite que añadir el evento jquery click
         ];
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
         if ($filtro == "'Todos'") {
-            $grupo = $this->getGrupos($pkID_proyectoM);
+            $grupo = $this->getContenidos($pkID_proyectoM);
         } else {
-            $grupo = $this->getGrupo($filtro, $pkID_proyectoM);
+            $grupo = $this->getContenido($filtro, $pkID_proyectoM);
         }
 
         //print_r($grupo);
@@ -160,7 +158,7 @@ class acompanamientoController extends acompanamientoDAO
         ];
         //---------------------------------------------------------------------------------
         //carga el array desde el DAO
-        $grupo = $this->getGruposUsuario($pkID_user);
+        $grupo = $this->getContenidosUsuario($pkID_user);
         //print_r($grupo);
 
         //Instancia el render
@@ -201,6 +199,18 @@ class acompanamientoController extends acompanamientoDAO
             echo '<option value="' . $m_u_Select[$i]["pkID"] . '">' . $m_u_Select[$i]["nombre"] . '</option>';
         };
         echo '</select>';
+    }
+
+    public function getSelectAsesores()
+    {
+        $tipo = $this->getTutor();
+
+        echo '<select name="fkID_asesor" id="fkID_asesor" class="form-control" required = "true">
+                        <option value="" selected>Elija el asesor</option>';
+        for ($a = 0; $a < sizeof($tipo); $a++) {
+            echo "<option id='fkID_participante_form_' data-nombre='" . $tipo[$a]["nombres"] . "' value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombres"] . "</option>";
+        }
+        echo "</select>";
     }
 
     public function getSelectInstituciones()
@@ -323,7 +333,7 @@ class acompanamientoController extends acompanamientoDAO
     public function getGeneral($pkID)
     {
 
-        $this->gruposId = $this->getGruposId($pkID);
+        $this->gruposId = $this->getContenidosId($pkID);
 
         //print_r($this->gruposId);
 
@@ -337,10 +347,10 @@ class acompanamientoController extends acompanamientoDAO
 
             <div class="col-sm-6">
 
-              <strong>Fecha acompañamiento: </strong> ' . $this->gruposId[0]["fecha_acompanamiento"] . ' <br> <br>
+              <strong>Fecha resignificación: </strong> ' . $this->gruposId[0]["fecha"] . ' <br> <br>
               <strong>Descripción: </strong> ' . $this->gruposId[0]["descripcion"] . ' <br> <br>
-              <strong>Documento Técnico: </strong> <a href="../vistas/subidas/' . $this->gruposId[0]["url_documento"] . '" target="_blank">' . $this->gruposId[0]["url_documento"] . ' <img src="../img/pdfdescargable.png" width="20px"></a><br> <br>
-              <strong>Informe: </strong> <a href="../vistas/subidas/' . $this->gruposId[0]["url_informe"] . '" target="_blank">' . $this->gruposId[0]["url_informe"] . ' <img src="../img/pdfdescargable.png" width="20px"></a> <br> <br>
+              <strong>Institución Educativa: </strong> ' . $this->gruposId[0]["nombre_institucion"] . ' </a><br> <br>
+              <strong>Asesor: </strong> ' . $this->gruposId[0]["asesor"] . ' <br> <br>
               ';
 
         echo '</div>';
@@ -755,6 +765,65 @@ class acompanamientoController extends acompanamientoDAO
         //---------------------------------------------------------------------------------
     }
 
+    public function getTablaEvidencias($pkid_evidencia)
+    {
+
+        $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo_estudiantes, $_COOKIE[$this->NameCookieApp . "_IDtipo"]);
+
+        //$arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo,$_COOKIE[$this->NameCookieApp."_IDtipo"]);
+        $edita    = $arrPermisos[0]["editar"];
+        $elimina  = $arrPermisos[0]["eliminar"];
+        $consulta = $arrPermisos[0]["consultar"];
+
+        //la configuracion de los botones de opciones
+        $grupo_btn = [
+            [
+                "tipo"    => "eliminar",
+                "nombre"  => "evidencia",
+                "permiso" => $elimina,
+            ],
+
+        ];
+        //---------------------------------------------------------------------------------
+
+        //Define las variables de la tabla a renderizar
+
+        //Los campos que se van a ver
+        $grupo_campos = [
+            ["nombre" => "fecha"],
+            ["nombre" => "descripcion"],
+            ["nombre" => "url_evidencia"],
+        ];
+
+        //---------------------------------------------------------------------------------
+        //carga el array desde el DAO
+        $grupo = $this->getEvidencias($pkid_evidencia);
+        //print_r($grupo);
+
+        //Instancia el render
+        $this->table_inst = new RenderTable($grupo, $grupo_campos, $grupo_btn, []);
+        //---------------------------------------------------------------------------------
+
+        //valida si hay usuarios y permiso de consulta
+        if (($grupo) && ($consulta == 1)) {
+
+            //ejecuta el render de la tabla
+            $this->table_inst->render();
+
+        } elseif (($grupo) && ($consulta == 0)) {
+
+            $this->table_inst->render_blank();
+
+            echo "<h3>En este momento no tiene permiso de consulta.</h3>";
+
+        } else {
+
+            $this->table_inst->render_blank();
+
+            echo "<h3>En este momento no hay registros.</h3>";
+        }; /**/
+        //---------------------------------------------------------------------------------
+    }
     public function getTablaAlbumGrupo($pkid_acompanamiento)
     {
 
