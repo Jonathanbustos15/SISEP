@@ -300,6 +300,43 @@
         echo "</select>";
     }
 
+    public function getSelectAlbumTaller($pkID_taller)
+    {
+
+        $album = $this->getAlbumTaller($pkID_taller);
+
+        if ($album[0]["pkID"]!="") {
+            for ($a = 0; $a < sizeof($album); $a++) {
+        $fotos = $this->getFotosTaller($album[$a]["pkID"]); 
+        if ($fotos[0]["pkID"]=="") {
+                 echo '<div class="col-md-2 text-center">
+                                <button id="edita_album" title="Editar" name="edita_album" type="button" class="btn btn-warning" data-toggle="modal" data-target="#frm_modal_album_grupo" data-id-album = "' . $album[$a]["pkID"] . '" ';
+                    echo '><span class="glyphicon glyphicon-pencil"></span></button>
+                     <button id="btn_elimina_album" title="Eliminar" name="elimina_album" type="button" class="btn btn-danger" data-id-album = "' . $album[$a]["pkID"] . '" ';
+                     echo '><span class="glyphicon glyphicon-remove"></span></button>
+                               <img data-album="' . $album[$a]["pkID"] . '" class="img-responsive img-thumbnail" src="../img/sin_foto.png" height="360">
+                              <label class="text-center">'.$album[$a]["nombre_album"].'    </label>
+                              
+                        </div>';
+             } else {
+                 echo '<div class="col-md-2 text-center">
+                 <button id="edita_album" title="Editar" name="edita_album" type="button" class="btn btn-warning" data-toggle="modal" data-target="#frm_modal_album_grupo" data-id-album = "' . $album[$a]["pkID"] . '" ';
+                    echo '><span class="glyphicon glyphicon-pencil"></span></button>
+                     <button id="btn_elimina_album" title="Eliminar" name="elimina_album" type="button" class="btn btn-danger" data-id-album = "' . $album[$a]["pkID"] . '" ';
+                      echo '><span class="glyphicon glyphicon-remove"></span></button>
+                        <a title="album" href="fotos_album.php?id_album='.$album[$a]["pkID"].'" target="_blank">
+                               <img data-album="' . $album[$a]["pkID"] . '" class="img-responsive img-thumbnail" src="../img/'.$fotos[0]["url_foto"].'" height="360"></a>
+                              <label class="text-center">'.$album[$a]["nombre_album"].'  </label>
+                        </div>';
+             }
+         }
+        } else {
+            echo '<div class="col-md-12 text-center">
+            <h3>No Existen Álbumes</h3>
+            </div>';
+        }
+    }
+
 
 
 

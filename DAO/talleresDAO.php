@@ -105,6 +105,20 @@
       return $this->EjecutarConsulta($query);
     }
 
+    public function getAlbumTaller($pkID_taller){  
+       
+      $query = "select * FROM `galeria_taller` WHERE estadoV=1";
+
+      return $this->EjecutarConsulta($query);
+    }
+
+    public function getFotosTaller($pkID_album){  
+       
+      $query = "select * FROM `fotos_taller` WHERE fkID_album=".$pkID_album;
+
+      return $this->EjecutarConsulta($query);
+    }
+
     public function getProyectosMarcoTaller($fkID_proyectoM)
     {
 

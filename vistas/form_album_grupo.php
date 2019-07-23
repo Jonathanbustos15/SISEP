@@ -19,7 +19,7 @@
                     </div>
                     <div class="form-group " hidden>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="fkID_grupo" name="fkID_grupo">
+                            <input type="text" class="form-control" id="fkID_taller" name="fkID_taller" value="<?php echo $pkID_taller; ?>">
                         </div>
                     </div>
 
@@ -31,11 +31,6 @@
                     <div class="form-group">
                         <label for="fecha_creacion" class="control-label">Fecha de Creación</label>
                         <input type="date" class="form-control" id="fecha_creacion_album" name="fecha_creacion" placeholder="Fecha de creación del grupo" required = "true" value="<?php echo date("Y-m-d");?>">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="text" class=" control-label">Descripción</label>
-                        <input type="text" class="form-control" id="observacion_album" name="observacion_album" placeholder="Descripción del album" required = "true">
                     </div>
 
 

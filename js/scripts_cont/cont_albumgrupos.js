@@ -11,23 +11,26 @@ $(function() {
     });
     //Definir la acción del boton del formulario 
     $("#btn_actionalbum_grupo").click(function() {
-        console.log("al principio");
+        var validacioncon = validaralbum();
+        if (validacioncon === "no") {
+            window.alert("Faltan Campos por diligenciar.");
+        } else {
         action = $(this).attr("data-action");
-        //define la acción que va a realizar el formulario
         valida_actio(action);
         console.log("accion a ejecutar: " + action);
+        }
     });
     $("[name*='edita_album']").click(function() {
         $("#lbl_form_album_grupo").html("Edita Album");
         $("#lbl_btn_actionalbum_grupo").html("Guardar Cambios <span class='glyphicon glyphicon-save'></span>");
         $("#btn_actionalbum_grupo").attr("data-action", "editar");
         $("#form_album_grupo")[0].reset();
-        id = $(this).attr('data-id-album_grupo');
+        id = $(this).attr('data-id-album');
         console.log(id);
         carga_album(id);
     });
     $("[name*='elimina_album']").click(function(event) {
-        id_album = $(this).attr('data-id-album_grupo');
+        id_album = $(this).attr('data-id-album');
         console.log(id_album)
         elimina_album(id_album);
     });
@@ -50,14 +53,30 @@ $(function() {
         };
     };
 
+    function validaralbum(){
+      var nombre = $("#nombre_album").val();
+      var fecha = $("#fecha_creacion_album").val();
+        var respuesta;
+        if (fecha === "" ||  nombre === "" ) {
+            respuesta = "no"
+            return respuesta
+        }else{
+            respuesta = "ok"
+            return respuesta
+        }
+    }
+
     function crea_album() {
-        nombre = $("#nombre_album").val();
+        console.log("paso a pasito")
+        taller = $("#fkID_taller").val();
+        nombre = $("#nombre_album").val();  
         fecha = $("#fecha_creacion_album").val();
-        observacion = $("#observacion_album").val();
+        data="nombre_album="+nombre+"&fecha_album="+fecha+"&fkID_taller="+taller+ "&tipo=inserta&nom_tabla=galeria_taller"
+        console.log(data)
             $.ajax({
                 type: "GET",
                 url: "../controller/ajaxController12.php",
-                data: "nombre_album="+nombre+"&fecha_creacion="+fecha+"&observacion_album="+observacion+"&fkID_grupo="+id_gru+ "&tipo=insertar&nom_tabla=grupo_album",
+                data: data,
                 success: function(r) {
                     console.log(r);
                     location.reload();
@@ -68,14 +87,14 @@ $(function() {
     function edita_album() {
         console.log("aqui toy")
         //crea el objeto formulario serializado
-        nombre = $("#nombre_album").val();
+        nombre = $("#nombre_album").val();  
         fecha = $("#fecha_creacion_album").val();
         observacion = $("#observacion_album").val();
         console.log("ya vamos tres")
             $.ajax({
                 type: "GET",
                 url: '../controller/ajaxController12.php',
-                data: "nombre_album="+nombre+"&fecha_creacion="+fecha+"&observacion_album="+observacion+"&pkID="+id+"&tipo=actualizar2&nom_tabla=grupo_album",
+                data: "nombre_album="+nombre+"&fecha_album="+fecha+"&pkID="+id+"&tipo=actualizar&nom_tabla=galeria_taller",
                 success: function(r) {
                     console.log(r);
                     location.reload();
@@ -87,7 +106,7 @@ $(function() {
         console.log("Carga el album " + id_album);
         $.ajax({
             url: '../controller/ajaxController12.php',
-            data: "pkID=" + id_album + "&tipo=consultar&nom_tabla=grupo_album",
+            data: "pkID=" + id_album + "&tipo=consultar&nom_tabla=galeria_taller",
         }).done(function(data) {
             $.each(data.mensaje[0], function(key, value) {
                 console.log(key + "--" + value);
@@ -101,7 +120,6 @@ $(function() {
     };
 
     function elimina_album(id_album) {
-        console.log('Eliminar el hvida: ' + id_album);
         var confirma = confirm("En realidad quiere eliminar esta Album?");
         console.log(confirma);
         /**/
@@ -109,7 +127,7 @@ $(function() {
             //si confirma es true ejecuta ajax
             $.ajax({
                 url: '../controller/ajaxController12.php',
-                data: "pkID=" + id_album + "&tipo=eliminar_logico&nom_tabla=grupo_album",
+                data: "pkID=" + id_album + "&tipo=eliminar_logico&nom_tabla=galeria_taller",
             }).done(function(data) {
                 //---------------------
                 console.log(data);
@@ -123,4 +141,32 @@ $(function() {
             //no hace nada
         }
     };
+
+    function validaEqualIdentifica(nombre) {
+        console.log("busca valor " + encodeURI(nombre));
+        var consEqual = "SELECT COUNT(*) as res_equal FROM galeria_taller where estadoV= 1 and nombre_album='" + nombre + "'";
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "query=" + consEqual + "&tipo=consulta_gen",
+        }).done(function(data) {
+            /**/
+            console.log(data.mensaje[0].res_equal);
+            if (data.mensaje[0].res_equal > 0) {
+                alert("Este Album ya existe, por favor ingrese un nombre diferente.");
+                $("#nombre_album").val(""); 
+            } else {
+                //return false;
+            }
+        }).fail(function() {
+            console.log("error");
+        }).always(function() {
+            console.log("complete");
+        });
+    }
+    
+    $("#nombre_album").change(function(event) {
+        validaEqualIdentifica($(this).val());
+    });
+
+
 });

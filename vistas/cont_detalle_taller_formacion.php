@@ -45,7 +45,7 @@ $arrPermisoseg = $estudiantesInst->getPermisosModulo_Tipo(30, $_COOKIE[$NomCooki
 
 $creaeg = $arrPermisoseg[0]['crear'];
 
-$rolEstudiante = $estudiantesInst->getRolEstudiante();
+$rolEstudiante = $estudiantesInst->getRolEstudiante(); 
 
 $re = $rolEstudiante[0]["pkID_rol"];
 
@@ -321,7 +321,7 @@ include "frm_modal_proyectog.php";
 
 			            <div class="row">
 			              <div class="col-md-6">
-			                  <div class="titleprincipal"><h4>Galeria de fotos</h4></div>
+			                  <div class="titleprincipal"><h4>Galeria de Álbumes</h4></div>
 			              </div>
 			              <div class="col-md-6 text-right">
 			      			 <button id="btn_album_grupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="<?php echo $pkID_taller ?>" data-target="#frm_modal_album_grupo"><span class="glyphicon glyphicon-plus"></span> 
@@ -341,56 +341,11 @@ include "frm_modal_proyectog.php";
 
 					<div class="container-fluid">
 						<div class="row">
-						<div class="col-md-2 text-center">
-				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo_3.jpg" height="360">
-				              <label class="text-center">Galeria uno</label>
-						</div>
+							<?php
+								$tallerInst->getSelectAlbumTaller($pkID_taller);
+							?>
 
-						<div class="col-md-2 ext-center">
-				               <img  class="img-responsive img-thumbnail" src="../img/sin_foto.png" height="360">
-				              <label class="text-center">Galeria dos</label>
-						</div>
-
-						<div class="col-md-2 text-center">
-				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo_2.jpg" height="360">
-				              <label class="text-center">Galeria tres</label>
-						</div>
-
-						<div class="col-md-2 text-center">
-				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo.jpg" height="360">
-				              <label class="text-center">Galeria cuatro</label>
-						</div>
-
-						<div class="col-md-2 text-center">
-				               <img  class="img-responsive img-thumbnail" src="../img/sin_foto.png" height="360">
-				              <label class="text-center">Galeria cinco</label>
-						</div>
-
-						<div class="hidden-xs col-md-2 text-center">
-				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo.jpg" height="360">
-				              <label class="text-center">Galeria seis</label>
-						</div>
-
-						<div class="hidden-xs col-md-2 text-center">
-				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo.jpg" height="360">
-				              <label class="text-center">Galeria siete</label>
-						</div>
-
-						<div class="col-md-2 text-center">
-				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo_1.jpg" height="360">
-				              <label class="text-center">Galeria ocho</label>
-						</div>
-
-						<div class="hidden-xs col-md-2 text-center">
-				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo_3.jpg" height="360">
-				              <label class="text-center">Galeria nueve</label>
-						</div>
-
-						<div class="col-md-2 text-center">
-							<a href=feria.php>
-				               <img  class="img-responsive img-thumbnail" src="../img/ejemplo_2.jpg"></a>
-				              <label class="text-center">Galeria diez</label>
-						</div>
+						
 						</div>
 					</div>
 
