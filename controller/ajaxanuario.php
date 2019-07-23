@@ -73,10 +73,11 @@ switch ($tipo) {
             $destinoDoc = "../vistas/subidas/" . $nombreDoc;
 
             move_uploaded_file($_FILES['file']["tmp_name"], $destinoDoc);
+            $nombreDocumento=",url_documento='$nombreDoc'";
         } else {
             $nombreDoc = '';
         }
-        $q_inserta  = "UPDATE anuario SET fecha='$fecha',url_documento='$nombreDoc' where pkID='$id'";
+        $q_inserta  = "UPDATE anuario SET fecha='$fecha'".$nombreDocumento." where pkID='$id'";
         $r["query"] = $q_inserta;
         $resultado  = $generico->EjecutaInsertar($q_inserta);
         /**/

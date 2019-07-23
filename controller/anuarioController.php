@@ -46,67 +46,51 @@ class anuarioController extends anuarioDAO
         $consulta    = $arrPermisos[0]["consultar"];
         //---------------------------------------------------------------------------------
 
-        //Define las variables de la tabla a renderizar
-
-        //Los campos que se van a ver
-        $grupo_campos = [
-            // ["nombre"=>"pkID"],
-            ["nombre" => "anio"],
-            ["nombre" => "url_documento"],
-        ];
-        //la configuracion de los botones de opciones
-        $grupo_btn = [
-
-            [
-                "tipo"    => "editar",
-                "nombre"  => "anuario",
-                "permiso" => $edita,
-            ],
-            [
-                "tipo"    => "eliminar",
-                "nombre"  => "anuario",
-                "permiso" => $elimina,
-            ],
-
-        ];
-
-        $array_opciones = [
-            "modulo" => "anuario", //nombre del modulo definido para jquerycontrollerV2
-            "title"  => "Click Ver Detalles", //etiqueta html title
-            "href"   => "",
-            "class"  => "detail", //clase que permite que añadir el evento jquery click
-        ];
-        //---------------------------------------------------------------------------------
-        //carga el array desde el DAO
         if ($filtro == "'Todos'") {
-            $grupo = $this->getAnuarios($pkID_proyectoM);
+            $this->anuario = $this->getAnuarios($pkID_proyectoM);
         } else {
-            $grupo = $this->getAnuario($filtro, $pkID_proyectoM);
+            $this->anuario = $this->getAnuario($filtro, $pkID_proyectoM);
         }
 
-        //print_r($grupo);
-
-        //Instancia el render
-        $this->table_inst = new RenderTable($grupo, $grupo_campos, $grupo_btn, $array_opciones);
+        $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo, $_COOKIE[$this->NameCookieApp . "_IDtipo"]);
+        $edita       = $arrPermisos[0]["editar"];
+        $elimina     = $arrPermisos[0]["eliminar"];
+        $consulta    = $arrPermisos[0]["consultar"];
         //---------------------------------------------------------------------------------
 
-        //valida si hay usuarios y permiso de consulta
-        if (($grupo) && ($consulta == 1)) {
+        if (($this->anuario)) {
 
-            //ejecuta el render de la tabla
-            $this->table_inst->render();
+            for ($a = 0; $a < sizeof($this->anuario); $a++) {
+                $id           = $this->anuario[$a]["pkID"];
+                $fecha  = $this->anuario[$a]["fecha"];
+                $url_documento    = $this->anuario[$a]["url_documento"];  
 
-        } elseif (($grupo) && ($consulta == 0)) {
+                echo '
+                             <tr>
 
-            $this->table_inst->render_blank();
+                                 <td title="Click Ver Detalles" href="" class="detail">' . $fecha . '</td>
+                                 <td title="Descargar Archivo"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../server/php/files/' . $url_documento . '" target="_blank" >' . $url_documento . '</a></td>
+                                 <td>
+                                     <button id="edita_anuario" title="Editar" name="edita_anuario" type="button" class="btn btn-warning" data-toggle="modal" data-target="#frm_modal_anuario" data-id-anuario = "' . $id . '" ';
+                                        echo '><span class="glyphicon glyphicon-pencil"></span></button>
 
-            echo "<h3>En este momento no tiene permiso de consulta.</h3>";
+                                                             <button id="btn_elimina_anuario" title="Eliminar" name="elimina_anuario" type="button" class="btn btn-danger" data-id-anuario = "' . $id . '" ';
+                                        echo '><span class="glyphicon glyphicon-remove"></span></button>
+                                 </td>
+                             </tr>';
+            };
 
         } else {
 
-            $this->table_inst->render_blank();
+            echo "<tr>
 
-            echo "<h3>En este momento no hay registros.</h3>";
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                   </tr>
+                   <div class='alert alert-danger' role='alert'>
+                        En este momento no hay <strong>Anuarios.</strong>
+                   </div>";
         };
         //---------------------------------------------------------------------------------
 

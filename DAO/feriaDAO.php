@@ -17,20 +17,84 @@
             return $this->getCookieProyectoM();
     }
         
-        public function getFeria(){        
+        public function getFeria($pkID_proyectoM,$filtro,$filtro2){  
+            if ($filtro == "Todos") {
+            $where_anio = "!= 0";
+        } else {
+            $where_anio = "=" . $filtro;
+        }     
+
+        if ($filtro2 == "Todos") {
+            $where_tipo = "!='0'";
+        } else { 
+            $where_tipo = "= '$filtro2'";
+        }       
        
             $query = "select feria.pkID,fecha_feria,feria.lugar_feria,(select count(*) FROM feria_participantes LEFT JOIN participante ON participante.pkID = feria_participantes.fkID_participante WHERE feria.pkID = feria_participantes.fkID_feria) as canti,tipo_feria.nombre FROM `feria`
                 INNER JOIN tipo_feria on tipo_feria.pkID = feria.fkID_tipo_feria
-                where feria.estadoV= 1";
+                where feria.estadoV= 1 and feria.proyecto_macro=".$pkID_proyectoM." and year(fecha_feria) ".$where_anio." and tipo_feria.nombre".$where_tipo;
 
             return $this->EjecutarConsulta($query);
         }
+
+        public function getTotalEstudiantes($filtro,$pkID_proyectoM,$filtro2)
+    {
+        if ($filtro == "Todos" || $filtro == "") {
+                    $anio = "!=0";
+                } else {
+                    $anio = "=" . $filtro;
+                }
+        if ($filtro2 == "Todos") {
+            $where_tipo = "!='0'";
+        } else { 
+            $where_tipo = "= '$filtro2'";
+        }
+
+        $query = "select count(*) as cantidad FROM feria_participantes LEFT JOIN participante ON participante.pkID = feria_participantes.fkID_participante
+            LEFT JOIN feria on feria.pkID = feria_participantes.fkID_feria
+            INNER JOIN tipo_feria on tipo_feria.pkID = feria.fkID_tipo_feria
+            WHERE feria.estadoV= 1 and feria.pkID = feria_participantes.fkID_feria and  year(fecha_feria)".$anio." and feria.proyecto_macro=".$pkID_proyectoM." and tipo_feria.nombre".$where_tipo;
+
+        return $this->EjecutarConsulta($query);
+    }
 
 
         public function getsesiones($pkID_sesion)
     {
 
         $query = "select * FROM `sesion_feria` WHERE estadoV=1 and fkID_feria_formacion=" . $pkID_sesion;
+
+        return $this->EjecutarConsulta($query);
+    }
+
+    public function getProyectosMarcoFeria($fkID_proyecto)
+    {
+
+        $query = "select feria.*,proyecto_marco.nombre AS nombre_proyecto,proyecto_marco.pkID as pkIDproyecto FROM proyecto_marco
+                LEFT JOIN feria ON feria.proyecto_macro = proyecto_marco.pkID
+                WHERE proyecto_marco.pkID= " . $fkID_proyecto;
+
+        return $this->EjecutarConsulta($query);
+    }
+
+    public function getProyectosMarcoDetalleFeria($fkID_feria)
+    {
+
+        $query = "select feria.*,proyecto_marco.nombre AS nombre_proyecto,proyecto_marco.pkID as pkIDproyecto FROM proyecto_marco
+                LEFT JOIN feria ON feria.proyecto_macro = proyecto_marco.pkID
+                WHERE feria.pkID=" . $fkID_feria;
+
+        return $this->EjecutarConsulta($query);
+    }
+
+    
+      public function getTalleresId($pkID)
+    {
+
+        $query = "select talleres_formacion.*,(select count(*) FROM participante_taller LEFT JOIN participante ON participante.pkID = participante_taller.fkID_participante WHERE talleres_formacion.pkID = participante_taller.fkID_taller_formacion) as canti,concat_ws(' ',nombre_funcionario,apellido_funcionario)nombres_funcionario , tipo_taller.nombre FROM talleres_formacion
+            LEFT JOIN funcionario on funcionario.pkID = talleres_formacion.fkID_tutor
+            INNER JOIN tipo_taller on tipo_taller.pkID = talleres_formacion.fkID_tipo_taller
+            where talleres_formacion.estadoV= 1 and talleres_formacion.pkID=" . $pkID;
 
         return $this->EjecutarConsulta($query);
     }
@@ -84,6 +148,7 @@
 
       return $this->EjecutarConsulta($query);
     }
+
 
     public function getAsignacionParticipantes(){        
        

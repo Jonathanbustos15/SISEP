@@ -22,7 +22,7 @@ include '../controller/grupoController.php';
 include '../conexion/datos.php';
 
 include '../controller/feriacontroller.php';
-
+  
 
 $cambia_estadoGInst = new cambio_estado_grupo_invController();
 
@@ -36,7 +36,11 @@ $arrPermisosD = $docentesInst->getPermisosModulo_Tipo(26, $_COOKIE[$NomCookiesAp
 
 $creaD = $arrPermisosD[0]['crear'];
 
-$feriaInst = new talleresController();
+$tallerInst = new talleresController();
+  
+  $arrPermisos = $tallerInst->getPermisosModulo_Tipo($id_modulo,$_COOKIE[$NomCookiesApp.'_IDtipo']);
+
+$feriaInst = new feriaController();
 
 $arrPermisoss = $feriaInst->getPermisosModulo_Tipo(26, $_COOKIE[$NomCookiesApp . '_IDtipo']);
 
@@ -101,7 +105,7 @@ $numeroEstudiantes = $detalles_grupoInst->getNumEstudiantesGrupo(9, $pkID_feria,
 
 $ne = $numeroEstudiantes[0]['num_estudiantes'];
 
-$proyectoMGen = $detalles_grupoInst->getProyectosMarcoGrupo($pkID_feria);
+$proyectoMGen = $feriaInst->getProyectosMarcoDetalleFeria($pkID_feria);
 
 $pkID_proyectoM = $proyectoMGen[0]["fkID_proyecto_marco"];
 
@@ -140,7 +144,7 @@ include "frm_modal_proyectog.php";
     </div>
 </div>
 
-<div class="form-group " hidden>
+<div class="form-group " hidden>  
     <div class="col-sm-10">
         <input type="text" class="form-control" id="modulo" name="modulo" value=<?php echo $id_modulo; ?>>
     </div>
@@ -164,9 +168,10 @@ include "frm_modal_proyectog.php";
     <div class="col-lg-12">
           <ol class="breadcrumb migadepan">
             <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
-            <li><a href="principal.php?id_proyectoM=<?php echo $pkID_feria; ?>" class="migadepan">Menú principal</a></li>
-            <li><a href="academico.php?id_proyectoM=<?php echo $pkID_feria; ?>" class="migadepan">Académico</a></li>
-            <li><a href="taller_formacion.php?id_pro=<?php echo $pkID_feria; ?>" class="migadepan">Taller de formación</a></li>
+            <li><a href="principal.php?id_proyectoM=<?php echo $proyectoMGen[0]["proyecto_macro"]; ?>" class="migadepan">Menú principal</a></li>
+            <li><a href="academico.php?id_proyectoM=<?php echo $proyectoMGen[0]["proyecto_macro"]; ?>" class="migadepan">Académico</a></li>
+            <li><a href="apropiacion.php?id_proyectoM=<?php echo $proyectoMGen[0]["proyecto_macro"]; ?>" class="migadepan">Apropiación Social</a></li>
+            <li><a href="feria.php?id_proyectoM=<?php echo $proyectoMGen[0]["proyecto_macro"]; ?>" class="migadepan">Feria de Ciencia</a></li>
             <li class="active migadepan">Detalle Feria de Ciencia</li>
           </ol>
     </div>
@@ -196,7 +201,7 @@ include "frm_modal_proyectog.php";
 
 						<div class="col-md-12">
 							<!-- instanciFa php controller -->
-							<?php $feriaInst->getDataTallerGen($pkID_feria);?>
+							<?php $feriaInst->getDataFeriaGen($pkID_feria);?>
 						</div>
 						<div class="col-md-12" hidden="true">
 							<input type="text" id="grupo_id" value=<?php echo $pkID_feria; ?>>
@@ -222,7 +227,7 @@ include "frm_modal_proyectog.php";
 			                  <div class="titleprincipal"><h4>Participantes</h4></div>
 			              </div>
 			              <div class="col-md-6 text-right">
-			      			 <button id="btn_asignarparticipante" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-taller="<?php echo $pkID_feria ?>" data-target="#frm_modal_asignacion_participante"><span class="glyphicon glyphicon-plus"></span> Asignar Participante</button>
+			      			 <button id="btn_asignarparticipante" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-feria="<?php echo $pkID_feria ?>" data-target="#frm_modal_asignacion_participante"><span class="glyphicon glyphicon-plus"></span> Asignar Participante</button>
 			              </div>
 			            </div>
 

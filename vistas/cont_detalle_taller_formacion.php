@@ -222,7 +222,7 @@ include "frm_modal_proyectog.php";
 			                  <div class="titleprincipal"><h4>Sesiones del Taller</h4></div>
 			              </div>
 			              <div class="col-md-6 text-right">
-			      			 <button id="btn_nuevosesion" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-saber="<?php echo $pkID_taller ?>" data-target="#frm_modal_sesion"><span class="glyphicon glyphicon-plus"></span> Crear Sesion</button>
+			      			 <button id="btn_nuevosesion" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-taller="<?php echo $pkID_taller ?>" data-target="#frm_modal_sesion"><span class="glyphicon glyphicon-plus"></span> Crear Sesion</button>
 			              </div>
 			            </div>
 

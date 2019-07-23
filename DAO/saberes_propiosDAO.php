@@ -183,7 +183,7 @@ class saberesDAO extends UsuariosDAO
 
         $query = "select count(*) as cantidad FROM saber_estudiante LEFT JOIN estudiante ON estudiante.pkID = saber_estudiante.fkID_estudiante
                 LEFT JOIN saber_propio on saber_propio.pkID = saber_estudiante.fkID_saber_propio
-                WHERE saber_propio.pkID = saber_estudiante.fkID_saber_propio and year(fecha_salida)".$anio." and saber_propio.fkID_proyectos=".$pkID_proyectoM;
+                WHERE saber_propio.pkID = saber_estudiante.fkID_saber_propio and saber_propio.estadoV=1 and year(fecha_salida)".$anio." and saber_propio.fkID_proyectos=".$pkID_proyectoM;
 
         return $this->EjecutarConsulta($query);
     }

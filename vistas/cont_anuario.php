@@ -59,22 +59,9 @@ include "form_anuario.php";
             <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
             <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Académico</a></li>
             <li><a href="apropiacion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Apropiación social</a></li>
-            <li class="active migadepan">Anuario - <?php echo $proyectoMGen[0]["nombre"] ?> </li>
+            <li class="active migadepan">Anuario </li>
           </ol>
     </div>
-
-    <div class="col-md-2 text-center form-inline">
-                    <label for="grupo_filtrop" class="control-label">Año: </label>
-                      <?php
-$anuarioInst->getSelectAnioFiltro();
-?>
-     </div>
-    <div class="col-md-1 text-left form-inline">
-                     <button class="btn btn-success" name="btn_filtro_anio" id="btn_filtro_anio"><span class="glyphicon glyphicon-filter"></span> Filtrar</button>
-
-                     <hr>
-
-            </div>
 
   </div>
   <!-- /.row -->

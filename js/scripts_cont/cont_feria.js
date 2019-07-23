@@ -12,7 +12,7 @@ $(function(){
         $("#adjunto_listado").remove();
         $("#adjunto_listado2").remove();
         $("#adjunto_documento").remove();
-        $("#adjunto_documento2").remove();
+        $("#adjunto_documento2").remove();  
         cargar_input();
 	 });
 
@@ -136,11 +136,12 @@ $(function(){
         };
     };
 
-    function crear_feria() {
+    function crear_feria() {  
         var data = new FormData();
         data.append('fecha_feria', $("#fecha_feria").val());
         data.append('fkID_tipo_feria', $("#fkID_tipo_feria option:selected").val());
         data.append('descripcion', $("#lugar_feria").val());
+        data.append('fkID_proyectoM', $("#fkID_proyectoM").val());
         if (document.getElementById("url_documento").files.length) {
           data.append('file', $("#url_documento").get(0).files[0]);
         }
@@ -274,7 +275,46 @@ function elimina_feria(id) {
         } 
     };
 
+    $("#btn_filtrarf").click(function(event) {
+        proyecto = $("#btn_nuevoferia").attr("data-proyecto");
+        nombre = $('select[name="anio_filtrof"] option:selected').text();
+        tipo = $('select[name="tipo_filtrof"] option:selected').text();
+        location.href = "feria.php?id_proyectoM=" + proyecto + "&anio=" + nombre + "&tipo=" + tipo  ;
+    });
 
+    function validaEqualIdentifica(fecha,tipo) {
+        console.log("busca valor " + encodeURI(fecha));
+        var consEqual = "SELECT COUNT(*) as res_equal FROM feria where estadoV= 1 and fkID_tipo_feria='" + tipo + "' and fecha_feria='" + fecha + "'";
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "query=" + consEqual + "&tipo=consulta_gen",
+        }).done(function(data) {
+            /**/
+            console.log(data.mensaje[0].res_equal);
+            if (data.mensaje[0].res_equal > 0) {
+                alert("Esta Feria ya existe, por favor ingrese una Feria diferente.");
+                $("#fecha_feria").val("");
+                $("#fkID_tipo_feria").val(""); 
+            } else {
+                //return false;
+            }
+        }).fail(function() {
+            console.log("error");
+        }).always(function() {
+            console.log("complete");
+        });
+    }
+    
+    $("#fecha_feria").change(function(event) {
+        tipo = $("#fkID_tipo_feria option:selected").val();
+        validaEqualIdentifica($(this).val(),tipo);
+    });
+
+    $("#fkID_tipo_feria").change(function(event) {
+        fecha = $("#fecha_feria").val();
+        tipo = $("#fkID_tipo_feria option:selected").val();
+        validaEqualIdentifica(fecha,tipo);
+    });
 
 
 });

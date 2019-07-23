@@ -288,15 +288,6 @@ class grupoDAO extends UsuariosDAO
         return $this->EjecutarConsulta($query);
     }
 
-    public function getProyectosMarcoFeria($fkID_feria)
-    {
-
-        $query = "select feria.*,proyecto_marco.nombre AS nombre_proyecto,proyecto_marco.pkID as pkIDproyecto FROM proyecto_marco
-                INNER JOIN feria ON feria.proyecto_macro = proyecto_marco.pkID
-                WHERE feria.pkID = " . $fkID_feria;
-
-        return $this->EjecutarConsulta($query);
-    }
 
     public function getEstudiantesGrupo($pkID_grupo)
     {

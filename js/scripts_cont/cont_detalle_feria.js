@@ -19,7 +19,7 @@ $(function(){
         console.log("accion a ejecutar: " + action);
         console.log("" );
         console.log(" " );
-        location.reload();
+        asigna_participante();
         console.log("accion a ejecutar: " + action);
     });
 
@@ -31,7 +31,9 @@ $(function(){
     });
 
      $("#fkID_participante").change(function(event) {
+        grupo = $("#btn_asignarparticipante").attr("data-feria");
         idUsuario = $(this).val();
+        validaEqualParticipante(grupo,idUsuario);
         nomUsuario = $(this).find("option:selected").data('nombre')
         idGrado = $(this).find("option:selected").data('grado')
         console.log(nomUsuario);
@@ -52,7 +54,7 @@ $(function(){
     });
 
      function asigna_participante() {
-       //location.reload();
+       location.reload();
     }
 
     function selectParticipante(id, nombre, grado, type, numReg) {
@@ -156,6 +158,21 @@ $(function(){
         }
     };
 
-
+    function validaEqualParticipante(cod,num_id) {
+        console.log("busca valor " + encodeURI(num_id));
+        var consEqual = "SELECT COUNT(*) as res_equal FROM feria_participantes where`fkID_feria` ='" + cod + "' and fkID_participante= '" + num_id + "'";
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "query=" + consEqual + "&tipo=consulta_gen",
+            success: function(data) {
+            if (data.mensaje[0].res_equal > 0) {
+                alert("El Participante ya esta asignado a esta Feria, por favor ingrese otro participante.");
+                removeUsuario("frm_group"+num_id);
+                $("#fkID_participante").val("");
+            } else {
+            }
+        }
+        })
+    }
 
 });

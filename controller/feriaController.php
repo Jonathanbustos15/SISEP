@@ -38,9 +38,9 @@
         $this->feriaId = $this->getFeriaId($pkID);
         //print_r($this->gruposId);
 
-        echo '<div class="col-sm-3 ">
+        echo '<div class="col-sm-1 ">
         </div>
-        <div class="col-sm-6 panel panel-primary align-center">
+        <div class="col-sm-5 align-center">
                 <div class="form-group " hidden>                     
                             <input type="text" class="form-control" id="fkID_grupo" name="fkID_grupo" value='.$this->feriaId[0]["fkID_grupo"].'>
                         </div>
@@ -48,6 +48,12 @@
               <strong>Tipo de Feria: </strong> ' . $this->feriaId[0]["nombre"] . ' <br> <br>
               <strong>Lugar de la Feria:</strong> ' . $this->feriaId[0]["lugar_feria"] . ' <br> <br>
               <strong>Numero de participantes: </strong> ' . $this->feriaId[0]["canti"] . ' <br> <br>
+              
+                </div>
+        <div class="col-sm-5 align-center"> 
+                <div class="form-group " hidden>                     
+                            <input type="text" class="form-control" id="fkID_grupo" name="fkID_grupo" value='.$this->feriaId[0]["fkID_grupo"].'>
+                        </div>
               <strong>Informe de la Feria:</strong><br> <br><a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class=""  target="_blank" ><span> <img  src="../img/pdfdescargable.png"></span></a>
               <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../server/php/files/'.$this->feriaId[0]["url_documento"].'" target="_blank" >'.$this->feriaId[0]["url_documento"].'</a><br><br>
               <strong>Lista de Asistencia de la Feria:</strong><br> <br><a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class=""  target="_blank" ><span> <img  src="../img/pdfdescargable.png"></span></a>
@@ -58,6 +64,7 @@
               
 
     }
+
 
     public function getTablasesione($pkID_sesion)
     {
@@ -191,7 +198,20 @@
 
         $tipo = $this->getAnio();
 
-        echo '<select name="anio_filtrog" id="anio_filtrog" class="form-control" required = "true">
+        echo '<select name="anio_filtrof" id="anio_filtrof" class="form-control" required = "true">
+                        <option value="" selected>Todos</option>';
+        for ($a = 0; $a < sizeof($tipo); $a++) {
+            echo "<option value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombre"] . "</option>";
+        }
+        echo "</select>";
+    }
+
+    public function getSelectTipoFeriaFiltro()
+    {
+
+        $tipo = $this->getTipoFeria();
+
+        echo '<select name="tipo_filtrof" id="tipo_filtrof" class="form-control" required = "true">
                         <option value="" selected>Todos</option>';
         for ($a = 0; $a < sizeof($tipo); $a++) {
             echo "<option value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombre"] . "</option>";
@@ -274,6 +294,17 @@
         echo "</select>";
     }
 
+    public function getSelectTotal($filtro,$pkID_proyectoM,$filtro2)
+    {
+
+        $m_u_Select = $this->getTotalEstudiantes($filtro,$pkID_proyectoM,$filtro2);
+
+        echo '<span class="input-group-addon">#</span>';
+        for ($i = 0; $i < sizeof($m_u_Select); $i++) {
+            echo '<input type="text" class="form-control" id="total_estudiantes" name="total_estudiantes" readonly="true" value='. $m_u_Select[$i]["cantidad"].'>';
+        }
+    }
+
     public function getSelectTipoFeria() {
         
             $tipo = $this->getTipoFeria();
@@ -286,7 +317,7 @@
 
 
 
-        public function getTablaFeria(){       
+        public function getTablaFeria($pkID_proyectoM,$filtro,$filtro2){       
 
             //permisos-------------------------------------------------------------------------
             $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo,$_COOKIE[$this->NameCookieApp."_IDtipo"]);
@@ -323,12 +354,12 @@
                 $array_opciones = [ 
                     "modulo" => "Feria", //nombre del modulo definido para jquerycontrollerV2
                     "title"  => "Click Ver Detalles", //etiqueta html title
-                    "href"   => "detalle_Feria.php?id_Feria=",
+                    "href"   => "detalle_feria.php?id_Feria=",
                     "class"  => "detail", //clase que permite que añadir el evento jquery click
                 ];
             //---------------------------------------------------------------------------------
             //carga el array desde el DAO
-            $Feria = $this->getFeria();
+            $Feria = $this->getFeria($pkID_proyectoM,$filtro,$filtro2);
 
 
             //Instancia el render

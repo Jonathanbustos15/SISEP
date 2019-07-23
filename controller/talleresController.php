@@ -43,26 +43,23 @@
     {
 
         $this->talleresId = $this->getTalleresId($pkID);
-        $this->sesionesId = $this->getlistadoID($pkID);
         //print_r($this->gruposId);
 
-        echo '<div class="col-sm-3 ">
+        echo '<div class="col-sm-1 ">
         </div>
-        <div class="col-sm-6 panel panel-primary align-center">
+        <div class="col-sm-6 align-left">
                 <div class="form-group " hidden>                     
                             <input type="text" class="form-control" id="fkID_grupo" name="fkID_grupo" value='.$this->talleresId[0]["fkID_grupo"].'>
                         </div>
-              <strong>Fecha del Taller: </strong> ' . $this->talleresId[0]["fecha_salida"] . ' <br> <br>
+              <strong>Fecha del Taller: </strong> ' . $this->talleresId[0]["fecha_taller"] . ' <br> <br>
               <strong>Tipo de Taller: </strong> ' . $this->talleresId[0]["nombre"] . ' <br> <br>
-              <strong>Descripción: </strong> ' . $this->talleresId[0]["comunidad_visitada"] . ' <br> <br>
+              <strong>Descripción: </strong> ' . $this->talleresId[0]["descripcion"] . ' <br> <br>
               <strong>Numero de participantes: </strong> ' . $this->talleresId[0]["canti"] . ' <br> <br>
               <strong>Asesor Asignado: </strong> ' . $this->talleresId[0]["nombres_funcionario"] . ' <br> <br>
               <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class=""  target="_blank" ><span> <img  src="../img/pdfdescargable.png"></span></a>
               <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../server/php/files/'.$this->talleresId[0]["url_documento"].'" target="_blank" >'.$this->talleresId[0]["url_documento"].'</a><br><br>
               
                 </div>';
-    
-              
 
     }
 

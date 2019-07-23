@@ -18,7 +18,7 @@
 
   $detalles_grupoInst = new grupoController();
 
-  $proyectoMGen = $detalles_grupoInst->getProyectosMarcoGrupo($pkID_proyectoM);
+  $proyectoMGen = $TallerInst->getProyectosMarcoTaller($pkID_proyectoM);
 
   if (isset($_GET["anio"])) {
     $filtro = $_GET["anio"];

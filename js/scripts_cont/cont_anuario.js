@@ -86,7 +86,7 @@ $(function() {
         }
     }
     $("#email_anuario").change(function(event) {
-        validarEmail($(this).val())
+        validarEmail($(this).val()) 
     });
 
     function crea_anuario() {
@@ -113,10 +113,12 @@ $(function() {
     function edita_anuario() {
         id_proyecto = $("#btn_nuevoAnuario").attr('data-proyecto');
         data = new FormData();
-        data.append('file', $("#url_documento").get(0).files[0]);
+        if (document.getElementById("url_documento")) {
+            data.append('file', $("#url_documento").get(0).files[0]);
+        }
         data.append('pkID', $("#pkID").val());
         data.append('fecha', $("#fecha").val());
-        data.append('fkID_proyecto_marco', id_proyecto);
+        data.append('fkID_proyecto_marco', id_proyecto);  
         data.append('tipo', "editar");
         $.ajax({
             type: "POST",
@@ -198,7 +200,7 @@ $(function() {
             //si confirma es true ejecuta ajax
             $.ajax({
                 url: '../controller/ajaxController12.php',
-                data: "pkID=" + id_funciona + "&tipo=eliminarlogico&nom_tabla=anuario",
+                data: "pkID=" + id_funciona + "&tipo=eliminar_logico&nom_tabla=anuario",
             }).done(function(data) {
                 //---------------------
                 console.log(data);
@@ -213,18 +215,18 @@ $(function() {
         }
     };
     //valida si existe el documento
-    function validaEqualIdentifica(num_id) {
-        console.log("busca valor " + encodeURI(num_id));
-        var consEqual = "SELECT COUNT(*) as res_equal FROM `estudiante` WHERE `documento_anuario` = '" + num_id + "'";
+    function validaEqualIdentifica(fecha) {
+        console.log("busca valor " + encodeURI(fecha));
+        var consEqual = "SELECT COUNT(*) as res_equal FROM anuario where estadoV= 1 and year(fecha)='" + fecha + "'";
         $.ajax({
             url: '../controller/ajaxController12.php',
             data: "query=" + consEqual + "&tipo=consulta_gen",
         }).done(function(data) {
             /**/
-            //console.log(data.mensaje[0].res_equal);
+            console.log(data.mensaje[0].res_equal);
             if (data.mensaje[0].res_equal > 0) {
-                alert("El Número de indetificación ya existe, por favor ingrese un número diferente.");
-                $("#documento_estudiante").val("");
+                alert("Este Anuario ya existe, por favor ingrese un año diferente.");
+                $("#fecha").val(""); 
             } else {
                 //return false;
             }
@@ -234,49 +236,13 @@ $(function() {
             console.log("complete");
         });
     }
-    $("#nombre_anuario").keyup(function(event) {
-        /* Act on the event */
-        if (((event.keyCode > 32) && (event.keyCode < 65)) || (event.keyCode > 200)) {
-            console.log(String.fromCharCode(event.which));
-            alert("El Nombre NO puede llevar valores numericos.");
-            $(this).val("");
-        }
+    
+    $("#fecha").change(function(event) {
+        var fecha = $(this).val().split("-", 1);
+        validaEqualIdentifica(fecha[0]);
     });
-    $("#apellido_anuario").keyup(function(event) {
-        /* Act on the event */
-        if (((event.keyCode > 32) && (event.keyCode < 65)) || (event.keyCode > 200)) {
-            console.log(String.fromCharCode(event.which));
-            alert("El Apellido NO puede llevar valores numericos.");
-            $(this).val("");
-        }
-    });
-    $("#telefono_anuario").keyup(function(event) {
-        /* Act on the event */
-        if (((event.keyCode > 32) && (event.keyCode < 48)) || (event.keyCode > 57)) {
-            console.log(String.fromCharCode(event.which));
-            alert("El número de Telefono NO puede llevar valores alfanuméricos.");
-            $(this).val("");
-        }
-    });
-    $("#documento_funcinario").change(function(event) {
-        /* valida que no tenga menos de 8 caracteres*/
-        var valores_idCli = $(this).val().length;
-        console.log(valores_idCli);
-        if ((valores_idCli < 5) || (valores_idCli > 12)) {
-            alert("El número de identificación no puede ser menor a 5 valores.");
-            $(this).val("");
-            $(this).focus();
-        }
-        validaEqualIdentifica($(this).val());
-    });
-    $("#documento_anuario").keyup(function(event) {
-        /* Act on the event */
-        if (((event.keyCode > 32) && (event.keyCode < 48)) || (event.keyCode > 57)) {
-            console.log(String.fromCharCode(event.which));
-            alert("El número de DOCUMENTO NO puede llevar valores alfanuméricos.");
-            $(this).val("");
-        }
-    });
+    
+
     //Funcion para pasar condicion de año
     $("#btn_filtro_anio").click(function(event) {
         proyecto = $("#btn_nuevoAnuario").attr("data-proyecto");

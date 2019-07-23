@@ -260,6 +260,53 @@ function elimina_taller(id) {
         location.href = "taller_formacion.php?id_proyectoM=" + proyecto + "&anio=" + nombre + "&tipo=" + tipo  ;
     });
 
+    $("#descripcion").change(function(event) {
+        var descripcion = $("#descripcion").val();
+        var taller = $("#fkID_tipo_taller option:selected").val();
+        var date = $("#fecha_taller").val();
+        var fecha = date.split("-", 1);            
+        validaEqualIdentifica(descripcion,taller,fecha[0]);
+    });
+
+    $("#fkID_tipo_taller").change(function(event) {
+        var descripcion = $("#descripcion").val();
+        var taller = $("#fkID_tipo_taller option:selected").val();
+        var date = $("#fecha_taller").val();
+        var fecha = date.split("-", 1);            
+        validaEqualIdentifica(descripcion,taller,fecha[0]);
+    });
+
+    $("#fecha_taller").change(function(event) {
+        var descripcion = $("#descripcion").val();
+        var taller = $("#fkID_tipo_taller option:selected").val();
+        var date = $("#fecha_taller").val();
+        var fecha = date.split("-", 1);            
+        validaEqualIdentifica(descripcion,taller,fecha[0]);
+    });
+
+    function validaEqualIdentifica(descripcion,taller,fecha) {
+        console.log("busca valor " + encodeURI(descripcion,taller,fecha));
+        var consEqual = "SELECT COUNT(*) as res_equal FROM `talleres_formacion` WHERE estadoV=1 and fkID_tipo_taller='" + taller + "' and descripcion='" + descripcion + "' and year(fecha_taller)='" + fecha + "'";
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "query=" + consEqual + "&tipo=consulta_gen",
+        }).done(function(data) {
+            /**/
+            //console.log(data.mensaje[0].res_equal);
+            if (data.mensaje[0].res_equal > 0) {
+                alert("Este Taller ya existe, por favor ingrese un taller diferente.");
+                $("#descripcion").val("");
+                $("#fecha_taller").val(""); 
+            } else {
+                //return false;
+            }
+        }).fail(function() {
+            console.log("error");
+        }).always(function() {
+            console.log("complete");
+        });
+    }
+
 
 
 });
