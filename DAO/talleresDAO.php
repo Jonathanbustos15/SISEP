@@ -112,6 +112,13 @@
       return $this->EjecutarConsulta($query);
     }
 
+    public function getTaller($pkID_album){  
+       
+      $query = "select * FROM galeria_taller WHERE pkID=".$pkID_album;
+
+      return $this->EjecutarConsulta($query);
+    }
+
     public function getFotosTaller($pkID_album){  
        
       $query = "select * FROM `fotos_taller` WHERE fkID_album=".$pkID_album;

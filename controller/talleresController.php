@@ -314,7 +314,8 @@
                     echo '><span class="glyphicon glyphicon-pencil"></span></button>
                      <button id="btn_elimina_album" title="Eliminar" name="elimina_album" type="button" class="btn btn-danger" data-id-album = "' . $album[$a]["pkID"] . '" ';
                      echo '><span class="glyphicon glyphicon-remove"></span></button>
-                               <img data-album="' . $album[$a]["pkID"] . '" class="img-responsive img-thumbnail" src="../img/sin_foto.png" height="360">
+                     <a title="album" href="fotos_album.php?id_album='.$album[$a]["pkID"].'" target="_blank">
+                               <img data-album="' . $album[$a]["pkID"] . '" class="img-responsive img-thumbnail" src="../img/sin_foto.png" height="360"></a>
                               <label class="text-center">'.$album[$a]["nombre_album"].'    </label>
                               
                         </div>';
@@ -333,6 +334,32 @@
         } else {
             echo '<div class="col-md-12 text-center">
             <h3>No Existen Álbumes</h3>
+            </div>';
+        }
+    }
+
+    public function getSelectFotosTaller($pkID_album)
+    {
+
+        $fotos = $this->getFotosTaller($pkID_album);
+
+        if ($fotos[0]["pkID"]!="") {
+            $nums=1;
+            for ($a = 0; $a < sizeof($fotos); $a++) {
+                 echo '<div class="col-lg-3 col-md-4 col-xs-6 thumb">';
+                     echo '
+                            <a class="thumbnail" href="#" data-image-id="" data-toggle="modal" data-title="' . $fotos[$a]["descripcion"] . '" data-caption="'.$fotos[$a]["descripcion"].'" data-image=""../img/'.$fotos[$a]["url_foto"].'" data-target="#image-gallery">
+                               <img data-album="' . $fotos[$a]["pkID"] . '" src="../img/'.$fotos[$a]["url_foto"].'">
+                              <label class="text-center">'.$fotos[$a]["descripcion"].'    </label>    
+                        </div>';
+                        if ($nums%4==0){
+                        echo '<div class="clearfix"></div>';
+                    }
+                    $nums++;
+         }
+        } else {
+            echo '<div class="col-md-12 text-center">
+            <h3>No Existen Fotos en este Álbum</h3>
             </div>';
         }
     }

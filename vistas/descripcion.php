@@ -6,9 +6,9 @@
 	$muestra_estudiantes = new mostrar();
 	
 	//---------------------------------------------------------
-	$pagina = 'cont_fotos_album.php';
-	$scripts = array('cont_albumgrupos.js');  
-	$id_modulo = 40;
+	$pagina = 'cont_descripcion.php';
+	$scripts = array('cont_descripcion.js'); 
+	$id_modulo = 41;
 	//---------------------------------------------------------
 	
 	$muestra_estudiantes->mostrar_pagina_scripts($pagina,$scripts,$id_modulo);

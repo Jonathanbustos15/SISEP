@@ -9,6 +9,13 @@ $(function() {
         $("#fkID_grupo").val(id_gru);
         console.log($("#fkID_grupo").val());
     });
+
+    $("#btn_nuevafoto").click(function() {
+        $("#lbl_form_foto_taller").html("Nuevas Fotos");
+        $("#lbl_btn_actionfoto_taller").html("Guardar <span class='glyphicon glyphicon-save'></span>");
+        $("#btn_actionfoto_taller").attr("data-action", "crear");
+        $("#form_foto_taller")[0].reset();
+    });
     //Definir la acción del boton del formulario 
     $("#btn_actionalbum_grupo").click(function() {
         var validacioncon = validaralbum();
@@ -20,6 +27,18 @@ $(function() {
         console.log("accion a ejecutar: " + action);
         }
     });
+
+    $("#btn_actionfoto_taller").click(function() {
+        var validacioncon = validarfoto();
+        if (validacioncon === "no") {
+            window.alert("Faltan Campos por diligenciar.");
+        } else {
+        action = $(this).attr("data-action");
+        //valida_actio(action);
+        console.log("accion a ejecutar: " + action);
+        }
+    });
+
     $("[name*='edita_album']").click(function() {
         $("#lbl_form_album_grupo").html("Edita Album");
         $("#lbl_btn_actionalbum_grupo").html("Guardar Cambios <span class='glyphicon glyphicon-save'></span>");
@@ -64,6 +83,15 @@ $(function() {
             respuesta = "ok"
             return respuesta
         }
+    }
+
+    function validarfoto(){
+        if (document.getElementById("url_foto[]").files.length) {
+            respuesta = "ok"
+        }else{
+            respuesta = "no"
+        }
+        return respuesta
     }
 
     function crea_album() {
@@ -167,6 +195,65 @@ $(function() {
     $("#nombre_album").change(function(event) {
         validaEqualIdentifica($(this).val());
     });
+
+
+
+
+    //-------------------------------------------------------------------------------------
+
+    $(document).ready(function(){
+        console.log("entre")
+    loadGallery(true, 'a.thumbnail');
+    //This function disables buttons when needed
+    function disableButtons(counter_max, counter_current){
+        $('#show-previous-image, #show-next-image').show();
+        if(counter_max == counter_current){
+            $('#show-next-image').hide();
+        } else if (counter_current == 1){
+            $('#show-previous-image').hide();
+        }
+    }
+    /**
+     * @param setIDs        Sets IDs when DOM is loaded. If using a PHP counter, set to false.
+     * @param setClickAttr  Sets the attribute for the click handler.
+     */
+
+    function loadGallery(setIDs, setClickAttr){
+        var current_image,
+            selector,
+            counter = 0;
+
+        $('#show-next-image, #show-previous-image').click(function(){
+            if($(this).attr('id') == 'show-previous-image'){
+                current_image--;
+            } else {
+                current_image++;
+            }
+
+            selector = $('[data-image-id="' + current_image + '"]');
+            updateGallery(selector);
+        });
+
+        function updateGallery(selector) {
+            var $sel = selector;
+            current_image = $sel.data('image-id');
+            $('#image-gallery-caption').text($sel.data('caption'));
+            $('#image-gallery-title').text($sel.data('title'));
+            $('#image-gallery-image').attr('src', $sel.data('image'));
+            disableButtons(counter, $sel.data('image-id'));
+        }
+
+        if(setIDs == true){
+            $('[data-image-id]').each(function(){
+                counter++;
+                $(this).attr('data-image-id',counter);
+            });
+        }
+        $(setClickAttr).on('click',function(){
+            updateGallery($(this));
+        });
+    }
+});
 
 
 });

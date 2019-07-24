@@ -70,7 +70,7 @@ class proyecto_marcoController extends proyecto_marcoDAO
         $array_opciones = [
             "modulo" => "proyectoM", //nombre del modulo definido para jquerycontrollerV2
             "title"  => "Click Ver Detalles", //etiqueta html title
-            "href"   => "principal.php?id_proyectoM=",
+            "href"   => "descripcion.php?id_proyectoM=",
             "class"  => "detail", //clase que permite que añadir el evento jquery click
             "style"  => "cursor:pointer;",
         ];

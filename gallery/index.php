@@ -111,6 +111,7 @@ include("conexion.php");
         });
 
         function updateGallery(selector) {
+            console.log("chavito")
             var $sel = selector;
             current_image = $sel.data('image-id');
             $('#image-gallery-caption').text($sel.data('caption'));
