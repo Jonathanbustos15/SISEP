@@ -14,7 +14,7 @@ $docentesInst = new docentesController();
 
 $arrPermisosD = $docentesInst->getPermisosModulo_Tipo($id_modulo, $_COOKIE[$NomCookiesApp . '_IDtipo']);
 
-$creaD = $arrPermisosD[0]['crear'];
+$creaD = $arrPermisosD[0]['crear'];  
 
 $pkID_album = $_GET["id_album"];
 
@@ -34,6 +34,18 @@ include 'form_fotos_taller.php';
       <div class="col-lg-12">
           <h2 class="page-header titleprincipal"><img src="../img/botones/docentesonly.png"> Album  <?php echo $albumTaller[0]["nombre_album"];?> - Fotos</h2>
       </div>
+
+      <div class="col-lg-12">
+          <ol class="breadcrumb migadepan">
+            <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
+            <li><a href="principal.php?id_proyectoM=<?php echo $albumTaller[0]["fkID_proyecto"]; ?>" class="migadepan">Menú principal</a></li>
+            <li><a href="academico.php?id_proyectoM=<?php echo $albumTaller[0]["fkID_proyecto"]; ?>" class="migadepan">Académico</a></li>
+            <li><a href="apropiacion.php?id_proyectoM=<?php echo $albumTaller[0]["fkID_proyecto"]; ?>" class="migadepan">Apropiacion social</a></li> 
+            <li><a href="taller_formacion.php?id_proyectoM=<?php echo $albumTaller[0]["fkID_proyecto"]; ?>" class="migadepan">Taller de formación</a></li>
+            <li><a href="detalle_taller_formacion.php?id_taller_formacion=<?php echo $albumTaller[0]["fkID_taller"]; ?>" class="migadepan">Detalle Talleres de Formación</a></li>
+            <li class="active migadepan">Fotos del Álbum</li>
+          </ol>
+    </div>
 
 
   </div>
@@ -73,9 +85,9 @@ include 'form_fotos_taller.php';
           ?>
           
           <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-            <a class="thumbnail" href="#" data-image-id="" data-toggle="modal" data-title="<?php echo $fotos[$a]["descripcion"];?>" data-caption="" data-image="../img/<?php echo $fotos[$a]["url_foto"];?>" data-target="#image-gallery">
-              <img class="img-responsive" src="../img/<?php echo $fotos[$a]["url_foto"];?>" alt="Another alt text"><br>
-            <div class="col-md-12 text-center"><button id="btn_elimina_album" title="Eliminar" name="elimina_album" type="button" class="btn btn-danger text center" data-id-foto = "<?php echo $fotos[$a]["pkID"];  ?>";
+            <a class="thumbnail" href="#" data-image-id="" data-toggle="modal" data-title="<?php echo $fotos[$a]["descripcion"];?>" data-caption="" data-image="../img/<?php echo $fotos[$a]["url_foto"];?>" data-target="#imagen_galeria">
+              <img class="img-responsive" style="height: 200px" src="../img/<?php echo $fotos[$a]["url_foto"];?>" alt="Another alt text"><br>
+            <div class="col-md-12 text-center"><button id="btn_elimina_foto" title="Eliminar" name="elimina_foto" type="button" class="btn btn-danger text center" data-id-foto = "<?php echo $fotos[$a]["pkID"];  ?>";
            ><span class="glyphicon glyphicon-remove"></span></button></div><br><br>
             
            </a>
@@ -96,30 +108,30 @@ include 'form_fotos_taller.php';
             
       </div>
     </div>
-<div class="modal fade" id="image-gallery" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="imagen_galeria" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-              <div class="col-md-4"><h4 class="modal-title" id="image-gallery-title"></h4></div>
+              <div class="col-md-4"><h4 class="modal-title" id="imagen_galeria-title"></h4></div>
               <div class="col-md-8 text-right"><button type="button" class=" btn btn-danger" data-dismiss="modal"><span aria-hidden="true"></span><span class="glyphicon glyphicon-remove"></span></button></div>
             </div>
             <div class="modal-body">
       <center>
-                <img id="image-gallery-image" class="img-responsive" src="">
+                <img id="imagen_galeria-image" class="img-responsive" src="">
       </center> 
             </div>
             <div class="modal-footer">
 
                 <div class="col-md-2">
-                    <button type="button" class="btn btn-info" id="show-previous-image">Anterior</button>
+                    <button type="button" class="btn btn-info" id="btn_anterior">Anterior</button>
                 </div>
 
-                <div class="col-md-8 text-justify" id="image-gallery-caption">
+                <div class="col-md-8 text-justify" id="imagen_galeria-caption">
                     This text will be overwritten by jQuery
                 </div>
 
                 <div class="col-md-2">
-                    <button type="button" id="show-next-image" class="btn btn-info">Siguiente</button>
+                    <button type="button" id="btn_siguiente" class="btn btn-info">Siguiente</button>
                 </div>
             </div>
         </div>

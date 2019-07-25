@@ -314,8 +314,8 @@
                     echo '><span class="glyphicon glyphicon-pencil"></span></button>
                      <button id="btn_elimina_album" title="Eliminar" name="elimina_album" type="button" class="btn btn-danger" data-id-album = "' . $album[$a]["pkID"] . '" ';
                      echo '><span class="glyphicon glyphicon-remove"></span></button>
-                     <a title="album" href="fotos_album.php?id_album='.$album[$a]["pkID"].'" target="_blank">
-                               <img data-album="' . $album[$a]["pkID"] . '" class="img-responsive img-thumbnail" src="../img/sin_foto.png" height="360"></a>
+                     <a title="album" href="fotos_album.php?id_album='.$album[$a]["pkID"].'">
+                               <img data-album="' . $album[$a]["pkID"] . '" class="img-responsive img-thumbnail" src="../img/sin_foto.png" style=" width: 150px; height: 130px"></a>
                               <label class="text-center">'.$album[$a]["nombre_album"].'    </label>
                               
                         </div>';
@@ -325,8 +325,8 @@
                     echo '><span class="glyphicon glyphicon-pencil"></span></button>
                      <button id="btn_elimina_album" title="Eliminar" name="elimina_album" type="button" class="btn btn-danger" data-id-album = "' . $album[$a]["pkID"] . '" ';
                       echo '><span class="glyphicon glyphicon-remove"></span></button>
-                        <a title="album" href="fotos_album.php?id_album='.$album[$a]["pkID"].'" target="_blank">
-                               <img data-album="' . $album[$a]["pkID"] . '" class="img-responsive img-thumbnail" src="../img/'.$fotos[0]["url_foto"].'" height="360"></a>
+                        <a title="album" href="fotos_album.php?id_album='.$album[$a]["pkID"].'" >
+                               <img data-album="' . $album[$a]["pkID"] . '" class="img-responsive img-thumbnail" src="../img/'.$fotos[0]["url_foto"].'" style=" width: 150px; height: 130px"></a>
                               <label class="text-center">'.$album[$a]["nombre_album"].'  </label>
                         </div>';
              }

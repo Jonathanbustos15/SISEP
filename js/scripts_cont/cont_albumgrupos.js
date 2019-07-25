@@ -36,6 +36,7 @@ $(function() {
         action = $(this).attr("data-action");
         //valida_actio(action);
         console.log("accion a ejecutar: " + action);
+        crea_foto();
         }
     });
 
@@ -52,6 +53,12 @@ $(function() {
         id_album = $(this).attr('data-id-album');
         console.log(id_album)
         elimina_album(id_album);
+    });
+
+    $("[name*='elimina_foto']").click(function(event) {
+        id_foto = $(this).attr('data-id-foto');
+        console.log(id_foto)
+        elimina_foto(id_foto);
     });
 
     //---------------------------------------------------------
@@ -86,7 +93,7 @@ $(function() {
     }
 
     function validarfoto(){
-        if (document.getElementById("url_foto[]").files.length) {
+        if (document.getElementById("url_foto").files.length) {
             respuesta = "ok"
         }else{
             respuesta = "no"
@@ -108,6 +115,28 @@ $(function() {
                 success: function(r) {
                     console.log(r);
                     location.reload();
+                }
+            })
+    }
+
+    function crea_foto() {  
+         var data = new FormData($("#form_foto_taller")[0]);
+            data.append('tipo', "crear_foto");
+            console.log(data)
+            $.ajax({
+                type: "POST",
+                url: "../controller/ajaxtaller.php",
+                data: data, 
+                contentType: false,
+                processData: false,
+                success: function(a) {  
+                    console.log(a);
+                    var tipos = JSON.parse(a);
+                    console.log(tipos);
+                    for(x=0; x<tipos.length; x++) {
+                console.log("nombre"+tipos[x]);
+                }
+                location.reload();
                 }
             })
     }
@@ -148,7 +177,7 @@ $(function() {
     };
 
     function elimina_album(id_album) {
-        var confirma = confirm("En realidad quiere eliminar esta Album?");
+        var confirma = confirm("En realidad quiere eliminar este Album?");
         console.log(confirma);
         /**/
         if (confirma == true) {
@@ -158,6 +187,29 @@ $(function() {
                 data: "pkID=" + id_album + "&tipo=eliminar_logico&nom_tabla=galeria_taller",
             }).done(function(data) {
                 //---------------------
+                console.log(data);
+                location.reload();
+            }).fail(function() {
+                console.log("errorfatal");
+            }).always(function() {
+                console.log("complete");
+            });
+        } else {
+            //no hace nada
+        }
+    };
+
+    function elimina_foto(id_foto) {
+        var confirma = confirm("En realidad quiere eliminar esta Foto?");
+        console.log(confirma);
+
+        /**/
+        if (confirma == true) {
+            //si confirma es true ejecuta ajax
+            $.ajax({
+                url: '../controller/ajaxController12.php',
+                data: "pkID=" + id_foto + "&tipo=eliminar_logico&nom_tabla=fotos_taller",
+            }).done(function(data) {
                 console.log(data);
                 location.reload();
             }).fail(function() {
@@ -196,6 +248,26 @@ $(function() {
         validaEqualIdentifica($(this).val());
     });
 
+    file_in = document.querySelector("#url_foto")
+file_in.onchange = function(e){
+    var files = e.target.files;
+    for(var i=0,f;f= files[i];++i){
+        extension = (f.name.substring(f.name.lastIndexOf("."))).toLowerCase();
+        validarextension(extension);
+        console.log(f.name);
+        console.log(extension);
+    }
+}
+
+    function validarextension(ext){
+        if(ext != ".jpg" && ext != ".png" && ext != ".gif" && ext != ".jpeg") {
+            window.alert("Solo se permiten formatos de imagen.");
+            $("#form_foto_taller")[0].reset();
+        } else{
+            console.log("ok")
+        }  
+    }
+
 
 
 
@@ -206,11 +278,11 @@ $(function() {
     loadGallery(true, 'a.thumbnail');
     //This function disables buttons when needed
     function disableButtons(counter_max, counter_current){
-        $('#show-previous-image, #show-next-image').show();
+        $('#btn_anterior, #btn_siguiente').show();
         if(counter_max == counter_current){
-            $('#show-next-image').hide();
+            $('#btn_siguiente').hide();
         } else if (counter_current == 1){
-            $('#show-previous-image').hide();
+            $('#btn_anterior').hide();
         }
     }
     /**
@@ -223,8 +295,8 @@ $(function() {
             selector,
             counter = 0;
 
-        $('#show-next-image, #show-previous-image').click(function(){
-            if($(this).attr('id') == 'show-previous-image'){
+        $('#btn_siguiente, #btn_anterior').click(function(){
+            if($(this).attr('id') == 'btn_anterior'){
                 current_image--;
             } else {
                 current_image++;
@@ -237,9 +309,9 @@ $(function() {
         function updateGallery(selector) {
             var $sel = selector;
             current_image = $sel.data('image-id');
-            $('#image-gallery-caption').text($sel.data('caption'));
-            $('#image-gallery-title').text($sel.data('title'));
-            $('#image-gallery-image').attr('src', $sel.data('image'));
+            $('#imagen_galeria-caption').text($sel.data('caption'));
+            $('#imagen_galeria-title').text($sel.data('title'));
+            $('#imagen_galeria-image').attr('src', $sel.data('image'));
             disableButtons(counter, $sel.data('image-id'));
         }
 

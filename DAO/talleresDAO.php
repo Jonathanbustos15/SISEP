@@ -114,14 +114,17 @@
 
     public function getTaller($pkID_album){  
        
-      $query = "select * FROM galeria_taller WHERE pkID=".$pkID_album;
+      $query = "select galeria_taller.*, proyecto_marco.pkID as fkID_proyecto FROM galeria_taller 
+                INNER JOIN talleres_formacion on talleres_formacion.pkID = galeria_taller.fkID_taller
+                INNER JOIN proyecto_marco on proyecto_marco.pkID = talleres_formacion.fkID_proyectoM
+                WHERE galeria_taller.pkID=".$pkID_album;
 
       return $this->EjecutarConsulta($query);
     }
 
     public function getFotosTaller($pkID_album){  
        
-      $query = "select * FROM `fotos_taller` WHERE fkID_album=".$pkID_album;
+      $query = "select * FROM `fotos_taller` WHERE estadoV=1 and fkID_album=".$pkID_album;
 
       return $this->EjecutarConsulta($query);
     }

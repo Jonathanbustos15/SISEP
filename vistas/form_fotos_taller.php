@@ -18,6 +18,7 @@
                         </div>
                     </div>
 
+
                     <div class="form-group">
                         <label for="descripcón" class=" control-label">Descripción</label>
                         <input type="text" class="form-control" id="descripcion_foto_taller" name="descripcion_foto_taller" placeholder="Descripción de la foto" required = "true">
@@ -25,13 +26,13 @@
 
                     <div class="form-group" id="foto_taller">
                         <label for="adjunto" id="lbl_url_foto" class=" control-label">Fotos</label>
-                        <input type="file" class="form-control" id="url_foto[]" name="url_foto[]" required = "true" multiple="">
+                        <input type="file" class="form-control" id="url_foto" name="url_foto[]" required = "true" multiple="">
                     </div>
 
                     
                     <div class="form-group " hidden>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="proyecto_marco" name="proyecto_marco" value="<?php echo $pkID_proyectoM; ?>">
+                            <input type="text" class="form-control" id="fkID_album" name="fkID_album" value="<?php echo $pkID_album; ?>">
                         </div>
                     </div>
 
