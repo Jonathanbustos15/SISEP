@@ -18,7 +18,8 @@
 
                 "jQueryUI"=>"bower_components/jquery-ui/jquery-ui.js",
                 "jQueryUI i18n"=>"bower_components/jquery-ui/ui/i18n/datepicker-es.js",
-
+                "lightbox2-master"=>"bower_components/lightbox2-master/lightbox.js",
+                //"jQueryfc"=>"https://code.jquery.com/jquery-3.3.1.js",
                 
 
                 "Bootstrap"=>"bower_components/bootstrap/dist/js/bootstrap.min.js",
@@ -72,6 +73,7 @@
 
                 "jQueryUI"=>"bower_components/jquery-ui/themes/ui-darkness/jquery-ui.css",
                 "jQueryUI-bootstrap"=>"bower_components/jquery-ui-bootstrap/jquery.ui.theme.css",
+                "lightbox2-master"=>"bower_components/lightbox2-master/lightbox.css",
                 //"metisMenu"=>"bower_components/metisMenu/dist/metisMenu.min.css",
                 //"timeline"=>"dist/css/timeline.css",
                 "sb-admin-2"=>"bower_components/sb-admin-2/css/sb-admin-2.css",

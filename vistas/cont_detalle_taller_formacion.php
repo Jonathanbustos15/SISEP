@@ -114,7 +114,7 @@ include 'form_grupo_estudiante.php';
 include 'form_grupo_docente.php';
 include "form_proyecto.php";
 include "form_modal_archivos.php";
-include "form_album_grupo.php";
+include "form_album_taller.php";
 include "form_sesiones.php";
 include "frm_modal_proyectog.php";
 //++++++++++++++++++++++++++++++++++/**/
@@ -317,14 +317,14 @@ include "frm_modal_proyectog.php";
 
 				<div class="panel panel-default proc-pan-def3">
 
-					<div class="titulohead">
+					<div class="titulohead"> 
 
 			            <div class="row">
 			              <div class="col-md-6">
 			                  <div class="titleprincipal"><h4>Galeria de Álbumes</h4></div>
 			              </div>
 			              <div class="col-md-6 text-right">
-			      			 <button id="btn_album_grupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="<?php echo $pkID_taller ?>" data-target="#frm_modal_album_grupo"><span class="glyphicon glyphicon-plus"></span> 
+			      			 <button id="btn_album_grupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="<?php echo $pkID_taller ?>" data-target="#frm_modal_album_taller"><span class="glyphicon glyphicon-plus"></span> 
 			      			 Crear album</button>
 
 			      			 <div class="form-group " hidden>

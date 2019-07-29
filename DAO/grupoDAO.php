@@ -288,6 +288,20 @@ class grupoDAO extends UsuariosDAO
         return $this->EjecutarConsulta($query);
     }
 
+    public function getAlbumGrupos($pkID_taller){  
+       
+      $query = "select * FROM `galeria_grupo` WHERE estadoV=1";
+
+      return $this->EjecutarConsulta($query);
+    }
+
+    public function getFotosGrupo($pkID_album){  
+       
+      $query = "select * FROM `fotos_grupo` WHERE estadoV=1 and fkID_album=".$pkID_album;
+
+      return $this->EjecutarConsulta($query);
+    }
+
 
     public function getEstudiantesGrupo($pkID_grupo)
     {

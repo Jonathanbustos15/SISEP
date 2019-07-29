@@ -26,7 +26,7 @@
 
                     <div class="form-group" id="foto_taller">
                         <label for="adjunto" id="lbl_url_foto" class=" control-label">Fotos</label>
-                        <input type="file" class="form-control" id="url_foto" name="url_foto[]" required = "true" multiple="">
+                        <input type="file" class="form-control" id="url_foto" name="url_foto[]" required = "true" multiple="" >
                     </div>
 
                     

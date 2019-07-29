@@ -74,7 +74,7 @@ include 'form_fotos_taller.php';
         <div class="panel-body">
     
          <body>
-    <div class='container'>
+    <div class='container' id="fotos">
     <div class="row">
       <div class="col-lg-12">
       <?php
@@ -85,12 +85,12 @@ include 'form_fotos_taller.php';
           ?>
           
           <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-            <a class="thumbnail" href="#" data-image-id="" data-toggle="modal" data-title="<?php echo $fotos[$a]["descripcion"];?>" data-caption="" data-image="../img/<?php echo $fotos[$a]["url_foto"];?>" data-target="#imagen_galeria">
-              <img class="img-responsive" style="height: 200px" src="../img/<?php echo $fotos[$a]["url_foto"];?>" alt="Another alt text"><br>
+            <a class="thumbnail" href="../img/<?php echo $fotos[$a]["url_foto"];?>" data-lightbox="fotos_taller" data-title="<?php echo $fotos[$a]["descripcion"];?>"><img class="img-responsive" style="height: 200px" src="../img/<?php echo $fotos[$a]["url_foto"];?>" alt="" /><br>
             <div class="col-md-12 text-center"><button id="btn_elimina_foto" title="Eliminar" name="elimina_foto" type="button" class="btn btn-danger text center" data-id-foto = "<?php echo $fotos[$a]["pkID"];  ?>";
            ><span class="glyphicon glyphicon-remove"></span></button></div><br><br>
             
            </a>
+
           </div>
           <?php
           
@@ -107,51 +107,11 @@ include 'form_fotos_taller.php';
       ?>
             
       </div>
+     
     </div>
-<div class="modal fade" id="imagen_galeria" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-              <div class="col-md-4"><h4 class="modal-title" id="imagen_galeria-title"></h4></div>
-              <div class="col-md-8 text-right"><button type="button" class=" btn btn-danger" data-dismiss="modal"><span aria-hidden="true"></span><span class="glyphicon glyphicon-remove"></span></button></div>
-            </div>
-            <div class="modal-body">
-      <center>
-                <img id="imagen_galeria-image" class="img-responsive" src="">
-      </center> 
-            </div>
-            <div class="modal-footer">
-
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-info" id="btn_anterior">Anterior</button>
-                </div>
-
-                <div class="col-md-8 text-justify" id="imagen_galeria-caption">
-                    This text will be overwritten by jQuery
-                </div>
-
-                <div class="col-md-2">
-                    <button type="button" id="btn_siguiente" class="btn btn-info">Siguiente</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
   </div>
           </div>
           <!-- /.table-responsive -->
-
-        </div>
-        <!-- /.panel-body -->
-
-        </div>
-        <!-- /.panel -->
-
-      </div>
-      <!-- /.col-lg-12 -->
-
-    </div>
-    <!-- /.row -->
 
 </div>
 <!-- /#page-wrapper -->

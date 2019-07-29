@@ -13,7 +13,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" type="image/x-icon" href="../img/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="../dropzone/css/dropzone.css" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    
+
+
 
     <!--<title><?php echo $directorio_raiz; ?></title>-->
     <title>SISEP</title>

@@ -1,10 +1,11 @@
 $(function() {
     //INGRESA A LOS ATRIBUTOS AL FORMULARIO PARA INSERTAR INSTITUCIÓN 
     $("#btn_album_grupo").click(function() {
-        $("#lbl_form_album_taller").html("Nuevo Album");
-        $("#lbl_btn_actionalbum_taller").html("Guardar <span class='glyphicon glyphicon-save'></span>");
-        $("#btn_actionalbum_taller").attr("data-action", "crear");
-        $("#form_album_taller")[0].reset();
+        console.log("hola")
+        $("#lbl_form_album_grupo").html("Nuevo Album");
+        $("#lbl_btn_actionalbum_grupo").html("Guardar <span class='glyphicon glyphicon-save'></span>");
+        $("#btn_actionalbum_grupo").attr("data-action", "crear");
+        $("#form_album_grupo")[0].reset();
         id_gru = $("#pkID_grup").val();
         $("#fkID_grupo").val(id_gru);
         console.log($("#fkID_grupo").val());
@@ -17,7 +18,7 @@ $(function() {
         $("#form_foto_taller")[0].reset();
     });
     //Definir la acción del boton del formulario 
-    $("#btn_actionalbum_taller").click(function() {
+    $("#btn_actionalbum_grupo").click(function() {
         var validacioncon = validaralbum();
         if (validacioncon === "no") {
             window.alert("Faltan Campos por diligenciar.");
@@ -41,9 +42,9 @@ $(function() {
     });
 
     $("[name*='edita_album']").click(function() {
-        $("#lbl_form_album_taller").html("Edita Album");
-        $("#lbl_btn_actionaalbum_taller").html("Guardar Cambios <span class='glyphicon glyphicon-save'></span>");
-        $("#btn_actionalbum_taller").attr("data-action", "editar");
+        $("#lbl_form_album_grupo").html("Edita Album");
+        $("#lbl_btn_actionalbum_grupo").html("Guardar Cambios <span class='glyphicon glyphicon-save'></span>");
+        $("#btn_actionalbum_grupo").attr("data-action", "editar");
         $("#form_album_grupo")[0].reset();
         id = $(this).attr('data-id-album');
         console.log(id);
@@ -103,10 +104,10 @@ $(function() {
 
     function crea_album() {
         console.log("paso a pasito")
-        taller = $("#fkID_taller").val();
+        taller = $("#fkID_grupo").val();
         nombre = $("#nombre_album").val();  
         fecha = $("#fecha_creacion_album").val();
-        data="nombre_album="+nombre+"&fecha_album="+fecha+"&fkID_taller="+taller+ "&tipo=inserta&nom_tabla=galeria_taller"
+        data="nombre_album="+nombre+"&fecha_album="+fecha+"&fkID_grupo="+taller+ "&tipo=inserta&nom_tabla=galeria_grupo"
         console.log(data)
             $.ajax({
                 type: "GET",
@@ -151,7 +152,7 @@ $(function() {
             $.ajax({
                 type: "GET",
                 url: '../controller/ajaxController12.php',
-                data: "nombre_album="+nombre+"&fecha_album="+fecha+"&pkID="+id+"&tipo=actualizar&nom_tabla=galeria_taller",
+                data: "nombre_album="+nombre+"&fecha_album="+fecha+"&pkID="+id+"&tipo=actualizar&nom_tabla=galeria_grupo",
                 success: function(r) {
                     console.log(r);
                     location.reload();
@@ -163,7 +164,7 @@ $(function() {
         console.log("Carga el album " + id_album);
         $.ajax({
             url: '../controller/ajaxController12.php',
-            data: "pkID=" + id_album + "&tipo=consultar&nom_tabla=galeria_taller",
+            data: "pkID=" + id_album + "&tipo=consultar&nom_tabla=galeria_grupo",
         }).done(function(data) {
             $.each(data.mensaje[0], function(key, value) {
                 console.log(key + "--" + value);
@@ -184,7 +185,7 @@ $(function() {
             //si confirma es true ejecuta ajax
             $.ajax({
                 url: '../controller/ajaxController12.php',
-                data: "pkID=" + id_album + "&tipo=eliminar_logico&nom_tabla=galeria_taller",
+                data: "pkID=" + id_album + "&tipo=eliminar_logico&nom_tabla=galeria_grupo",
             }).done(function(data) {
                 //---------------------
                 console.log(data);
@@ -224,7 +225,7 @@ $(function() {
 
     function validaEqualIdentifica(nombre) {
         console.log("busca valor " + encodeURI(nombre));
-        var consEqual = "SELECT COUNT(*) as res_equal FROM galeria_taller where estadoV= 1 and nombre_album='" + nombre + "'";
+        var consEqual = "SELECT COUNT(*) as res_equal FROM galeria_grupo where estadoV= 1 and nombre_album='" + nombre + "'";
         $.ajax({
             url: '../controller/ajaxController12.php',
             data: "query=" + consEqual + "&tipo=consulta_gen",
@@ -270,64 +271,8 @@ $(function() {
         }  
     }
 
+    
 
-
-
-    //-------------------------------------------------------------------------------------
-
-    $(document).ready(function(){
-        console.log("entre")
-    loadGallery(true, 'a.thumbnail');
-    //This function disables buttons when needed
-    function disableButtons(counter_max, counter_current){
-        $('#btn_anterior, #btn_siguiente').show();
-        if(counter_max == counter_current){
-            $('#btn_siguiente').hide();
-        } else if (counter_current == 1){
-            $('#btn_anterior').hide();
-        }
-    }
-    /**
-     * @param setIDs        Sets IDs when DOM is loaded. If using a PHP counter, set to false.
-     * @param setClickAttr  Sets the attribute for the click handler.
-     */
-
-    function loadGallery(setIDs, setClickAttr){
-        var current_image,
-            selector,
-            counter = 0;
-
-        $('#btn_siguiente, #btn_anterior').click(function(){
-            if($(this).attr('id') == 'btn_anterior'){
-                current_image--;
-            } else {
-                current_image++;
-            }
-
-            selector = $('[data-image-id="' + current_image + '"]');
-            updateGallery(selector);
-        });
-
-        function updateGallery(selector) {
-            var $sel = selector;
-            current_image = $sel.data('image-id');
-            $('#imagen_galeria-caption').text($sel.data('caption'));
-            $('#imagen_galeria-title').text($sel.data('title'));
-            $('#imagen_galeria-image').attr('src', $sel.data('image'));
-            disableButtons(counter, $sel.data('image-id'));
-        }
-
-        if(setIDs == true){
-            $('[data-image-id]').each(function(){
-                counter++;
-                $(this).attr('data-image-id',counter);
-            });
-        }
-        $(setClickAttr).on('click',function(){
-            updateGallery($(this));
-        });
-    }
-});
 
 
 });
