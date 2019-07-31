@@ -21,10 +21,10 @@ class microbiologiaDAO extends UsuariosDAO
     public function getMicrobiologias($pkID_proyectoM)
     {
 
-        $query = "SELECT *,microbiologia.pkID AS pkID,grado.nombre AS grado,(SELECT COUNT(*) FROM microbiologia_estudiante LEFT JOIN estudiante ON estudiante.pkID = microbiologia_estudiante.fkID_estudiante WHERE microbiologia.pkID = microbiologia_estudiante.fkID_microbiologia AND microbiologia_estudiante.estadoV = 1) as cantidad  FROM microbiologia
+        $query = "SELECT *,YEAR(fecha) AS anio,microbiologia.pkID AS pkID,grado.nombre AS grado,(SELECT COUNT(*) FROM microbiologia_estudiante LEFT JOIN estudiante ON estudiante.pkID = microbiologia_estudiante.fkID_estudiante WHERE microbiologia.pkID = microbiologia_estudiante.fkID_microbiologia AND microbiologia_estudiante.estadoV = 1) as cantidad  FROM microbiologia
                 INNER JOIN institucion ON institucion.pkID = microbiologia.fkID_institucion
                 INNER JOIN grado ON grado.pkID = microbiologia.fkID_grado
-                INNER JOIN curso ON curso.pkID = microbiologia.fkID_curso
+                LEFT JOIN curso ON curso.pkID = microbiologia.fkID_curso
                 WHERE microbiologia.estadoV = 1 AND fkID_proyecto_marco = " . $pkID_proyectoM;
 
         return $this->EjecutarConsulta($query);
@@ -38,8 +38,11 @@ class microbiologiaDAO extends UsuariosDAO
             $where_anio = "AND YEAR(fecha) = " . $filtro;
         }
 
-        $query = "SELECT * FROM microbiologia
-                WHERE estadoV = 1 " . $where_anio . " AND fkID_proyecto_marco = " . $pkID_proyectoM;
+        $query = "SELECT *,YEAR(fecha) AS anio,microbiologia.pkID AS pkID,grado.nombre AS grado,(SELECT COUNT(*) FROM microbiologia_estudiante LEFT JOIN estudiante ON estudiante.pkID = microbiologia_estudiante.fkID_estudiante WHERE microbiologia.pkID = microbiologia_estudiante.fkID_microbiologia AND microbiologia_estudiante.estadoV = 1) as cantidad  FROM microbiologia
+                INNER JOIN institucion ON institucion.pkID = microbiologia.fkID_institucion
+                INNER JOIN grado ON grado.pkID = microbiologia.fkID_grado
+                LEFT JOIN curso ON curso.pkID = microbiologia.fkID_curso
+                WHERE microbiologia.estadoV = 1 " . $where_anio . " AND fkID_proyecto_marco = " . $pkID_proyectoM;
 
         return $this->EjecutarConsulta($query);
     }
@@ -129,6 +132,30 @@ class microbiologiaDAO extends UsuariosDAO
         return $this->EjecutarConsulta($query);
     }
 
+    public function getMicrobiologiaGaleria($pkID_album){  
+       
+      $query = "select galeria_microbiologia.*, proyecto_marco.pkID as fkID_proyecto FROM galeria_microbiologia 
+            INNER JOIN microbiologia on microbiologia.pkID = galeria_microbiologia.fkID_microbiologia
+            INNER JOIN proyecto_marco on proyecto_marco.pkID = microbiologia.fkID_proyecto_marco
+            WHERE galeria_microbiologia.pkID=".$pkID_album;
+
+      return $this->EjecutarConsulta($query);
+    }
+
+    public function getAlbumMicrobiologia($pkID_biotecnologia){  
+       
+      $query = "select * FROM `galeria_microbiologia` WHERE estadoV=1 and fkID_microbiologia=".$pkID_biotecnologia;
+
+      return $this->EjecutarConsulta($query);
+    }
+
+    public function getFotosMicrobiologia($pkID_album){  
+       
+      $query = "select * FROM `fotos_microbiologia` WHERE estadoV=1 and fkID_album=".$pkID_album;
+
+      return $this->EjecutarConsulta($query);
+    }
+
     public function getEstudiantes()
     {
 
@@ -142,6 +169,22 @@ class microbiologiaDAO extends UsuariosDAO
     public function getSesiones($pkID_microbiologia)
     {
         $query = "SELECT * FROM microbiologia_sesion WHERE estadoV=1 and fkID_microbiologia =" . $pkID_microbiologia;
+
+        return $this->EjecutarConsulta($query);
+    }
+
+    public function getTotalEstudiantes($pkID_proyectoM, $filtro)
+    {
+        if ($filtro == "'Todos'") {
+            $where_anio = "!= 0";
+        } else {
+            $where_anio = "=" . $filtro;
+        }
+
+        $query = "SELECT COUNT(*) AS cantidad FROM microbiologia_estudiante
+                LEFT JOIN estudiante ON estudiante.pkID = microbiologia_estudiante.fkID_estudiante
+                LEFT JOIN microbiologia on microbiologia.pkID = microbiologia_estudiante.fkID_microbiologia
+                WHERE microbiologia.estadoV = 1 AND microbiologia_estudiante.estadoV=1 and microbiologia.pkID = microbiologia_estudiante.fkID_microbiologia and microbiologia.fkID_proyecto_marco = " . $pkID_proyectoM . " and YEAR(microbiologia.fecha)" . $where_anio;
 
         return $this->EjecutarConsulta($query);
     }

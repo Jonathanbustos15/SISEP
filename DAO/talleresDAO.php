@@ -54,7 +54,7 @@
         return $this->EjecutarConsulta($query);
     }
 
-    public function getPermisosModulo_Tipo($fkID_modulo, $fkID_tipo_usuario)
+    public function getPermisosModulo_Tipo($fkID_modulo, $fkID_tipo_usuario) 
     {
 
         $this->q_general = "select permisos.*, tipo_usuario.nombre as nom_tipo, modulos.Nombre as nom_modulo
@@ -107,7 +107,7 @@
 
     public function getAlbumTaller($pkID_taller){  
        
-      $query = "select * FROM `galeria_taller` WHERE estadoV=1";
+      $query = "select * FROM `galeria_taller` WHERE estadoV=1 and fkID_taller=".$pkID_taller;
 
       return $this->EjecutarConsulta($query);
     }
@@ -127,7 +127,7 @@
       $query = "select * FROM `fotos_taller` WHERE estadoV=1 and fkID_album=".$pkID_album;
 
       return $this->EjecutarConsulta($query);
-    }
+    }  
 
     public function getProyectosMarcoTaller($fkID_proyectoM)
     {

@@ -123,6 +123,16 @@ class acompanamientoDAO extends UsuariosDAO
 
     }
 
+    public function getAcompaniamientoGaleria($pkID_album){  
+       
+      $query = "select galeria_acompanamiento.*, proyecto_marco.pkID as fkID_proyecto FROM galeria_acompanamiento 
+                INNER JOIN acompanamiento on acompanamiento.pkID = galeria_acompanamiento.fkID_acompanamiento
+                INNER JOIN proyecto_marco on proyecto_marco.pkID = acompanamiento.fkID_proyecto_marco
+                WHERE galeria_acompanamiento.pkID=".$pkID_album;
+
+      return $this->EjecutarConsulta($query);
+    }
+
     public function getGruposId($pkID)
     {
 
@@ -153,6 +163,20 @@ class acompanamientoDAO extends UsuariosDAO
 
         return $this->EjecutarConsulta($query);
 
+    }
+
+    public function getAlbumAcompanamiento($pkID_acompanamiento){  
+       
+      $query = "select * FROM `galeria_acompanamiento` WHERE estadoV=1 and fkID_acompanamiento=".$pkID_acompanamiento;
+
+      return $this->EjecutarConsulta($query);
+    }
+
+    public function getFotosAcompanamiento($pkID_album){  
+       
+      $query = "select * FROM `fotos_acompaniamiento` WHERE estadoV=1 and fkID_album=".$pkID_album;
+
+      return $this->EjecutarConsulta($query);
     }
 
     public function getGrados()

@@ -817,78 +817,43 @@ class resignificacionController extends resignificacionDAO
         };
         //---------------------------------------------------------------------------------
     }
-    public function getTablaAlbumGrupo($pkid_acompanamiento)
+    
+    public function getSelectAlbumResignificacion($pkID_resignificacion)
     {
 
-        $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo_estudiantes, $_COOKIE[$this->NameCookieApp . "_IDtipo"]);
+        $album = $this->getAlbumResignificacion($pkID_resignificacion);
 
-        //$arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo,$_COOKIE[$this->NameCookieApp."_IDtipo"]);
-        $edita    = $arrPermisos[0]["editar"];
-        $elimina  = $arrPermisos[0]["eliminar"];
-        $consulta = $arrPermisos[0]["consultar"];
-
-        //la configuracion de los botones de opciones
-        $grupo_btn = [
-
-            [
-                "tipo"    => "editar",
-                "nombre"  => "album_grupo",
-                "permiso" => $edita,
-            ],
-            [
-                "tipo"    => "eliminar",
-                "nombre"  => "album_grupo",
-                "permiso" => $elimina,
-            ],
-
-        ];
-        //---------------------------------------------------------------------------------
-
-        //Define las variables de la tabla a renderizar
-
-        //Los campos que se van a ver
-        $grupo_campos = [
-            ["nombre" => "nombre_album"],
-            ["nombre" => "fecha_creacion_album"],
-            ["nombre" => "observacion_album"],
-        ];
-
-        $array_opciones = [
-            "modulo" => "grupo", //nombre del modulo definido para jquerycontrollerV2
-            "title"  => "Click Ver Detalles", //etiqueta html title
-            "href"   => "../gallery/admin/bannerlist.php?id_acompanamiento=",
-            "class"  => "detail", //clase que permite que añadir el evento jquery click
-        ];
-
-        //---------------------------------------------------------------------------------
-        //carga el array desde el DAO
-        $grupo = $this->getAlbumGrupo($pkid_acompanamiento);
-        //print_r($grupo);
-
-        //Instancia el render
-        $this->table_inst = new RenderTable($grupo, $grupo_campos, $grupo_btn, $array_opciones);
-        //---------------------------------------------------------------------------------
-
-        //valida si hay usuarios y permiso de consulta
-        if (($grupo) && ($consulta == 1)) {
-
-            //ejecuta el render de la tabla
-            $this->table_inst->render();
-
-        } elseif (($grupo) && ($consulta == 0)) {
-
-            $this->table_inst->render_blank();
-
-            echo "<h3>En este momento no tiene permiso de consulta.</h3>";
-
+        if ($album[0]["pkID"]!="") {
+            for ($a = 0; $a < sizeof($album); $a++) {
+        $fotos = $this->getFotosResignificacion($album[$a]["pkID"]); 
+        if ($fotos[0]["pkID"]=="") {
+                 echo '<div class="col-md-2 text-center">
+                                <button id="edita_album" title="Editar" name="edita_album" type="button" class="btn btn-warning" data-toggle="modal" data-target="#frm_modal_album_resignificacion" data-id-album = "' . $album[$a]["pkID"] . '" ';
+                    echo '><span class="glyphicon glyphicon-pencil"></span></button>
+                     <button id="btn_elimina_album" title="Eliminar" name="elimina_album" type="button" class="btn btn-danger" data-id-album = "' . $album[$a]["pkID"] . '" ';
+                     echo '><span class="glyphicon glyphicon-remove"></span></button>
+                     <a title="album" href="fotos_album_resignificacion.php?id_album='.$album[$a]["pkID"].'">
+                               <img data-album="' . $album[$a]["pkID"] . '" class="img-responsive img-thumbnail" src="../img/sin_foto.png" style=" width: 150px; height: 130px"></a>
+                              <label class="text-center">'.$album[$a]["nombre_album"].'    </label>
+                              
+                        </div>';
+             } else {
+                 echo '<div class="col-md-2 text-center">
+                 <button id="edita_album" title="Editar" name="edita_album" type="button" class="btn btn-warning" data-toggle="modal" data-target="#frm_modal_album_resignificacion" data-id-album = "' . $album[$a]["pkID"] . '" ';
+                    echo '><span class="glyphicon glyphicon-pencil"></span></button>
+                     <button id="btn_elimina_album" title="Eliminar" name="elimina_album" type="button" class="btn btn-danger" data-id-album = "' . $album[$a]["pkID"] . '" ';
+                      echo '><span class="glyphicon glyphicon-remove"></span></button>
+                        <a title="album" href="fotos_album_resignificacion.php?id_album='.$album[$a]["pkID"].'" >
+                               <img data-album="' . $album[$a]["pkID"] . '" class="img-responsive img-thumbnail" src="../img/'.$fotos[0]["url_foto"].'" style=" width: 150px; height: 130px"></a>
+                              <label class="text-center">'.$album[$a]["nombre_album"].'  </label>
+                        </div>';
+             }
+         }
         } else {
-
-            $this->table_inst->render_blank();
-
-            echo "<h3>En este momento no hay registros.</h3>";
-        }; /**/
-        //---------------------------------------------------------------------------------
-
+            echo '<div class="col-md-12 text-center">
+            <h3>No Existen Álbumes</h3>
+            </div>';
+        }
     }
 
     public function getTablaAsistencia($pkid_acompanamiento)

@@ -101,6 +101,13 @@ class saberesDAO extends UsuariosDAO
         return $this->EjecutarConsulta($query);
     }
 
+    public function getFotosSaberes($pkID_saber){  
+       
+      $query = "select * FROM `fotos_saber` WHERE estadoV=1 and fkID_saber=".$pkID_saber;
+
+      return $this->EjecutarConsulta($query);
+    }
+
     public function getTutor()
     {
 

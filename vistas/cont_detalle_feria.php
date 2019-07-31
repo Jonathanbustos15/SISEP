@@ -54,7 +54,7 @@ $creaeg = $arrPermisoseg[0]['crear'];
 
 $rolEstudiante = $estudiantesInst->getRolEstudiante();
 
-$re = $rolEstudiante[0]["pkID_rol"];
+$re = $rolEstudiante[0]["pkID_rol"]; 
 
 //print_r($re);
 
@@ -115,13 +115,9 @@ $pkID_proyectoM = $proyectoMGen[0]["fkID_proyecto_marco"];
 //++++++++++++++++++++++++++++++++++
 include 'form_asignacion_participante.php';
 include 'form_participante.php';
-include 'form_estudiantes.php';
-include 'form_docentes.php';
 include 'form_grupo_estudiante.php';
-include 'form_grupo_docente.php';
-include "form_proyecto.php";
+include 'form_album_feria.php';
 include "form_modal_archivos.php";
-include "form_album_grupo.php";
 include "frm_modal_proyectog.php";
 //++++++++++++++++++++++++++++++++++/**/
 ?>
@@ -197,7 +193,7 @@ include "frm_modal_proyectog.php";
 				<!-- contenido general -->
 				<div class="panel panel-default proc-pan-def3">
 
-					<div class="panel-body">
+					<div class="panel-body">  
 
 						<div class="col-md-12">
 							<!-- instanciFa php controller -->
@@ -266,21 +262,21 @@ include "frm_modal_proyectog.php";
 
 			</div>
 
-			<div role="tabpanel" class="tab-pane" id="album">
+			<div role="tabpanel" class="tab-pane" id="album">  
 				<br>
 				<!-- contenido general -->
 
 				<div class="panel panel-default proc-pan-def3">
 
-					<div class="titulohead">
+					<div class="titulohead"> 
 
 			            <div class="row">
 			              <div class="col-md-6">
-			                  <div class="titleprincipal"><h4>Galeria de fotos</h4></div>
+			                  <div class="titleprincipal"><h4>Galeria de Álbumes</h4></div>
 			              </div>
 			              <div class="col-md-6 text-right">
-			      			 <button id="btn_album_grupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="<?php echo $pkID_feria ?>" data-target="#frm_modal_album_grupo"><span class="glyphicon glyphicon-plus"></span> 
-			      			 Crear album</button>
+			      			 <button id="btn_album_feria" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-acompanamiento="<?php echo $pkID_feria ?>" data-target="#frm_modal_album_feria"><span class="glyphicon glyphicon-plus"></span> 
+			      			 Crear album</button>  
 
 			      			 <div class="form-group " hidden>
                         <div class="col-sm-10">
@@ -291,18 +287,17 @@ include "frm_modal_proyectog.php";
 			            </div>
 
 		            </div>
+		            <br><br>
 		            <!-- /.panel-heading -->
 
-					<div class="panel-body">
+					<div class="container-fluid">
+						<div class="row">
+							<?php
+								$feriaInst->getSelectAlbumFeria($pkID_feria);
+							?>
 
-						<div class="col-md-2 text-center">
-							<div class="dataTable_wrapper">
-				              <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class=""  target="_blank" ><span> <img  src="../img/carpeta_fotos.png"></span></a>
-				              <label class="text-center">Galeria uno</label>
-					        </div>
-					        <!-- /.table-responsive -->
-						</div>
-
+						
+						</div>  
 					</div>
 
 				</div>

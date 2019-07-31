@@ -27,12 +27,6 @@
                         <textarea class="form-control" id="descripcion_sesion" name="descripcion_sesion" placeholder="Descripción breve del Taller"></textarea>
                     </div>
 
-
-                    <div class="form-group" hidden="true">
-                        <label class="control-label"></label>
-                        <input type="text" name="fkID_taller_formacion" id="fkID_taller_formacion" value=<?php echo $pkID_taller; ?>>
-                    </div>
-
                 </form>
 
         <!-- /form modal contenido-->

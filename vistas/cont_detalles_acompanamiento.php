@@ -94,7 +94,8 @@ $pkID_proyectoM = $proyectoMGen[0]["fkID_proyecto_marco"];
 //++++++++++++++++++++++++++++++++++
 include 'form_asignacion_participantes.php';
 include 'form_docentes.php';
-include 'form_asistencia.php';  
+include 'form_asistencia.php';
+include 'form_album_acompanamiento.php';  
 //++++++++++++++++++++++++++++++++++/**/
 ?>
 
@@ -159,7 +160,7 @@ include 'form_asistencia.php';
         <ul class="nav nav-tabs tabs-proc3" role="tablist">
 	        <li id="li_general" role="presentation"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
           	<li id="li_participantes" role="presentation"><a href="#participantes" aria-controls="participantes" role="tab" data-toggle="tab">Participantes</a></li>
-	        <li id="li_asistencia" role="presentation"><a href="#asistencia" aria-controls="general" role="tab" data-toggle="tab">Asistencia</a></li>
+	        <li id="li_asistencia" role="presentation"><a href="#asistencia" aria-controls="asistencia" role="tab" data-toggle="tab">Asistencia</a></li>
 	        <li id="li_album" role="presentation"><a href="#album" aria-controls="general" role="tab" data-toggle="tab">Galeria</a></li>
 	    </ul>
 
@@ -244,15 +245,15 @@ $detalles_grupoInst->getTablaEstudiantesGrupo($pkID_acompanamiento);
 
 				<div class="panel panel-default proc-pan-def3">
 
-					<div class="titulohead">
+					<div class="titulohead"> 
 
 			            <div class="row">
 			              <div class="col-md-6">
-			                  <div class="titleprincipal"><h4>Galeria de fotos - <?php echo $proyectoMGen[0]["nombre"] . ' - ' . $proyectoMGen[0]["nombre_proyecto"] ?></h4></div>
+			                  <div class="titleprincipal"><h4>Galeria de Álbumes</h4></div>
 			              </div>
 			              <div class="col-md-6 text-right">
-			      			 <button id="btn_album_grupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="<?php echo $pkID_acompanamiento ?>" data-target="#frm_modal_album_grupo" <?php if (($creaeg != 1) || ($ne >= 30)) {echo 'disabled="disabled"';}?> ><span class="glyphicon glyphicon-plus"></span>
-			      			 Crear album</button>
+			      			 <button id="btn_album_acompanamiento" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-acompanamiento="<?php echo $pkID_taller ?>" data-target="#frm_modal_album_acompanamiento"><span class="glyphicon glyphicon-plus"></span> 
+			      			 Crear album</button>  
 
 			      			 <div class="form-group " hidden>
                         <div class="col-sm-10">
@@ -263,32 +264,17 @@ $detalles_grupoInst->getTablaEstudiantesGrupo($pkID_acompanamiento);
 			            </div>
 
 		            </div>
+		            <br><br>
 		            <!-- /.panel-heading -->
 
-					<div class="panel-body">
+					<div class="container-fluid">
+						<div class="row">
+							<?php
+								$detalles_grupoInst->getSelectAlbumAcompanamiento($pkID_acompanamiento);
+							?>
 
-						<div class="col-md-12">
-							<div class="dataTable_wrapper">
-				              <table class="display table table-striped table-bordered table-hover" id="tbl_grupo_album">
-				                  <thead>
-				                      <tr>
-				                          <th>Nombre</th>
-				                          <th>Fecha de Creación</th>
-				                          <th>Observación</th>
-				                          <th data-orderable="false">Opciones</th>
-				                      </tr>
-				                  </thead>
-
-				                  <tbody>
-				                      <?php
-$detalles_grupoInst->getTablaAsistencia($pkID_acompanamiento);
-?>
-				                  </tbody>
-				              </table>
-					        </div>
-					        <!-- /.table-responsive -->
-						</div>
-
+						
+						</div>  
 					</div>
 
 				</div>

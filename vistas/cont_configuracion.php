@@ -55,7 +55,7 @@ $proyectoMGen   = $principalInst->getProyectosMarcoId($pkID_proyectoM);
                                                 <div class="col-md-2 zoom"><a class="" href="docentes.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img  class="zoom" src="../img/botones/docentes.png"></a></div>
                                                 <div class="col-md-2 zoom"><a class="" href="estudiantes.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img  class="zoom" src="../img/botones/estudiantes.png"></a></div>
                                                 <div class="col-md-2 zoom"><a class="" href="funcionario.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/botones/funcionarios.png"></a></div>
-                                                <div class="col-md-2 zoom"><a class="" href="participantes.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/botones/funcionarios.png"></a></div>
+                                                <div class="col-md-2 zoom"><a class="" href="participantes.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/botones/participantes.png"></a></div>
                                                 <div class="col-md-1 zoom"></div>
                                             </div>
                                         </div>

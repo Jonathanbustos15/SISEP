@@ -695,10 +695,10 @@ class grupoController extends grupoDAO
 
     }
 
-    public function getSelectAlbumGrupo($pkID_taller)
+    public function getSelectAlbumGrupo($pkID_grupo)
     {
 
-        $album = $this->getAlbumGrupos($pkID_taller);
+        $album = $this->getAlbumGrupos($pkID_grupo);
 
         if ($album[0]["pkID"]!="") {
             for ($a = 0; $a < sizeof($album); $a++) {
@@ -709,7 +709,7 @@ class grupoController extends grupoDAO
                     echo '><span class="glyphicon glyphicon-pencil"></span></button>
                      <button id="btn_elimina_album" title="Eliminar" name="elimina_album" type="button" class="btn btn-danger" data-id-album = "' . $album[$a]["pkID"] . '" ';
                      echo '><span class="glyphicon glyphicon-remove"></span></button>
-                     <a title="album" href="fotos_album.php?id_album='.$album[$a]["pkID"].'">
+                     <a title="album" href="fotos_album_grupo.php?id_album='.$album[$a]["pkID"].'">
                                <img data-album="' . $album[$a]["pkID"] . '" class="img-responsive img-thumbnail" src="../img/sin_foto.png" style=" width: 150px; height: 130px"></a>
                               <label class="text-center">'.$album[$a]["nombre_album"].'    </label>
                               
@@ -720,7 +720,7 @@ class grupoController extends grupoDAO
                     echo '><span class="glyphicon glyphicon-pencil"></span></button>
                      <button id="btn_elimina_album" title="Eliminar" name="elimina_album" type="button" class="btn btn-danger" data-id-album = "' . $album[$a]["pkID"] . '" ';
                       echo '><span class="glyphicon glyphicon-remove"></span></button>
-                        <a title="album" href="fotos_album.php?id_album='.$album[$a]["pkID"].'" >
+                        <a title="album" href="fotos_album_grupo.php?id_album='.$album[$a]["pkID"].'" >
                                <img data-album="' . $album[$a]["pkID"] . '" class="img-responsive img-thumbnail" src="../img/'.$fotos[0]["url_foto"].'" style=" width: 150px; height: 130px"></a>
                               <label class="text-center">'.$album[$a]["nombre_album"].'  </label>
                         </div>';
@@ -731,7 +731,7 @@ class grupoController extends grupoDAO
             <h3>No Existen Álbumes</h3>
             </div>';
         }
-    }
+    }  
 
     public function getSelectTotal($pkID_proyectoM,$filtro,$filtro2)
     {

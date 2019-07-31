@@ -186,6 +186,44 @@ class acompanamientoController extends acompanamientoDAO
         echo '</select>';
     }
 
+    public function getSelectAlbumAcompanamiento($pkID_acompanamiento)
+    {
+
+        $album = $this->getAlbumAcompanamiento($pkID_acompanamiento);
+
+        if ($album[0]["pkID"]!="") {
+            for ($a = 0; $a < sizeof($album); $a++) {
+        $fotos = $this->getFotosAcompanamiento($album[$a]["pkID"]); 
+        if ($fotos[0]["pkID"]=="") {
+                 echo '<div class="col-md-2 text-center">
+                                <button id="edita_album" title="Editar" name="edita_album" type="button" class="btn btn-warning" data-toggle="modal" data-target="#frm_modal_album_acompanamiento" data-id-album = "' . $album[$a]["pkID"] . '" ';
+                    echo '><span class="glyphicon glyphicon-pencil"></span></button>
+                     <button id="btn_elimina_album" title="Eliminar" name="elimina_album" type="button" class="btn btn-danger" data-id-album = "' . $album[$a]["pkID"] . '" ';
+                     echo '><span class="glyphicon glyphicon-remove"></span></button>
+                     <a title="album" href="fotos_album_acompaniamiento.php?id_album='.$album[$a]["pkID"].'">
+                               <img data-album="' . $album[$a]["pkID"] . '" class="img-responsive img-thumbnail" src="../img/sin_foto.png" style=" width: 150px; height: 130px"></a>
+                              <label class="text-center">'.$album[$a]["nombre_album"].'    </label>
+                              
+                        </div>';
+             } else {
+                 echo '<div class="col-md-2 text-center">
+                 <button id="edita_album" title="Editar" name="edita_album" type="button" class="btn btn-warning" data-toggle="modal" data-target="#frm_modal_album_acompanamiento" data-id-album = "' . $album[$a]["pkID"] . '" ';
+                    echo '><span class="glyphicon glyphicon-pencil"></span></button>
+                     <button id="btn_elimina_album" title="Eliminar" name="elimina_album" type="button" class="btn btn-danger" data-id-album = "' . $album[$a]["pkID"] . '" ';
+                      echo '><span class="glyphicon glyphicon-remove"></span></button>
+                        <a title="album" href="fotos_album_acompaniamiento.php?id_album='.$album[$a]["pkID"].'" >
+                               <img data-album="' . $album[$a]["pkID"] . '" class="img-responsive img-thumbnail" src="../img/'.$fotos[0]["url_foto"].'" style=" width: 150px; height: 130px"></a>
+                              <label class="text-center">'.$album[$a]["nombre_album"].'  </label>
+                        </div>';
+             }
+         }
+        } else {
+            echo '<div class="col-md-12 text-center">
+            <h3>No Existen Álbumes</h3>
+            </div>';
+        }
+    }
+
     public function getSelectInstituciones()
     {
 

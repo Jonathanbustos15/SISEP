@@ -64,7 +64,7 @@ $(function() {
             crea_evidencia();
         } else if (action === "editar") {
             edita_evidencia();
-        }else {
+        } else {
             guardar();
         }
     };
@@ -94,33 +94,31 @@ $(function() {
         var data = new FormData();
         if ($("#url_evidencia").length) {
             if (document.getElementById("url_evidencia").files.length) {
-            data.append('file', $("#url_evidencia").get(0).files[0]);
-        }
+                data.append('file', $("#url_evidencia").get(0).files[0]);
+            }
         }
         data.append('fecha', $("#fecha").val());
         data.append('descripcion', $("#descripcion").val());
         data.append('tipo', "editar_evidencia");
-            data.append('pkID', $("#pkID").val()); 
-            $.ajax({
-                type: "POST",
-                url: "../controller/ajaxresignificacion.php",
-                data: data,
-                contentType: false,
-                processData: false,
-                success: function(a) {  
-                    console.log(a);
-                    location.reload();
-                }
-            })
-
+        data.append('pkID', $("#pkID").val());
+        $.ajax({
+            type: "POST",
+            url: "../controller/ajaxresignificacion.php",
+            data: data,
+            contentType: false,
+            processData: false,
+            success: function(a) {
+                console.log(a);
+                location.reload();
+            }
+        })
     }
-
 
     function validarevidencia() {
         var fecha = $("#fecha").val();
         var descripcion = $("#descripcion").val();
         var respuesta;
-        if (fecha === "" || descripcion === "" ) {
+        if (fecha === "" || descripcion === "") {
             respuesta = "no"
             return respuesta
         } else {
@@ -128,7 +126,6 @@ $(function() {
             return respuesta
         }
     }
-
     //valida si existe el documento
     function validaEqualIdentifica(num_id) {
         console.log("busca valor " + encodeURI(num_id));
@@ -321,7 +318,7 @@ $(function() {
         if (confirma == true) {
             $.ajax({
                 url: '../controller/ajaxController12.php',
-                data: "pkID=" + numReg + "&tipo=eliminarlogico&nom_tabla=evidencia_resignificacion",
+                data: "pkID=" + numReg + "&tipo=eliminar_logico&nom_tabla=evidencia_resignificacion",
             }).done(function(data) {
                 console.log(data);
                 location.reload();
@@ -361,7 +358,6 @@ $(function() {
             //no hace nada
         }
     };
-   
 
     function cargar_input_documento() {
         $("#form_evidencia").append('<div class="form-group" id="pdf_documento">' + '<label for="adjunto" id="lbl_url_resignificacion" class=" control-label">Documento</label>' + '<input type="file" class="form-control" id="url_evidencia" name="documento" placeholder="Email del acompanamiento" required = "true">' + '</div>')

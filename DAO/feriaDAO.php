@@ -154,6 +154,30 @@
        
       $query = "select *, concat_ws(' ',nombre_participante,apellido_participante) as nombre FROM participante where estadoV=1 and proyecto_macro=2";
 
+      return $this->EjecutarConsulta($query);  
+    }
+
+    public function getFeriaGaleria($pkID_album){  
+       
+      $query = "select galeria_feria.*, proyecto_marco.pkID as fkID_proyecto FROM galeria_feria 
+                INNER JOIN feria on feria.pkID = galeria_feria.fkID_feria
+                INNER JOIN proyecto_marco on proyecto_marco.pkID = feria.proyecto_macro
+                WHERE galeria_feria.pkID=".$pkID_album;
+
+      return $this->EjecutarConsulta($query);
+    }
+
+    public function getAlbumFeria($pkID_feria){  
+       
+      $query = "select * FROM `galeria_feria` WHERE estadoV=1 and fkID_feria=".$pkID_feria;
+
+      return $this->EjecutarConsulta($query);
+    }
+
+    public function getFotosFeria($pkID_album){  
+       
+      $query = "select * FROM `fotos_feria` WHERE estadoV=1 and fkID_album=".$pkID_album;
+
       return $this->EjecutarConsulta($query);
     }
 

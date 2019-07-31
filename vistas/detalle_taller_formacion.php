@@ -7,7 +7,7 @@
 	
 	//---------------------------------------------------------
 	$pagina = 'cont_detalle_taller_formacion.php';
-	$scripts = array('test_validaPV3.js','helper_detalles_grupo.js','cont_detalles_grupo.js','helper_proyecto.js', 'cont_detalle_taller_formacion.js','cont_albumgrupos.js','cont_participante.js');
+	$scripts = array('test_validaPV3.js','helper_detalles_grupo.js','cont_detalles_grupo.js','helper_proyecto.js', 'cont_detalle_taller_formacion.js','cont_albumtalleres.js','cont_participante.js');
 	$id_modulo = 24;
 	//---------------------------------------------------------
 	

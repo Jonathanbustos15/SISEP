@@ -202,7 +202,7 @@ $(function() {
             //si confirma es true ejecuta ajax
             $.ajax({
                 url: '../controller/ajaxController12.php',
-                data: "pkID=" + id_funciona + "&tipo=eliminarlogico&nom_tabla=contenido",
+                data: "pkID=" + id_funciona + "&tipo=eliminar_logico&nom_tabla=contenido",
             }).done(function(data) {
                 //---------------------
                 console.log(data);

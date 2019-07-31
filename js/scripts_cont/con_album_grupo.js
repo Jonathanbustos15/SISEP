@@ -12,10 +12,10 @@ $(function() {
     });
 
     $("#btn_nuevafoto").click(function() {
-        $("#lbl_form_foto_taller").html("Nuevas Fotos");
-        $("#lbl_btn_actionfoto_taller").html("Guardar <span class='glyphicon glyphicon-save'></span>");
-        $("#btn_actionfoto_taller").attr("data-action", "crear");
-        $("#form_foto_taller")[0].reset();
+        $("#lbl_form_foto_grupo").html("Nuevas Fotos");
+        $("#lbl_btn_actionfoto_grupo").html("Guardar <span class='glyphicon glyphicon-save'></span>");
+        $("#btn_actionfoto_grupo").attr("data-action", "crear");
+        $("#form_foto_grupo")[0].reset();
     });
     //Definir la acción del boton del formulario 
     $("#btn_actionalbum_grupo").click(function() {
@@ -29,7 +29,7 @@ $(function() {
         }
     });
 
-    $("#btn_actionfoto_taller").click(function() {
+    $("#btn_actionfoto_grupo").click(function() {
         var validacioncon = validarfoto();
         if (validacioncon === "no") {
             window.alert("Faltan Campos por diligenciar.");
@@ -82,7 +82,7 @@ $(function() {
 
     function validaralbum(){
       var nombre = $("#nombre_album").val();
-      var fecha = $("#fecha_creacion_album").val();
+      var fecha = $("#fecha_album").val();
         var respuesta;
         if (fecha === "" ||  nombre === "" ) {
             respuesta = "no"
@@ -91,7 +91,7 @@ $(function() {
             respuesta = "ok"
             return respuesta
         }
-    }
+    }   
 
     function validarfoto(){
         if (document.getElementById("url_foto").files.length) {
@@ -104,9 +104,10 @@ $(function() {
 
     function crea_album() {
         console.log("paso a pasito")
-        taller = $("#fkID_grupo").val();
+        taller = $("#fkID_grupos").val();
+        console.log("estes es el grupo"+taller) 
         nombre = $("#nombre_album").val();  
-        fecha = $("#fecha_creacion_album").val();
+        fecha = $("#fecha_album").val();
         data="nombre_album="+nombre+"&fecha_album="+fecha+"&fkID_grupo="+taller+ "&tipo=inserta&nom_tabla=galeria_grupo"
         console.log(data)
             $.ajax({
@@ -121,12 +122,12 @@ $(function() {
     }
 
     function crea_foto() {  
-         var data = new FormData($("#form_foto_taller")[0]);
+         var data = new FormData($("#form_foto_grupo")[0]);
             data.append('tipo', "crear_foto");
             console.log(data)
             $.ajax({
                 type: "POST",
-                url: "../controller/ajaxtaller.php",
+                url: "../controller/ajaxgrupo.php", 
                 data: data, 
                 contentType: false,
                 processData: false,
@@ -146,7 +147,7 @@ $(function() {
         console.log("aqui toy")
         //crea el objeto formulario serializado
         nombre = $("#nombre_album").val();  
-        fecha = $("#fecha_creacion_album").val();
+        fecha = $("#fecha_album").val();
         observacion = $("#observacion_album").val();
         console.log("ya vamos tres")
             $.ajax({
@@ -209,7 +210,7 @@ $(function() {
             //si confirma es true ejecuta ajax
             $.ajax({
                 url: '../controller/ajaxController12.php',
-                data: "pkID=" + id_foto + "&tipo=eliminar_logico&nom_tabla=fotos_taller",
+                data: "pkID=" + id_foto + "&tipo=eliminar_logico&nom_tabla=fotos_grupo",
             }).done(function(data) {
                 console.log(data);
                 location.reload();
@@ -265,7 +266,7 @@ $(function() {
     function validarextension(ext){
         if(ext != ".jpg" && ext != ".png" && ext != ".gif" && ext != ".jpeg") {
             window.alert("Solo se permiten formatos de imagen.");
-            $("#form_foto_taller")[0].reset();
+            $("#form_foto_grupo")[0].reset();
         } else{
             console.log("ok")
         }  

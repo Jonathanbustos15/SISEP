@@ -292,12 +292,28 @@ class resignificacionDAO extends UsuariosDAO
         return $this->EjecutarConsulta($query);
     }
 
-    public function getAlbumGrupo($pkID_grupo)
-    {
+    public function getAlbumResignificacion($pkID_resignificacion){  
+       
+      $query = "select * FROM `galeria_resignificacion` WHERE estadoV=1 and fkID_resignificacion=".$pkID_resignificacion;
 
-        $query = "select * FROM `grupo_album` WHERE estadoV=1 and fkID_grupo= " . $pkID_grupo;
+      return $this->EjecutarConsulta($query);
+    }
 
-        return $this->EjecutarConsulta($query);
+    public function getFotosResignificacion($pkID_album){  
+       
+      $query = "select * FROM `fotos_resignificacion` WHERE estadoV=1 and fkID_album=".$pkID_album;
+
+      return $this->EjecutarConsulta($query);
+    }
+
+    public function getResignificacionGaleria($pkID_album){  
+       
+      $query = "select galeria_resignificacion.*, proyecto_marco.pkID as fkID_proyecto FROM galeria_resignificacion 
+            INNER JOIN resignificacion on resignificacion.pkID = galeria_resignificacion.fkID_resignificacion
+            INNER JOIN proyecto_marco on proyecto_marco.pkID = resignificacion.fkID_proyecto_marco
+            WHERE galeria_resignificacion.pkID=".$pkID_album;
+
+      return $this->EjecutarConsulta($query);
     }
 
     public function getEstado()

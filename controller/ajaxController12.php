@@ -49,14 +49,14 @@ switch ($accion) {
 
         break;
 
-        case 'insertar':
+    case 'insertar':
 
-        $generico = new Generico_DAO();
-        $crea_sql = new crea_sql();
-        $nombre_album=$_GET['nombre_album'];
-        $fecha_creacion=$_GET['fecha_album'];
-        $observacion_album=$_GET['observacion_album'];
-        $fkID_grupo=$_GET['fkID_grupo'];
+        $generico          = new Generico_DAO();
+        $crea_sql          = new crea_sql();
+        $nombre_album      = $_GET['nombre_album'];
+        $fecha_creacion    = $_GET['fecha_album'];
+        $observacion_album = $_GET['observacion_album'];
+        $fkID_grupo        = $_GET['fkID_grupo'];
 
         $q_inserta  = "INSERT INTO `grupo_album`(`nombre_album`, `fecha_album`, `fkID_grupo`) VALUES ('$nombre_album','$fecha_creacion','$fkID_taller')";
         $r["query"] = $q_inserta;
@@ -221,14 +221,14 @@ switch ($accion) {
     //----------------------------------------------------------------------------------------------------
     case 'actualizar2':
 
-        $generico = new Generico_DAO();
-        $crea_sql = new crea_sql();
-        $nombre_album=$_GET['nombre_album'];
-        $fecha_creacion=$_GET['fecha_creacion'];
-        $observacion_album=$_GET['observacion_album'];
-        $pkID=$_GET['pkID'];
+        $generico          = new Generico_DAO();
+        $crea_sql          = new crea_sql();
+        $nombre_album      = $_GET['nombre_album'];
+        $fecha_creacion    = $_GET['fecha_creacion'];
+        $observacion_album = $_GET['observacion_album'];
+        $pkID              = $_GET['pkID'];
 
-        $q_actualiza = "update `grupo_album` SET `nombre_album`='$nombre_album',`fecha_creacion_album`='$fecha_creacion',`observacion_album`='$observacion_album' WHERE pkID=".$pkID;
+        $q_actualiza = "update `grupo_album` SET `nombre_album`='$nombre_album',`fecha_creacion_album`='$fecha_creacion',`observacion_album`='$observacion_album' WHERE pkID=" . $pkID;
 
         $resultado = $generico->EjecutaActualizar($q_actualiza);
         /**/
@@ -247,7 +247,7 @@ switch ($accion) {
 
         break;
     //----------------------------------------------------------------------------------------------------
-    
+
     //----------------------------------------------------------------------------------------------------
     case 'eliminar':
 

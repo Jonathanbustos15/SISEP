@@ -21,7 +21,9 @@ $fkID_microbiologia  = isset($_POST['fkID_microbiologia']) ? $_POST['fkID_microb
 $fecha_sesion        = isset($_POST['fecha_sesion']) ? $_POST['fecha_sesion'] : "";
 $descripcion_sesion  = isset($_POST['descripcion_sesion']) ? $_POST['descripcion_sesion'] : "";
 $file                = isset($_POST['file']) ? $_POST['file'] : "";
-
+$descripcion_foto = isset($_POST['descripcion_foto_microbiologia'])? $_POST['descripcion_foto_microbiologia'] : "";
+$fkID_album  = isset($_POST['fkID_album'])? $_POST['fkID_album'] : "";
+  
 switch ($tipo) {
     case 'crear':
         $generico   = new Generico_DAO();
@@ -136,7 +138,7 @@ switch ($tipo) {
             }
         }
 
-        $q_inserta  = "INSERT INTO `microbiologia_sesion`(`fkID_microbiologia`, `fecha_sesion`, `descripcion_sesion`, `url_lista`) VALUES ('$fkID_microbiologia', '$fecha_sesion', '$descripcion','$nombreDoc')";
+        $q_inserta  = "INSERT INTO `microbiologia_sesion`(`fkID_microbiologia`, `fecha_sesion`, `descripcion_sesion`, `url_lista`) VALUES ('$fkID_microbiologia', '$fecha_sesion', '$descripcion_sesion','$nombreDoc')";
         $r["query"] = $q_inserta;
         $resultado  = $generico->EjecutaInsertar($q_inserta);
         /**/
@@ -158,7 +160,7 @@ switch ($tipo) {
             $nombreDoc = str_replace(" ", "_", $nombreDoc);
             $destino   = "../server/php/files/" . $nombreDoc;
             if (move_uploaded_file($_FILES['file']["tmp_name"], $destino)) {
-                $nombreDoc = ",url_lista = " . $nombreDoc;
+                $nombreDoc = ",url_lista = '" . $nombreDoc . "'";
             } else {
                 $nombreDoc   = "";
                 $r["estado"] = "Error servidor";
@@ -189,6 +191,49 @@ switch ($tipo) {
             $r["mensaje"] = "No se inserto.";
         }
         break;
+    case 'crear_foto':
+            $generico = new Generico_DAO();  
+            if ($descripcion_foto=="") {
+                $descripcion_foto="foto";
+            }
+            if(!empty($_FILES['url_foto'])){
+    // File upload configuration
+            $targetDir = "../img/";
+            $allowTypes = array('jpg','png','jpeg','gif');
+            
+            $images_arr = array();  
+            foreach($_FILES['url_foto']['name'] as $key=>$val){
+                $image_name = $_FILES['url_foto']['name'][$key];
+                
+                // File upload path
+                $fileName = basename($_FILES['url_foto']['name'][$key]);
+                $targetFilePath = $targetDir . $fileName;
+                
+                // Check whether file type is valid
+                $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
+                if(in_array($fileType, $allowTypes)){    
+                    // Store images on the server
+                    if(move_uploaded_file($_FILES['url_foto']['tmp_name'][$key],$targetFilePath)){
+                        $nombre = $_FILES['url_foto']['name'][$key];
+                        $q_inserta  = "insert into `fotos_microbiologia`(`url_foto`, `descripcion`, `fkID_album`) VALUES ('$nombre', '$descripcion_foto', '$fkID_album')";
+                            $r["query"] = $q_inserta;
+
+                            $resultado = $generico->EjecutaInsertar($q_inserta);
+                          
+                            if ($resultado) {
+
+                                $r[] = $resultado;
+
+                            } else {
+
+                                $r["estado"]  = "Error";
+                                $r["mensaje"] = "No se inserto.";
+                            }
+                    }
+                }
+            }
+        }
+            break;
     default:
         # code...
         break;

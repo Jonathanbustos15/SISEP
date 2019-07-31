@@ -1,6 +1,7 @@
 <?php
 
 include '../controller/microbiologiaController.php';
+include '../controller/estudiantesController.php';
 include '../conexion/datos.php';
 
 $detalles_microbiologiaInst = new microbiologiaController();
@@ -10,8 +11,12 @@ $pkID_microbiologia         = $_GET["id_microbiologia"];
 $proyectoMGen               = $detalles_microbiologiaInst->getProyectosMarcoGrupo($pkID_microbiologia);
 $pkID_proyectoM             = $proyectoMGen[0]["fkID_proyecto_marco"];
 //++++++++++++++++++++++++++++++++++
+$estudiantesInst = new estudiantesController(); 
+//++++++++++++++++++++++++++++++++++
 include 'form_microbiologia_estudiante.php';
 include 'form_microbiologia_sesion.php';
+include 'form_estudiantes.php';
+include 'form_album_microbiologia.php'; 
 //++++++++++++++++++++++++++++++++++
 ?>
 
@@ -150,21 +155,21 @@ include 'form_microbiologia_sesion.php';
 
       </div>
 
-      <div role="tabpanel" class="tab-pane" id="album">
+      <div role="tabpanel" class="tab-pane" id="album">  
         <br>
         <!-- contenido general -->
 
         <div class="panel panel-default proc-pan-def3">
 
-          <div class="titulohead">
+          <div class="titulohead"> 
 
                   <div class="row">
                     <div class="col-md-6">
-                        <div class="titleprincipal"><h4>Galeria de fotos - <?php echo $proyectoMGen[0]["nombre"] . ' - ' . $proyectoMGen[0]["nombre_proyecto"] ?></h4></div>
+                        <div class="titleprincipal"><h4>Galeria de Álbumes</h4></div>
                     </div>
                     <div class="col-md-6 text-right">
-                   <button id="btn_album_grupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="<?php echo $pkID_microbiologia ?>" data-target="#frm_modal_album_grupo" <?php if (($crea != 1) || ($ne >= 30)) {echo 'disabled="disabled"';}?> ><span class="glyphicon glyphicon-plus"></span>
-                   Crear album</button>
+                   <button id="btn_album_microbiologia" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-biotecnologia="<?php echo $pkID_microbiologia ?>" data-target="#frm_modal_album_microbiologia"><span class="glyphicon glyphicon-plus"></span> 
+                   Crear album</button>  
 
                    <div class="form-group " hidden>
                         <div class="col-sm-10">
@@ -175,32 +180,17 @@ include 'form_microbiologia_sesion.php';
                   </div>
 
                 </div>
+                <br><br>
                 <!-- /.panel-heading -->
 
-          <div class="panel-body">
+          <div class="container-fluid">
+            <div class="row">
+              <?php
+                $detalles_microbiologiaInst->getSelectAlbumMicrobilogia($pkID_microbiologia);
+              ?>
 
-            <div class="col-md-12">
-              <div class="dataTable_wrapper">
-                      <table class="display table table-striped table-bordered table-hover" id="tbl_grupo_album">
-                          <thead>
-                              <tr>
-                                  <th>Nombre</th>
-                                  <th>Fecha de Creación</th>
-                                  <th>Observación</th>
-                                  <th data-orderable="false">Opciones</th>
-                              </tr>
-                          </thead>
-
-                          <tbody>
-                              <?php
-$detalles_microbiologiaInst->getTablaAlbumGrupo($pkID_microbiologia);
-?>
-                          </tbody>
-                      </table>
-                  </div>
-                  <!-- /.table-responsive -->
-            </div>
-
+            
+            </div>  
           </div>
 
         </div>

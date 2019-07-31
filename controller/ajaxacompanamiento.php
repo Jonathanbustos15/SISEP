@@ -17,6 +17,8 @@ $descripcion          = isset($_POST['descripcion']) ? $_POST['descripcion'] : "
 $fkID_acompanamiento  = isset($_POST['fkID_acompanamiento']) ? $_POST['fkID_acompanamiento'] : "";
 $fecha_acompanamiento_asistencia = isset($_POST['fecha_acompanamiento_asistencia']) ? $_POST['fecha_acompanamiento_asistencia'] : "";
 $fkID_proyecto_marco  = isset($_POST['fkID_proyecto_marco']) ? $_POST['fkID_proyecto_marco'] : "";
+$descripcion_foto = isset($_POST['descripcion_foto_acompanamiento'])? $_POST['descripcion_foto_acompanamiento'] : "";
+$fkID_album  = isset($_POST['fkID_album'])? $_POST['fkID_album'] : "";
 
 switch ($tipo) {
     case 'crear':
@@ -229,6 +231,49 @@ switch ($tipo) {
             $r["mensaje"] = "No se inserto.";
         };
         break;
+    case 'crear_foto':
+            $generico = new Generico_DAO();  
+            if ($descripcion_foto=="") {
+                $descripcion_foto="foto";
+            }
+            if(!empty($_FILES['url_foto'])){
+    // File upload configuration
+            $targetDir = "../img/";
+            $allowTypes = array('jpg','png','jpeg','gif');
+            
+            $images_arr = array();  
+            foreach($_FILES['url_foto']['name'] as $key=>$val){
+                $image_name = $_FILES['url_foto']['name'][$key];
+                
+                // File upload path
+                $fileName = basename($_FILES['url_foto']['name'][$key]);
+                $targetFilePath = $targetDir . $fileName;
+                
+                // Check whether file type is valid
+                $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
+                if(in_array($fileType, $allowTypes)){    
+                    // Store images on the server
+                    if(move_uploaded_file($_FILES['url_foto']['tmp_name'][$key],$targetFilePath)){
+                        $nombre = $_FILES['url_foto']['name'][$key];
+                        $q_inserta  = "insert into `fotos_acompaniamiento`(`url_foto`, `descripcion`, `fkID_album`) VALUES ('$nombre', '$descripcion_foto', '$fkID_album')";
+                            $r["query"] = $q_inserta;
+
+                            $resultado = $generico->EjecutaInsertar($q_inserta);
+                          
+                            if ($resultado) {
+
+                                $r[] = $resultado;
+
+                            } else {
+
+                                $r["estado"]  = "Error";
+                                $r["mensaje"] = "No se inserto.";
+                            }
+                    }
+                }
+            }
+        }
+            break;
     default:
         # code...
         break;

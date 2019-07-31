@@ -1,0 +1,279 @@
+$(function() {
+    //INGRESA A LOS ATRIBUTOS AL FORMULARIO PARA INSERTAR INSTITUCIÓN 
+    $("#btn_album_acompanamiento").click(function() {
+        console.log("hola")
+        $("#lbl_form_album_acompanamiento").html("Nuevo Album");
+        $("#lbl_btn_actionalbum_acompanamiento").html("Guardar <span class='glyphicon glyphicon-save'></span>");
+        $("#btn_actionalbum_acompanamiento").attr("data-action", "crear");
+        $("#form_album_acompanamiento")[0].reset();
+        id_gru = $("#pkID_grup").val();
+        $("#fkID_grupo").val(id_gru);
+        console.log($("#fkID_grupo").val()); 
+    });
+
+    $("#btn_nuevafoto").click(function() {
+        $("#lbl_form_foto_acompanamiento").html("Nuevas Fotos");
+        $("#lbl_btn_actionfoto_acompanamiento").html("Guardar <span class='glyphicon glyphicon-save'></span>");
+        $("#btn_actionfoto_acompanamiento").attr("data-action", "crear");
+        $("#form_foto_acompanamiento")[0].reset();
+    });
+    //Definir la acción del boton del formulario 
+    $("#btn_actionalbum_acompanamiento").click(function() {
+        var validacioncon = validaralbum();
+        if (validacioncon === "no") {
+            window.alert("Faltan Campos por diligenciar.");
+        } else {
+        action = $(this).attr("data-action");
+        valida_actio(action);
+        console.log("accion a ejecutar: " + action);
+        }
+    });
+
+    $("#btn_actionfoto_acompanamiento").click(function() {
+        var validacioncon = validarfoto();
+        if (validacioncon === "no") {  
+            window.alert("Faltan Campos por diligenciar.");
+        } else {
+        action = $(this).attr("data-action");
+        //valida_actio(action);
+        console.log("accion a ejecutar: " + action);
+        crea_foto();
+        }
+    });
+
+    $("[name*='edita_album']").click(function() {
+        $("#lbl_form_album_acompanamiento").html("Edita Album");
+        $("#lbl_btn_actionalbum_acompanamiento").html("Guardar Cambios <span class='glyphicon glyphicon-save'></span>");
+        $("#btn_actionalbum_acompanamiento").attr("data-action", "editar");
+        $("#form_album_acompanamiento")[0].reset();
+        id = $(this).attr('data-id-album');
+        console.log(id);
+        carga_album(id);
+    });
+    $("[name*='elimina_album']").click(function(event) {
+        id_album = $(this).attr('data-id-album');
+        console.log(id_album)
+        elimina_album(id_album);
+    });
+
+    $("[name*='elimina_foto']").click(function(event) {
+        id_foto = $(this).attr('data-id-foto');
+        console.log(id_foto)
+        elimina_foto(id_foto);
+    });
+
+    //---------------------------------------------------------
+    //
+    sessionStorage.setItem("id_tab_docente", null);
+    //---------------------------------------------------------
+    //click al detalle en cada fila----------------------------
+    $('.table').on('click', '.detail', function() {
+        window.location.href = $(this).attr('href');
+    });
+    //valida accion a realizar
+    function valida_actio(action) {
+        console.log("en la mitad");
+        if (action === "crear") {
+            crea_album();
+        } else if (action === "editar") {
+            edita_album();
+        };
+    };
+
+    function validaralbum(){
+      var nombre = $("#nombre_album").val();
+      var fecha = $("#fecha_album").val();
+        var respuesta;
+        if (fecha === "" ||  nombre === "" ) {
+            respuesta = "no"
+            return respuesta
+        }else{
+            respuesta = "ok"
+            return respuesta
+        }
+    }   
+
+    function validarfoto(){
+        if (document.getElementById("url_foto").files.length) {
+            respuesta = "ok"
+        }else{
+            respuesta = "no"
+        }
+        return respuesta
+    }
+
+    function crea_album() {
+        console.log("paso a pasito")
+        acompa = $("#fkID_acompanamiento").val();
+        console.log("estes es el grupo"+acompa) 
+        nombre = $("#nombre_album").val();  
+        fecha = $("#fecha_album").val();
+        data="nombre_album="+nombre+"&fecha_album="+fecha+"&fkID_acompanamiento="+acompa+ "&tipo=inserta&nom_tabla=galeria_acompanamiento"
+        console.log(data)
+            $.ajax({
+                type: "GET",
+                url: "../controller/ajaxController12.php",
+                data: data,
+                success: function(r) {
+                    console.log(r);
+                    location.reload();
+                }
+            })
+    }
+
+    function crea_foto() {  
+         var data = new FormData($("#form_foto_acompanamiento")[0]);
+            data.append('tipo', "crear_foto");
+            console.log(data)
+            $.ajax({
+                type: "POST",
+                url: "../controller/ajaxacompanamiento.php", 
+                data: data, 
+                contentType: false,
+                processData: false,
+                success: function(a) {  
+                    console.log(a);
+                    var tipos = JSON.parse(a);
+                    console.log(tipos);
+                    for(x=0; x<tipos.length; x++) {
+                console.log("nombre"+tipos[x]);
+                }
+                location.reload();
+                }
+            })
+    }
+
+    function edita_album() {
+        console.log("aqui toy")
+        //crea el objeto formulario serializado
+        nombre = $("#nombre_album").val();  
+        fecha = $("#fecha_album").val();
+        observacion = $("#observacion_album").val();
+        console.log("ya vamos tres")
+            $.ajax({
+                type: "GET",
+                url: '../controller/ajaxController12.php',
+                data: "nombre_album="+nombre+"&fecha_album="+fecha+"&pkID="+id+"&tipo=actualizar&nom_tabla=galeria_acompanamiento",
+                success: function(r) {
+                    console.log(r);
+                    location.reload();
+                }
+            })
+    }
+
+    function carga_album(id_album) {
+        console.log("Carga el album " + id_album);
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "pkID=" + id_album + "&tipo=consultar&nom_tabla=galeria_acompanamiento",
+        }).done(function(data) {
+            $.each(data.mensaje[0], function(key, value) {
+                console.log(key + "--" + value);
+                $("#" + key).val(value);
+            });
+        }).fail(function() {
+            console.log("error");
+        }).always(function() {
+            console.log("complete");
+        });
+    };   
+
+    function elimina_album(id_album) {
+        var confirma = confirm("En realidad quiere eliminar este Album?");
+        console.log(confirma);
+        /**/
+        if (confirma == true) {
+            //si confirma es true ejecuta ajax
+            $.ajax({
+                url: '../controller/ajaxController12.php',
+                data: "pkID=" + id_album + "&tipo=eliminar_logico&nom_tabla=galeria_acompanamiento",
+            }).done(function(data) {
+                //---------------------
+                console.log(data);
+                location.reload();
+            }).fail(function() {
+                console.log("errorfatal");
+            }).always(function() {
+                console.log("complete");
+            });
+        } else {
+            //no hace nada
+        }
+    };
+
+    function elimina_foto(id_foto) {
+        var confirma = confirm("En realidad quiere eliminar esta Foto?");
+        console.log(confirma);
+
+        /**/
+        if (confirma == true) {
+            //si confirma es true ejecuta ajax
+            $.ajax({
+                url: '../controller/ajaxController12.php',
+                data: "pkID=" + id_foto + "&tipo=eliminar_logico&nom_tabla=fotos_acompaniamiento",
+            }).done(function(data) {
+                console.log(data);
+                location.reload();
+            }).fail(function() {
+                console.log("errorfatal");
+            }).always(function() {
+                console.log("complete");
+            });
+        } else {
+            //no hace nada
+        }
+    };
+
+    function validaEqualIdentifica(nombre) {
+        console.log("busca valor " + encodeURI(nombre));
+        var consEqual = "SELECT COUNT(*) as res_equal FROM galeria_acompanamiento where estadoV= 1 and nombre_album='" + nombre + "'";
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "query=" + consEqual + "&tipo=consulta_gen",
+        }).done(function(data) {
+            /**/
+            console.log(data.mensaje[0].res_equal);
+            if (data.mensaje[0].res_equal > 0) {
+                alert("Este Album ya existe, por favor ingrese un nombre diferente.");
+                $("#nombre_album").val(""); 
+            } else {
+                //return false;
+            }
+        }).fail(function() {
+            console.log("error");
+        }).always(function() {
+            console.log("complete");
+        });
+    }
+    
+    $("#nombre_album").change(function(event) {
+        validaEqualIdentifica($(this).val());  
+    });
+
+    
+        var file_i=document.querySelector("#url_foto")
+        file_i.onchange = function(e){
+            var files = e.target.files;
+            for(var i=0,f;f= files[i];++i){
+                extension = (f.name.substring(f.name.lastIndexOf("."))).toLowerCase();
+                validarextension(extension);
+                console.log(f.name);
+                console.log(extension);
+            }
+        }   
+
+
+    function validarextension(ext){
+        if(ext != ".jpg" && ext != ".png" && ext != ".gif" && ext != ".jpeg") {
+            window.alert("Solo se permiten formatos de imagen.");
+            $("#form_foto_acompanamiento")[0].reset();
+        } else{
+            console.log("ok")
+        }  
+    }
+
+    
+
+
+
+});

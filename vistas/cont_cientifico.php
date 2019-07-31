@@ -51,11 +51,11 @@ $proyectoMGen   = $academicoInst->getProyectosMarcoId($pkID_proyectoM);
                                         <div class="">
                                             <div class="row text-center">
                                                 <div class="col-md-1"></div>
-                                                <div class="col-md-2 zoom"><a class="" href="tiex.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/botones/grupos.png"></a></div>
-                                                <div class="col-md-2 zoom"><a class="" href="aibd.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img  class="zoom" src="../img/botones/saberes.png"></a></div>
-                                                <div class="col-md-2 zoom"><a class="" href="apropiacion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/botones/apropiacion.png"></a></div>
-                                                <div class="col-md-2 zoom"><a class="" href="microbiologia.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img  class="zoom" src="../img/botones/formacion.png"></a></div>
-                                                <div class="col-md-2 zoom"><a class="" href="apropiacion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/botones/apropiacion.png"></a></div>
+                                                <div class="col-md-2 zoom"><a class="" href="tiex.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/botones/tiex.png"></a></div>
+                                                <div class="col-md-2 zoom"><a class="" href="aibd.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img  class="zoom" src="../img/botones/aibd.png"></a></div>
+                                                <div class="col-md-2 zoom"><a class="" href="biotecnologia.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/botones/biotecnologia.png"></a></div>
+                                                <div class="col-md-2 zoom"><a class="" href="microbiologia.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img  class="zoom" src="../img/botones/microbiologia.png"></a></div>
+                                                <div class="col-md-2 zoom"><a class="" href="aulas.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/botones/aulas.png"></a></div>
                                                 <div class="col-md-1"></div>
                                             </div>
                                         </div>

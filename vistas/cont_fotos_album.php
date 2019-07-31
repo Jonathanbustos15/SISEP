@@ -73,7 +73,6 @@ include 'form_fotos_taller.php';
 
         <div class="panel-body">
     
-         <body>
     <div class='container' id="fotos">
     <div class="row">
       <div class="col-lg-12">

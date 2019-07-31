@@ -84,7 +84,7 @@ $numeroEstudiantes = $detalles_grupoInst->getNumEstudiantesGrupo(9, $pkID_grupo,
 $ne = $numeroEstudiantes[0]['num_estudiantes'];
 
 $proyectoMGen = $detalles_grupoInst->getProyectosMarcoGrupo($pkID_grupo);
-$pkID_proyectoM = $proyectoMGen[0]["pkIDproyecto"]; 
+$pkID_proyectoM = $proyectoMGen[0]["pkIDproyecto"];  
 
 //echo date("Y-m-d");
 

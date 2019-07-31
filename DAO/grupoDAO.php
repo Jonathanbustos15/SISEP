@@ -81,12 +81,38 @@ class grupoDAO extends UsuariosDAO
         return $this->EjecutarConsulta($query);
     }
 
+    public function getGrupoGaleria($pkID_album){  
+       
+      $query = "select galeria_grupo.*, proyecto_marco.pkID as fkID_proyecto FROM galeria_grupo 
+                INNER JOIN grupo on grupo.pkID = galeria_grupo.fkID_grupo
+                INNER JOIN proyecto_marco on proyecto_marco.pkID = grupo.fkID_proyecto_marco
+                WHERE galeria_grupo.pkID=".$pkID_album;
+
+      return $this->EjecutarConsulta($query);
+    }
+
     public function getTipoGrupo()
     {
 
         $query = "select pkID, nombre FROM `tipo_proyecto`";
 
         return $this->EjecutarConsulta($query);
+    }
+
+    public function getPermisosModulo_Tipo($fkID_modulo, $fkID_tipo_usuario)
+    {
+
+        $this->q_general = "select permisos.*, tipo_usuario.nombre as nom_tipo, modulos.Nombre as nom_modulo
+
+                                FROM `permisos`
+
+                                INNER JOIN tipo_usuario ON tipo_usuario.pkID = permisos.fkID_tipo_usuario
+
+                                INNER JOIN modulos ON modulos.pkID = permisos.fkID_modulo
+
+                                WHERE permisos.fkID_modulo = " . $fkID_modulo . " AND permisos.fkID_tipo_usuario = " . $fkID_tipo_usuario;
+
+        return $this->EjecutarConsulta($this->q_general);
     }
 
     public function getTutor()
@@ -288,9 +314,9 @@ class grupoDAO extends UsuariosDAO
         return $this->EjecutarConsulta($query);
     }
 
-    public function getAlbumGrupos($pkID_taller){  
+    public function getAlbumGrupos($pkID_grupo){  
        
-      $query = "select * FROM `galeria_grupo` WHERE estadoV=1";
+      $query = "select * FROM `galeria_grupo` WHERE estadoV=1 and fkID_grupo=".$pkID_grupo;
 
       return $this->EjecutarConsulta($query);
     }

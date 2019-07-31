@@ -10,7 +10,7 @@
         <!-- form modal contenido -->
 
                 <form id="form_aibd" method="POST" enctype="multipart/form-data">
-                <br>
+                  <br>
                     <div class="form-group " hidden>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="pkID" name="pkID">
@@ -21,15 +21,14 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="nombre" class="control-label">Fecha</label>
-                        <input type="date" class="form-control" id="fecha" name="fecha" placeholder="Fecha de acompañamiento" required = "true">
+                        <label for="fecha" class="control-label">Fecha</label>
+                        <input type="date" class="form-control" id="fecha" name="fecha" placeholder="Fecha de aibd" required = "true">
                     </div>
 
                     <div class="form-group">
                         <label for="descripcion" class="control-label">Descripción</label>
                         <input type="text" class="form-control" id="descripcion" name="descripcion" required="true">
                     </div>
-
                 </form>
 
         <!-- /form modal contenido-->

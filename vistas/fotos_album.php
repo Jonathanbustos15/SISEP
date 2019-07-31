@@ -7,7 +7,7 @@
 	
 	//---------------------------------------------------------
 	$pagina = 'cont_fotos_album.php';
-	$scripts = array('cont_albumgrupos.js');  
+	$scripts = array('cont_albumtalleres.js');  
 	$id_modulo = 40;
 	//---------------------------------------------------------
 	

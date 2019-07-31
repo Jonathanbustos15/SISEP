@@ -66,26 +66,32 @@ $(function() {
     }
 
     function crea_sesion() {
-        var data = new FormData();
-        id_microbiologia = $("#btn_nuevosesion").attr('data-microbiologia');
-        data.append('fecha_sesion', $("#fecha_sesion").val());
-        data.append('descripcion_sesion', $("#descripcion_sesion").val());
-        if (document.getElementById("url_lista").files.length) {
-            data.append('file', $("#url_lista").get(0).files[0]);
-        }
-        data.append('fkID_microbiologia', id_microbiologia);
-        data.append('tipo', "crear_sesion");
-        $.ajax({
-            type: "POST",
-            url: "../controller/ajaxmicrobiologia.php",
-            data: data,
-            contentType: false,
-            processData: false,
-            success: function(data) {
-                console.log(data);
-                location.reload();
+        ok = $("#form_microbiologia_sesion").valida();
+        console.log(ok);
+        if (ok.estado === true) {
+            var data = new FormData();
+            id_microbiologia = $("#btn_nuevosesion").attr('data-microbiologia');
+            data.append('fecha_sesion', $("#fecha_sesion").val());
+            data.append('descripcion_sesion', $("#descripcion_sesion").val());
+            if (document.getElementById("url_lista").files.length) {
+                data.append('file', $("#url_lista").get(0).files[0]);
             }
-        });
+            data.append('fkID_microbiologia', id_microbiologia);
+            data.append('tipo', "crear_sesion");
+            $.ajax({
+                type: "POST",
+                url: "../controller/ajaxmicrobiologia.php",
+                data: data,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    console.log(data);
+                    location.reload();
+                }
+            });
+        } else {
+            alert('Faltan campos por llenar :(');
+        }
     }
 
     function recargar() {
@@ -239,7 +245,26 @@ $(function() {
         if (confirma == true) {
             $.ajax({
                 url: '../controller/ajaxController12.php',
-                data: "pkID=" + numReg + "&tipo=eliminarlogico&nom_tabla=microbiologia_estudiante",
+                data: "pkID=" + numReg + "&tipo=eliminar_logico&nom_tabla=microbiologia_estudiante",
+            }).done(function(data) {
+                console.log(data);
+                location.reload();
+            }).fail(function() {
+                console.log("error");
+            }).always(function() {
+                console.log("complete");
+            });
+        }
+    }
+
+    function deleteSesionNumReg(numReg) {
+        var confirma = confirm("En realidad quiere eliminar la sesión?");
+        console.log(confirma);
+        /**/
+        if (confirma == true) {
+            $.ajax({
+                url: '../controller/ajaxController12.php',
+                data: "pkID=" + numReg + "&tipo=eliminar_logico&nom_tabla=microbiologia_sesion",
             }).done(function(data) {
                 console.log(data);
                 location.reload();
@@ -261,7 +286,7 @@ $(function() {
     });
 
     function cargar_input_lista() {
-        $("#form_microbiologia_sesion").append('<div class="form-group" id="adjunto_lista">' + '<label for="adjunto" id="lbl_url_lista" class=" control-label">Adjuntar Lista</label>' + '<input type="file" class="form-control" id="url_lista" name="url_lista" placeholder="Lista de asistencia del sesion de formación" required = "">' + '</div>')
+        $("#form_microbiologia_sesion").append('<div class="form-group" id="adjunto_lista">' + '<label for="adjunto" id="lbl_url_lista" class=" control-label">Adjuntar Lista</label>' + '<input type="file" class="form-control" id="url_lista" name="url_lista" placeholder="Lista de asistencia del sesion de formación" >' + '</div>')
     }
     $("#btn_actionsesion").click(function() {
         action = $(this).attr("data-action");
@@ -356,4 +381,9 @@ $(function() {
             });
         }
     };
+    $("[name*='elimina_sesion']").click(function(event) {
+        id_sesion = $(this).attr('data-id-sesion');
+        console.log(id_sesion)
+        deleteSesionNumReg(id_sesion);
+    });
 });

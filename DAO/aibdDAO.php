@@ -51,10 +51,10 @@ class aibdDAO extends UsuariosDAO
         return $this->EjecutarConsulta($query);
     }
 
-    public function getInventario($pkid_aibd)
+    public function getDocumentos($pkid_aibd)
     {
-        $query = "SELECT * FROM inventario_aibd
-                WHERE estadoV=1 AND fkID_aibd = " . $pkid_aibd;
+        $query = "SELECT * FROM documentos_aibd
+                WHERE estadoV=1 AND fkID_proyecto_marco = " . $pkid_aibd;
 
         return $this->EjecutarConsulta($query);
     }
@@ -66,6 +66,15 @@ class aibdDAO extends UsuariosDAO
                 WHERE fkID_acompanamiento = " . $pkID_grupo;
 
         return $this->EjecutarConsulta($query);
+    }
+
+    public function getFotosAibd($pkID_proyectoM){  
+       
+      $query = "select fotos_aibd.* FROM `fotos_aibd`
+        INNER JOIN aibd on aibd.pkID = fotos_aibd.fkID_aibd
+        WHERE aibd.estadoV=1 and fotos_aibd.estadoV=1 and aibd.fkID_proyecto_marco=".$pkID_proyectoM;
+
+      return $this->EjecutarConsulta($query);
     }
 
     public function getAlbumGrupo($pkID_grupo)
@@ -90,4 +99,11 @@ class aibdDAO extends UsuariosDAO
         return $this->EjecutarConsulta($query);
     }
 
+    public function getproyectoId($pkID)
+    {
+
+        $query = "select * FROM `aibd` WHERE estadoV=1 and fkID_proyecto_marco=" . $pkID;
+
+        return $this->EjecutarConsulta($query);
+    }
 }

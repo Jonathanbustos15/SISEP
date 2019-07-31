@@ -324,12 +324,12 @@ include "frm_modal_proyectog.php";
 			                  <div class="titleprincipal"><h4>Galeria de Álbumes</h4></div>
 			              </div>
 			              <div class="col-md-6 text-right">
-			      			 <button id="btn_album_grupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="<?php echo $pkID_taller ?>" data-target="#frm_modal_album_taller"><span class="glyphicon glyphicon-plus"></span> 
-			      			 Crear album</button>
+			      			 <button id="btn_album_taller" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-acompanamiento="<?php echo $pkID_taller ?>" data-target="#frm_modal_album_taller"><span class="glyphicon glyphicon-plus"></span> 
+			      			 Crear album</button>  
 
 			      			 <div class="form-group " hidden>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="pkID_grup" name="pkID_grup" value=<?php echo $pkID_taller; ?>>
+                            <input type="text" class="form-control" id="pkID_grup" name="pkID_grup" value=<?php echo $pkID_acompanamiento; ?>>
                         </div>
                     </div>
 			              </div>
@@ -346,7 +346,7 @@ include "frm_modal_proyectog.php";
 							?>
 
 						
-						</div>
+						</div>  
 					</div>
 
 				</div>

@@ -7,7 +7,7 @@
 	
 	//---------------------------------------------------------
 	$pagina = 'cont_detalle_feria.php';
-	$scripts = array('test_validaPV3.js','helper_detalles_grupo.js','cont_detalles_grupo.js','helper_proyecto.js', 'cont_detalle_feria.js','cont_albumgrupos.js','cont_participante.js');
+	$scripts = array('test_validaPV3.js','helper_detalles_grupo.js','cont_detalles_grupo.js','helper_proyecto.js', 'cont_detalle_feria.js','cont_album_feria.js','cont_participante.js');
 	$id_modulo = 28;
 	//---------------------------------------------------------
 	

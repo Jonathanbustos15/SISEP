@@ -9,7 +9,7 @@ $(function() {
         $("#fkID_proyecto_marco").val(id);
         $("#pdf_documento").remove();
         $("#pdf_informe").remove();
-        cargar_input_documento();  
+        cargar_input_documento();
         cargar_input_informe();
     });
     //Definir la acción del boton del formulario 
@@ -145,7 +145,7 @@ $(function() {
     }
 
     function carga_acompanamiento(id_funciona) {
-        console.log("Carga el acompanamiento " + id_funciona); 
+        console.log("Carga el acompanamiento " + id_funciona);
         $.ajax({
             url: '../controller/ajaxController12.php',
             data: "pkID=" + id_funciona + "&tipo=consultar&nom_tabla=acompanamiento",
@@ -202,7 +202,7 @@ $(function() {
             //si confirma es true ejecuta ajax
             $.ajax({
                 url: '../controller/ajaxController12.php',
-                data: "pkID=" + id_funciona + "&tipo=eliminarlogico&nom_tabla=acompanamiento",
+                data: "pkID=" + id_funciona + "&tipo=eliminar_logico&nom_tabla=acompanamiento",
             }).done(function(data) {
                 //---------------------
                 console.log(data);
