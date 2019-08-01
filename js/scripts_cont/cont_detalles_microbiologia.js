@@ -119,8 +119,10 @@ $(function() {
             console.log("complete");
         });
     }
-    $("#fkID_estudiante").change(function(event) {
+    $("#fkID_estudiante_microbiologia").change(function(event) {
+        micro = $("#btn_microbiologia_estudiante").attr("data-microbiologia");
         idUsuario = $(this).val();
+        validaEqualEstudiante(micro,idUsuario);
         nomUsuario = $(this).find("option:selected").data('nombre')
         idGrado = $(this).find("option:selected").data('grado')
         console.log(nomUsuario);
@@ -139,6 +141,23 @@ $(function() {
             selectEstudiante(idUsuario, nomUsuario, 'select', $(this).data('accion'));
         };
     });
+
+    function validaEqualEstudiante(cod,num_id) {
+        console.log("busca valor " + encodeURI(cod));
+        var consEqual = "SELECT COUNT(*) as res_equal FROM `microbiologia_estudiante` WHERE `fkID_microbiologia`='" + cod + "' and fkID_estudiante= '" + num_id + "'";
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "query=" + consEqual + "&tipo=consulta_gen",
+            success: function(data) {
+            if (data.mensaje[0].res_equal > 0) {
+                alert("El Estudiante ya esta asignado a este taller, por favor ingrese otro estudiante.");
+                removeUsuario("frm_group"+num_id);
+                $("#fkID_estudiante_microbiologia").val("");
+            } else {
+            }
+        }
+        })
+    }
 
     function crea_array(array, id_grupo, fecha) {
         console.log("no te vallas chavito")

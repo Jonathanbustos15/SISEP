@@ -998,7 +998,7 @@ class biotecnologiaController extends biotecnologiaDAO
     {
         $tipo = $this->getEstudiantes();
 
-        echo '<select name="fkID_estudiante" id="fkID_estudiante" class="form-control" required = "true">
+        echo '<select name="fkID_estudiante_biotecnologia" id="fkID_estudiante_biotecnologia" class="form-control" required = "true">
                         <option value="" selected>Elija el estudiante del Grupo</option>';
         for ($a = 0; $a < sizeof($tipo); $a++) {
             echo "<option id='fkID_estudiante_form_' data-nombre='" . $tipo[$a]["nombres"] . "' data-grado='" . $tipo[$a]["id_grado"] . "' value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["nombres"] . "</option>";

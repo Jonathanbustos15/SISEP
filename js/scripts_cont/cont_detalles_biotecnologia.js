@@ -94,6 +94,8 @@ $(function() {
     }
 
     function recargar() {
+        console.log("")
+        console.log("")
         location.reload();
     }
     //valida si existe el documento
@@ -118,9 +120,11 @@ $(function() {
             console.log("complete");
         });
     }
-    $("#fkID_estudiante").change(function(event) {
+    $("#fkID_estudiante_biotecnologia").change(function(event) {
+        biotecno = $("#btn_biotecnologia_estudiante").attr("data-biotecnologia");
         idUsuario = $(this).val();
-        nomUsuario = $(this).find("option:selected").data('nombre')
+        validaEqualEstudiante(biotecno,idUsuario);
+        nomUsuario = $(this).find("option:selected").data('nombre') 
         idGrado = $(this).find("option:selected").data('grado')
         console.log(nomUsuario);
         console.log(idGrado);
@@ -214,7 +218,7 @@ $(function() {
                         console.log('salio menor a 0');
                         console.log(arrEstudiante);
                     }
-                    //deleteSaberNumReg(numReg);
+                    deleteSaberNumReg(numReg);  
                 });
                 arrEstudiante.push(id);
                 console.log(arrEstudiante);
@@ -226,6 +230,23 @@ $(function() {
 
     function removeUsuario(id) {
         $("#" + id).remove();
+    }
+
+    function validaEqualEstudiante(cod,num_id) {
+        console.log("busca valor " + encodeURI(cod));
+        var consEqual = "SELECT COUNT(*) as res_equal FROM `biotecnologia_estudiante` WHERE `fkID_biotecnologia`='" + cod + "' and fkID_estudiante= '" + num_id + "'";
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "query=" + consEqual + "&tipo=consulta_gen",
+            success: function(data) {
+            if (data.mensaje[0].res_equal > 0) {
+                alert("El Estudiante ya esta asignado a este taller, por favor ingrese otro estudiante.");
+                removeUsuario("frm_group"+num_id);
+                $("#fkID_estudiante_biotecnologia").val("");
+            } else {
+            }
+        }
+        })
     }
 
     function verPkIdTutor() {

@@ -94,6 +94,9 @@ $(function() {
     }
 
     function recargar() {
+        console.log("")
+        console.log("")
+        console.log("")
         location.reload();
     }
     //valida si existe el documento
@@ -118,8 +121,10 @@ $(function() {
             console.log("complete");
         });
     }
-    $("#fkID_estudiante").change(function(event) {
+    $("#fkID_estudiante_tiex").change(function(event) {
+        tiex = $("#btn_tiex_estudiante").attr("data-tiex");
         idUsuario = $(this).val();
+        validaEqualEstudiante(tiex,idUsuario);
         nomUsuario = $(this).find("option:selected").data('nombre')
         idGrado = $(this).find("option:selected").data('grado')
         console.log(nomUsuario);
@@ -152,6 +157,23 @@ $(function() {
             console.log(obtHE);
         });
         return arrestudiantesasignados;
+    }
+
+    function validaEqualEstudiante(cod,num_id) {
+        console.log("busca valor " + encodeURI(cod));
+        var consEqual = "SELECT COUNT(*) as res_equal FROM `tiex_estudiante` WHERE `fkID_tiex`='" + cod + "' and fkID_estudiante= '" + num_id + "'";
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "query=" + consEqual + "&tipo=consulta_gen",
+            success: function(data) {
+            if (data.mensaje[0].res_equal > 0) {
+                alert("El Estudiante ya esta asignado a este tiex, por favor ingrese otro estudiante.");
+                removeUsuario("frm_group"+num_id);
+                $("#fkID_estudiante_tiex").val("");
+            } else {
+            }
+        }
+        })
     }
 
     function serializa_array(array) {
