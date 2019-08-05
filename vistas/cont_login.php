@@ -37,15 +37,15 @@
                
            </div>
            <div class="col-md-10">
-        <table id="tabla-login" style="border-radius: 25px 25px 25px 25px;">
+        <table id="tabla-login" class="table-borderless">
             <tr id="fila-login">
-              <td style="border-radius: 25px 0px 0px 25px;"><img alt="Ondas Guainía" style="border-radius: 25px 0px 0px 25px;" src="../img/caja.png"></td><br><br>
-              <td BGCOLOR="#FFFFFF" id="columna-login" style="border-radius: 0px 25px 25px 0px;"><br><form role="form" action="../controller/login_autentica.php" method="POST">
+              <td ><img alt="Ondas Guainía" id="imagen-login" src="../img/caja.png"></td><br><br>
+              <td BGCOLOR="#FFFFFF" id="columna-login" style=""><br><form role="form" action="../controller/login_autentica.php" method="POST">
                             <fieldset><br><br><br><br><br><br>
-                                <div class="form-group">
+                                <div class="form-group" id="input_login">
                                     <input id="username" name="username" class="form-control" placeholder="Usuario" type="text" autofocus>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group"id="input_login">
                                     <input id="password" name="password" class="form-control" placeholder="Contraseña" type="password" value="">
                                 </div>
                                 
@@ -61,9 +61,7 @@
         </table><br><br><br><br><br>
         </div>
         </div>
-<div class="text-center" style="margin-bottom:30px !important; width: 20%">
-            <img class="img-responsive" style="display: inline !important;" >
-        </div><br><br>
+<br><br><br><br><br>
     <!-- BEGIN FOOTER -->
             <div class="page-footer" style="background-color: #FFFFFF;" >
                  

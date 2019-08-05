@@ -68,7 +68,7 @@ body {
 #login_fondo {
     background-image: url(../../../../img/fondosisep.png);
     background-repeat: no-repeat;  
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 
@@ -81,9 +81,39 @@ body {
   filter: progid:DXImageTransform.Microsoft.Shadow(color='#666666', Direction=135, Strength=4);
 }
 
+@media screen and (max-width: 600px) {
+    #tabla-login {
+           width:100%;
+           margin-left: auto;
+           margin-right: auto;
+       }
+       
+       #fila-login:nth-of-type(10n) {
+           background-color: inherit;
+       }
+       #fila-login td:first-child {
+           background: #ffff;
+           font-weight:bold;
+           font-size:1.3em;
+       }
+       tbody td {
+           display: block;
+           text-align:center;
+       }
+       tbody td:before {
+           display: block;
+           text-align:center;
+       }
+}
+
 #columna-login{
     width: 330px;
    padding: 0.9em;
+   border-radius: 0px 25px 25px 0px;
+}
+
+#imagen-login{
+   border-radius: 25px 0px 0px 25px;
 }
 
 #fila-login{
