@@ -116,6 +116,10 @@ body {
    border-radius: 25px 0px 0px 25px;
 }
 
+#btn_login{
+   border-radius: 10px 10px 10px 10px;
+}
+
 #fila-login{
    line-height: 5px;
    min-height: 5px;
