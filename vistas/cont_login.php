@@ -14,8 +14,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" type="image/x-icon" href="../img/favicon.ico" />
+    <link href="../bower_components/lightbox2-master/adipoli.css" rel="stylesheet" type="text/css"/>
     <title>SISEP</title>
-
+    <link href="../bower_components/lightbox2-master/adipoli.css" rel="stylesheet" type="text/css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript">
+    </script>
+    <script src="../bower_components/lightbox2-master/jquery.adipoli.min.js" type="text/javascript">
+    </script>
+    <script src="../js/scripts_cont/cont_login.js"></script>
     <?php 
 
         $scripts = new scripts_pag();
@@ -25,17 +31,17 @@
 
 </head>
 
-<body>
-    <div class="container">
+<body id="login_fondo" >
         <div class="row">
-            <div class="col-md-4 col-md-offset-4" style="width: 40% !important; margin-top: -70px !important;">
-                <div class="login-panel panel panel-default" style="border: 5px solid #ddd !important; border-radius: 10px !important;">
-                    <div class="" style="padding-left: 7%;">
-                        <br><img class="img-responsive" src="../img/logo-login.png"><br><br>
-                    </div>
-                    <div class="panel-body">
-                        <form role="form" action="../controller/login_autentica.php" method="POST">
-                            <fieldset>
+           <div class="col-md-2">
+               
+           </div>
+           <div class="col-md-10">
+        <table id="tabla-login" style="border-radius: 25px 25px 25px 25px;">
+            <tr id="fila-login">
+              <td style="border-radius: 25px 0px 0px 25px;"><img alt="Ondas Guainía" style="border-radius: 25px 0px 0px 25px;" src="../img/caja.png"></td><br><br>
+              <td BGCOLOR="#FFFFFF" id="columna-login" style="border-radius: 0px 25px 25px 0px;"><br><form role="form" action="../controller/login_autentica.php" method="POST">
+                            <fieldset><br><br><br><br><br><br>
                                 <div class="form-group">
                                     <input id="username" name="username" class="form-control" placeholder="Usuario" type="text" autofocus>
                                 </div>
@@ -44,41 +50,39 @@
                                 </div>
                                 
                                 <!-- Change this to a button or input when using this as a form --> 
-                                <button id="btn_login" class="btn btn-lg btn-success btn-block ladda-button botonlogin"  data-style="slide-up" style="padding: 10px;"><span class="ladda-label">Ingresar</span></button>                               
+                                <button id="btn_login" class="btn btn-lg btn-success btn-block ladda-button botonlogin"  data-style="slide-up" style="padding: 7px;"><span class="ladda-label">Ingresar</span></button>                               
                             </fieldset>
                             <div class="form-group text-center">
-                                <br>
+                               
                                 <!--<a href="registro.php">Registrarse <span class="glyphicon glyphicon-log-in"></span> </a>-->
                             </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+                        </form></td>
+            </tr>
+        </table><br><br><br><br><br>
         </div>
-        
-    </div>
-<div class="text-center" style="margin-bottom: 5px !important;">
-            <br><img class="img-responsive" style="display: inline !important;" src="../img/paisaje-bottom.png"><br>
         </div>
-    <?php 
-
-        $scripts->standar();
-     ?>
+<div class="text-center" style="margin-bottom:30px !important; width: 20%">
+            <img class="img-responsive" style="display: inline !important;" >
+        </div><br><br>
     <!-- BEGIN FOOTER -->
-            <div class="page-footer">
-                 <div class="col-md-2">
-                 </div>
-                    <div class="col-md-7">
-                        <a href="http://www.guainia.gov.co/" target="_blank"><img alt="Ondas Guainía"  src="../img/Recurso 1-8.png"></a><br><br>
+            <div class="page-footer" style="background-color: #FFFFFF;" >
+                 
+                    <div class="col-md-9 text-right" style="background-color: #FFFFFF;">
+                        <a href="http://ondasguainia.com/" target="_blank" id=""><img id="image2" alt="Ondas Guainía"  src="../img/ondas.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="https://www.colciencias.gov.co/" target="_blank" id=""><img id="image6" alt="Ondas Guainía"  src="../img/colciencias.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="https://www.sgr.gov.co/" target="_blank"  ><img id="image1" alt="Ondas Guainía"  src="../img/regalias.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="https://www.dnp.gov.co/Paginas/%E2%80%9CTodos-por-un-nuevo-pa%C3%ADs%E2%80%9D,-la-ruta-para-cumplir-las-metas-del-Plan-Nacional-de-Desarrollo-2014-2018.aspx" target="_blank"  id=""><img id="image3" alt="Ondas Guainía"  src="../img/nuevopais.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="http://www.guainia.gov.co/" target="_blank" id=""><img id="image4" alt="Ondas Guainía"  src="../img/gobernacion.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="http://www.funtecso.com/" target="_blank"  id=""><img id="image5" alt="Ondas Guainía"  src="../img/fundacion.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </div>
-                    <div class="col-md-3">
-                        <div class="page-footer-inner">
+
+                        <div class="page-footer-inner col-md-3" style="background-color: #FFFFFF;">
                             © 2017 - <span class="page-footer-rojo">Gobernación Guainía</span> - Todos los Derechos Reservados 
                         </div>
-                    </div>
                 </div>
-            
-            <!-- END FOOTER -->
+
 </body>
+
+
 
 </html>

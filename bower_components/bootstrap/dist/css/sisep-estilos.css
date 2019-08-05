@@ -63,8 +63,34 @@
 }
 body {
     background-image: url(../../../../img/fondo.jpg);
-    background-repeat: repeat;
+    background-repeat: repeat; 
 }
+#login_fondo {
+    background-image: url(../../../../img/fondosisep.png);
+    background-repeat: no-repeat;  
+    overflow: hidden;
+}
+
+
+#tabla-login{
+  margin-top: 100px;
+  margin-left: -50px;
+  border-radius: 25px 25px 25px 25px;
+  -webkit-box-shadow: 8px 8px 12px #999;
+  -moz-box-shadow: 8px 8px 12px #999;
+  filter: progid:DXImageTransform.Microsoft.Shadow(color='#666666', Direction=135, Strength=4);
+}
+
+#columna-login{
+    width: 330px;
+   padding: 0.9em;
+}
+
+#fila-login{
+   line-height: 5px;
+   min-height: 5px;
+}
+
 thead {
     background-color: #139498;
 }
@@ -143,6 +169,8 @@ th {
     color: #5D5D5D;
     font-family: 'Exo-Regular';
 }
+
+
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
     color: #fff !important;
     cursor: default !important;

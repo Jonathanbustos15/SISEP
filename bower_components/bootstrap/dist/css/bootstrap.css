@@ -34,6 +34,7 @@ video {
   display: inline-block;
   vertical-align: baseline;
 }
+
 audio:not([controls]) {
   display: none;
   height: 0;
@@ -258,6 +259,7 @@ th {
   .table-bordered th,
   .table-bordered td {
     border: 1px solid #ddd !important;
+    border-radius: 6px;
   }
 }
 @font-face {
@@ -2304,6 +2306,7 @@ th {
 }
 .table-bordered {
   border: 1px solid #ddd;
+  border-radius: 6px;
 }
 .table-bordered > thead > tr > th,
 .table-bordered > tbody > tr > th,
@@ -2312,10 +2315,12 @@ th {
 .table-bordered > tbody > tr > td,
 .table-bordered > tfoot > tr > td {
   border: 1px solid #ddd;
+  border-radius: 6px;
 }
 .table-bordered > thead > tr > th,
 .table-bordered > thead > tr > td {
   border-bottom-width: 2px;
+  border-radius: 6px;
 }
 .table-striped > tbody > tr:nth-of-type(odd) {
   background-color: #f9f9f9;
@@ -2464,6 +2469,7 @@ table th[class*="col-"] {
   }
   .table-responsive > .table-bordered {
     border: 0;
+    border-radius: 6px;
   }
   .table-responsive > .table-bordered > thead > tr > th:first-child,
   .table-responsive > .table-bordered > tbody > tr > th:first-child,
