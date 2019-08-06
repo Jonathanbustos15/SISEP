@@ -343,7 +343,7 @@ class aibdController extends aibdDAO
             <div class="col-sm-6">
 
                 <div class="text-center">
-                  <img src="../vistas/subidas/' . $this->grupoId[0]["url_imagen"] . '" alt="..." height="auto" width="auto" class="img-thumbnail">
+                  <img src="../server/php/files/' . $this->grupoId[0]["url_imagen"] . '" alt="..." height="auto" width="auto" class="img-thumbnail">
                 </div>
 
               </div>
