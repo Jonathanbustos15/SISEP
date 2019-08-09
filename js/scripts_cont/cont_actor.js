@@ -270,7 +270,7 @@ $("#form_actor").overlooker({
                   var tipos = JSON.parse(data);
                         console.log(tipos[x])
                       if (tipos[0].fkID_pais != 0) {
-                        $("#fkID_departamento option[value="+ tipos[0].fkID_pais+"]").attr("selected",true);
+                        $("#fkID_pais option[value="+ tipos[0].fkID_pais+"]").attr("selected",true);
                       } if (tipos[0].fkID_departamento != 0) {
                         $("#fkID_departamento option[value="+ tipos[0].fkID_departamento+"]").attr("selected",true);
                         

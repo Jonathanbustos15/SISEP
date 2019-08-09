@@ -103,6 +103,8 @@ $(function() {
 
     function crea_foto() {  
          var data = new FormData($("#form_foto_aibd")[0]);
+         id_aibd = $("[name*='edita_aibd']").attr('data-aibd');
+         data.append('fkID_aibd', id_aibd);
             data.append('tipo', "crear_foto");
             console.log(data)
             $.ajax({
@@ -118,7 +120,7 @@ $(function() {
                     for(x=0; x<tipos.length; x++) {
                 console.log("nombre"+tipos[x]);
                 }
-                location.reload();
+                //location.reload();  
                 }
             })  
     }

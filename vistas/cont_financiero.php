@@ -1,83 +1,150 @@
-<?php
-include "../conexion/datos.php";
-//--------------------------------------------------------------------
-include '../controller/academicoController.php';
-//--------------------------------------------------------------------
-//intancias menu principal
-$academicoInst  = new academicoController();
+ <?php
+
+
+include '../controller/financieroController.php';
+
+include '../conexion/datos.php';
+
+
+$financieroInst = new financieroController;
+
+$arrPermisoss = $financieroInst->getPermisosModulo_Tipo(26, $_COOKIE[$NomCookiesApp . '_IDtipo']);
+
+$creaf = $arrPermisoss[0]['crear'];
+
+$id_modulo =51;  
+
+$tipo_user = $_COOKIE[$NomCookiesApp . '_IDtipo'];
+
 $pkID_proyectoM = $_GET["id_proyectoM"];
-$proyectoMGen   = $academicoInst->getProyectosMarcoId($pkID_proyectoM);
-//--------------------------------------------------------------------
+
+$proyectoMGen = $financieroInst->getProyectosMarcoId($pkID_proyectoM);
+
+
+//++++++++++++++++++++++++++++++++++
+include '';
+//++++++++++++++++++++++++++++++++++/**/
 ?>
 
+<div id="container">
 <div id="page-wrapper" style="margin: 0px;">
 
-             <!-- Contenido del Index -->
-             <div class="row">
-                <div class="col-lg-12">
-                    <!--<h1 class="page-header">SISEP <h4>Sistema de Información, Seguimiento y Evaluación Permanente</h4>  </h1>--><br>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
+  <div class="row">
+     <!-- Campo que contiene el valor del id del modulo para auditoria con el nombre del modulo-->
+      <input type="hidden" id="id_mod_page_financiera" value=<?php echo $id_modulo ?>>
 
-                        <div class="titulohead">
-                            <div class="text-center titulo-menu"><h3>Financiero - <?php echo $proyectoMGen[0]["nombre"] ?></h3></div>
-                        </div>
-                        <div class="panel-body">
+      <div class="col-lg-12">
+          <h1 class="page-header titleprincipal"><img src="../img/botones/grupoonly.png"><?php echo  $proyectoMGen[0]["nombre"] ?> - Financiero</h1>
+      </div>
+      <!-- /.col-lg-12 -->
 
-                            <div class="col-lg-12">
-                                  <ol class="breadcrumb migadepan">
-                                    <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
-                                    <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
-                                    <li class="active migadepan">Financiero - <?php echo $proyectoMGen[0]["nombre"] ?> </li>
-                                  </ol>
-                              </div>
+    <div class="col-lg-12">
+          <ol class="breadcrumb migadepan">
+            <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
+            <li><a href="principal.php?id_proyectoM=<?php echo $proyectoMGen[0]["pkID"]; ?>" class="migadepan">Menú principal</a></li>
+            <li><a href="" class="migadepan">Financiero</a></li>
+          </ol>
+    </div>
 
-                            <!-- contenedor de los registros-->
-                            <div class="col-lg-12">
+  </div>
+  <!-- /.row -->
 
-                                <!-- contenido de las tablas -->
-                                <div class="tab-content">
+  <div class="row">
 
-                                    <!-- Pestaña grupoInv -->
-                                    <div role="tabpanel" class="tab-pane active" id="grupoInv">
+      <div class="col-lg-12">
 
-                                        <br>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs tabs-proc3" role="tablist">
+          <li id="" role="presentation"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
+            <li id="li_detalle_financiero" role="presentation"><a href="#detalle_financiero" aria-controls="general" role="tab" data-toggle="tab">Detalle Financiero</a></li>
+          <li id="li_facturacion" role="presentation"><a href="#facturacion" aria-controls="general" role="tab" data-toggle="tab">Facturación</a></li>
+          <li id="li_anticipo" role="presentation"><a href="#anticipo" aria-controls="general" role="tab" data-toggle="tab">Anticipo</a></li>
+      </ul>
 
-                                        <div class="">
-                                            <div class="row text-center">
-                                                <div class="col-md-4 zoom"><a class="" href="grupo.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/botones/avances.png"></a></div>
-                                                <div class="col-md-4 zoom"><a class="" href="saberes.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img  class="zoom" src="../img/botones/imprevistos.png"></a></div>
-                                                <div class="col-md-4 zoom"><a class="" href="formacion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img  class="zoom" src="../img/botones/gerencia_de_proyecto.png"></a></div>
-                                            </div>
-                                        </div>
+      <div class="tab-content">
 
+      <div role="tabpanel" class="tab-pane" id="general">
+        <br>
+        <!-- contenido general -->
+        <div class="panel panel-default proc-pan-def3">
+          <div class="titulohead">
 
-                                    </div>
-                                    <!-- /.Pestaña grupoInv -->
-
-
-                                    </div>
-                                    <!-- /.Pestaña config -->
-
-                                </div>
-                                <!-- ./contenido de las tablas -->
-
-                            </div>
-                            <!-- ./contenedor de los registros-->
-
-                        </div>
-                        <!-- /.panel-body -->
+                  <div class="row">
+                    <div class="col-md-6">
+                        <div class="titleprincipal"><h4>Financiero - <?php echo $proyectoMGen[0]["nombre"] ?></h4></div>
                     </div>
-                    <!-- /.panel -->
+                    <div class="col-md-6 text-right">
+                    </div>
+                  </div>
+
                 </div>
-                <!-- /.col-lg-12 -->
+                <!-- /.panel-heading -->
+
+          <div class="panel-body">  
+
+            <div class="col-md-12">
+              <div class="">
+                      <table class="display table table-striped table-bordered table-hover" id="tbl_grupo">
+                  <thead>
+                      <tr>
+                          <th colspan="5" class="text-center">Valor del Proyecto</th>
+                          <th colspan="5" class="text-center">Valor Ejecutado</th>
+                          <th colspan="5" class="text-center">Saldo por Ejecutar</th>
+                      </tr>  
+                  </thead>
+                      <tr>
+                          <td colspan="5" class="text-center" style="background-color: #A3C7EE"><h4>$15.765.675.990</h4></td>
+                          <td colspan="5" class="text-center" style="background-color: #95F388"><h4>$65.675.990</h4></td>
+                          <td colspan="5" class="text-center" style="background-color: #FD7F77"><h4>$15.700.000.000</h4></td>
+                      </tr>
+                  <tbody>
+                      
+                  </tbody>
+              </table>
+                  </div>
+                  <!-- /.table-responsive -->
             </div>
-            <!-- /.row -->
+
+          </div>
+
+          
+        </div> 
+        <!-- /.contenido general -->
+
+      </div>
+
+      <div role="tabpanel" class="tab-pane" id="detalle_financiero">
+        <br>
+        <!-- contenido general -->
+        
 
         </div>
-        <!-- /#page-wrapper -->
+        <!-- /.contenido general -->
+
+      </div>
+
+      <div role="tabpanel" class="tab-pane" id="facturacion">
+        <br>
+        <!-- contenido general -->
+
+
+        </div>
+
+      <div role="tabpanel" class="tab-pane" id="anticipo">
+        <br>
+        <!-- contenido general -->
+
+
+        </div>
+
+        
+      <!-- /.col-lg-12 -->
+
+    </div>
+    <!-- /.row -->
+
+</div>
+</div>
+</div>
+
+<!-- /#page-wrapper -->

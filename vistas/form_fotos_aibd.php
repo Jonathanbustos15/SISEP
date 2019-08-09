@@ -32,7 +32,7 @@
                     
                     <div class="form-group " hidden>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="fkID_album" name="fkID_album" value="<?php echo $pkID_album; ?>">
+                            <input type="text" class="form-control" id="fkID_ai" name="fkID_ai" value="<?php echo $pkID_album; ?>">
                         </div>
                     </div>
 
