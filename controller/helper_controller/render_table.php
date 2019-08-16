@@ -221,7 +221,8 @@ class RenderTable
         //------------------------------------------------------------------------------------------------
         switch ($type) {
             case 'editar':
-                echo '<button id="btn_editar" name="edita_' . $name . '" title="Editar" type="button" class="btn btn-warning" data-toggle="modal" data-target="#frm_modal_' . $name . '" data-id-' . $name . ' = "' . $id . '" ' . $permiso . '><span class="glyphicon glyphicon-pencil"></span></button>&nbsp';
+                echo '<button id="btn_editar" name="edita_' . $name . '" title="Editar" type="button" class="btn btn-warning" data-toggle="modal" data-target="#frm_modal_' . $name . '" data-id-' . $name . ' = "' . $id . '" ' . $permiso . '><span class="glyphicon glyphicon-pencil"></span>
+                </button>&nbsp';
                 break;
             case 'eliminar':
                 echo '<button id="btn_eliminar" name="elimina_' . $name . '" title="Eliminar" type="button" class="btn btn-danger" data-id-' . $name . ' = "' . $id . '" ' . $permiso . '><span class="glyphicon glyphicon-remove"></span></button>&nbsp';

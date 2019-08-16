@@ -3,7 +3,7 @@
 include_once 'genericoDAO.php';
 include_once 'usuariosDAO.php';
 
-class financieroDAO extends UsuariosDAO
+class repositorioDAO extends UsuariosDAO
 {
 
     use GenericoDAO;
@@ -17,6 +17,19 @@ class financieroDAO extends UsuariosDAO
 
         return $this->getCookieProyectoM();
     }
+
+    public function getDocumentos(){
+            $this->q_general = "select documentos.*, a.nombre_tdoc as nom_tipoDocumento, b.nombre_tdoc as nombre_tsubtipo 
+                FROM `documentos` 
+                INNER JOIN tipo_documento a ON a.pkID = documentos.fkID_tipo
+                INNER JOIN tipo_documento b ON b.pkID = (CASE
+                WHEN documentos.fkID_subtipo = 0 THEN 15
+                 WHEN documentos.fkID_subtipo != 0 THEN documentos.fkID_subtipo 
+                 END)
+                where estadoV=1 and fkID_proyecto_marco = 2 order by documentos.pkID desc";             
+            
+            return GenericoDAO::EjecutarConsulta($this->q_general);
+        }
 
     public function getProyectosMarcoId($pkID)
     {
@@ -48,7 +61,7 @@ class financieroDAO extends UsuariosDAO
         return $this->EjecutarConsulta($this->q_general);
     }
 
-    public function getfinanciero($filtro,$pkID_proyectoM)
+    public function getrepositorio($filtro,$pkID_proyectoM)
     {
         if ($filtro == "Todos" || $filtro == "") {
                     $anio = "!=0";
@@ -125,18 +138,49 @@ class financieroDAO extends UsuariosDAO
         return $this->EjecutarConsulta($query);
     }
 
-    public function getActividad($pkID)
+    public function getTipoProyecto($pkID)
     {
 
-        $query = "select *, concat_ws(' ',numero,actividad) as actividades FROM `actividad` WHERE estadoV=1 and fkID_objetivo=".$pkID;
+        $query = "select documentos.*, a.nombre_tdoc as nom_tipoDocumento, b.nombre_tdoc as nombre_tsubtipo 
+            FROM `documentos` 
+            INNER JOIN tipo_documento a ON a.pkID = documentos.fkID_tipo
+            INNER JOIN tipo_documento b ON b.pkID = (CASE
+            WHEN documentos.fkID_subtipo = 0 THEN 15
+             WHEN documentos.fkID_subtipo != 0 THEN documentos.fkID_subtipo 
+             END)
+            where documentos.estadoV=1 and fkID_proyecto_marco=". $pkID ." GROUP by documentos.fkID_tipo";
 
         return $this->EjecutarConsulta($query);
     }
 
-    public function getFactura($pkID)
+    public function getSubtipo($pkID)
     {
 
-        $query = "select *, concat_ws(' ','$',FORMAT(valor_factura,3)) AS valor_facturas FROM `factura` WHERE estadoV=1 and fkID_proyecto_marco=".$pkID;
+        $query = "select documentos.*, a.nombre_tdoc as nom_tipoDocumento, b.nombre_tdoc as nombre_tsubtipo FROM `documentos` INNER JOIN tipo_documento a ON a.pkID = documentos.fkID_tipo INNER JOIN tipo_documento b ON b.pkID = (CASE WHEN documentos.fkID_subtipo = 0 THEN 15 WHEN documentos.fkID_subtipo != 0 THEN documentos.fkID_subtipo END) where documentos.fkID_tipo=". $pkID ." GROUP by fkID_subtipo";
+
+        return $this->EjecutarConsulta($query);
+    }
+
+    public function getDocumen($pkID)
+    {
+
+        $query = "select documentos.*, a.nombre_tdoc as nom_tipoDocumento, b.nombre_tdoc as nombre_tsubtipo FROM `documentos` INNER JOIN tipo_documento a ON a.pkID = documentos.fkID_tipo INNER JOIN tipo_documento b ON b.pkID = (CASE WHEN documentos.fkID_subtipo = 0 THEN 15 WHEN documentos.fkID_subtipo != 0 THEN documentos.fkID_subtipo END) where documentos.fkID_subtipo=".$pkID;
+
+        return $this->EjecutarConsulta($query);
+    }
+
+    public function getCategoria()
+    {
+
+        $query = "select * FROM `tipo_documento` WHERE fkID_padre IS NULL AND nombre_tdoc != 'No Aplica'";
+
+        return $this->EjecutarConsulta($query);
+    }
+
+    public function getSubCategoria($pkID)
+    {
+
+        $query = "select * FROM `tipo_documento` WHERE fkID_padre=".$pkID;
 
         return $this->EjecutarConsulta($query);
     }
@@ -169,7 +213,7 @@ class financieroDAO extends UsuariosDAO
         return $this->EjecutarConsulta($query);
     }
 
-    public function getFotosfinanciero($pkID_saber){  
+    public function getFotosrepositorio($pkID_saber){  
        
       $query = "select * FROM `fotos_saber` WHERE estadoV=1 and fkID_saber=".$pkID_saber;
 
@@ -207,7 +251,7 @@ class financieroDAO extends UsuariosDAO
 
     }
 
-    public function getfinancieroId($pkID)
+    public function getrepositorioId($pkID)
     {
 
         $query = "select saber_propio.*,grupo.nombre,grupo.url_logo,(select count(*) FROM saber_estudiante LEFT JOIN estudiante ON estudiante.pkID = saber_estudiante.fkID_estudiante WHERE saber_propio.pkID = saber_estudiante.fkID_saber_propio) as canti,concat_ws(' ',nombre_funcionario,apellido_funcionario)nombres_funcionario FROM `saber_propio`
@@ -375,7 +419,7 @@ class financieroDAO extends UsuariosDAO
         return $this->EjecutarConsulta($query);
     }
 
-    public function getEstudiantesfinanciero($pkID_saber)
+    public function getEstudiantesrepositorio($pkID_saber)
     {
 
         $query = "select saber_estudiante.pkID,estudiante.documento_estudiante,estudiante.pkID as pkIDestudiante,CONCAT(nombre_estudiante1,' ',nombre_estudiante2) AS nombre,CONCAT(apellido_estudiante1,' ',apellido_estudiante2) AS apellido,grado.nombre AS nombre_grado FROM saber_estudiante
