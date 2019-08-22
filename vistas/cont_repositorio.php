@@ -46,6 +46,7 @@ include 'form_subactividad.php';
     <div class="col-lg-12">
           <ol class="breadcrumb migadepan">
             <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
+            <li><a href="descripcion.php?id_proyectoM=<?php echo $proyectoMGen[0]["pkID"]; ?>" class="migadepan">Descripción</a></li>
             <li><a href="principal.php?id_proyectoM=<?php echo $proyectoMGen[0]["pkID"]; ?>" class="migadepan">Menú principal</a></li>
             <li><a href="" data-toggle="tab" class="migadepan">Repositorio documental</a></li>
           </ol>

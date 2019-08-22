@@ -1,0 +1,20 @@
+{
+  "name": "jquery_controllerV2.js",
+  "version": "2.2.1",
+  "main": "./jquery_controllerV2.js",
+  "dependencies": {
+    "jquery": "2.2.3",
+    "valida_p.js": "1.0.1"
+  },
+  "homepage": "https://github.com/jsmorales/jquery_controllerV2",
+  "_release": "2.2.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "2.2.1",
+    "commit": "09e16c00176bdc43480475fa700d4d1bccf83a65"
+  },
+  "_source": "https://github.com/jsmorales/jquery_controllerV2.git",
+  "_target": "^2.2.1",
+  "_originalSource": "jquery_controllerV2.js",
+  "_direct": true
+}

@@ -1,0 +1,8 @@
+{
+	"name" : "valida_p.js",
+	"version" : "1.0.1",
+	"main" : "./js/valida_p_v1.js",
+	"dependencies" : {
+		"jquery" : "1.9.*"
+	}
+}

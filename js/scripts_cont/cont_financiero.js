@@ -7,6 +7,7 @@ $(function() {
     var arrValor = [];
     var arrActividadfacturas = [];
     $("#btn_nuevofactura").click(function() {
+        valorac=0;
         $("#lbl_form_factura").html("Nueva factura");
         $("#lbl_btn_actionfactura").html("Guardar <span class='glyphicon glyphicon-save'></span>");
         $("#btn_actionfactura").attr("data-action", "crear");
@@ -28,6 +29,7 @@ $(function() {
 
 
     $("[name*='edita_factura']").click(function() {
+        valorac=0;
         $("#lbl_form_factura").html("Edita factura");
         $("#lbl_btn_actionfactura").html("Guardar Cambios<span class='glyphicon glyphicon-save'></span>");
         $("#btn_actionfactura").attr("data-action", "editar");
@@ -270,6 +272,9 @@ $(function() {
                     alert("El valor asignado supera el valor de la factura");
                     removeUsuario("frm_group" + id);
                     $("#valor").val("");
+                    $("#fkID_objetivo").val("");
+                    $("#fkID_actividad").val("");
+                    valortotal=0;
                 } else{
                 arrActividad.push(id);  
                 arrValor.push(valor);
@@ -409,7 +414,7 @@ $(function() {
                 var tipo = JSON.parse(a);
                 fkID_factura = tipo[0].last_id;
                 guardar(fkID_factura,);
-                //location.reload();
+                location.reload();
             }
         })
     }
