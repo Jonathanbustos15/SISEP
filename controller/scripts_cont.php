@@ -21,6 +21,7 @@
                 "lightbox2-master"=>"bower_components/lightbox2-master/lightbox.js",
                 "navgococoki"=>"bower_components/lightbox2-master/jquery.cookie.js",
                 "navgoco"=>"bower_components/lightbox2-master/jquery.navgoco.js",
+                "adipoli"=>"bower_components/lightbox2-master/jquery.adipoli.min.js",
                 //"jQueryfc"=>"https://code.jquery.com/jquery-3.3.1.js",
                 
 
@@ -31,7 +32,7 @@
 
                 //Plugin mask
                 "mask.js"=>"bower_components/jquery-mask-plugin/dist/jquery.mask.js",
-                "formatCurrency.js"=>"bower_components/jquery-formatcurrency/jquery.formatCurrency-1.4.0.js",
+                "formatCurrency.js"=>"bower_components/jquery-formatcurrency/jquery.formatCurrency-1.4.0.js",  
                 "accounting.js"=>"bower_components/accounting.js/accounting.min.js",
 
                 //"DataTables-Bootstrap"=>"bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js",
@@ -56,6 +57,7 @@
                 //"morris.js"=>"bower_components/morrisjs/morris.min.js",
                 "sb-admin-2.js"=>"bower_components/sb-admin-2/js/sb-admin-2.js",
                 "helper-global"=>"js/helper_global.js",
+                "login"=>"js/scripts_cont/cont_login.js",
                 "hoshi"=>"js/classie.js",
                 //"index"=>"js/scripts_cont/cont_index.js",
 
@@ -72,7 +74,7 @@
                 "bootstrap theme"=>"bower_components/bootstrap/dist/css/bootstrap-theme.min.css",
                 "sisep estilos"=>"bower_components/bootstrap/dist/css/sisep-estilos.css",
                 "portlet"=>"bower_components/bootstrap/dist/css/porlet.css",
-
+                "adipoli"=>"bower_components/lightbox2-master/adipoli.css",
                 "jQueryUI"=>"bower_components/jquery-ui/themes/ui-darkness/jquery-ui.css",
                 "jQueryUI-bootstrap"=>"bower_components/jquery-ui-bootstrap/jquery.ui.theme.css",
                 "lightbox2-master"=>"bower_components/lightbox2-master/lightbox.css",
