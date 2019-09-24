@@ -181,8 +181,7 @@ include "frm_modal_proyectog.php";
 
         <!-- Nav tabs -->
         <ul class="nav nav-tabs tabs-proc3" role="tablist">
-	        <li id="li_general" role="presentation"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
-          	<li id="li_general" role="presentation"><a href="#participantes" aria-controls="general" role="tab" data-toggle="tab">Participantes</a></li>
+          	<li id="li_participantes" role="presentation"><a href="#participantes" aria-controls="general" role="tab" data-toggle="tab">Participantes</a></li>
 	        <li id="li_album" role="presentation"><a href="#album" aria-controls="general" role="tab" data-toggle="tab">Galeria</a></li>
 	    </ul>
 

@@ -104,16 +104,17 @@ $FeriaInst->getSelectAnioFiltro();
         <div class="panel-body">
 
           <div class="dataTable_wrapper">
-              <table class="display table table-striped table-bordered table-hover" id="tbl_actor">
+              <table class="display table table-striped table-bordered table-hover" id="tbl_grupo">
                   <thead>
                       <tr>
                          <!-- <th>ID Actor</th>-->
-                          <th class="tabla-form-ancho-std">Fecha de la Feria</th>
-                          <th class="tabla-form-ancho-std">Tipo de Feria</th>
-                          <th class="tabla-form-ancho-std">Lugar de la Feria</th>
-                          <th class="tabla-form-ancho-std">Número de participantes</th>
-
-                          <th class="tabla-form-ancho-sm" data-orderable="false">Opciones</th>
+                          <th >Fecha de la Feria</th>
+                          <th >Tipo de Feria</th>
+                          <th >Lugar de la Feria</th>
+                          <th >Número de participantes</th>
+                          <th >Informe</th>
+                          <th >Lista</th>
+                          <th  data-orderable="false">Opciones</th>
                       </tr>
                   </thead>
 

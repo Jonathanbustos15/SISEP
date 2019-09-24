@@ -30,7 +30,7 @@
             $where_tipo = "= '$filtro2'";
         }       
        
-            $query = "select feria.pkID,fecha_feria,feria.lugar_feria,(select count(*) FROM feria_participantes LEFT JOIN participante ON participante.pkID = feria_participantes.fkID_participante WHERE feria.pkID = feria_participantes.fkID_feria) as canti,tipo_feria.nombre FROM `feria`
+            $query = "select feria.pkID,fecha_feria,feria.lugar_feria,(select count(*) FROM feria_participantes LEFT JOIN participante ON participante.pkID = feria_participantes.fkID_participante WHERE feria.pkID = feria_participantes.fkID_feria) as canti,tipo_feria.nombre, feria.url_documento,feria.url_lista FROM `feria`
                 INNER JOIN tipo_feria on tipo_feria.pkID = feria.fkID_tipo_feria
                 where feria.estadoV= 1 and feria.proyecto_macro=".$pkID_proyectoM." and year(fecha_feria) ".$where_anio." and tipo_feria.nombre".$where_tipo;
 

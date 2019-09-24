@@ -185,7 +185,7 @@ $(function() {
         if (confirma == true) {
             var data = new FormData();
             data.append('pkID', id);
-            data.append('tipo', "eliminar_logico");
+            data.append('tipo', "eliminarlogico");
             $.ajax({
                 type: "POST",
                 url: '../controller/ajaxferia.php',

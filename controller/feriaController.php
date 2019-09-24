@@ -357,71 +357,63 @@
 
         public function getTablaFeria($pkID_proyectoM,$filtro,$filtro2){       
 
-            //permisos-------------------------------------------------------------------------
-            $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo,$_COOKIE[$this->NameCookieApp."_IDtipo"]);
-            $edita = $arrPermisos[0]["editar"];
-            $elimina = $arrPermisos[0]["eliminar"];
-            $consulta = $arrPermisos[0]["consultar"];
-            //---------------------------------------------------------------------------------
+            
+            //$Feria = $this->getFeria($pkID_proyectoM,$filtro,$filtro2);
+            $this->Feria = $this->getFeria($pkID_proyectoM,$filtro,$filtro2);
+        
+        //permisos-------------------------------------------------------------------------
+        $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo, $_COOKIE[$this->NameCookieApp . "_IDtipo"]);
+        $edita       = $arrPermisos[0]["editar"];
+        $elimina     = $arrPermisos[0]["eliminar"];
+        $consulta    = $arrPermisos[0]["consultar"];
+        //---------------------------------------------------------------------------------
 
-            //Define las variables de la tabla a renderizar
+        if (($this->Feria)) {
 
-                //Los campos que se van a ver
-                $Feria_campos = [
-                   // ["nombre"=>"pkID"],
-                    ["nombre"=>"fecha_feria"],
-                    ["nombre"=>"nombre"],
-                    ["nombre"=>"lugar_feria"],
-                    ["nombre"=>"canti"],
-                ];
-                //la configuracion de los botones de opciones
-                $Feria_btn =[
+            for ($a = 0; $a < sizeof($this->Feria); $a++) {
+                $id           = $this->Feria[$a]["pkID"];
+                $tipo_feria  = $this->Feria[$a]["nombre"];
+                $lugar  = $this->Feria[$a]["lugar_feria"];
+                $participantes  = $this->Feria[$a]["canti"];
+                $fecha = $this->Feria[$a]["fecha_feria"];
+                $url_documento    = $this->Feria[$a]["url_documento"];
+                $url_lista    = $this->Feria[$a]["url_lista"];
 
-                     [
-                        "tipo"=>"editar",
-                        "nombre"=>"feria",
-                        "permiso"=>$edita,
-                     ],
-                     [
-                        "tipo"=>"eliminar",
-                        "nombre"=>"feria",
-                        "permiso"=>$elimina,
-                     ]
-                ];
+                echo '
+                             <tr>
+                                <td title="Click Ver Detalles" class="detail" href="detalle_feria.php?id_Feria='. $id .'" >' . $fecha . '</td>
+                                 
+                                 <td  title="Click Ver Detalles" class="detail" href="detalle_feria.php?id_Feria='. $id .'" >' . $tipo_feria . '</td>
+                                 <td title="Click Ver Detalles" class="detail" href="detalle_feria.php?id_Feria='. $id .'" >' . $lugar . '</td>
+                                 <td title="Click Ver Detalles" class="detail" href="detalle_feria.php?id_Feria='. $id .'" >' . $participantes . '</td>
+                                 <td title="Descargar Archivo"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../server/php/files/' . $url_documento . '" target="_blank" >' . $url_documento . '</a></td>
+                                 <td title="Descargar Archivo"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../server/php/files/' . $url_lista . '" target="_blank" >' . $url_lista . '</a></td>
+                                 <td>
+                                     <button id="edita_feria" title="Editar" name="edita_feria" type="button" class="btn btn-warning" data-toggle="modal" data-target="#frm_modal_feria" data-id-feria = "' . $id . '" ';
+                                        echo '><span class="glyphicon glyphicon-pencil"></span></button>
 
-                $array_opciones = [ 
-                    "modulo" => "Feria", //nombre del modulo definido para jquerycontrollerV2
-                    "title"  => "Click Ver Detalles", //etiqueta html title
-                    "href"   => "detalle_feria.php?id_Feria=",
-                    "class"  => "detail", //clase que permite que añadir el evento jquery click
-                ];
-            //---------------------------------------------------------------------------------
-            //carga el array desde el DAO
-            $Feria = $this->getFeria($pkID_proyectoM,$filtro,$filtro2);
-
-
-            //Instancia el render
-            $this->table_inst = new RenderTable($Feria,$Feria_campos,$Feria_btn,$array_opciones);
-            //---------------------------------------------------------------------------------     
-
-            //valida si hay usuarios y permiso de consulta
-            if( ($Feria) && ($consulta==1) ){
-
-                //ejecuta el render de la tabla
-                $this->table_inst->render();                
-
-            }elseif(($Feria) && ($consulta==0)){
-
-             $this->table_inst->render_blank();
-
-             echo "<h3>En este momento no tiene permiso de consulta.</h3>";
-
-            }else{
-
-             $this->table_inst->render_blank();
-
-             echo "<h3>En este momento no hay registros.</h3>";
+                                                             <button id="btn_elimina_feria" title="Eliminar" name="elimina_feria" type="button" class="btn btn-danger" data-id-feria = "' . $id . '" ';
+                                        echo '><span class="glyphicon glyphicon-remove"></span></button>
+                                 </td>
+                             </tr>';
             };
+
+        } else {
+
+            echo "<tr>
+
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                   </tr>
+                   <div class='alert alert-danger' role='alert'>
+                        En este momento no hay <strong>Sesiones.</strong>
+                   </div>";
+        };
             //---------------------------------------------------------------------------------
 
         }
