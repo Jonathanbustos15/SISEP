@@ -729,6 +729,11 @@ class acompanamientoController extends acompanamientoDAO
         //la configuracion de los botones de opciones
         $grupo_btn = [
             [
+                "tipo"    => "editar",
+                "nombre"  => "estado_participante", 
+                "permiso" => $edita,
+            ],
+            [
                 "tipo"    => "eliminar",
                 "nombre"  => "participantes_acompaniamiento",
                 "permiso" => $elimina,
@@ -899,6 +904,18 @@ class acompanamientoController extends acompanamientoDAO
         $tipo = $this->getEstado();
 
         echo '<select name="fkID_estado" id="fkID_estado" class="form-control" required = "true">
+                        <option value="" selected>Elija el estado</option>';
+        for ($a = 0; $a < sizeof($tipo); $a++) {
+            echo "<option id='fkID_estado_form_' data-nombre='" . $tipo[$a]["estado_acompanamiento"] . "' value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["estado_acompanamiento"] . "</option>";
+        }
+        echo "</select>";
+    }
+
+    public function getSelectEstadoe()
+    {
+        $tipo = $this->getEstado();
+
+        echo '<select name="fkID_estadoe" id="fkID_estadoe" class="form-control" required = "true">
                         <option value="" selected>Elija el estado</option>';
         for ($a = 0; $a < sizeof($tipo); $a++) {
             echo "<option id='fkID_estado_form_' data-nombre='" . $tipo[$a]["estado_acompanamiento"] . "' value='" . $tipo[$a]["pkID"] . "'>" . $tipo[$a]["estado_acompanamiento"] . "</option>";

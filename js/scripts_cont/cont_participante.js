@@ -162,6 +162,22 @@
         });
     };
 
+    function carga_participante(id_partici) {
+        console.log("Carga el institucion " + id_partici);
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "pkID=" + id_partici + "&tipo=consultar_par&nom_tabla=participante",
+        }).done(function(data) {
+            $.each(data.mensaje[0], function(key, value) { 
+                    $("#" + key).val(value);
+            });
+        }).fail(function() {
+            console.log("error");
+        }).always(function() {
+            console.log("complete");
+        });
+    };
+
     function elimina_participante(id_partici) {
         console.log('Eliminar el participante: ' + id_partici);
         var confirma = confirm("En realidad quiere eliminar este participante?");

@@ -89,7 +89,7 @@ $(function() {
     //validacion de creacion de proyecto
     //grupo_id
     valCreaProyecto.selector = "btn_nuevoproyecto";
-    valCreaProyecto.validaNuevo($("#grupo_id").val())
+    //valCreaProyecto.validaNuevo($("#grupo_id").val())
     //---------------------------------------------------------
     //---------------------------------------------------------
 });

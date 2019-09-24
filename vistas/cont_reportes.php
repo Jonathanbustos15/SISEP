@@ -46,7 +46,7 @@ $proyectoMGen   = $reportesInst->getProyectosMarcoId($pkID_proyectoM);
 
             <div class="row">
               <div class="col-md-6">
-                  <div class="titleprincipal"><h4>Creación de indicadores</h4></div>
+                  <div class="titleprincipal"><h4>Estado de indicadores</h4></div>
               </div>
               <div class="col-md-6 text-right">
                  <button id="btn_nuevoProyectoM" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-target="#frm_modal_proyectoM" <?php if ($crea != 1) {echo 'disabled="disabled"';}?> >
@@ -76,19 +76,19 @@ $proyectoMGen   = $reportesInst->getProyectosMarcoId($pkID_proyectoM);
                           <td colspan="4"></td>
                           <td class="anio1">Meta</td>
                           <td class="anio1">Cump</td>
-                          <td class="anio1">Pdte</td>
+                          <td class="anio1">Dife</td>
                           <td class="anio2">Meta</td>
                           <td class="anio2">Cump</td>
-                          <td class="anio2">Pdte</td>
+                          <td class="anio2">Dife</td>
                           <td class="anio3">Meta</td>
                           <td class="anio3">Cump</td>
-                          <td class="anio3">Pdte</td>
+                          <td class="anio3">Dife</td>
                           <td class="anio4">Meta</td>
                           <td class="anio4">Cump</td>
-                          <td class="anio4">Pdte</td>
+                          <td class="anio4">Dife</td>
                           <td class="anio_total">Meta</td>
                           <td class="anio_total">Cump</td>
-                          <td class="anio_total">Pdte</td>
+                          <td class="anio_total">Dife</td>
                           <td></td>
                       </tr>
 

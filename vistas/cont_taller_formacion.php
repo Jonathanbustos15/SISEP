@@ -58,7 +58,7 @@ include "form_taller_formacion.php";
       </div>
 
       <div class="col-md-3 text-right form-inline">
-                    <label for="grupo_filtrop" class="control-label">Tipo de Actor: </label>
+                    <label for="grupo_filtrop" class="control-label">Tipo de Taller: </label>
                       <?php
 $TallerInst->getSelectTipoTFiltro();
 ?>

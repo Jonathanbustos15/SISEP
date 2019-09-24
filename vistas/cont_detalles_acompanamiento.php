@@ -93,6 +93,7 @@ $pkID_proyectoM = $proyectoMGen[0]["fkID_proyecto_marco"];
 //print_r($fecha);
 //++++++++++++++++++++++++++++++++++
 include 'form_asignacion_participantes.php';
+include 'form_estado_participante.php';
 include 'form_docentes.php';
 include 'form_asistencia.php';
 include 'form_album_acompanamiento.php';  

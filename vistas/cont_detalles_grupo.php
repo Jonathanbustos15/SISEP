@@ -91,6 +91,7 @@ $pkID_proyectoM = $proyectoMGen[0]["pkIDproyecto"];
 //print_r($fecha);
 //++++++++++++++++++++++++++++++++++
 include 'form_asignacion_estudiantes.php';
+include 'form_sesion_grupo.php';
 include 'form_estudiantes.php';
 include 'form_docentes.php';
 include 'form_grupo_estudiante.php';
@@ -163,6 +164,7 @@ include "frm_modal_proyectog.php";
 	        <li id="li_general" role="presentation"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
           	<li id="li_estudiantes" role="presentation"><a href="#estudiantes" aria-controls="general" role="tab" data-toggle="tab">Estudiantes</a></li>
 	        <li id="li_proyectos" role="presentation"><a href="#proyectos" aria-controls="general" role="tab" data-toggle="tab">Proyecto</a></li>
+	        <li id="li_acompañamiento" role="presentation"><a href="#acompañamiento" aria-controls="general" role="tab" data-toggle="tab">Sesiones de Acompañamientos</a></li>
 	        <li id="li_album" role="presentation"><a href="#album" aria-controls="general" role="tab" data-toggle="tab">Galeria</a></li>
 	    </ul>
 
@@ -242,6 +244,56 @@ $detalles_grupoInst->getTablaEstudiantesGrupo($pkID_grupo);
 
 			</div>
 
+			<div role="tabpanel" class="tab-pane" id="acompañamiento">
+				<br>
+				<!-- contenido general -->
+				<div class="panel panel-default proc-pan-def3">
+
+					<div class="titulohead">
+
+			            <div class="row">
+			              <div class="col-md-6">
+			                  <div class="titleprincipal"><h4>Sesiones de Acompañamiento - <?php echo $proyectoMGen[0]["nombre"] . ' - ' . $proyectoMGen[0]["nombre_proyecto"] ?></h4></div>
+			              </div>
+			              <div class="col-md-6 text-right">
+			      			 <button id="btn_nuevosesiong" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="<?php echo $pkID_grupo ?>" data-target="#frm_modal_sesion_grupo" <?php if (($creaeg != 1) || ($ne >= 30)) {echo 'disabled="disabled"';}?> ><span class="glyphicon glyphicon-plus"></span> Crear Sesión de Acompañamiento</button>   
+			              </div>
+			            </div>
+
+		            </div>
+		            <!-- /.panel-heading -->
+
+					<div class="panel-body">
+
+						<div class="col-md-12">
+							<div class="dataTable_wrapper">
+				              <table class="display table table-striped table-bordered table-hover" id="tbl_grupo_sesion">
+				                  <thead>
+				                      <tr>
+				                          <th>Fecha</th>
+				                          <th>Tema</th>
+				                          <th>Lista</th> 
+				                          <th data-orderable="false">Opciones</th>
+				                      </tr>
+				                  </thead>
+
+				                  <tbody>
+				                 <?php
+									$detalles_grupoInst->getTablaSesionGrupo($pkID_grupo);
+									?>
+				                  </tbody>
+				              </table>
+					        </div>
+					        <!-- /.table-responsive -->
+						</div>
+
+					</div>
+
+				</div>
+				<!-- /.contenido general -->
+
+			</div>
+
 			<div role="tabpanel" class="tab-pane" id="album">
 				<br>
 				<!-- contenido general -->
@@ -260,7 +312,7 @@ $detalles_grupoInst->getTablaEstudiantesGrupo($pkID_grupo);
 
 			      			 <div class="form-group " hidden>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="pkID_grup" name="pkID_grup" value=<?php echo $$pkID_grupo; ?>>
+                            <input type="text" class="form-control" id="pkID_grup" name="pkID_grup" value=<?php echo $pkID_grupo; ?>>
                         </div>
                     </div>
 			              </div>

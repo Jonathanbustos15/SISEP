@@ -212,6 +212,14 @@ class grupoDAO extends UsuariosDAO
         return $this->EjecutarConsulta($query);
     }
 
+    public function getSesiong($pkID)
+    {
+
+        $query = "select * FROM `grupo_sesion` WHERE estadoV=1 and fkID_grupo=". $pkID;
+
+        return $this->EjecutarConsulta($query);
+    }
+
     public function getInstitucion()
     {
 

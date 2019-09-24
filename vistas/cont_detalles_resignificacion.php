@@ -140,7 +140,7 @@ include 'form_album_resignificacion.php';
             <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
             <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Académico</a></li>
             <li><a href="formacion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Formación a maestros</a></li>
-            <li><a href="resignificacion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Resignificación maestros</a></li>
+            <li><a href="resignificacion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">resignificación planes de área</a></li>
             <li class="active migadepan">Detalle Resignificación </li>
           </ol>
     </div>

@@ -39,7 +39,7 @@ include 'form_subactividad.php';
       <input type="hidden" id="id_mod_page_estudiante" value=<?php echo $id_modulo ?>>
 
       <div class="col-lg-12">
-          <h1 class="page-header titleprincipal"><img src="../img/botones/grupoonly.png"><?php echo  $proyectoMGen[0]["nombre"] ?> - Repositorio Documental</h1>
+          <h1 class="page-header titleprincipal"><img src="../img/botones/repositorio2.png">&nbsp;<?php echo  $proyectoMGen[0]["nombre"] ?> - Repositorio Documental</h1>
       </div>
       <!-- /.col-lg-12 -->
 

@@ -45,6 +45,42 @@ $(function() {
         console.log(id_funciona)
         elimina_grupo(id_funciona);
     });
+
+    $("#btn_nuevosesiong").click(function() {
+        $("#lbl_form_sesion_grupo").html("Nueva Sesión de Acompañamiento");
+        $("#lbl_btn_actionsesion_grupo").html("Guardar <span class='glyphicon glyphicon-save'></span>");
+        $("#btn_actionsesion_grupo").attr("data-action", "crear");
+        $("#url_lista").val("");
+        $("#form_sesion_grupo")[0].reset();  
+    });
+
+    $("[name*='edita_sesiong']").click(function() {
+        $("#lbl_form_sesion_grupo").html("Edita Sesión de Acompañamiento");
+        $("#lbl_btn_actionsesion_grupo").html("Guardar Cambios<span class='glyphicon glyphicon-save'></span>");
+        $("#btn_actionsesion_grupo").attr("data-action", "editar");
+        $("#url_lista").val("");
+        $("#form_sesion_grupo")[0].reset()
+        id_sesion = $(this).attr('data-id-sesiong');
+        carga_sesiong(id_sesion);
+    });
+
+    $("#btn_actionsesion_grupo").click(function() {
+        var validacioncon = validarsesion_grupo();
+        if (validacioncon === "no") {
+            window.alert("Faltan Campos por diligenciar.");
+        } else {
+            action = $(this).attr("data-action");
+            valida_actionsesion(action);
+            console.log("accion a ejecutar: " + action);
+        }
+    });
+
+    $("[name*='elimina_sesiong']").click(function(event) {
+        id_sesion = $(this).attr('data-id-sesiong');
+        console.log(id_sesion)
+        elimina_grupo_sesion(id_sesion);
+    });
+
     $("#fkID_tutor").change(function(event) {
         fecha = $("#fecha_creacion").val();
         idUsuario = $(this).val();
@@ -90,6 +126,19 @@ $(function() {
         var fecha = $("#fecha_creacion").val();
         var respuesta;
         if (fecha === "" || tigrupo === "" || nombre === "" || institucion === "") {
+            respuesta = "no"
+            return respuesta
+        } else {
+            respuesta = "ok"
+            return respuesta
+        }
+    }
+
+    function validarsesion_grupo() {
+        var nombre = $("#tema").val();
+        var fecha = $("#fecha_sesion").val();
+        var respuesta;
+        if (fecha === "" || nombre === "") {
             respuesta = "no"
             return respuesta
         } else {
@@ -284,6 +333,21 @@ $(function() {
         });
     };
 
+    function carga_sesiong(id_sesion) {
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "pkID=" + id_sesion + "&tipo=consultar&nom_tabla=grupo_sesion",
+        }).done(function(data) {
+            $.each(data.mensaje[0], function(key, valu) {
+                $("#" + key).val(valu);
+            });
+        }).fail(function() {
+            console.log("error");
+        }).always(function() {
+            console.log("complete");
+        });
+    };
+
     function carga_grupo_tutor(id_grupo) {
         var query_proyecto = "select funcionario.pkID, CONCAT_WS(' ',funcionario.nombre_funcionario,funcionario.apellido_funcionario) as nombres,funcionario_grupo.pkID as numReg FROM `funcionario_grupo`" + "INNER JOIN funcionario on funcionario.pkID = funcionario_grupo.fkID_tutor" + " WHERE funcionario_grupo.estadoV=1 and funcionario_grupo.fkID_grupo= " + id_grupo;
         console.log(query_proyecto);
@@ -366,6 +430,28 @@ $(function() {
         })
     }
 
+    function crear_sesion_grupo() {
+        var data = new FormData();
+        if (document.getElementById("url_lista").files.length) {
+            data.append('file', $("#url_lista").get(0).files[0]);
+        }
+        data.append('tema', $("#tema").val());
+        data.append('fecha_sesion', $("#fecha_sesion").val());
+        data.append('fkID_grupo', $("#fkID_grupo").val());
+        data.append('tipo', "crear");
+        $.ajax({
+            type: "POST",
+            url: "../controller/ajaxsesiongrupo.php",
+            data: data,
+            contentType: false,
+            processData: false,
+            success: function(a) {
+                console.log(a)
+                location.reload();
+            }
+        })
+    }
+
     function edita_grupo() {
         var data = new FormData();
         if ($("#fileupload").length) {
@@ -393,6 +479,28 @@ $(function() {
         })
     }
 
+    function edita_sesion_grupo() {
+        var data = new FormData();
+        if (document.getElementById("url_lista").files.length) {
+            data.append('file', $("#url_lista").get(0).files[0]);
+        }
+        data.append('tema', $("#tema").val());
+        data.append('fecha_sesion', $("#fecha_sesion").val());
+        data.append('tipo', "editar");
+        data.append('pkID', $("#pkID").val());
+        $.ajax({
+            type: "POST",
+            url: "../controller/ajaxsesiongrupo.php",
+            data: data,
+            contentType: false,
+            processData: false,
+            success: function(a) {
+                console.log(a);
+                location.reload();
+            }
+        })
+    }
+
     function elimina_grupo(id_grupo) {
         var confirma = confirm("En realidad quiere eliminar esta Grupo?");
         console.log(confirma);
@@ -402,6 +510,27 @@ $(function() {
             $.ajax({
                 url: '../controller/ajaxController12.php',
                 data: "pkID=" + id_grupo + "&tipo=eliminar_logico&nom_tabla=grupo",
+            }).done(function(data) {
+                //---------------------
+                console.log(data);
+                location.reload();
+            }).fail(function() {
+                console.log("errorfatal");
+            }).always(function() {
+                console.log("complete");
+            });
+        }
+    };
+
+    function elimina_grupo_sesion(id_sesion) {
+        var confirma = confirm("En realidad quiere eliminar esta Sesión?");
+        console.log(confirma);
+        /**/
+        if (confirma == true) {
+            //si confirma es true ejecuta ajax
+            $.ajax({
+                url: '../controller/ajaxController12.php',
+                data: "pkID=" + id_sesion + "&tipo=eliminar_logico&nom_tabla=grupo_sesion",
             }).done(function(data) {
                 //---------------------
                 console.log(data);
@@ -458,6 +587,15 @@ $(function() {
             crear_grupo();
         } else if (action === "editar") {
             edita_grupo();
+        };
+    };
+
+    function valida_actionsesion(action) {
+        console.log("en la mitad");
+        if (action === "crear") {
+            crear_sesion_grupo();
+        } else if (action === "editar") {
+            edita_sesion_grupo();
         };
     };
     $("#nombre").change(function(event) {

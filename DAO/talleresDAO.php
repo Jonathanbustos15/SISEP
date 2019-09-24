@@ -41,7 +41,7 @@
 
         public function getTipoTaller(){        
        
-            $query = "select * FROM `tipo_taller`";
+            $query = "select * FROM `tipo_taller` ORDER BY nombre";
 
             return $this->EjecutarConsulta($query);
         }

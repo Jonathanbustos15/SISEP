@@ -31,6 +31,15 @@ $(function() {
         cargar_input_asistencia();
         carga_asistencia(id);
     });
+
+    $("[name*='edita_estado_participante']").click(function() {
+        $("#lbl_form_estado_participante").html("editar participante");
+        $("#lbl_btn_actionestado_participante").html("Guardar <span class='glyphicon glyphicon-save'></span>");
+        $("#btn_actionestado_participante").attr("data-action", "editar");
+        $("#form_estado_participante")[0].reset();
+        id = $(this).attr('data-id-estado_participante');
+        carga_participante(id);
+    });
     //Definir la acción del boton del formulario 
     $("#btn_actionparticipante").click(function() {
         console.log("al principio");
@@ -39,7 +48,7 @@ $(function() {
         valida_actio(action);
         console.log("accion a ejecutar: " + action);
     });
-    $("#btn_actionasistencia").click(function() {
+    $("#btn_actionasistencia").click(function() {  
         console.log("al principio");
         action = $(this).attr("data-action");
         //define la acción que va a realizar el formulario
@@ -52,6 +61,17 @@ $(function() {
         //define la acción que va a realizar el formulario
         valida_actio(action);
         console.log("accion a ejecutar: " + action);
+    });
+
+    $("#btn_actionestado_participante").click(function() {
+        var validacioncon = validarestado_participante();
+        if (validacioncon === "no") {
+            window.alert("Faltan Campos por diligenciar.");
+        } else {
+            action = $(this).attr("data-action");
+            valida_actionestado(action);
+            console.log("accion a ejecutar: " + action);
+        }
     });
     $("[name*='elimina_participantes_acompaniamiento']").click(function(event) {
         id_estudian = $(this).attr('data-id-participantes_acompaniamiento');
@@ -79,6 +99,41 @@ $(function() {
             edita_asistencia();
         }
     };
+
+    function validarestado_participante() {
+        var estado = $("#fkID_estadoe option:selected").val();
+        var respuesta;
+        if (estado === "" ) {
+            respuesta = "no"
+            return respuesta
+        } else {
+            respuesta = "ok"
+            return respuesta
+        }
+    }
+
+    function valida_actionestado(action) {
+        console.log("en la mitad");
+            edita_estado_participante();
+    };
+
+    function edita_estado_participante() {
+        var data = new FormData();
+        data.append('fkID_estadoe', $("#fkID_estadoe option:selected").val());
+        data.append('tipo', "editares");
+        data.append('pkID', $("#pkID").val()); 
+        $.ajax({
+            type: "POST",
+            url: "../controller/ajaxgrupo.php",
+            data: data,
+            contentType: false,
+            processData: false,
+            success: function(a) {
+                console.log(a);
+                location.reload();
+            }
+        })
+    }
 
     function asigna_participante() {
         location.reload();
@@ -327,10 +382,28 @@ $(function() {
             });
         }).fail(function() {
             console.log("error");
+        }).always(function() {  
+            console.log("complete");
+        });
+    };
+
+    function carga_participante(id_partici) {
+        console.log("Carga el institucion " + id_partici);
+        $.ajax({
+            url: '../controller/ajaxController12.php',
+            data: "pkID=" + id_partici + "&tipo=consultarpar&nom_tabla=participante",
+        }).done(function(data) {
+            console.log(data)
+            $.each(data.mensaje[0], function(key, value) { 
+                    $("#" + key).val(value);
+            });
+        }).fail(function() {
+            console.log("error");
         }).always(function() {
             console.log("complete");
         });
     };
+
 
     function deleteParticiNumReg(numReg) {
         console.log("vamos por aqui")

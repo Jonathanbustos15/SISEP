@@ -15,6 +15,7 @@ if (isset($_POST['pkID'])) {
     $id = $_POST['pkID'];
 }
 $nombref             = isset($_POST['nombre'])? $_POST['nombre'] : "";
+$fkID_estadoe             = isset($_POST['fkID_estadoe'])? $_POST['fkID_estadoe'] : "";
 $fk_tipo_grupo       = isset($_POST['fkID_tipo_grupo'])? $_POST['fkID_tipo_grupo'] : "";
 $fk_grado            = isset($_POST['fkID_grado'])? $_POST['fkID_grado'] : "";
 $fk_institucion      = isset($_POST['fkID_institucion'])? $_POST['fkID_institucion']: "";
@@ -140,7 +141,20 @@ switch ($tipo) {
                 }
             }
         }
-            break;    
+            break; 
+    case 'editares':
+                    $generico = new Generico_DAO();
+                    $q_inserta = "update `acompanamiento_docente` SET `fkID_estado`='$fkID_estadoe' where pkID='$id' ";
+                    $r["query"] = $q_inserta;           
+                    $resultado = $generico->EjecutaActualizar($q_inserta);
+                    /**/
+                    if($resultado){                    
+                        $r[] = $resultado;          
+                    }else{
+                      $r["estado"] = "Error";
+                      $r["mensaje"] = "No se inserto.";
+                        }
+            break;   
     default: 
         # code...
         break;

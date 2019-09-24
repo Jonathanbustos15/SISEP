@@ -55,8 +55,8 @@ $proyectoMGen   = $principalInst->getProyectosMarcoId($pkID_proyectoM);
                                                 <a class="" href="cientifico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/cientifico.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                 <a class="" href="reportes.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/reportes.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                 <a class="" href="financiero.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img  class="zoom" src="../img/financiero.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <a class="" href="repositorio.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/repositorio.png"></a>&nbsp;&nbsp;&nbsp;
                                                 <a class="" href="configuracion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/configuracion.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <a class="" href="repositorio.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>"><img class="zoom" src="../img/configuracion.png"></a>&nbsp;&nbsp;&nbsp;
                                             </div>
                                         </div>
 

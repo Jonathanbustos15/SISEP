@@ -165,6 +165,31 @@ switch ($accion) {
         break;
     //----------------------------------------------------------------------------------------------------
 
+    case 'consultarpar':
+
+        $generico = new Generico_DAO();
+        $crea_sql = new crea_sql();
+        $pkID     = $_GET['pkID'];
+        $q_carga = "select acompanamiento_docente.*, concat_ws(' ',nombre_docente,apellido_docente) as nombre_participante, documento_docente as documento_participante, estado_acompanamiento.pkID as fkID_estadoe FROM `acompanamiento_docente` 
+            INNER JOIN docente on docente.pkID = fkID_docente
+            INNER JOIN estado_acompanamiento on estado_acompanamiento.pkID = acompanamiento_docente.fkID_estado
+            WHERE docente.estadoV=1 and acompanamiento_docente.pkID=" . $pkID;
+
+        $resultado = $generico->EjecutarConsulta($q_carga);
+        /**/
+        if ($resultado) {
+
+            $r["estado"]  = "ok";
+            $r["mensaje"] = $resultado;
+
+        } else {
+
+            $r["estado"]  = "Error";
+            $r["mensaje"] = "No hay registros.";
+        }
+
+        break;
+
     //----------------------------------------------------------------------------------------------------
     //caso especial en caso de que se necesite hacer una consulta en la que el select no sea simple.
     //o consultas diferentes por medio de javascipt.

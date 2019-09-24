@@ -109,7 +109,7 @@ switch ($accion) {
             $nombre = str_replace("#", "_", $nombre);
             $nombre = str_replace("!", "_", $nombre);
             //carga el archivo en el servidor
-            $destino = "../vistas/subidas/" . $nombre;  
+            $destino = "../server/php/files/" . $nombre;  
             if(move_uploaded_file($_FILES['file']["tmp_name"], $destino)) { 
             $r["mensaje"] = "El archivo". $nombre. "se ha almacenado en forma exitosa";       
                         $q_inserta = "update `proyecto_grupo` SET url_documento='$nombre' WHERE fkID_grupo=".$fkID_grupo;

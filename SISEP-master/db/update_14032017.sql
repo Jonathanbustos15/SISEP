@@ -1,1 +1,0 @@
-INSERT INTO `modulos` (`pkID`, `Nombre`, `fkID_padre`) VALUES (57, 'resultados_prueba', NULL);

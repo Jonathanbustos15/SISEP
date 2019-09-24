@@ -98,12 +98,13 @@ $(function() {
        $.ajax({  
               type: "POST",
               url: "../controller/ajaxgrupo_proyecto.php",
-              data: data,
+              data: data, 
               contentType: false,
               processData: false,  
               success:function(a){
                       console.log(a);
-                      location.reload();  
+                      console.log("hola")
+                      //location.reload();  
               }
             })
      }else{
@@ -115,6 +116,7 @@ $(function() {
       if( document.getElementById("file_bitacora").files.length){
         id_gru = $("#pkID_grup").val();
         tipo="crearbitacora";
+        console.log(id_gru)
       var data = new FormData();
       data.append('file', $("#file_bitacora").get(0).files[0]);
       data.append('fkID_grupo', id_gru);

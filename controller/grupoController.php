@@ -186,6 +186,60 @@ class grupoController extends grupoDAO
 
     }
 
+    public function getTablaSesionGrupo($pkID_grupo)
+    {
+
+            $this->acompanamiento = $this->getSesiong($pkID_grupo);
+        
+
+
+        //permisos-------------------------------------------------------------------------
+        $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo, $_COOKIE[$this->NameCookieApp . "_IDtipo"]);
+        $edita       = $arrPermisos[0]["editar"];
+        $elimina     = $arrPermisos[0]["eliminar"];
+        $consulta    = $arrPermisos[0]["consultar"];
+        //---------------------------------------------------------------------------------
+
+        if (($this->acompanamiento)) {
+
+            for ($a = 0; $a < sizeof($this->acompanamiento); $a++) {
+                $id           = $this->acompanamiento[$a]["pkID"];
+                $descripcion  = $this->acompanamiento[$a]["tema"];
+                $fecha = $this->acompanamiento[$a]["fecha_sesion"];
+                $url_documento    = $this->acompanamiento[$a]["url_lista"];
+
+                echo '
+                             <tr>
+
+                                 <td >' . $fecha . '</td>
+                                 <td >' . $descripcion . '</td>
+                                 <td title="Descargar Archivo"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../server/php/files/' . $url_documento . '" target="_blank" >' . $url_documento . '</a></td>
+                                 <td>
+                                     <button id="edita_sesiong" title="Editar" name="edita_sesiong" type="button" class="btn btn-warning" data-toggle="modal" data-target="#frm_modal_sesion_grupo" data-id-sesiong = "' . $id . '" ';
+                                        echo '><span class="glyphicon glyphicon-pencil"></span></button>
+
+                                                             <button id="btn_elimina_sesiong" title="Eliminar" name="elimina_sesiong" type="button" class="btn btn-danger" data-id-sesiong = "' . $id . '" ';
+                                        echo '><span class="glyphicon glyphicon-remove"></span></button>
+                                 </td>
+                             </tr>';
+            };
+
+        } else {
+
+            echo "<tr>
+
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                   </tr>
+                   <div class='alert alert-danger' role='alert'>
+                        En este momento no hay <strong>Sesiones.</strong>
+                   </div>";
+        };
+        //---------------------------------------------------------------------------------
+
+    }
+
     public function getSelectGrados()
     {
 
