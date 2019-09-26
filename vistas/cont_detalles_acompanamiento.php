@@ -96,7 +96,8 @@ include 'form_asignacion_participantes.php';
 include 'form_estado_participante.php';
 include 'form_docentes.php';
 include 'form_asistencia.php';
-include 'form_album_acompanamiento.php';  
+include 'form_album_acompanamiento.php';
+include "form_acompanamiento.php"; 
 //++++++++++++++++++++++++++++++++++/**/
 ?>
 
@@ -158,182 +159,71 @@ include 'form_album_acompanamiento.php';
       <div class="col-lg-12">   
 
         <!-- Nav tabs -->
-        <ul class="nav nav-tabs tabs-proc3" role="tablist">
-	        <li id="li_general" role="presentation"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
-          	<li id="li_participantes" role="presentation"><a href="#participantes" aria-controls="participantes" role="tab" data-toggle="tab">Participantes</a></li>
-	        <li id="li_asistencia" role="presentation"><a href="#asistencia" aria-controls="asistencia" role="tab" data-toggle="tab">Asistencia</a></li>
-	        <li id="li_album" role="presentation"><a href="#album" aria-controls="general" role="tab" data-toggle="tab">Galeria</a></li>
-	    </ul>
+        
 
-	    <div class="tab-content">
+	    
+				<div class="row">
 
-			<div role="tabpanel" class="tab-pane active" id="general">
-				<br>
-				<!-- contenido general -->
-				<div class="panel panel-default proc-pan-def3">
+    <?php //echo 'el perfil es '.$_COOKIE["log_lunelAdmin_tipo"];; ?>
 
-					<div class="panel-body">
+      <div class="col-lg-12">
 
-						<div class="col-md-12">
-							<!-- instanciFa php controller -->
-							<?php $detalles_grupoInst->getGeneral($pkID_acompanamiento);?>
-						</div>
-						<div class="col-md-12" hidden="true">
-							<input type="text" id="grupo_id" value=<?php echo $pkID_acompanamiento; ?>>
-							<input type="text" id="grado_grupo" value=<?php echo $pkID_grado; ?>>
-							<input type="text" id="institucion_grupo" value=<?php echo $pkID_institucion; ?>>
-						</div>
-					</div>
+        <div class="panel panel-default">
 
-				</div>
-				<!-- /.contenido general -->
+          <div class="titulohead">
 
-			</div>
+            <div class="row">
+              <div class="col-md-6">
+                  <div class="titleprincipal"><h4>Sesiones de Acompañamiento maestros - <?php echo $proyectoMGen[0]["nombre"] ?></h4></div>
+              </div>
+              <div class="col-md-6 text-right">
+                 <button id="btn_nuevoAcompanamiento" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-proyecto="<?php echo $pkID_proyectoM; ?>" data-target="#frm_modal_acompanamiento" <?php if ($creaeg != 1) {echo 'disabled="disabled"';}?> >
+                 <span class="glyphicon glyphicon-plus"></span>Nueva Sesión Acompañamiento maestros</button>
+              </div>
+            </div>
 
-			<div role="tabpanel" class="tab-pane" id="participantes">
-				<br>
-				<!-- contenido general -->
-				<div class="panel panel-default proc-pan-def3">
+          </div>
+          <!-- /.panel-heading -->
 
-					<div class="titulohead">
+        <div class="panel-body">
 
-			            <div class="row">
-			              <div class="col-md-6">
-			                  <div class="titleprincipal"><h4>Participantes Acompañamiento - <?php echo $proyectoMGen[0]["nombre_proyecto"] ?></h4></div>
-			              </div>
-			              <div class="col-md-6 text-right">
-			      			 <button id="btn_asignarparticipante" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-acompanamiento="<?php echo $pkID_acompanamiento ?>" data-target="#frm_modal_asignacion_participante" <?php if (($creaeg != 1) || ($ne >= 30)) {echo 'disabled="disabled"';}?> ><span class="glyphicon glyphicon-plus"></span> Asignar Participante</button>
-			              </div>
-			            </div>
+          <div class="dataTable_wrapper">
+              <table class="display table table-striped table-bordered table-hover" id="tbl_grupo">
+                  <thead>
+                      <tr>
+                         <!-- <th>ID Grupo</th>-->
+                          <th>Fecha</th>
+                          <th>Descripcion</th>
+                          <th>Cantidad de asistentes</th>
+                          <th data-orderable="false">Opciones</th>
+                      </tr>
+                  </thead>
 
-		            </div>
-		            <!-- /.panel-heading -->
-
-					<div class="panel-body">
-
-						<div class="col-md-12">
-							<div class="dataTable_wrapper">
-				              <table class="display table table-striped table-bordered table-hover" id="tbl_grupo_estudiante">
-				                  <thead>
-				                      <tr>
-				                          <th>Nombres</th>
-				                          <th>Documento</th>
-				                          <th>Estado</th>
-				                          <th data-orderable="false">Opciones</th>
-				                      </tr>
-				                  </thead>
-
-				                  <tbody>
-				                      <?php
-$detalles_grupoInst->getTablaEstudiantesGrupo($pkID_acompanamiento);
+                  <tbody>
+                      <?php
+//print_r($_COOKIE);
+//echo "valor de cookie de tipo ".$_COOKIE[$NomCookiesApp."_tipo"];
+    $detalles_grupoInst->getTablaAcompanamiento($pkID_acompanamiento);
 ?>
-				                  </tbody>
-				              </table>
-					        </div>
-					        <!-- /.table-responsive -->
-						</div>
+                  </tbody>
+              </table>
+              <div class="col-md-6 text-right">
+                                <label for="total_ingresos" class="control-label"><B>Total Participantes</B></label>
+              </div>
+                                <div class="input-group col-md-2 text-left">
+                                   <?php $detalles_grupoInst->getSelectTotaldocentes($pkID_acompanamiento);?>
+                                </div>
+                            </div>
+          </div>
+          <!-- /.table-responsive -->
 
-					</div>
+        </div>
+        <!-- /.panel-body -->
 
-				</div>
-				<!-- /.contenido general -->
+        </div>
+        <!-- /.panel -->
 
-			</div>
-
-			<div role="tabpanel" class="tab-pane" id="album">
-				<br>
-				<!-- contenido general -->
-
-				<div class="panel panel-default proc-pan-def3">
-
-					<div class="titulohead"> 
-
-			            <div class="row">
-			              <div class="col-md-6">
-			                  <div class="titleprincipal"><h4>Galeria de Álbumes</h4></div>
-			              </div>
-			              <div class="col-md-6 text-right">
-			      			 <button id="btn_album_acompanamiento" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-acompanamiento="<?php echo $pkID_taller ?>" data-target="#frm_modal_album_acompanamiento"><span class="glyphicon glyphicon-plus"></span> 
-			      			 Crear album</button>  
-
-			      			 <div class="form-group " hidden>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="pkID_grup" name="pkID_grup" value=<?php echo $pkID_acompanamiento; ?>>
-                        </div>
-                    </div>
-			              </div>
-			            </div>
-
-		            </div>
-		            <br><br>
-		            <!-- /.panel-heading -->
-
-					<div class="container-fluid">
-						<div class="row">
-							<?php
-								$detalles_grupoInst->getSelectAlbumAcompanamiento($pkID_acompanamiento);
-							?>
-
-						
-						</div>  
-					</div>
-
-				</div>
-
-				<!-- /.contenido general -->
-
-			</div>
-
-
-			<div role="tabpanel" class="tab-pane" id="asistencia">
-				<br>
-				<!-- contenido general -->
-				<div class="panel panel-default proc-pan-def3">
-
-					<div class="titulohead">
-
-			            <div class="row">
-			              <div class="col-md-6">
-			                  <div class="titleprincipal"><h4>Asistencia Acompañamiento - <?php echo $proyectoMGen[0]["nombre_proyecto"] ?></h4></div>
-			              </div>
-			              <div class="col-md-6 text-right">
-			      			 <button id="btn_asignarasistencia" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-acompanamiento="<?php echo $pkID_acompanamiento ?>" data-target="#frm_modal_asistencia" <?php if (($creaeg != 1) || ($ne >= 30)) {echo 'disabled="disabled"';}?> ><span class="glyphicon glyphicon-plus"></span> Crear asistencia</button>
-			              </div>
-			            </div>
-
-		            </div>
-		            <!-- /.panel-heading -->
-
-					<div class="panel-body">
-
-						<div class="col-md-12">
-							<div class="dataTable_wrapper">
-				              <table class="display table table-striped table-bordered table-hover" id="tbl_grupo_estudiante">
-				                  <thead>
-				                      <tr>
-				                          <th>Fecha</th>
-				                          <th>Documento</th>
-				                          <th data-orderable="false">Opciones</th>
-				                      </tr>
-				                  </thead>
-
-				                  <tbody>
-				                      <?php
-$detalles_grupoInst->getTablaAsistencia($pkID_acompanamiento);
-?>
-				                  </tbody>
-				              </table>
-					        </div>
-					        <!-- /.table-responsive -->
-						</div>
-
-					</div>
-
-				</div>
-				<!-- /.contenido general -->
-
-
-	    </div>
+      </div>
 
       </div>
       <!-- /.col-lg-12 -->

@@ -9,8 +9,8 @@ $(function() {
         $("#fkID_proyecto_marco").val(id);
         $("#pdf_documento").remove();
         $("#pdf_informe").remove();
-        cargar_input_documento();
-        cargar_input_informe();
+        //cargar_input_documento();
+        //cargar_input_informe();
     });
     //Definir la acción del boton del formulario 
     $("#btn_actionacompanamiento").click(function() {
@@ -48,15 +48,10 @@ $(function() {
     });
 
     function validaracompanamiento() {
-        var nombre = $("#nombre_acompanamiento").val();
-        var apellido = $("#apellido_acompanamiento").val();
-        var tipo = $("#fkID_tipo_documento option:selected").val();
-        var documento = $("#documento_acompanamiento").val();
-        var telefono = $("#telefono_acompanamiento").val();
-        var direccion = $("#direccion_acompanamiento").val();
-        var email = $("#email_acompanamiento").val();
+        var fecha = $("#fecha_acompanamiento").val();
+        var descripcion = $("#descripcion").val();
         var respuesta;
-        if (nombre === "" || apellido === "" || tipo === "" || documento === "" || telefono === "" || direccion === "" || email === "") {
+        if (fecha === "" || descripcion === "" ) {
             respuesta = "no"
             return respuesta
         } else {
@@ -90,11 +85,9 @@ $(function() {
 
     function crea_acompanamiento() {
         var data = new FormData();
-        data.append('file', $("#url_documento").get(0).files[0]);
-        data.append('file2', $("#url_informe").get(0).files[0]);
         data.append('fecha_acompanamiento', $("#fecha_acompanamiento").val());
         data.append('descripcion', $("#descripcion").val());
-        data.append('fkID_proyecto_marco', $("#fkID_proyecto_marco").val());
+        data.append('fkID_proyecto_marco', $("#fkID_acompanamiento").val());
         data.append('tipo', "crear");
         $.ajax({
             type: "POST",
@@ -120,16 +113,9 @@ $(function() {
     function edita_acompanamiento() {
         //no existe
         var data = new FormData();
-        if (document.getElementById("url_documento")) {
-            data.append('file', $("#url_documento").get(0).files[0]);
-        }
-        if (document.getElementById("url_informe")) {
-            data.append('file2', $("#url_informe").get(0).files[0]);
-        }
         data.append('pkID', $("#pkID").val());
         data.append('fecha_acompanamiento', $("#fecha_acompanamiento").val());
         data.append('descripcion', $("#descripcion").val());
-        data.append('fkID_proyecto_marco', $("#fkID_proyecto_marco").val());
         data.append('tipo', "editar");
         $.ajax({
             type: "POST",
@@ -152,39 +138,7 @@ $(function() {
         }).done(function(data) {
             $.each(data.mensaje[0], function(key, value) {
                 console.log(key + "--" + value);
-                if (key == "url_documento" && value != "") {
-                    $("#form_acompanamiento").append('<div id="pdf_documento" class="form-group">' + '<label for="adjunto" id="lbl_pkID_archivo_" name="lbl_pkID_archivo_" class="custom-control-label">Documento</label>' + '<br>' + '<input type="text" style="width: 89%;display: inline;" class="form-control" id="pkID_archivo" name="btn_Rmacompanamiento" value="' + value + '" readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../vistas/subidas/' + value + '" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmadocumento" id="btn_actionRmadocumento" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
-                    $("#lbl_url_acompanamiento").remove();
-                    $("#url_acompanamiento").remove();
-                    $("[name*='btn_actionRmadocumento']").click(function(event) {
-                        var id_archivo = $("#pkID").val();
-                        console.log("este es el numero" + id_archivo);
-                        elimina_archivo_acompanamiento(id_archivo, 'documento');
-                    });
-                } else {
-                    if (key == "url_documento") {
-                        cargar_input_documento();
-                    } else {
                         $("#" + key).val(value);
-                    }
-                }
-                if (key == "url_informe" && value != "") {
-                    console.log('Entro');
-                    $("#form_acompanamiento").append('<div id="pdf_informe" class="form-group">' + '<label for="adjunto" id="lbl_pkID_archivo_" name="lbl_pkID_archivo_" class="custom-control-label">Informe</label>' + '<br>' + '<input type="text" style="width: 89%;display: inline;" class="form-control" id="pkID_archivo" name="btn_Rmacompanamiento" value="' + value + '" readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../vistas/subidas/' + value + '" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmainforme" id="btn_actionRmainforme" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
-                    $("#lbl_url_acompanamiento").remove();
-                    $("#url_acompanamiento").remove();
-                    $("[name*='btn_actionRmainforme']").click(function(event) {
-                        var id_archivo = $("#pkID").val();
-                        console.log("este es el numero" + id_archivo);
-                        elimina_archivo_acompanamiento(id_archivo, 'informe');
-                    });
-                } else {
-                    if (key == "url_informe") {
-                        cargar_input_informe();
-                    } else {
-                        $("#" + key).val(value);
-                    }
-                }
             });
         }).fail(function() {
             console.log("error");

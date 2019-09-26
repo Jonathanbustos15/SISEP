@@ -23,40 +23,8 @@ $fkID_album  = isset($_POST['fkID_album'])? $_POST['fkID_album'] : "";
 switch ($tipo) {
     case 'crear':
         $generico = new Generico_DAO();
-        if (isset($_FILES['file']["name"])) {
-            $nombreDoc = $_FILES['file']["name"];
-            //Reemplaza los caracteres especiales por guiones al piso
-            $nombreDoc = str_replace(" ", "_", $nombreDoc);
-            $nombreDoc = str_replace("%", "_", $nombreDoc);
-            $nombreDoc = str_replace("-", "_", $nombreDoc);
-            $nombreDoc = str_replace(";", "_", $nombreDoc);
-            $nombreDoc = str_replace("#", "_", $nombreDoc);
-            $nombreDoc = str_replace("!", "_", $nombreDoc);
-            //carga el archivo en el servidor
-            $destinoDoc = "../vistas/subidas/" . $nombreDoc;
-
-            move_uploaded_file($_FILES['file']["tmp_name"], $destinoDoc);
-        } else {
-            $nombreDoc = '';
-        }
-
-        if (isset($_FILES['file2']["name"])) {
-            $nombreInf = $_FILES['file2']["name"];
-            //Reemplaza los caracteres especiales por guiones al piso
-            $nombreInf = str_replace(" ", "_", $nombreInf);
-            $nombreInf = str_replace("%", "_", $nombreInf);
-            $nombreInf = str_replace("-", "_", $nombreInf);
-            $nombreInf = str_replace(";", "_", $nombreInf);
-            $nombreInf = str_replace("#", "_", $nombreInf);
-            $nombreInf = str_replace("!", "_", $nombreInf);
-            //carga el archivo en el servidor
-            $destinoInf = "../vistas/subidas/" . $nombreInf;
-
-            move_uploaded_file($_FILES['file']["tmp_name"], $destinoInf);
-        } else {
-            $nombreInf = '';
-        }
-        $q_inserta  = "INSERT INTO acompanamiento (fecha_acompanamiento, descripcion, url_documento, url_informe, fkID_proyecto_marco) VALUES ('$fecha_acompanamiento', '$descripcion', '$nombreDoc', '$nombreInf', '$fkID_proyecto_marco')";
+                
+        $q_inserta  = "INSERT INTO acompanamiento (fecha_acompanamiento, descripcion, fkID_proyecto_marco) VALUES ('$fecha_acompanamiento', '$descripcion', '$fkID_proyecto_marco')";
         $r["query"] = $q_inserta;
 
         $resultado = $generico->EjecutaInsertar($q_inserta);
@@ -74,40 +42,7 @@ switch ($tipo) {
         break;
     case 'editar':
         $generico = new Generico_DAO();
-        if (isset($_FILES['file']["name"])) {
-            $nombreDoc = $_FILES['file']["name"];
-            //Reemplaza los caracteres especiales por guiones al piso
-            $nombreDoc = str_replace(" ", "_", $nombreDoc);
-            $nombreDoc = str_replace("%", "_", $nombreDoc);
-            $nombreDoc = str_replace("-", "_", $nombreDoc);
-            $nombreDoc = str_replace(";", "_", $nombreDoc);
-            $nombreDoc = str_replace("#", "_", $nombreDoc);
-            $nombreDoc = str_replace("!", "_", $nombreDoc);
-            //carga el archivo en el servidor
-            $destinoDoc = "../vistas/subidas/" . $nombreDoc;
-            $documento  = ",url_documento = '" . $nombreDoc . "'";
-            move_uploaded_file($_FILES['file']["tmp_name"], $destinoDoc);  
-        } else {
-            $documento = '';
-        }
-
-        if (isset($_FILES['file2']["name"])) {
-            $nombreInf = $_FILES['file2']["name"];
-            //Reemplaza los caracteres especiales por guiones al piso
-            $nombreInf = str_replace(" ", "_", $nombreInf);
-            $nombreInf = str_replace("%", "_", $nombreInf);
-            $nombreInf = str_replace("-", "_", $nombreInf);
-            $nombreInf = str_replace(";", "_", $nombreInf);
-            $nombreInf = str_replace("#", "_", $nombreInf);
-            $nombreInf = str_replace("!", "_", $nombreInf);
-            //carga el archivo en el servidor
-            $destinoInf = "../vistas/subidas/" . $nombreInf;
-            $informe    = ",url_informe = '" . $nombreInf . "'";
-            move_uploaded_file($_FILES['file']["tmp_name"], $destinoInf);
-        } else {
-            $informe = '';
-        }
-        $q_inserta  = "UPDATE acompanamiento SET fecha_acompanamiento='$fecha_acompanamiento',descripcion='$descripcion'" . $documento . $informe . " WHERE pkID='$id'";
+        $q_inserta  = "update acompanamiento SET fecha_acompanamiento='$fecha_acompanamiento',descripcion='$descripcion' WHERE pkID='$id'";
         $r["query"] = $q_inserta;
         $resultado  = $generico->EjecutaActualizar($q_inserta);
         /**/

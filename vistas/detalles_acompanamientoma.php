@@ -6,7 +6,7 @@ include '../controller/muestra_pagina.php';
 $muestra_detalles_acompanamiento = new mostrar();
 
 //---------------------------------------------------------
-$pagina    = 'cont_detalles_acompanamiento.php';
+$pagina    = 'cont_detalles_acompanamientoma.php';
 $scripts   = array('test_validaPV3.js', 'helper_detalles_acompanamiento.js', 'cont_detalles_acompanamiento.js', 'cont_docentes.js','cont_album_acompanamiento.js','cont_acompanamiento.js');
 $id_modulo = 18;
 //---------------------------------------------------------

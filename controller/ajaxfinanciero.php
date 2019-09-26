@@ -20,6 +20,7 @@ $valor_legalizado       = isset($_POST['anticipo_legalizado'])? $_POST['anticipo
 $valor_legalizado = str_replace('.', '', $valor_legalizado);
 $fecha_factura       = isset($_POST['fecha_factura'])? $_POST['fecha_factura'] : "";
 $fecha_anticipo       = isset($_POST['fecha_anticipo'])? $_POST['fecha_anticipo'] : "";
+$fecha_anticipo_legalizado = isset($_POST['fecha_anticipo_legalizado'])? $_POST['fecha_anticipo_legalizado'] : "";
 $fkID_objetivo       = isset($_POST['fkID_objetivo'])? $_POST['fkID_objetivo']: "";
 $fkID_actividad      = isset($_POST['fkID_actividad'])? $_POST['fkID_actividad'] : "";
 $proyecto_marco      = isset($_POST['proyecto_marco'])? $_POST['proyecto_marco'] : "";
@@ -42,7 +43,7 @@ switch ($tipo) {
         break;
     case 'crear_anticipo':
         $generico = new Generico_DAO();
-            $q_inserta  = "insert into `anticipo`(`valor_anticipo`, `fecha_anticipo`, `anticipo_legalizado`, `fkID_proyecto_marco`) VALUES ('$valor_anticipo', '$fecha_anticipo', '$valor_legalizado', '$fkID_proyecto_marco')";
+            $q_inserta  = "insert into `anticipo`(`valor_anticipo`, `fecha_anticipo`, `anticipo_legalizado`, `fecha_anticipo_legalizado`, `fkID_proyecto_marco`) VALUES ('$valor_anticipo', '$fecha_anticipo', '$valor_legalizado', '$fecha_anticipo_legalizado', '$fkID_proyecto_marco')";
                     $r["query"] = $q_inserta;   
 
             $resultado = $generico->EjecutaInsertar($q_inserta);
@@ -67,7 +68,7 @@ switch ($tipo) {
         break;
     case 'editar_anticipo':
         $generico = new Generico_DAO();
-            $q_inserta  = "update `anticipo` SET `valor_anticipo`='$valor_anticipo',`fecha_anticipo`='$fecha_anticipo',`anticipo_legalizado`='$valor_legalizado' where pkID='$id_anticipo'";
+            $q_inserta  = "update `anticipo` SET `valor_anticipo`='$valor_anticipo',`fecha_anticipo`='$fecha_anticipo',`anticipo_legalizado`='$valor_legalizado',`fecha_anticipo_legalizado`='$fecha_anticipo_legalizado' where pkID='$id_anticipo'";
                     $r["query"] = $q_inserta;
             $resultado  = $generico->EjecutaActualizar($q_inserta);
             /**/

@@ -30,6 +30,12 @@ if (isset($_GET["tipo"])) {
     $filtro2 = "Todos";
 }
 
+if (isset($_GET["tipov"])) {
+    $filtro3 = $_GET["tipov"];
+} else {
+    $filtro3 = "Todos";
+}
+
 include "form_actor.php";
 include "form_modal_archivos.php";
 ?>
@@ -44,7 +50,7 @@ include "form_modal_archivos.php";
           <h1 class="page-header titleprincipal"><img src="../img/botones/actoronly.png"><?php echo $proyectoMGen[0]["nombre"] ?> - Actores</h1>
       </div>
       <!-- /.col-lg-12 -->
-      <div class="col-md-6">
+      <div class="col-md-5">
           <ol class="breadcrumb migadepan">
             <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
             <li><a href="descripcion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Descripción</a></li>
@@ -55,20 +61,20 @@ include "form_modal_archivos.php";
           </ol>
       </div>
 
-      <div class="col-md-3 text-right form-inline">
+      <div class="col-md-7 text-center form-inline">  
+                    <label for="grupo_filtrop" class="control-label">Estado del Actor: </label>
+                      <?php
+                          $actorInst->getSelectTipoVFiltro();
+                      ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     
                     <label for="grupo_filtrop" class="control-label">Tipo de Actor: </label>
                       <?php
-$actorInst->getSelectTipoAFiltro();
-?>
-     </div>
-
-      <div class="col-md-2 text-center form-inline">
+                          $actorInst->getSelectTipoAFiltro();
+                      ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <label for="grupo_filtrop" class="control-label">Año: </label>
                       <?php
-$actorInst->getSelectAnioFiltro();
-?>
-     </div>
-    <div class="col-md-1 text-left form-inline">
+                         $actorInst->getSelectAnioFiltro();
+                      ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                      <button class="btn btn-success" id="btn_filtrara"><span class="glyphicon glyphicon-filter"></span> Filtrar</button>
 
                      <hr>
@@ -120,7 +126,7 @@ $actorInst->getSelectAnioFiltro();
                       <?php
 //print_r($_COOKIE);
 //echo "valor de cookie de tipo ".$_COOKIE[$NomCookiesApp."_tipo"];
-$actorInst->getTablaActor($pkID_proyectoM, $filtro, $filtro2);
+$actorInst->getTablaActor($pkID_proyectoM, $filtro, $filtro2, $filtro3);
 ?>
                   </tbody>
               </table>

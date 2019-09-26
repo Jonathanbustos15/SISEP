@@ -7,7 +7,7 @@ $muestra_grupo = new mostrar();
 
 //---------------------------------------------------------
 $pagina    = 'cont_acompanamiento.php';
-$scripts   = array('test_validaPV3.js', 'cont_detalles_acompanamiento.js', 'cont_acompanamiento.js', 'cont_filtro_anio.js');
+$scripts   = array('test_validaPV3.js','cont_acompanamiento_marco.js');
 $id_modulo = 17;
 //---------------------------------------------------------
 

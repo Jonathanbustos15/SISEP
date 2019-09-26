@@ -36,15 +36,11 @@ class acompanamientoController extends acompanamientoDAO
     //$consulta = $arrPermisos[0]["consultar"];
     //-----------------------------------------------------------------------------
 
-    public function getTablaAcompanamiento($filtro, $pkID_proyectoM)
+    public function getTablaAcompanamiento($pkID_proyectoM)
     {
 
         //carga el array desde el DAO
-        if ($filtro == "'Todos'") {
             $this->acompanamiento = $this->getGrupos($pkID_proyectoM);
-        } else {
-            $this->acompanamiento = $this->getGrupo($filtro, $pkID_proyectoM);
-        }
 
 
         //permisos-------------------------------------------------------------------------
@@ -61,22 +57,72 @@ class acompanamientoController extends acompanamientoDAO
                 $descripcion  = $this->acompanamiento[$a]["descripcion"];
                 $fecha = $this->acompanamiento[$a]["fecha_acompanamiento"];
                 $cantidad = $this->acompanamiento[$a]["canti"];
-                $url_documento    = $this->acompanamiento[$a]["url_documento"];
-                $url_informe    = $this->acompanamiento[$a]["url_informe"];
 
                 echo '
                              <tr>
 
-                                 <td title="Click Ver Detalles" href="detalles_acompanamiento.php?id_acompanamiento='. $id .' class="detail">' . $fecha . '</td>
-                                 <td title="Click Ver Detalles" href="detalles_acompanamiento.php?id_acompanamiento='. $id .'" class="detail">' . $descripcion . '</td>
-                                 <td title="Click Ver Detalles" href="detalles_acompanamiento.php?id_acompanamiento='. $id .'" class="detail">' . $cantidad . '</td>
-                                 <td title="Descargar Archivo"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../server/php/files/' . $url_documento . '" target="_blank" >' . $url_documento . '</a></td>
-                                 <td title="Descargar Archivo"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../server/php/files/' . $url_informe . '" target="_blank" >' . $url_informe . '</a></td>
+                                 <td title="Click Ver Detalles" href="detalles_acompanamientoma.php?id_acompanamiento='. $id .' class="detail">' . $fecha . '</td>
+                                 <td title="Click Ver Detalles" href="detalles_acompanamientoma.php?id_acompanamiento='. $id .'" class="detail">' . $descripcion . '</td>
+                                 <td title="Click Ver Detalles" href="detalles_acompanamientoma.php?id_acompanamiento='. $id .'" class="detail">' . $cantidad . '</td>
                                  <td>
                                      <button id="edita_acompanamiento" title="Editar" name="edita_acompanamiento" type="button" class="btn btn-warning" data-toggle="modal" data-target="#frm_modal_acompanamiento" data-id-acompanamiento = "' . $id . '" ';
                                         echo '><span class="glyphicon glyphicon-pencil"></span></button>
 
-                                                             <button id="btn_elimina_acompanamiento" title="Eliminar" name="elimina_asistencia" type="button" class="btn btn-danger" data-id-acompanamiento = "' . $id . '" ';
+                                                             <button id="btn_elimina_acompanamiento" title="Eliminar" name="elimina_acompanamiento" type="button" class="btn btn-danger" data-id-acompanamiento = "' . $id . '" ';
+                                        echo '><span class="glyphicon glyphicon-remove"></span></button>
+                                 </td>
+                             </tr>';
+            };
+
+        } else {
+
+            echo "<tr>
+
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                   </tr>
+                   <div class='alert alert-danger' role='alert'>
+                        En este momento no hay <strong>Asistencias.</strong>
+                   </div>";
+        };
+        //---------------------------------------------------------------------------------
+
+    }
+
+    public function getTablaAcompanamiento_macro($pkID_proyectoM)
+    {
+
+        //carga el array desde el DAO
+            $this->acompanamiento = $this->getAcompañamiento_macro($pkID_proyectoM);
+
+
+        //permisos-------------------------------------------------------------------------
+        $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo, $_COOKIE[$this->NameCookieApp . "_IDtipo"]);
+        $edita       = $arrPermisos[0]["editar"];
+        $elimina     = $arrPermisos[0]["eliminar"];
+        $consulta    = $arrPermisos[0]["consultar"];
+        //---------------------------------------------------------------------------------
+
+        if (($this->acompanamiento)) {
+
+            for ($a = 0; $a < sizeof($this->acompanamiento); $a++) {
+                $id           = $this->acompanamiento[$a]["pkID"];
+                $descripcion  = $this->acompanamiento[$a]["descripcion_acompañamiento"];
+                $url_documento = $this->acompanamiento[$a]["url_documento"];
+                $url_informe = $this->acompanamiento[$a]["url_informe"];
+
+                echo '
+                             <tr>
+
+                                 <td title="Click Ver Detalles" href="detalles_acompanamiento.php?id_acompanamiento='. $id .'" class="detail">' . $descripcion . '</td>
+                                 <td title="Descargar Archivo"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../server/php/files/'.$url_documento.'" target="_blank" >'.$url_documento.'</a></td>
+                                 <td title="Descargar Archivo"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../server/php/files/'.$url_informe.'" target="_blank" >'.$url_informe.'</a></td>
+                                  <td>
+                                     <button id="edita_acompanamiento_marco" title="Editar" name="edita_acompanamiento_marco" type="button" class="btn btn-warning" data-toggle="modal" data-target="#frm_modal_acompanamiento_marco" data-id-acompanamiento_marco = "' . $id . '" ';
+                                        echo '><span class="glyphicon glyphicon-pencil"></span></button>
+
+                                                             <button id="btn_elimina_acompanamiento_marco" title="Eliminar" name="elimina_acompanamiento_marco" type="button" class="btn btn-danger" data-id-acompanamiento_marco = "' . $id . '" ';
                                         echo '><span class="glyphicon glyphicon-remove"></span></button>
                                  </td>
                              </tr>';
@@ -923,10 +969,10 @@ class acompanamientoController extends acompanamientoDAO
         echo "</select>";
     }
 
-    public function getSelectTotaldocentes($pkID_proyectoM,$filtro)
+    public function getSelectTotaldocentes($pkID_proyectoM)
     {
 
-        $acompanamiento = $this->getTotalDocentes($pkID_proyectoM,$filtro);
+        $acompanamiento = $this->getTotalDocentes($pkID_proyectoM);
 
         echo '<span class="input-group-addon">#</span>';
         for ($i = 0; $i < sizeof($acompanamiento); $i++) {

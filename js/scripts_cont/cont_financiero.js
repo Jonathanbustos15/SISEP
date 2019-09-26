@@ -164,6 +164,9 @@ $(function() {
                 } else if (key == "fecha_anticipo") {
                     $("#fecha_anticipo").val(valu);
                     console.log(valu)
+                } else if (key == "fecha_anticipo_legalizado") {
+                    $("#fecha_anticipo_legalizado").val(valu);
+                    console.log(valu)
                 } else {
                 $("#" + key).val(valu.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.'));}
             });
@@ -180,7 +183,7 @@ $(function() {
         console.log("crear anticipo")   
         $.ajax({
             type: "POST",
-            url: "../controller/ajaxfinanciero.php",
+            url: "../controller/ajaxfinanciero.php", 
             data: data,
             contentType: false,
             processData: false,

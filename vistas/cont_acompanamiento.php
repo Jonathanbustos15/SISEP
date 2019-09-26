@@ -36,7 +36,7 @@ $crea = $arrPermisos[0]['crear'];
 $pkID_proyectoM = $_GET["id_proyectoM"];
 $proyectoMGen   = $docentesInst->getProyectosMarcoId($pkID_proyectoM);
 
-include "form_acompanamiento.php";
+include "form_acompanamiento_marco.php";
 include "form_novedades.php";
 
 ?>
@@ -65,19 +65,6 @@ include "form_novedades.php";
           </ol>
     </div>
 
-    <div class="col-md-2 text-center form-inline">
-                    <label for="grupo_filtrop" class="control-label">Año: </label>
-                      <?php
-$acompanamientoInst->getSelectAnioFiltro();
-?>
-     </div>
-    <div class="col-md-1 text-left form-inline">
-                     <button class="btn btn-success" name="btn_filtro_anio" id="btn_filtro_anio"><span class="glyphicon glyphicon-filter"></span> Filtrar</button>
-
-                     <hr>
-
-            </div>
-
   </div>
   <!-- /.row -->
 
@@ -96,7 +83,7 @@ $acompanamientoInst->getSelectAnioFiltro();
                   <div class="titleprincipal"><h4>Registro de Acompañamiento maestros - <?php echo $proyectoMGen[0]["nombre"] ?></h4></div>
               </div>
               <div class="col-md-6 text-right">
-                 <button id="btn_nuevoAcompanamiento" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-proyecto="<?php echo $pkID_proyectoM; ?>" data-target="#frm_modal_acompanamiento" <?php if ($crea != 1) {echo 'disabled="disabled"';}?> >
+                 <button id="btn_nuevoAcompanamiento_marco" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-proyecto="<?php echo $pkID_proyectoM; ?>" data-target="#frm_modal_acompanamiento_marco" <?php if ($crea != 1) {echo 'disabled="disabled"';}?> >
                  <span class="glyphicon glyphicon-plus"></span>Nuevo Acompañamiento maestros</button>
               </div>
             </div>
@@ -111,10 +98,8 @@ $acompanamientoInst->getSelectAnioFiltro();
                   <thead>
                       <tr>
                          <!-- <th>ID Grupo</th>-->
-                          <th>Fecha</th>
-                          <th>Descripcion</th>
-                          <th>Cantidad de asistentes</th>
-                          <th>Documento tecnico</th>
+                          <th>Acompañamiento</th>
+                          <th>Documento</th>
                           <th>Informe</th>
                           <th data-orderable="false">Opciones</th>
                       </tr>
@@ -124,20 +109,11 @@ $acompanamientoInst->getSelectAnioFiltro();
                       <?php
 //print_r($_COOKIE);
 //echo "valor de cookie de tipo ".$_COOKIE[$NomCookiesApp."_tipo"];
-if (($pkID_tipo_user == 8) || ($pkID_tipo_user == 9)) {
-    $acompanamientoInst->getTablaGruposUsuario($pkID_user);
-} else {
-    $acompanamientoInst->getTablaAcompanamiento($filtro, $pkID_proyectoM);
-}
+    $acompanamientoInst->getTablaAcompanamiento_macro($pkID_proyectoM);
 ?>
                   </tbody>
               </table>
-              <div class="col-md-6 text-right">
-                                <label for="total_ingresos" class="control-label"><B>Total Estudiantes</B></label>
-              </div>
-                                <div class="input-group col-md-2 text-left">
-                                   <?php $acompanamientoInst->getSelectTotaldocentes($pkID_proyectoM, $filtro);?>
-                                </div>
+              
                             </div>
           </div>
           <!-- /.table-responsive -->

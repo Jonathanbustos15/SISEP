@@ -41,6 +41,11 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label for="fecha_anticipo" class="control-label">Fecha de Anticipo Legalizado</label>
+                        <input type="date" class="form-control" id="fecha_anticipo_legalizado" name="fecha_anticipo_legalizado" placeholder="Fecha de creación de la anticipo" required = "true">
+                    </div>
+
                     <div class="form-group " hidden>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="fkID_proyecto_marco" name="fkID_proyecto_marco" value="<?php echo $pkID_proyectoM; ?>">

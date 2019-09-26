@@ -185,6 +185,7 @@ class financieroController extends financieroDAO
             ["nombre" => "fecha_anticipo"],
             ["nombre" => "anticipo"],
             ["nombre" => "anticipo_legalizado"],
+            ["nombre" => "fecha_anticipo_legalizado"],
             ["nombre" => "valor_pendiente"],
         ];
         //la configuracion de los botones de opciones

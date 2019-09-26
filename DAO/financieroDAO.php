@@ -144,7 +144,7 @@ class financieroDAO extends UsuariosDAO
     public function getAnticipo($pkID)
     {
 
-        $query = "select pkID, fecha_anticipo, concat_ws(' ','$',FORMAT(valor_anticipo,3)) AS anticipo,concat_ws(' ','$',FORMAT(anticipo_legalizado,3)) AS anticipo_legalizado, concat_ws(' ','$',FORMAT((valor_anticipo - anticipo_legalizado),3)) as valor_pendiente FROM `anticipo` WHERE estadoV=1 and fkID_proyecto_marco=".$pkID;
+        $query = "select pkID, fecha_anticipo, concat_ws(' ','$',FORMAT(valor_anticipo,3)) AS anticipo,concat_ws(' ','$',FORMAT(anticipo_legalizado,3)) AS anticipo_legalizado, concat_ws(' ','$',FORMAT((valor_anticipo - anticipo_legalizado),3)) as valor_pendiente, fecha_anticipo_legalizado FROM `anticipo` WHERE estadoV=1 and fkID_proyecto_marco=".$pkID;
 
         return $this->EjecutarConsulta($query);
     }

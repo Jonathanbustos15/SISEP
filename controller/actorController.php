@@ -75,6 +75,16 @@
         echo "</select>"; 
     }
 
+    public function getSelectTipoVFiltro()
+    {
+            echo '<select name="tipov_filtro" id="tipov_filtro" class="form-control" required = "true">
+                        <option value="" selected>Todos</option>';
+            echo '<option value="1">Socializado</option>';
+            echo '<option value="2">Vinculado</option>';
+        echo "</select>";
+         
+    }
+
         public function getSelectDepartamentos() {
         
             $tipo = $this->getDepartamentos();
@@ -96,7 +106,7 @@
 
 
 
-		public function getTablaActor($pkID_proyectoM,$filtro,$filtro2){       
+		public function getTablaActor($pkID_proyectoM,$filtro,$filtro2,$filtro3){       
 
             //permisos-------------------------------------------------------------------------
             $arrPermisos = $this->getPermisosModulo_Tipo($this->id_modulo,$_COOKIE[$this->NameCookieApp."_IDtipo"]);
@@ -136,7 +146,7 @@
                 ];
             //---------------------------------------------------------------------------------
             //carga el array desde el DAO
-            $actor = $this->getActores($pkID_proyectoM,$filtro,$filtro2);
+            $actor = $this->getActores($pkID_proyectoM,$filtro,$filtro2,$filtro3);
 
 
             //Instancia el render

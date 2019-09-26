@@ -27,6 +27,15 @@ class acompanamientoDAO extends UsuariosDAO
         return $this->EjecutarConsulta($query);
     }
 
+    public function getAcompañamiento_macro($pkID_proyectoM)
+    {
+
+        $query = "select * from `acompañamiento_macro`
+                WHERE estadoV = 1 AND fkID_proyecto_marco = " . $pkID_proyectoM;
+
+        return $this->EjecutarConsulta($query);
+    }
+
     public function getGrupo($filtro, $pkID_proyectoM)
     {
         if ($filtro == "'Todos'") {
@@ -282,9 +291,10 @@ class acompanamientoDAO extends UsuariosDAO
     public function getProyectosMarcoGrupo($fkID_grupo)
     {
 
-        $query = "SELECT *,proyecto_marco.nombre AS nombre_proyecto FROM proyecto_marco
-                INNER JOIN grupo ON grupo.fkID_proyecto_marco = proyecto_marco.pkID
-                WHERE grupo.pkID = " . $fkID_grupo;
+        $query = "select proyecto_marco.*,proyecto_marco.nombre AS nombre_proyecto, acompanamiento.fkID_proyecto_marco as fk_acompaniamiento,acompañamiento_macro.fkID_proyecto_marco FROM proyecto_marco
+                INNER JOIN acompañamiento_macro on acompañamiento_macro.fkID_proyecto_marco = proyecto_marco.pkID
+                INNER JOIN acompanamiento ON acompanamiento.fkID_proyecto_marco = acompañamiento_macro.pkID
+                WHERE acompanamiento.pkID= " . $fkID_grupo;
 
         return $this->EjecutarConsulta($query);
     }
@@ -309,17 +319,12 @@ class acompanamientoDAO extends UsuariosDAO
         return $this->EjecutarConsulta($query);
     }
 
-    public function getTotalDocentes($pkID_proyectoM,$filtro)
+    public function getTotalDocentes($pkID_proyectoM)
     {
-        if ($filtro == "'Todos'") {
-            $anio = "!= 0";
-        } else {
-            $anio = "=" . $filtro;
-        }
 
         $query = "select count(*) as cantidad FROM acompanamiento_docente LEFT JOIN docente ON docente.pkID = acompanamiento_docente.fkID_docente
                 LEFT JOIN acompanamiento on acompanamiento.pkID = acompanamiento_docente.fkID_acompanamiento
-                WHERE acompanamiento.pkID = acompanamiento_docente.fkID_acompanamiento and  acompanamiento.fkID_proyecto_marco=".$pkID_proyectoM." and  YEAR(acompanamiento.fecha_acompanamiento)" . $anio ;
+                WHERE acompanamiento.pkID = acompanamiento_docente.fkID_acompanamiento and  acompanamiento.fkID_proyecto_marco=".$pkID_proyectoM ;
 
         return $this->EjecutarConsulta($query);
     }

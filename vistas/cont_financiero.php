@@ -255,6 +255,7 @@ include 'form_anticipo.php';
                          <th>Fecha de Anticipo</th>
                           <th>Valor Anticipo</th>
                           <th >Valor Anticipo Legalizado</th>
+                          <th >Fecha Anticipo Legalizado</th>
                           <th>Valor pendiente por legalizar</th> 
                           <th data-orderable="false">Opciones</th>
                       </tr>

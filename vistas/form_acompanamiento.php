@@ -16,7 +16,7 @@
                             <input type="text" class="form-control" id="pkID" name="pkID">
                         </div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="fkID_proyecto_marco" name="fkID_proyecto_marco">
+                            <input type="text" class="form-control" id="fkID_acompanamiento" name="fkID_acompanamiento" value="'$pkID_acompanamiento'">
                         </div>
                     </div>
 

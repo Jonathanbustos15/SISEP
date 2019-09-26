@@ -16,7 +16,7 @@
             return $this->getCookieProyectoM();
     }
 		
-		public function getActores($pkID_proyectoM,$filtro,$filtro2){
+		public function getActores($pkID_proyectoM,$filtro,$filtro2,$filtro3){
 
           if ($filtro == "Todos") {
             $where_anio = "!= 0";
@@ -28,11 +28,19 @@
             $where_tipo = "!='0'";
         } else { 
             $where_tipo = "= '$filtro2'";
-        }   
+        }  
+
+        if ($filtro3 == "Todos") {
+            $where_tipov = "";
+        } elseif ($filtro3 == "Socializado") {
+            $where_tipov = " and year(fecha_vinculacion)!='1'";
+        }  else {
+            $where_tipov = " and year(fecha_vinculacion)!='0'";
+        }
        
       		$query = "select actor.*, tipo_actor.nombre as nom_tipo, concat_ws(' ',actor.nombre_contacto,apellido_contacto) as nombres  FROM `actor`
                   INNER JOIN tipo_actor ON tipo_actor.pkID = actor.fkID_tipo
-                  where estadoV=1 and fkID_proyectoM=".$pkID_proyectoM." and year(fecha_socializacion)".$where_anio."  and tipo_actor.nombre".$where_tipo;
+                  where estadoV=1 and fkID_proyectoM=".$pkID_proyectoM." and year(fecha_socializacion)".$where_anio."  and tipo_actor.nombre".$where_tipo . $where_tipov;
 
       		return $this->EjecutarConsulta($query);
     	}
