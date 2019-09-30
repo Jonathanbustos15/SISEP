@@ -1,0 +1,21 @@
+3115092468
+
+7900
+pasaporte americas 
+
+
+
+usuario superadministrador
+	administrador
+	perfil de publicar
+	comsulta(interventoria)
+
+crear contraseña y enviar correo
+
+diseño de la hv
+modulo acompañamiento a maestros cambiarlo por maestros formados
+documento tecnico en acompañamiento
+lista en sesión de acompañamiento
+
+
+	

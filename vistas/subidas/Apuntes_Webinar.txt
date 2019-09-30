@@ -1,0 +1,32 @@
+Gestión de servicios (Webinar)
+
+buenas practicas en los catalogos itil 4
+-no hay oferta sin necesidad
+
+componentes sw, hw , red, bd, amb, cmdb
+
+elementos: cadena de valor de servicio 
+- Planear
+- Diseño y transición
+- Obtener y construir
+- Entrega y Asistencia
+- mejorar
+
+
+enfoque predictivo 
+
+qué no es el catálogo de servicios 
+
+el catálogo de servicios no es estatico, es algo que se mueve hay que adaptar según las necesidades
+
+Tampoco debe ser un componente aislado
+
+Catalogo de movimiento
+
+*Evaluación de los servicios
+*Cartera de servicios (Catálogo de servicios)
+*Servicios retirados
+
+Catalogo Integrado
+Debe estar integrado con el resto de las areas
+

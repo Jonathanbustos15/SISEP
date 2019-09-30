@@ -99,7 +99,7 @@ include "form_novedades.php";
                       <tr>
                          <!-- <th>ID Grupo</th>-->
                           <th>Acompañamiento</th>
-                          <th>Documento</th>
+                          <th>Documento Técnico</th>
                           <th>Informe</th>
                           <th data-orderable="false">Opciones</th>
                       </tr>

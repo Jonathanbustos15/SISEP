@@ -23,9 +23,24 @@ $fkID_album  = isset($_POST['fkID_album'])? $_POST['fkID_album'] : "";
 switch ($tipo) {
     case 'crear':
         $generico = new Generico_DAO();
-                
-        $q_inserta  = "INSERT INTO acompanamiento (fecha_acompanamiento, descripcion, fkID_proyecto_marco) VALUES ('$fecha_acompanamiento', '$descripcion', '$fkID_proyecto_marco')";
-        $r["query"] = $q_inserta;
+         if (isset($_FILES['file']["name"])) {
+            $nombreDoc = $_FILES['file']["name"];
+            //Reemplaza los caracteres especiales por guiones al piso
+            $nombreDoc = str_replace(" ", "_", $nombreDoc);
+            $nombreDoc = str_replace("%", "_", $nombreDoc);
+            $nombreDoc = str_replace("-", "_", $nombreDoc);
+            $nombreDoc = str_replace(";", "_", $nombreDoc);
+            $nombreDoc = str_replace("#", "_", $nombreDoc);
+            $nombreDoc = str_replace("!", "_", $nombreDoc);
+            //carga el archivo en el servidor
+            $destinoDoc = "../server/php/files/" . $nombreDoc;
+
+            move_uploaded_file($_FILES['file']["tmp_name"], $destinoDoc);
+        } else {
+            $nombreDoc = '';
+        }       
+        $q_inserta  = "INSERT INTO acompanamiento (fecha_acompanamiento, descripcion,`url_lista`, fkID_proyecto_marco) VALUES ('$fecha_acompanamiento', '$descripcion', '$nombreDoc', '$fkID_proyecto_marco')";
+        $r["query"] = $q_inserta; 
 
         $resultado = $generico->EjecutaInsertar($q_inserta);
         /**/
@@ -36,13 +51,29 @@ switch ($tipo) {
         } else {
 
             $r["estado"]  = "Error";
-            $r["mensaje"] = "No se inserto.";
+            $r["mensaje"] = "No se inserto.";  
         }
         echo json_encode($r);
         break;
     case 'editar':
         $generico = new Generico_DAO();
-        $q_inserta  = "update acompanamiento SET fecha_acompanamiento='$fecha_acompanamiento',descripcion='$descripcion' WHERE pkID='$id'";
+        if (isset($_FILES['file']["name"])) {
+            $nombreDoc = $_FILES['file']["name"];
+            //Reemplaza los caracteres especiales por guiones al piso
+            $nombreDoc = str_replace(" ", "_", $nombreDoc);
+            $nombreDoc = str_replace("%", "_", $nombreDoc);
+            $nombreDoc = str_replace("-", "_", $nombreDoc);
+            $nombreDoc = str_replace(";", "_", $nombreDoc);
+            $nombreDoc = str_replace("#", "_", $nombreDoc);
+            $nombreDoc = str_replace("!", "_", $nombreDoc);
+            //carga el archivo en el servidor
+            $destinoDoc = "../server/php/files/" . $nombreDoc;
+            $documento  = ",url_lista = '" . $nombreDoc . "'";
+            move_uploaded_file($_FILES['file']["tmp_name"], $destinoDoc);  
+        } else {
+            $documento = '';
+        }
+        $q_inserta  = "update acompanamiento SET fecha_acompanamiento='$fecha_acompanamiento',descripcion='$descripcion'". $documento . "WHERE pkID='$id'";
         $r["query"] = $q_inserta;
         $resultado  = $generico->EjecutaActualizar($q_inserta);
         /**/
@@ -57,9 +88,9 @@ switch ($tipo) {
         }
         echo json_encode($r);
         break;
-    case 'eliminararchivodocumento':
+    case 'eliminararchivolista':
         $generico   = new Generico_DAO();
-        $q_inserta  = "UPDATE acompanamiento SET url_documento='' where pkID='$id' ";
+        $q_inserta  = "UPDATE acompanamiento SET url_lista='' where pkID='$id' ";
         $r["query"] = $q_inserta;
         $resultado  = $generico->EjecutaActualizar($q_inserta);
         /**/
@@ -145,7 +176,7 @@ switch ($tipo) {
             $nombreDoc = str_replace("#", "_", $nombreDoc);
             $nombreDoc = str_replace("!", "_", $nombreDoc);
             //carga el archivo en el servidor
-            $destinoDoc = "../vistas/subidas/" . $nombreDoc;
+            $destinoDoc = "../server/php/files/" . $nombreDoc;
             $documento  = ",url_asistencia= '" . $nombreDoc . "'";
             move_uploaded_file($_FILES['file']["tmp_name"], $destinoDoc);  
         } else {

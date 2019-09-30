@@ -195,6 +195,7 @@ include "form_acompanamiento.php";
                           <th>Fecha</th>
                           <th>Descripcion</th>
                           <th>Cantidad de asistentes</th>
+                          <th>Lista de Asistencia</th>
                           <th data-orderable="false">Opciones</th>
                       </tr>
                   </thead>

@@ -164,7 +164,6 @@ include "form_acompanamiento.php";
         <!-- Nav tabs -->
         <ul class="nav nav-tabs tabs-proc3" role="tablist"> 
           	<li id="li_participantes" class="active" role="presentation"><a href="#participantes" aria-controls="participantes" role="tab" data-toggle="tab">Participantes</a></li>
-	        <li id="li_asistencia" role="presentation"><a href="#asistencia" aria-controls="asistencia" role="tab" data-toggle="tab">Asistencia</a></li>
 	        <li id="li_album" role="presentation"><a href="#album" aria-controls="general" role="tab" data-toggle="tab">Galeria</a></li>
 	    </ul>
 
@@ -205,8 +204,8 @@ include "form_acompanamiento.php";
 
 				                  <tbody>
 				                      <?php
-$detalles_grupoInst->getTablaEstudiantesGrupo($pkID_acompanamiento);
-?>
+										$detalles_grupoInst->getTablaEstudiantesGrupo($pkID_acompanamiento);
+									   ?>
 				                  </tbody>
 				              </table>
 					        </div>
@@ -263,57 +262,6 @@ $detalles_grupoInst->getTablaEstudiantesGrupo($pkID_acompanamiento);
 				<!-- /.contenido general -->
 
 			</div>
-
-
-			<div role="tabpanel" class="tab-pane" id="asistencia">
-				<br>
-				<!-- contenido general -->
-				<div class="panel panel-default proc-pan-def3">
-
-					<div class="titulohead">
-
-			            <div class="row">
-			              <div class="col-md-6">
-			                  <div class="titleprincipal"><h4>Asistencia Acompañamiento - <?php echo $proyectoMGen[0]["nombre_proyecto"] ?></h4></div>
-			              </div>
-			              <div class="col-md-6 text-right">
-			      			 <button id="btn_asignarasistencia" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-acompanamiento="<?php echo $pkID_acompanamiento ?>" data-target="#frm_modal_asistencia" <?php if (($creaeg != 1) || ($ne >= 30)) {echo 'disabled="disabled"';}?> ><span class="glyphicon glyphicon-plus"></span> Crear asistencia</button>
-			              </div>
-			            </div>
-
-		            </div>
-		            <!-- /.panel-heading -->
-
-					<div class="panel-body">
-
-						<div class="col-md-12">
-							<div class="dataTable_wrapper">
-				              <table class="display table table-striped table-bordered table-hover" id="tbl_grupo_estudiante">
-				                  <thead>
-				                      <tr>
-				                          <th>Fecha</th>
-				                          <th>Documento</th>
-				                          <th data-orderable="false">Opciones</th>
-				                      </tr>
-				                  </thead>
-
-				                  <tbody>
-				                      <?php
-$detalles_grupoInst->getTablaAsistencia($pkID_acompanamiento);
-?>
-				                  </tbody>
-				              </table>
-					        </div>
-					        <!-- /.table-responsive -->
-						</div>
-
-					</div>
-
-				</div>
-				<!-- /.contenido general -->
-
-
-	    </div>
 
       </div>
       <!-- /.col-lg-12 -->

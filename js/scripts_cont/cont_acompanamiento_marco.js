@@ -105,7 +105,7 @@ $(function() {
     }
 
     function cargar_input_documento() {
-        $("#form_acompanamiento_marco").append('<div class="form-group" id="pdf_documento">' + '<label for="adjunto" id="lbl_url_acompanamiento_marco" class=" control-label">Documento</label>' + '<input type="file" class="form-control" id="url_documento" name="documento" placeholder="Email del acompanamiento_marco" required = "true">' + '</div>')
+        $("#form_acompanamiento_marco").append('<div class="form-group" id="pdf_documento">' + '<label for="adjunto" id="lbl_url_acompanamiento_marco" class=" control-label">Documento Técnico</label>' + '<input type="file" class="form-control" id="url_documento" name="documento" placeholder="Email del acompanamiento_marco" required = "true">' + '</div>')
     }
 
     function cargar_input_informe() {
@@ -146,7 +146,7 @@ $(function() {
             $.each(data.mensaje[0], function(key, value) {
                 console.log(key + "--" + value);
                 if (key == "url_documento" && value != "") {
-                    $("#form_acompanamiento_marco").append('<div id="pdf_documento" class="form-group">' + '<label for="adjunto" id="lbl_pkID_archivo_" name="lbl_pkID_archivo_" class="custom-control-label">Documento</label>' + '<br>' + '<input type="text" style="width: 89%;display: inline;" class="form-control" id="pkID_archivo" name="btn_Rmacompanamiento" value="' + value + '" readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../vistas/subidas/' + value + '" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmadocumento" id="btn_actionRmadocumento" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
+                    $("#form_acompanamiento_marco").append('<div id="pdf_documento" class="form-group">' + '<label for="adjunto" id="lbl_pkID_archivo_" name="lbl_pkID_archivo_" class="custom-control-label">Documento Técnico</label>' + '<br>' + '<input type="text" style="width: 89%;display: inline;" class="form-control" id="pkID_archivo" name="btn_Rmacompanamiento" value="' + value + '" readonly="true"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="button" class="btn btn-success" href = "../vistas/subidas/' + value + '" target="_blank" ><span class="glyphicon glyphicon-download-alt"></span></a><button name="btn_actionRmadocumento" id="btn_actionRmadocumento" data-id-contratos="1" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' + '</div>');
                     $("#lbl_url_acompanamiento").remove();
                     $("#url_acompanamiento").remove();
                     $("[name*='btn_actionRmadocumento']").click(function(event) {

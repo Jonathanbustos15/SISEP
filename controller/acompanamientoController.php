@@ -57,6 +57,7 @@ class acompanamientoController extends acompanamientoDAO
                 $descripcion  = $this->acompanamiento[$a]["descripcion"];
                 $fecha = $this->acompanamiento[$a]["fecha_acompanamiento"];
                 $cantidad = $this->acompanamiento[$a]["canti"];
+                $url_lista = $this->acompanamiento[$a]["url_lista"];
 
                 echo '
                              <tr>
@@ -64,6 +65,7 @@ class acompanamientoController extends acompanamientoDAO
                                  <td title="Click Ver Detalles" href="detalles_acompanamientoma.php?id_acompanamiento='. $id .' class="detail">' . $fecha . '</td>
                                  <td title="Click Ver Detalles" href="detalles_acompanamientoma.php?id_acompanamiento='. $id .'" class="detail">' . $descripcion . '</td>
                                  <td title="Click Ver Detalles" href="detalles_acompanamientoma.php?id_acompanamiento='. $id .'" class="detail">' . $cantidad . '</td>
+                                 <td title="Descargar Archivo"> <a id="btn_doc" title="Descargar Archivo" name="download_documento" type="text" class="" href = "../server/php/files/'.$url_lista.'" target="_blank" >'.$url_lista.'</a></td>
                                  <td>
                                      <button id="edita_acompanamiento" title="Editar" name="edita_acompanamiento" type="button" class="btn btn-warning" data-toggle="modal" data-target="#frm_modal_acompanamiento" data-id-acompanamiento = "' . $id . '" ';
                                         echo '><span class="glyphicon glyphicon-pencil"></span></button>
