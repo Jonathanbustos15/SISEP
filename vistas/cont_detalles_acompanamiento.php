@@ -136,7 +136,7 @@ include "form_acompanamiento.php";
       <input type="hidden" id="id_mod_page_estudiante" value=<?php echo $id_modulo ?>>
 
       <div class="col-lg-12">
-          <h1 class="page-header titleprincipal"><img src="../img/botones/grupoonly.png">Acompañamiento - <?php echo $proyectoMGen[0]["nombre_proyecto"] ?></h1>
+          <h1 class="page-header titleprincipal"><img src="../img/botones/acompanamientoonly.png">Maestros Formados - <?php echo $proyectoMGen[0]["nombre_proyecto"] ?></h1>
       </div>
       <!-- /.col-lg-12 -->
 
@@ -146,8 +146,8 @@ include "form_acompanamiento.php";
             <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
             <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Académico</a></li>
             <li><a href="formacion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Formación a maestros</a></li>
-            <li><a href="acompanamiento.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Acompañamiento maestros</a></li>
-            <li class="active migadepan">Detalle Acompañamiento </li>
+            <li><a href="acompanamiento.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Maestros Formados</a></li>
+            <li class="active migadepan">Detalle Maestros Formados </li>
           </ol>
     </div>
 
@@ -174,11 +174,11 @@ include "form_acompanamiento.php";
 
             <div class="row">
               <div class="col-md-6">
-                  <div class="titleprincipal"><h4>Sesiones de Acompañamiento maestros - <?php echo $proyectoMGen[0]["nombre"] ?></h4></div>
+                  <div class="titleprincipal"><h4>Sesiones de Maestros Formados - <?php echo $proyectoMGen[0]["nombre"] ?></h4></div>
               </div>
               <div class="col-md-6 text-right">
                  <button id="btn_nuevoAcompanamiento" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-proyecto="<?php echo $pkID_proyectoM; ?>" data-target="#frm_modal_acompanamiento" <?php if ($creaeg != 1) {echo 'disabled="disabled"';}?> >
-                 <span class="glyphicon glyphicon-plus"></span>Nueva Sesión Acompañamiento maestros</button>
+                 <span class="glyphicon glyphicon-plus"></span>Nueva Sesión Maestros Formados</button>
               </div>
             </div>
 

@@ -51,7 +51,7 @@ include "form_novedades.php";
 
 
       <div class="col-lg-12">
-          <h1 class="page-header titleprincipal"><img src="../img/botones/acompanamientoonly.png">Acompañamiento maestros - <?php echo $proyectoMGen[0]["nombre"] ?></h1>
+          <h1 class="page-header titleprincipal"><img src="../img/botones/acompanamientoonly.png">Maestros Formados - <?php echo $proyectoMGen[0]["nombre"] ?></h1>
       </div>
       <!-- /.col-lg-12 -->
     <div class="col-md-9">
@@ -61,7 +61,7 @@ include "form_novedades.php";
             <li><a href="principal.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Menú principal</a></li>
             <li><a href="academico.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Académico</a></li>
             <li><a href="formacion.php?id_proyectoM=<?php echo $pkID_proyectoM; ?>" class="migadepan">Formación a maestros</a></li>
-            <li class="active migadepan">Acompañamiento maestros </li>
+            <li class="active migadepan">Maestros Formados </li>
           </ol>
     </div>
 
@@ -80,11 +80,11 @@ include "form_novedades.php";
 
             <div class="row">
               <div class="col-md-6">
-                  <div class="titleprincipal"><h4>Registro de Acompañamiento maestros - <?php echo $proyectoMGen[0]["nombre"] ?></h4></div>
+                  <div class="titleprincipal"><h4>Registro de Maestros Formados - <?php echo $proyectoMGen[0]["nombre"] ?></h4></div>
               </div>
               <div class="col-md-6 text-right">
                  <button id="btn_nuevoAcompanamiento_marco" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal" data-proyecto="<?php echo $pkID_proyectoM; ?>" data-target="#frm_modal_acompanamiento_marco" <?php if ($crea != 1) {echo 'disabled="disabled"';}?> >
-                 <span class="glyphicon glyphicon-plus"></span>Nuevo Acompañamiento maestros</button>
+                 <span class="glyphicon glyphicon-plus"></span>Nueva Formación a Maestros</button>
               </div>
             </div>
 
