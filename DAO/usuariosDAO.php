@@ -181,7 +181,7 @@ class UsuariosDAO {
 
     public function getProyectosM(){        
        
-      $query = "select * FROM `proyecto_marco`";
+      $query = "select * FROM `proyecto_marco` where estadoV=1";
 
       return $this->EjecutarConsulta($query);
     }

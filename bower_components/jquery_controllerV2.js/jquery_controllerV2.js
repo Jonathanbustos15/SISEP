@@ -14,6 +14,7 @@
                 crear: "inserta",
                 editar: "actualizar",
                 carga: "consultar",
+                correo: "email",
                 eliminar: "eliminar",
                 eliminar_logico: "eliminar_logico"
             },
@@ -116,7 +117,7 @@
                     };
                     //---------------------------------------------------------------------------
                     if (ajustes.recarga == true) {
-                        location.reload();
+                        //location.reload();
                     };
                     //---------------------------------------------------------------------------
                 }).fail(function(data) {
@@ -128,6 +129,9 @@
             } else {
                 alert("El formulario no está totalmente diligenciado, revíselo e inténtelo de nuevo.");
             };
+            if (ajustes.nom_tabla=="usuarios") {
+                enviar_email(); 
+            }
         };
         //cierra crea
         function validaCampo() {
@@ -347,6 +351,8 @@
             };
         };
         //Eliminar logico
+
+       
         function subida_archivo(tipo) {
             //---------------------------------------------------------------------------------------
             //CREA UNA VARIABLE  DE TIPO FormData que toma el formulario

@@ -1284,8 +1284,8 @@
 			$.when(itera).then(function(){
 				self.setKeyupNom()
 				//readonly
-				self.aliasInput.attr('readonly', 'readonly');
-				self.passInput.attr('readonly', 'readonly');				
+				//self.aliasInput.attr('readonly', 'readonly');
+				//self.passInput.attr('readonly', 'readonly');				
 			});
 			
 		},
@@ -1319,9 +1319,9 @@
 			//en caso de que exista ponerle un character random
 			//hasta que no exista uno igual en la bd
 
-			this.validateAlias(this.inicial+this.complemento)
+			//this.validateAlias(this.inicial+this.complemento)
 
-			this.passInput.val("12345");
+			//this.passInput.val("12345");
 		},
 		validateCampos:function(){
 

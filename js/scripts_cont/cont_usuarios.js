@@ -28,6 +28,7 @@ $(function(){
         rel_proyectosM.arrElementos.length = 0;
         rel_proyectosM.arrElementosRelation.length=0;
   		}
+      
   	});	
 
   	$("#btn_actionusuario").jquery_controllerV2({
@@ -60,7 +61,6 @@ $(function(){
           var id_last_usuario = data[0].last_id;          
           //insertUsuarioProyectoM(id_last_usuario, proyectoM)           
           rel_proyectosM.serializa_array(rel_proyectosM.crea_array(rel_proyectosM.arrElementos,id_last_usuario));  
-
           location.reload()
         }
       }		  
@@ -129,7 +129,7 @@ $(function(){
 	});	
 
   	$("[name*='elimina_usuario']").jquery_controllerV2({
-  		tipo:'eliminar',
+  		tipo:'eliminar_logico',
   		nom_modulo:'usuario',
   		nom_tabla:'usuarios',
       auditar:true,
@@ -149,7 +149,7 @@ $(function(){
      //----Función que elimina los registros de la tabla auxiliar usuario_proyectoM
   function eliminaUsuarioProyectoM(fkID_usuario){
 
-    var query = " DELETE FROM `usuario_proyectoM` WHERE fkID_usuario = "+fkID_usuario;
+    var query = " UPDATE `usuarios` SET `estadoV`=2 WHERE fkID_usuario = "+fkID_usuario;
 
     $.ajax({
       async: false,
@@ -242,7 +242,26 @@ $(function(){
 
 	    }
 
-    };    
+    };  
+    
+     function enviar_email() {
+      console.log("se va a enviar el mensaje")
+         var data = new FormData();
+         data.append('alias', $("#alias").val());
+         data.append('email', $("#email").val());
+         data.append('tipo', "crear");
+         $.ajax({
+             type: "POST",
+             url: "../controller/ajaxusuario.php",
+             data: data,
+             contentType: false,
+             processData: false,
+             success: function(a) {
+                 console.log(a);
+                 location.reload();
+             }
+         })
+     }  
     
 
     function destruye_cambia_pass(){
