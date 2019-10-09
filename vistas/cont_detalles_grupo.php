@@ -145,6 +145,7 @@ include "frm_modal_proyectog.php";
     <div class="col-lg-12">
           <ol class="breadcrumb migadepan">
             <li><a href="proyecto_marco.php" class="migadepan">Inicio</a></li>
+            <li><a href="descripcion.php?id_proyectoM=<?php echo $proyectoMGen[0]["pkIDproyecto"]; ?>" class="migadepan">Descripción</a></li>
             <li><a href="principal.php?id_proyectoM=<?php echo $proyectoMGen[0]["pkIDproyecto"]; ?>" class="migadepan">Menú principal</a></li>
             <li><a href="academico.php?id_proyectoM=<?php echo $proyectoMGen[0]["pkIDproyecto"]; ?>" class="migadepan">Académico</a></li>
             <li><a href="grupo.php?id_proyectoM=<?php echo $proyectoMGen[0]["pkIDproyecto"]; ?>" class="migadepan">Grupo ondas</a></li>
@@ -165,7 +166,7 @@ include "frm_modal_proyectog.php";
           	<li id="li_estudiantes" role="presentation"><a href="#estudiantes" aria-controls="general" role="tab" data-toggle="tab">Estudiantes</a></li>
 	        <li id="li_proyectos" role="presentation"><a href="#proyectos" aria-controls="general" role="tab" data-toggle="tab">Proyecto</a></li>
 	        <li id="li_acompañamiento" role="presentation"><a href="#acompañamiento" aria-controls="general" role="tab" data-toggle="tab">Sesiones de Acompañamientos</a></li>
-	        <li id="li_album" role="presentation"><a href="#album" aria-controls="general" role="tab" data-toggle="tab">Galeria</a></li>
+	        <li id="li_album" role="presentation"><a href="#album" aria-controls="general" role="tab" data-toggle="tab">Galeria</a></li> 
 	    </ul>
 
 	    <div class="tab-content">
@@ -307,7 +308,7 @@ $detalles_grupoInst->getTablaEstudiantesGrupo($pkID_grupo);
 			                  <div class="titleprincipal"><h4>Galeria de Álbumes</h4></div>
 			              </div>
 			              <div class="col-md-6 text-right">
-			      			 <button id="btn_album_grupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="<?php echo $pkID_taller ?>" data-target="#frm_modal_album_grupo"><span class="glyphicon glyphicon-plus"></span> 
+			      			 <button id="btn_album_grupo" type="button" class="btn btn-primary botonnewgrupo" data-toggle="modal"  data-grupo="<?php echo $pkID_taller ?>" data-target="#frm_modal_album_grupo"><?php if ($crea != 1) {echo 'disabled="disabled"';}?> <span class="glyphicon glyphicon-plus"></span> 
 			      			 Crear album</button>
 
 			      			 <div class="form-group " hidden>

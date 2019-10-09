@@ -1,0 +1,45 @@
+trabajo de investigación
+
+parte tecnica 
+
+tiempo de la presentación: ajustarse al tiempo 
+
+
+Formato
+
+Tribunal
+
+
+parte emocional
+
+que tan leal eres crack family
+
+esta es bogota con sus pipetas crack family
+
+mas que real
+
+$("#nombre_acompanamiento").keyup(function(event) {
+        /* Act on the event */
+        if (((event.keyCode > 32) && (event.keyCode < 65)) || (event.keyCode > 200)) {
+            console.log(String.fromCharCode(event.which));
+            alert("El Nombre NO puede llevar valores numericos.");
+            $(this).val("");
+        }
+    });
+    $("#apellido_acompanamiento").keyup(function(event) {
+        /* Act on the event */
+        if (((event.keyCode > 32) && (event.keyCode < 65)) || (event.keyCode > 200)) {
+            console.log(String.fromCharCode(event.which));
+            alert("El Apellido NO puede llevar valores numericos.");
+            $(this).val("");
+        }
+    });
+    $("#telefono_acompanamiento").keyup(function(event) {
+        /* Act on the event */
+        if (((event.keyCode > 32) && (event.keyCode < 48)) || (event.keyCode > 57)) {
+            console.log(String.fromCharCode(event.which));
+            alert("El número de Telefono NO puede llevar valores alfanuméricos.");
+            $(this).val("");
+        }
+    });
+
